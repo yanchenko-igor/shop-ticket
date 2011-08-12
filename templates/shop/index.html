@@ -8,10 +8,10 @@
 {% endblock %}
 
 {% block content %}
-{% if all_products_list %}
+{% if recent %}
 <div class="wrap_line">
     <ul class="feed reset_list clearfix">
-    {% for product in all_products_list %} 
+    {% for product in recent %} 
     <li{% cycle '' '' ' class="last"' %}>
         <div class="feed_img">
               {% thumbnail product.main_image.picture 215x134 as image %}
@@ -30,7 +30,7 @@
 </ul>
 </div>
 {% endif %}
-
+{% comment %}
     {% if is_paginated %}
     <div id = "pagination">
     <ul>
@@ -55,4 +55,5 @@
     </div>
     {% endif %}
 
+{% endcomment %}
 {% endblock %}
