@@ -1,0 +1,187 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-08-12 17:00+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: local_settings.py:21
+msgid "English"
+msgstr ""
+
+#: local_settings.py:22
+msgid "Russian"
+msgstr ""
+
+#: local_settings.py:23
+msgid "Ukrainian"
+msgstr ""
+
+#: localsite/models.py:23
+msgid "Hall"
+msgstr "Площадка"
+
+#: localsite/models.py:24
+msgid "Halls"
+msgstr "Площадки"
+
+#: localsite/models.py:41
+msgid "Hall Scheme"
+msgstr "Схема зала"
+
+#: localsite/models.py:42
+msgid "Hall Schemes"
+msgstr "Схемы залов"
+
+#: localsite/models.py:53 localsite/models.py:115
+msgid "Product"
+msgstr "Товар"
+
+#: localsite/models.py:58
+msgid "Event"
+msgstr "Событие"
+
+#: localsite/models.py:59
+msgid "Events"
+msgstr "События"
+
+#: localsite/models.py:77
+msgid "Event Date"
+msgstr "Дата события"
+
+#: localsite/models.py:78
+msgid "Event Dates"
+msgstr "Дата события"
+
+#: localsite/models.py:98
+msgid "Seat Location"
+msgstr "место"
+
+#: localsite/models.py:99
+msgid "Seat Locations"
+msgstr "место"
+
+#: localsite/models.py:104
+#, python-format
+msgid "Section: %(sec)s (Row:%(row)s;Col:%(col)s)"
+msgstr "Секция: %(sec)s (Ряд:%(row)s;Место:%(col)s)"
+
+#: localsite/models.py:106
+#, python-format
+msgid "Row:%(row)s;Col:%(col)s"
+msgstr "Ряд:%(row)s;Место:%(col)s"
+
+#: localsite/models.py:108
+msgid "No place"
+msgstr "Без места"
+
+#: localsite/models.py:116
+msgid "Parent"
+msgstr "Родитель"
+
+#: localsite/models.py:121
+msgid "Ticket"
+msgstr "Билет"
+
+#: localsite/models.py:122
+msgid "Tickets"
+msgstr "Билеты"
+
+#: templates/localsite/featured.html:7 templates/product/best_sellers.html:7
+#: templates/product/category.html:15 templates/product/category_index.html:7
+#: templates/product/recently_added.html:7 templates/shop/index.html:7
+#: templates/shop/checkout/base_confirm.html:7
+#: templates/shop/checkout/cod/confirm.html:9
+msgid "Home"
+msgstr "Главная"
+
+#: templates/localsite/featured.html:38 templates/localsite/featured.html:40
+#: templates/product/recently_added.html:37
+#: templates/product/recently_added.html:39 templates/shop/index.html:38
+#: templates/shop/index.html.py:40
+msgid "Previous"
+msgstr "Назад"
+
+#: templates/localsite/featured.html:50 templates/localsite/featured.html:52
+#: templates/product/recently_added.html:42
+#: templates/product/recently_added.html:44 templates/shop/index.html:50
+#: templates/shop/index.html.py:52
+msgid "Next"
+msgstr "Вперёд"
+
+#: templates/product/best_sellers.html:8
+msgid "Best Sellers"
+msgstr "Хиты продаж"
+
+#: templates/product/category_index.html:8
+msgid "Category Index"
+msgstr "Список категорий"
+
+#: templates/product/recently_added.html:8
+msgid "Recently Added"
+msgstr "Самые свежие"
+
+#: templates/product/recently_added.html:51
+msgid "Bad Page"
+msgstr "Не найдено"
+
+#: templates/shop/_search.html:7
+msgid "All Products"
+msgstr "Все товары"
+
+#: templates/shop/checkout/base_confirm.html:8
+#: templates/shop/checkout/base_confirm.html:12
+#: templates/shop/checkout/cod/confirm.html:10
+msgid "Checkout"
+msgstr ""
+
+#: templates/shop/checkout/base_confirm.html:15
+msgid "Ship/Bill"
+msgstr ""
+
+#: templates/shop/checkout/base_confirm.html:16
+#: templates/shop/checkout/cod/confirm.html:14
+msgid "Payment"
+msgstr ""
+
+#: templates/shop/checkout/base_confirm.html:17
+msgid "Confirmation"
+msgstr ""
+
+#: templates/shop/checkout/base_confirm.html:22
+msgid ""
+"The following error was returned while trying to process your payment. "
+"Please correct and resubmit."
+msgstr ""
+
+#: templates/shop/checkout/base_confirm.html:25
+msgid "Please validate the following information, then submit your order."
+msgstr ""
+
+#: templates/shop/checkout/base_confirm.html:41
+msgid "Purchase Items"
+msgstr "Купить товары"
+
+#: templates/shop/checkout/cod/confirm.html:6
+msgid ""
+"The following error was returned while trying to process your card.  Please "
+"correct and resubmit"
+msgstr ""
+
+#: templates/shop/checkout/cod/confirm.html:17
+#, python-format
+msgid "This order will be COD for %(order_total)s."
+msgstr ""

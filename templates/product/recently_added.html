@@ -1,0 +1,54 @@
+{% extends "shop/base.html" %}
+{% load i18n %}
+{% load thumbnail %}
+{% load satchmo_util %}
+
+{% block navbar %}
+<li class="first"><a href="{{ shop_base }}/">{% trans "Home" %}</a></li>
+<li>{% trans "Recently Added" %}</li>
+{% endblock %}
+
+{% block content %}
+{% if page %}
+<div class="wrap_line">
+    <ul class="feed reset_list clearfix">
+	{% for product in page.object_list %}
+    <li{% cycle '' '' ' class="last"' %}>
+        <div class="feed_img">
+              {% thumbnail product.main_image.picture 215x134 as image %}
+              <a href="{{ product.get_absolute_url }}"><img src="{{ image }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+        </div>
+        {% if product.main_category %}
+        <div class="feed_tag">
+            <a href="{{ product.main_category.get_absolute_url }}">{{ product.main_category.translated_name }}</a>
+        </div>
+        {% endif %}
+        <div class="feed_txt">
+            <p><a href="{{ product.get_absolute_url }}">{{ product.translated_name }}</a></p>
+        </div>
+        </li>
+    {% endfor %}
+</ul>
+</div>
+	{% if page.has_other_pages %}
+	<div id = "pagination">
+	<ul>
+	    {% if page.has_previous %}
+	        <li> <a href="{{ request.path }}?page={{page.previous_page_number}}">{% trans "Previous" %}</a> </li>
+	    {% else %}
+	        <li> {% trans "Previous" %} </li>
+	    {% endif %}
+	    {% if page.has_next %}
+	        <li> <a href="{{ request.path }}?page={{page.next_page_number}}">{% trans "Next" %}</a></li>
+	    {% else %}
+	        <li> {% trans "Next" %} </li>
+	    {% endif %}
+	</ul>
+	</div>
+	{% endif %}
+{% else %}
+	<div class="recentlyadded">
+		<p>{% trans "Bad Page" %}</p>
+	</div>
+{% endif %}
+{% endblock %}

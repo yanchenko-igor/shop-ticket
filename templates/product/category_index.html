@@ -1,0 +1,29 @@
+{% extends "shop/base.html" %}
+{% load i18n %}
+{% load thumbnail %}
+{% load satchmo_util %}
+
+{% block navbar %}
+<li class="first"><a href="{{ shop_base }}/">{% trans "Home" %}</a></li>
+<li>{% trans "Category Index" %}</li>
+{% endblock %}
+
+{% block content %}
+<div class="wrap_line">
+    <ul class="feed reset_list clearfix">
+    {% for category in categorylist %}
+    <li{% cycle '' '' ' class="last"' %}>
+   		{% if category.main_image %}
+        <div class="feed_img">
+            {% thumbnail category.main_image.picture 215x134 as image %}
+            <a href="{{ category.get_absolute_url }}"><img src="{{ image }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+        </div>
+   		{% endif %}     
+        <div class="feed_txt">
+    	<p><a href="{{ category.get_absolute_url }}">{{ category.translated_name }}</a><br/>
+        </div>
+        </li>
+    {% endfor %}
+</ul>
+</div>
+{% endblock %}

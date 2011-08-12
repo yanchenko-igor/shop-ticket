@@ -1,0 +1,18 @@
+{% load i18n %}
+<form class="form_search_top" action="{{ satchmo_search_url }}" method="get">
+   <div class="search_bg">
+       <div class="search_bg2 search_prop">
+   		{% if categories %}
+   		<select name="category">
+   		 	<option value="" selected="selected">{% trans "All Products" %}</option>
+   			{% for cat in categories %}
+   			<option value="{{ cat.slug }}"{% ifequal cat category %} selected="selected"{% endifequal %}>{{ cat.name}}</option>
+   			{% endfor %}
+   		</select><br/>
+   		{% endif %}
+           <input class="input_search"  type="text"   />
+           <input class="submit_search"  type="submit" value="" />
+       </div>
+   </div>
+</form>
+

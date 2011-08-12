@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+.wraper_top_shadow{
+    *zoom: 1;
+    _display: none;
+}
+.form_search_top, .search_bg, .heading_bg, .curve_gray_top, .curve_gray_bott,
+.curve_gray_body,.form_search_footer, .curve_body{
+    *zoom: 1;
+}
+
+.banner_right_bl{
+    *display:inline;
+	*zoom:1;
+}
+.menu_top .level_top a{
+    _line-height: 1.0;
+    _height: auto;
+    _padding-top: 30px;
+
+}

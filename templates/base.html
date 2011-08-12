@@ -1,0 +1,443 @@
+{% load i18n satchmo_category satchmo_google satchmo_util satchmo_currency satchmo_discounts app_plugins normalize_decimal thumbnail %}
+{% block doctype %}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+{% endblock %}
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <link href="/static/css/main.css" rel="stylesheet" type="text/css" media="Screen, projection"/>        
+        <!--[if IE]>
+            <link href="stylesheets/ie.css" rel="stylesheet" type="text/css" media="Screen, projection"/>
+        <![endif]-->
+    {% block extra-head %}{% endblock %}
+    {% block stylesheet %}<link rel="stylesheet" href="{{ media_url }}css/style.css" />{% endblock %}
+    <title>{% block title %}{{ shop_name }}{% if pagetitle %}: {{ pagetitle }}{% endif %}{% endblock %}</title>
+    {% plugin_point "page_head" %}
+</head>
+{% block body %}
+<body{% if bodyid %} id="{{ bodyid }}"{% endif %}{% block bodyclass_wrapper %} class="{% block bodyclass %}main{% endblock %}"{% endblock %}>
+    {% plugin_point "page_top" %}
+
+    <div class="wraper_header">
+        <div class="wraper_header2 wraper">
+            <table class="header_tab">
+                <tr>
+                    <td class="hader_tab_menu">
+                        <ul class="header_menu">
+                            <li class="first"><a href="#">Новости и акции</a></li>
+                            <li><a href="#">О нас</a></li>
+                            <li><a href="#">Помощь</a></li>
+                            <li><a href="#">Сотрудничество</a></li>
+                            <li><a href="#">Оформление заказов</a></li>
+                            <li><a href="#">Карта сайта</a></li>
+                        </ul>
+                    </td>
+                    <td class="header_tab_reg">
+                        <div class="header_bl_reg_top"><div><span><!-- --></span></div></div>
+                        <div class="header_bl_reg">
+                            dfghdfg
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="wraper wraper_base">
+        <div class="wraper_top">
+            <span class="w_t_l"><!-- --></span>
+            <span class="w_t_r"><!-- --></span>
+            <div class="wraper_top_bl">
+                <div class="logo">
+                    <a href="/"><img src="/static/images/logo.png" alt="" /></a>
+                    <div class="logo_txt">БИЛЕТЫ НА ВСЁ</div>
+                </div>
+                <div class="top_telephone">
+                    <div class="telephone_number">044 245 58 90</div>
+                    <div class="time_work">Работаем с 9-00 до 21-00</div>
+
+                </div>
+
+                <div class="dop_menu">
+                    <ul class="menu_top reset_list">
+                    {% for category in root_categories %}
+                    <li class="level_top category_{{ category.slug }}">
+                            <a href="{{ category.get_absolute_url }}">{{ category.translated_name }} <img src="/static/images/icon_dopmenu.gif" alt="" /></a>
+                            <ul>
+                            {% for child in category.child.all %}
+                                <li{% if forloop.last %} class="last_d"{% endif %}><a href="{{ child.get_absolute_url }}">{{ child.name }}</a></li>
+                            {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+
+            </div>
+            <div class="search_top">
+			    {% satchmo_search_form %}
+            </div>
+            <span class="w_t_l_b"><!-- --></span>
+            <span class="w_t_r_b"><!-- --></span>
+        </div>
+        <div class="wraper_top_shadow"><div><span><!-- --></span></div></div>
+
+        <div class="main_content clearfix">
+            <div class="colset colset_2">
+                <div class="col col1">
+	    {% block content %}{% endblock %}
+                    <div class="colset_22 clearfix">
+                        <div class="col1">
+                            <div class="heading_bg">
+                                <span class="h_t_l"><!-- --></span>
+                                <span class="h_t_r"><!-- --></span>
+                                <h2>Рекомендуем</h2>
+                                <span class="h_b_l"><!-- --></span>
+                                <span class="h_b_r"><!-- --></span>
+                            </div>
+                            <div class="wrap_line">
+                                <ul class="feed_list reset_list">
+                                    {% for product in featured %}
+                                    <li>
+                                        <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
+                                        <div class="curve_body feed_gray clearfix">
+                                                <div class="feed_list_img">
+                                                    {% thumbnail product.main_image.picture 85x61 as image %}
+                                                    <a href="{{ product.get_absolute_url }}"><img src="{{ image }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                                </div>
+                                            <div class="feed_list_txt">
+                                                {% if product.main_category %}
+                                                <div class="feed_list_txt_tag">
+                                                    <a href="{{ product.main_category.get_absolute_url }}">{{ product.main_category.translated_name }}</a>
+                                                </div>
+                                                {% endif %}
+                                                <div class="feed_list_txt_inf">
+                                                    <p><a href="{{ product.get_absolute_url }}">{{ product.translated_name }}</a></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="curve_bott"><div><span class="curve_gray"><!-- --></span></div></div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                <div class="all_link">
+                                    <br/><a href="{% url localsite_featured %}">{#{% trans "All Featured" %}#}Все рекомендации</a><br/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col2">
+                            <div class="heading_bg">
+                                <span class="h_t_l"><!-- --></span>
+                                <span class="h_t_r"><!-- --></span>
+                                <h2>Хиты продаж</h2>
+                                <span class="h_b_l"><!-- --></span>
+                                <span class="h_b_r"><!-- --></span>
+                            </div>
+                            <div class="wrap_line">
+                                <ul class="feed_list reset_list">
+                                    {% for product in bestsellers %}
+                                    <li>
+                                        <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
+                                        <div class="curve_body feed_gray clearfix">
+                                                <div class="feed_list_img">
+                                                    {% thumbnail product.main_image.picture 85x61 as image %}
+                                                    <a href="{{ product.get_absolute_url }}"><img src="{{ image }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                                </div>
+                                            <div class="feed_list_txt">
+                                                {% if product.main_category %}
+                                                <div class="feed_list_txt_tag">
+                                                    <a href="{{ product.main_category.get_absolute_url }}">{{ product.main_category.translated_name }}</a>
+                                                </div>
+                                                {% endif %}
+                                                <div class="feed_list_txt_inf">
+                                                    <p><a href="{{ product.get_absolute_url }}">{{ product.translated_name }}</a></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="curve_bott"><div><span class="curve_gray"><!-- --></span></div></div>
+                                    </li>
+                                    {% endfor %}
+
+                                </ul>
+                                <div class="all_link">
+		{% url satchmo_product_best_selling as popularurl %}
+        {% if popularurl %}<br/><a href="{{ popularurl }}">{#{% trans "Best Sellers" %}#}Все хиты продаж</a><br/>{% endif %}
+                                   
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col col2">
+
+                    <div class="selection_events">
+                        <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
+                        <div class="curve_body selection_events_body">
+                            
+                            <div class="heading_icon clearfix">
+                                <h2 class="heading_h2"><span>Подбор события</span></h2>
+                                <div class="icon_h"><a href="#"><img src="/static/images/icon_help.png" alt="" /></a></div>
+                            </div>
+
+                            <form class="selection_events_form" action="">
+                                <select>
+                                    <option>Киев</option>
+                                </select>
+
+                                <select>
+                                    <option>Жанр категории</option>
+                                </select>
+
+                                <select>
+                                    <option>Площадка проведения</option>
+                                </select>
+
+                                <table class="tab_selection">
+                                    <tr>
+                                        <td class="selection_name">По цене:</td>
+                                        <td class="selection_from">от</td>
+                                        <td class="selection_input">
+                                            <div class="input">
+                                                <div class="input2">
+                                                    <input type="text" />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="selection_to">до</td>
+                                        <td class="selection_input">
+                                            <div class="input">
+                                                <div class="input2">
+                                                    <input type="text" />
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="selection_name">По дате:</td>
+                                        <td class="selection_from">от</td>
+                                        <td class="selection_input">
+                                            <div class="input">
+                                                <div class="input2">
+                                                    <input class="input_calendar" type="text" />
+                                                    <a href="#"><img class="icon_calendar" src="/static/images/icon_calendar.jpg" alt="" /></a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="selection_to">до</td>
+                                        <td class="selection_input">
+                                            <div class="input">
+                                                <div class="input2">
+                                                    <input class="input_calendar" type="text" />
+                                                    <a href="#"><img class="icon_calendar" src="/static/images/icon_calendar.jpg" alt="" /></a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                        <div class="curve_bott"><div><span class="curve_gray"><!-- --></span></div></div>
+                    </div>
+                    <!-- /<div class="selection_events"> -->
+
+                    <div class="banner_right">
+                        <div class="banner_right_bl">
+                            <img src="/static/images/temp/banner_right.jpg" alt="" />
+                        </div>
+                    </div>
+
+                    <div class="subscription_bl">
+                        <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
+                        <div class="curve_body">
+                            <div class="subscription_bg">
+                                <div class="heading_icon clearfix">
+                                    <h2 class="heading_h2"><span>Подписка на новости</span></h2>
+                                    <div class="icon_h"><a href="#"><img src="/static/images/icon_rss.png" alt="" /></a></div>
+                                </div>
+                            </div>
+
+                            <form class="subscription_form clearfix" action="">
+                                <div class="subscription_input">
+                                    <div class="input">
+                                        <div class="input2">
+                                            <input  type="text" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="subscription_submit">
+                                    <input type="submit" value="Ok" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="curve_bott"><div><span><!-- --></span></div></div>
+                    </div>
+                    <!-- /<div class="subscription_bl"> -->
+
+                    <div class="about_us_bl clearfix">
+                        <h2 class="heading_h2">Подписка на новости</h2>
+                        <div class="about_us_txt">
+                            На нашем сайте Вы можете<br /> приобрести любые билеты на все мероприятия!
+                        </div>
+
+                        <div class="about_us_col1">
+                            <div class="about_as_show"><img src="/static/images/show_au.gif" alt="" /></div>
+                            <p>Этюд Микеланджело к фреске "Битва при Кашине" выставили на аукцион. За рисунок, выполненный
+                            около 1504 года, рассчитывают выручить до 8 млн. миллионов долларов. обнаженный юноша, причем
+                            особую ценность этой работе придает тот факт. оригинал "Битвы при Кашине" не сохранился.</p>
+                        </div>
+                        <div class="about_us_col2">
+                            <p>
+                                На рисунке изображен  юноша, причем особую ценность этой работе придает тот факт, что
+                                оригинал "Битвы при Кашине" Sony Pictures наняла Джона Лавина для создания сценария фильма
+                                по мотивам стратегической настольной игры Risk.
+                            </p>
+                            <a href="#">Детальнее</a>
+                        </div>
+
+                    </div>
+
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="wraper_footer">
+
+            <div class="footer_top clearfix">
+                <ul class="reset_list footer_menu">
+                    <li><a href="#">Новости и акции</a></li>
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Помощь</a></li>
+                    <li><a href="#">Сотрудничество</a></li>
+                    <li><a href="#">Оформление заказов</a></li>
+                    <li class="last"><a href="#">Карта сайта</a></li>
+                </ul>
+                <div class="search_footer">
+                    <form class="form_search_footer" action="">
+                        <div class="search_bg">
+                            <div class="search_bg2 search_prop">
+                                <input class="input_search"  type="text"   />
+                                <input class="submit_search"  type="submit" value="" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="footer_bl clearfix">
+                <div class="footer_btn">
+                    <ul class="reset_list ul_footer_btn">
+                        <li><a href="#"><img src="/static/images/icon_twiter.png" alt="" /></a></li>
+                        <li><a href="#"><img src="/static/images/icon_f_b.png" alt="" /></a></li>
+                        <li><a href="#"><img src="/static/images/icon_v_k.png" alt="" /></a></li>
+                    </ul>
+                </div>
+
+			{% block sidebar-categories %}
+			<div class="footer_dop_menu clearfix">
+                {% for category in root_categories %}
+                    <ul class="dop_menu_bott reset_list">
+                        <li>
+                        <a href="{{ category.get_absolute_url }}">{{ category.translated_name }}</a>
+                            <ul>
+                              {% for child in category.child.all %}
+                              <li><a href="{{ child.get_absolute_url }}">{{ child.name }}</a></li>
+                              {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                {% endfor %}
+
+              </div>
+			{% endblock sidebar-categories %}
+            </div>
+
+            <div class="footer_bott clearfix">
+                <div class="footer_copyr">&copy; 2011 Show.ua.</div>
+                <div class="footer_inf">
+		{% block footer %}
+                    Продажа билетов на любые мероприятия во всех городах Украины, беслпатная доставка!
+		{% endblock %}
+                </div>
+                <div class="footer_creat">Дизайн сайта <img src="/static/images/zemma.jpg" alt="" /></div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+    <!-- /wraper_base -->
+
+	{% block page-close %}
+    {% block google-tracker %}
+    {% if shop.options.GOOGLE.ANALYTICS.value %}
+        {% show_tracker is_secure %}
+    {% endif %}
+    {% endblock %}
+	{% endblock %}
+
+    {#{% block navbar %}Breadcrumbs here{% endblock %}#}
+    {% comment %}
+		{% block sidebar-secondary %}
+			{% block sidebar %}
+			
+			{% block sidebar-secondary-bottom %}
+			{% plugin_point "sidebar_secondary_bottom" %}
+			{% endblock %}
+			{% endblock sidebar %}
+		{% endblock sidebar-secondary %}
+
+		{% block sidebar-primary %}
+		{% url satchmo_product_recently_added as recenturl %}
+		{% if recenturl %}<a href="{{ recenturl }}">{% trans "Recently Added" %}</a>{% endif %}
+        {% url satchmo_category_index as category_index %}
+        {% if category_index %} <a href="{{ category_index }}">{% trans "Category Index" %}</a><br /> {% endif %}
+        {% url satchmo_quick_order as quick_order %}
+        {% if quick_order %}<a href="{{ quick_order }}">{% trans "Quick Order" %}</a> {% endif %}
+		{% plugin_point "sidebar_links" %}
+
+	    {% if user.is_staff %}
+		<a href="{% url admin:index %}" target="blank">{% trans "Admin" %}</a><br/>
+		{% endif %}
+	    {% if user.is_authenticated %}
+		{% url satchmo_account_info as accounturl %}
+        {% if accounturl %}<a href="{{ accounturl }}" target="blank">{% trans "Account Details" %}</a><br/>{% endif %}
+        <a href="{{ logout_url }}?next={{request.path}}">{% trans "Log out" %}</a><br/>
+	    {% else %}
+        <a href="{{ login_url }}?next={{request.path}}">{% trans "Log in" %}</a><br/>
+	    {% endif %}
+
+		{% url satchmo_cart as carturl %}
+	    {% if carturl %}<a href="{{ carturl }}">{% trans "Cart" %}</a>{% endif %}
+
+	    {% if not cart.is_empty %}
+            ({{ cart_count|normalize_decimal }} - {% if sale %}{{ cart|discount_cart_total:sale|currency }}{% else %}{{cart.total|currency}}{% endif%}) <br/>
+            {% url satchmo_checkout-step1 as checkouturl %}
+            {% if checkouturl %}<a href="{{ checkouturl }}">{% trans "Check out" %}</a>{% endif %}
+	    {% endif %}
+	
+		{% plugin_point "shop_sidebar_actions" %}
+    
+		{% url satchmo_contact as contact_url %}
+	    {% if contact_url %}<p><a href="{{ contact_url }}">{% trans "Contact Us" %}</a></p>{% endif %}
+
+        {#{% satchmo_language_selection_form %}#}
+
+		{% block sidebar-primary-bottom %}
+		{% plugin_point "shop_sidebar_primary" %}
+		{% endblock %}
+		{% endblock sidebar-primary %}
+
+
+    {% endcomment %}
+
+</body>
+{% endblock %}
+</html>
