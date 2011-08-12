@@ -4,12 +4,12 @@
 {% endblock %}
 <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <link href="/static/css/main.css" rel="stylesheet" type="text/css" media="Screen, projection"/>        
+        <link href="{{ media_url }}css/main.css" rel="stylesheet" type="text/css" media="Screen, projection"/>        
         <!--[if IE]>
             <link href="stylesheets/ie.css" rel="stylesheet" type="text/css" media="Screen, projection"/>
         <![endif]-->
     {% block extra-head %}{% endblock %}
-    {% block stylesheet %}<link rel="stylesheet" href="{{ media_url }}css/style.css" />{% endblock %}
+    {% block stylesheet %}{% endblock %}
     <title>{% block title %}{{ shop_name }}{% if pagetitle %}: {{ pagetitle }}{% endif %}{% endblock %}</title>
     {% plugin_point "page_head" %}
 </head>
@@ -48,7 +48,7 @@
             <span class="w_t_r"><!-- --></span>
             <div class="wraper_top_bl">
                 <div class="logo">
-                    <a href="/"><img src="/static/images/logo.png" alt="" /></a>
+                    <a href="/"><img src="{{ media_url }}images/logo.png" alt="" /></a>
                     <div class="logo_txt">БИЛЕТЫ НА ВСЁ</div>
                 </div>
                 <div class="top_telephone">
@@ -61,7 +61,7 @@
                     <ul class="menu_top reset_list">
                     {% for category in root_categories %}
                     <li class="level_top category_{{ category.slug }}">
-                            <a href="{{ category.get_absolute_url }}">{{ category.translated_name }} <img src="/static/images/icon_dopmenu.gif" alt="" /></a>
+                            <a href="{{ category.get_absolute_url }}">{{ category.translated_name }} <img src="{{ media_url }}images/icon_dopmenu.gif" alt="" /></a>
                             <ul>
                             {% for child in category.child.all %}
                                 <li{% if forloop.last %} class="last_d"{% endif %}><a href="{{ child.get_absolute_url }}">{{ child.name }}</a></li>
@@ -181,7 +181,7 @@
                             
                             <div class="heading_icon clearfix">
                                 <h2 class="heading_h2"><span>Подбор события</span></h2>
-                                <div class="icon_h"><a href="#"><img src="/static/images/icon_help.png" alt="" /></a></div>
+                                <div class="icon_h"><a href="#"><img src="{{ media_url }}images/icon_help.png" alt="" /></a></div>
                             </div>
 
                             <form class="selection_events_form" action="">
@@ -225,7 +225,7 @@
                                             <div class="input">
                                                 <div class="input2">
                                                     <input class="input_calendar" type="text" />
-                                                    <a href="#"><img class="icon_calendar" src="/static/images/icon_calendar.jpg" alt="" /></a>
+                                                    <a href="#"><img class="icon_calendar" src="{{ media_url }}images/icon_calendar.jpg" alt="" /></a>
                                                 </div>
                                             </div>
                                         </td>
@@ -234,7 +234,7 @@
                                             <div class="input">
                                                 <div class="input2">
                                                     <input class="input_calendar" type="text" />
-                                                    <a href="#"><img class="icon_calendar" src="/static/images/icon_calendar.jpg" alt="" /></a>
+                                                    <a href="#"><img class="icon_calendar" src="{{ media_url }}images/icon_calendar.jpg" alt="" /></a>
                                                 </div>
                                             </div>
                                         </td>
@@ -248,7 +248,7 @@
 
                     <div class="banner_right">
                         <div class="banner_right_bl">
-                            <img src="/static/images/temp/banner_right.jpg" alt="" />
+                            <img src="{{ media_url }}images/temp/banner_right.jpg" alt="" />
                         </div>
                     </div>
 
@@ -258,7 +258,7 @@
                             <div class="subscription_bg">
                                 <div class="heading_icon clearfix">
                                     <h2 class="heading_h2"><span>Подписка на новости</span></h2>
-                                    <div class="icon_h"><a href="#"><img src="/static/images/icon_rss.png" alt="" /></a></div>
+                                    <div class="icon_h"><a href="#"><img src="{{ media_url }}images/icon_rss.png" alt="" /></a></div>
                                 </div>
                             </div>
 
@@ -287,7 +287,7 @@
                         </div>
 
                         <div class="about_us_col1">
-                            <div class="about_as_show"><img src="/static/images/show_au.gif" alt="" /></div>
+                            <div class="about_as_show"><img src="{{ media_url }}images/show_au.gif" alt="" /></div>
                             <p>Этюд Микеланджело к фреске "Битва при Кашине" выставили на аукцион. За рисунок, выполненный
                             около 1504 года, рассчитывают выручить до 8 млн. миллионов долларов. обнаженный юноша, причем
                             особую ценность этой работе придает тот факт. оригинал "Битвы при Кашине" не сохранился.</p>
@@ -333,9 +333,9 @@
             <div class="footer_bl clearfix">
                 <div class="footer_btn">
                     <ul class="reset_list ul_footer_btn">
-                        <li><a href="#"><img src="/static/images/icon_twiter.png" alt="" /></a></li>
-                        <li><a href="#"><img src="/static/images/icon_f_b.png" alt="" /></a></li>
-                        <li><a href="#"><img src="/static/images/icon_v_k.png" alt="" /></a></li>
+                        <li><a href="#"><img src="{{ media_url }}images/icon_twiter.png" alt="" /></a></li>
+                        <li><a href="#"><img src="{{ media_url }}images/icon_f_b.png" alt="" /></a></li>
+                        <li><a href="#"><img src="{{ media_url }}images/icon_v_k.png" alt="" /></a></li>
                     </ul>
                 </div>
 
@@ -365,7 +365,7 @@
                     Продажа билетов на любые мероприятия во всех городах Украины, беслпатная доставка!
 		{% endblock %}
                 </div>
-                <div class="footer_creat">Дизайн сайта <img src="/static/images/zemma.jpg" alt="" /></div>
+                <div class="footer_creat">Дизайн сайта <img src="{{ media_url }}images/zemma.jpg" alt="" /></div>
             </div>
 
         </div>
