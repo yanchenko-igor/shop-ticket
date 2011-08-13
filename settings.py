@@ -139,6 +139,7 @@ INSTALLED_APPS = (
     'store.localsite',
     'debug_toolbar',
     'south',
+    'django_extensions',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -151,11 +152,14 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 #### Satchmo unique variables ####
-from django.conf.urls.defaults import patterns, include
+from django.conf.urls.defaults import patterns, include, url
 SATCHMO_SETTINGS = {
     'SHOP_BASE' : '',
     'MULTISHOP' : False,
-    'SHOP_URLS' : patterns('', (r'^i18n/', include('l10n.urls')),)
+    'SHOP_URLS' : patterns('', 
+            (r'^i18n/', include('l10n.urls')),
+            url('^featured/', 'localsite.views.display_featured', name='localsite_featured'),
+            )
 }
 
 SKIP_SOUTH_TESTS=True

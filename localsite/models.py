@@ -85,10 +85,31 @@ class EventDate(models.Model):
         return reverse("view_name", kwargs={"EventDate_id": self.pk})
 
 
+class SeatGroup(models.Model):
+    """docstring for SeatGroup"""
+    hallscheme = models.ForeignKey('HallScheme', related_name='seatgroups')
+    name = models.CharField(max_length=25)
+    section = models.CharField(max_length=25)
+    price = models.IntegerField()
+    
+    class Meta:
+        verbose_name = _("Seat Group")
+        verbose_name_plural = _("Seat Groups")
+        
+    def __unicode__(self):
+        return "%s" % self.name
+    
+    def save(self, force_insert=False, force_update=False):
+        super(SeatGroup, self).save()
+        
+    
+    def get_absolute_url(self):
+        return reverse("view_name", kwargs={"SeatGroup_id": self.pk})
+
 class SeatLocation(models.Model):
     """docstring for SeatLocation"""
     hallscheme = models.ForeignKey('HallScheme', related_name='seats')
-    sec = models.CharField(max_length=25, blank=True, null=True)
+    group = models.ForeignKey(SeatGroup, related_name='seats')
     row = models.IntegerField(blank=True, null=True)
     col = models.IntegerField(blank=True, null=True)
     x_position = models.IntegerField()
@@ -100,8 +121,8 @@ class SeatLocation(models.Model):
     
     def __unicode__(self):
         if self.row and self.col:
-            if self.sec:
-                return _("Section: %(sec)s (Row:%(row)s;Col:%(col)s)" % {'sec':self.sec, 'row':self.row, 'col':self.col})
+            if self.group.section:
+                return _("Section: %(sec)s (Row:%(row)s;Col:%(col)s)" % {'sec':self.group.section, 'row':self.row, 'col':self.col})
             else:
                 return _("Row:%(row)s;Col:%(col)s" % {'row':self.row, 'col':self.col})
         else:

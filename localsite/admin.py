@@ -1,11 +1,14 @@
 from django.contrib import admin
 from store.localsite.models import *
 
+class SeatGroupInline(admin.TabularInline):
+    model = SeatGroup
+
 class SeatLocationInline(admin.TabularInline):
     model = SeatLocation
 
 class HallSchemeAdmin(admin.ModelAdmin):
-    inlines = [SeatLocationInline,]
+    inlines = [SeatLocationInline,SeatGroupInline]
 admin.site.register(HallScheme, HallSchemeAdmin)
 
 class HallAdmin(admin.ModelAdmin):
