@@ -11,6 +11,10 @@ class HallSchemeAdmin(admin.ModelAdmin):
     inlines = [SeatLocationInline,SeatGroupInline]
 admin.site.register(HallScheme, HallSchemeAdmin)
 
+class CityAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("name",)}
+admin.site.register(City, CityAdmin)
+
 class HallAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Hall, HallAdmin)

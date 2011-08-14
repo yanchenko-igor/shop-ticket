@@ -14,7 +14,8 @@ def get_product_types():
 
 class City(models.Model):
     """docstring for City"""
-    city = models.CharField(max_length=25)
+    name = models.CharField(max_length=25)
+    slug = models.SlugField(max_length=25)
     
     class Meta:
         verbose_name = _("City")

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-12 17:00+0300\n"
+"POT-Creation-Date: 2011-08-14 05:31+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,85 +18,101 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: local_settings.py:21
+#: local_settings.py:24
 msgid "English"
 msgstr ""
 
-#: local_settings.py:22
+#: local_settings.py:25
 msgid "Russian"
 msgstr ""
 
-#: local_settings.py:23
+#: local_settings.py:26
 msgid "Ukrainian"
 msgstr ""
 
-#: localsite/models.py:23
+#: localsite/models.py:21
+msgid "City"
+msgstr "Город"
+
+#: localsite/models.py:22
+msgid "Cities"
+msgstr "Города"
+
+#: localsite/models.py:35
 msgid "Hall"
 msgstr "Площадка"
 
-#: localsite/models.py:24
+#: localsite/models.py:36
 msgid "Halls"
 msgstr "Площадки"
 
-#: localsite/models.py:41
+#: localsite/models.py:53
 msgid "Hall Scheme"
 msgstr "Схема зала"
 
-#: localsite/models.py:42
+#: localsite/models.py:54
 msgid "Hall Schemes"
 msgstr "Схемы залов"
 
-#: localsite/models.py:53 localsite/models.py:115
+#: localsite/models.py:65 localsite/models.py:148
 msgid "Product"
 msgstr "Товар"
 
-#: localsite/models.py:58
+#: localsite/models.py:70
 msgid "Event"
 msgstr "Событие"
 
-#: localsite/models.py:59
+#: localsite/models.py:71
 msgid "Events"
 msgstr "События"
 
-#: localsite/models.py:77
+#: localsite/models.py:89
 msgid "Event Date"
 msgstr "Дата события"
 
-#: localsite/models.py:78
+#: localsite/models.py:90
 msgid "Event Dates"
 msgstr "Дата события"
 
-#: localsite/models.py:98
+#: localsite/models.py:108
+msgid "Seat Group"
+msgstr ""
+
+#: localsite/models.py:109
+msgid "Seat Groups"
+msgstr ""
+
+#: localsite/models.py:131
 msgid "Seat Location"
 msgstr "место"
 
-#: localsite/models.py:99
+#: localsite/models.py:132
 msgid "Seat Locations"
 msgstr "место"
 
-#: localsite/models.py:104
+#: localsite/models.py:137
 #, python-format
 msgid "Section: %(sec)s (Row:%(row)s;Col:%(col)s)"
 msgstr "Секция: %(sec)s (Ряд:%(row)s;Место:%(col)s)"
 
-#: localsite/models.py:106
+#: localsite/models.py:139
 #, python-format
 msgid "Row:%(row)s;Col:%(col)s"
 msgstr "Ряд:%(row)s;Место:%(col)s"
 
-#: localsite/models.py:108
+#: localsite/models.py:141
 msgid "No place"
 msgstr "Без места"
 
-#: localsite/models.py:116
+#: localsite/models.py:149
 msgid "Parent"
 msgstr "Родитель"
 
-#: localsite/models.py:121
+#: localsite/models.py:154
 msgid "Ticket"
 msgstr "Билет"
 
-#: localsite/models.py:122
+#: localsite/models.py:155
 msgid "Tickets"
 msgstr "Билеты"
 
@@ -110,15 +126,13 @@ msgstr "Главная"
 
 #: templates/localsite/featured.html:38 templates/localsite/featured.html:40
 #: templates/product/recently_added.html:37
-#: templates/product/recently_added.html:39 templates/shop/index.html:38
-#: templates/shop/index.html.py:40
+#: templates/product/recently_added.html:39
 msgid "Previous"
 msgstr "Назад"
 
 #: templates/localsite/featured.html:50 templates/localsite/featured.html:52
 #: templates/product/recently_added.html:42
-#: templates/product/recently_added.html:44 templates/shop/index.html:50
-#: templates/shop/index.html.py:52
+#: templates/product/recently_added.html:44
 msgid "Next"
 msgstr "Вперёд"
 
