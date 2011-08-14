@@ -159,6 +159,7 @@ SATCHMO_SETTINGS = {
     'SHOP_URLS' : patterns('', 
             (r'^i18n/', include('l10n.urls')),
             url('^featured/', 'localsite.views.display_featured', name='localsite_featured'),
+            url('^$', 'product.views.filters.display_recent', name='satchmo_shop_home'),
             )
 }
 
