@@ -12,12 +12,23 @@ def get_product_types():
 
 # Create your models here.
 
+class City(models.Model):
+    """docstring for City"""
+    city = models.CharField(max_length=25)
+    
+    class Meta:
+        verbose_name = _("City")
+        verbose_name_plural = _("Cities")
+    
+    def __unicode__(self):
+        return "%s" % self.name
+    
+
 class Hall(models.Model):
     """docstring for Hall"""
     name = models.CharField(max_length=120)
-    city = models.CharField(max_length=25)
+    city = models.ForeignKey(City, related_name='halls')
     address = models.CharField(max_length=255, blank=True)
-    
     
     class Meta:
         verbose_name = _("Hall")
