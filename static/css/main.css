@@ -641,10 +641,16 @@ optgroup option {
     padding-right: 0;
 }
 .feed_img{
-    width: 100%;
+    width: 215px;
     height: 134px;
+    display: table-cell;
+    vertical-align: middle;
     overflow: hidden;
     margin-bottom: 14px;
+}
+.feed_img img{
+    display: block;
+    margin: 0 auto;
 }
 .feed_tag{
     height: 23px;
@@ -710,7 +716,16 @@ optgroup option {
     overflow: hidden;
     border: 1px solid #fff;
     margin-right: -87px;
-    text-align: center;
+}
+.feed_list_img a{
+    display: table-cell;
+    width: 85px;
+    height: 61px;
+    vertical-align: middle;
+}
+.feed_list_img img{
+    display: block;
+    margin: 0 auto;
 }
 .feed_list_txt{
     margin-left: 99px;
