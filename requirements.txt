@@ -3,7 +3,6 @@ PIL==1.1.7
 South==0.7.3
 bpython==0.10.1
 django-debug-toolbar==0.8.3
-django-registration==0.7
 django-tagging==0.3.1
 pycrypto
 http://www.satchmoproject.com/snapshots/trml2pdf-1.2.tar.gz
@@ -16,4 +15,5 @@ sorl-thumbnail==3.2.5
 -e hg+http://bitbucket.org/bkroeze/django-signals-ahoy/#egg=django-signals-ahoy
 -e hg+http://bitbucket.org/bkroeze/django-keyedcache/#egg=django-keyedcache
 -e hg+http://bitbucket.org/bkroeze/django-livesettings/#egg=django-livesettings
--e hg+http://bitbucket.org/chris1610/satchmo/\#egg=satchmo
+-e hg+http://bitbucket.org/chris1610/satchmo/#egg=satchmo
+django_extensions
