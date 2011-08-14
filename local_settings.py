@@ -8,7 +8,10 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 if LOCAL_DEV:
-    INTERNAL_IPS = ('127.0.0.1',)
+    INTERNAL_IPS = (
+		    '127.0.0.1',
+		    '195.43.146.65',
+		    )
 
 DIRNAME = os.path.dirname(os.path.abspath(__file__))
 
