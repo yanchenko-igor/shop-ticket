@@ -101,6 +101,15 @@ class Event(models.Model):
         sublist = []
         return cross_list(masterlist)
 
+    def create_all_variations(self):
+        """
+        Get a list of all the optiongroups applied to this object
+        Create all combinations of the options and create variations
+        """
+        # Create a new ProductVariation for each combination.
+        for options in self.get_all_options():
+            self.create_variation(options)
+
     def create_variation(self, datetime, seat):
         site = self.product.site
 
