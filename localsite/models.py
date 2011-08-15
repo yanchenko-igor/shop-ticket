@@ -4,6 +4,7 @@ from tagging.fields import TagField
 from django.core.urlresolvers import reverse
 from product.models import Option, Product, ProductPriceLookup, OptionGroup, Price ,make_option_unique_id
 from satchmo_utils import cross_list
+from satchmo_utils.unique_id import slugify
 
 SATCHMO_PRODUCT=True
 
@@ -91,12 +92,12 @@ class Event(models.Model):
         sublist = []
         masterlist = []
         #Create a list of all the options & create all combos of the options
-        for seat in self.hallscheme.seats.all():
-            sublist.append(seat)
-        masterlist.append(sublist)
-        sublist = []
         for date in self.dates.all():
             sublist.append(date)
+        masterlist.append(sublist)
+        sublist = []
+        for seat in self.hallscheme.seats.all():
+            sublist.append(seat)
         masterlist.append(sublist)
         sublist = []
         return cross_list(masterlist)
@@ -107,10 +108,10 @@ class Event(models.Model):
         Create all combinations of the options and create variations
         """
         # Create a new ProductVariation for each combination.
-        for options in self.get_all_options():
-            self.create_variation(options)
+        for (datetime, seat) in self.get_all_options():
+            self.create_variation(datetime, seat)
 
-    def create_variation(self, datetime, seat):
+    def create_variation(self, datetime, seat, slug=u""):
         site = self.product.site
 
         variant = Product(site=site, items_in_stock=1)
@@ -124,11 +125,9 @@ class Event(models.Model):
         variant.save()
 
         ticket = Ticket(product=variant, parent=self)
-        ticket.save()
-
         ticket.datetime = datetime
         ticket.seat = seat
-        ticket.save()
+        ticket.save(force_insert=True)
 
 
 class EventDate(models.Model):
@@ -205,14 +204,9 @@ class Ticket(models.Model):
     class Meta:
         verbose_name = _("Ticket")
         verbose_name_plural = _("Tickets")
-        
-    
+
     def __unicode__(self):
         return "Ticket: %s" % self.product.name
-    
-    def save(self, force_insert=False, force_update=False):
-        super(Ticket, self).save()
-        
     
     def get_absolute_url(self):
         return self.product.get_absolute_url()
@@ -226,14 +220,6 @@ class Ticket(models.Model):
             return
         if "Event" in self.product.get_subtypes():
             return
-
-
-        pvs = Ticket.objects.filter(parent=self.parent)
-        pvs = pvs.exclude(product=self.product)
-
-        for pv in pvs:
-            if pv.unique_option_ids == self.unique_option_ids:
-                return
 
         if not self.product.name:
             self.name = ""
