@@ -26,9 +26,12 @@ admin.site.register(Ticket, TicketAdmin)
 #class TicketInline(admin.StackedInline):
 #    model = Ticket
 
+class SeatGroupPriceInline(admin.StackedInline):
+    model = SeatGroupPrice
+
 class EventDateInline(admin.StackedInline):
     model = EventDate
 
 class EventAdmin(admin.ModelAdmin):
-    inlines = [EventDateInline, ]
+    inlines = [EventDateInline, SeatGroupPriceInline]
 admin.site.register(Event, EventAdmin)

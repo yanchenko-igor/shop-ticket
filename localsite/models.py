@@ -3,6 +3,7 @@ from django.utils.translation import ugettext as _
 from tagging.fields import TagField
 from django.core.urlresolvers import reverse
 from product.models import Option, Product, ProductPriceLookup, OptionGroup, Price ,make_option_unique_id
+from satchmo_utils import cross_list
 
 SATCHMO_PRODUCT=True
 
@@ -22,7 +23,7 @@ class City(models.Model):
         verbose_name_plural = _("Cities")
     
     def __unicode__(self):
-        return "%s" % self.name
+        return u"%s" % self.name
     
 
 class Hall(models.Model):
@@ -36,7 +37,7 @@ class Hall(models.Model):
         verbose_name_plural = _("Halls")
         
     def __unicode__(self):
-        return "%s" % self.name
+        return u"%s(%s)" % (self.name, self.city)
     
     def get_absolute_url(self):
         return reverse("hall", kwargs={"hall_id": self.pk})
@@ -54,7 +55,7 @@ class HallScheme(models.Model):
         verbose_name_plural = _("Hall Schemes")
         
     def __unicode__(self):
-        return "%s" % self.name
+        return u"%s: %s" % (self.hall, self.name)
     
     def get_absolute_url(self):
         return reverse("view_name", kwargs={"HallScheme_id": self.pk})
@@ -71,7 +72,7 @@ class Event(models.Model):
         verbose_name_plural = _("Events")
         
     def __unicode__(self):
-        return "Event: %s" % self.product.name
+        return u"Event: %s" % self.product.name
     
     def get_absolute_url(self):
         return reverse("event", kwargs={"slug": self.slug})
@@ -79,11 +80,52 @@ class Event(models.Model):
     def _get_subtype(self):
         return 'Event'
 
+    def get_all_options(self):
+        """
+        Returns all possible combinations of options for this products OptionGroups as a List of Lists.
+        Ex:
+        For OptionGroups Color and Size with Options (Blue, Green) and (Large, Small) you'll get
+        [['Blue', 'Small'], ['Blue', 'Large'], ['Green', 'Small'], ['Green', 'Large']]
+        Note: the actual values will be instances of Option instead of strings
+        """
+        sublist = []
+        masterlist = []
+        #Create a list of all the options & create all combos of the options
+        for seat in self.hallscheme.seats.all():
+            sublist.append(seat)
+        masterlist.append(sublist)
+        sublist = []
+        for date in self.dates.all():
+            sublist.append(date)
+        masterlist.append(sublist)
+        sublist = []
+        return cross_list(masterlist)
+
+    def create_variation(self, datetime, seat):
+        site = self.product.site
+
+        variant = Product(site=site, items_in_stock=1)
+        if not slug:
+            slug = slugify(u'%s_%s_%s' % (self.product.slug, datetime, seat))
+
+        while Product.objects.filter(slug=slug).count():
+            slug = u'_'.join((slug, unicode(self.product.id)))
+
+        variant.slug = slug
+        variant.save()
+
+        ticket = Ticket(product=variant, parent=self)
+        ticket.save()
+
+        ticket.datetime = datetime
+        ticket.seat = seat
+        ticket.save()
+
+
 class EventDate(models.Model):
     """docstring for EventDate"""
     event = models.ForeignKey('Event', related_name='dates')
     datetime = models.DateTimeField()
-    
     
     class Meta:
         verbose_name = _("Event Date")
@@ -91,32 +133,36 @@ class EventDate(models.Model):
         
     
     def __unicode__(self):
-        return u"%s (%s)" % (self.event, self.datetime.strftime("%d.%m.%Y %H:%M"))
+        return u"%s" % self.datetime.strftime("%d.%m.%Y %H:%M")
     
-    def get_absolute_url(self):
-        return reverse("view_name", kwargs={"EventDate_id": self.pk})
-
-
 class SeatGroup(models.Model):
     """docstring for SeatGroup"""
     hallscheme = models.ForeignKey('HallScheme', related_name='seatgroups')
     name = models.CharField(max_length=25)
     section = models.CharField(max_length=25)
-    price = models.IntegerField()
     
     class Meta:
         verbose_name = _("Seat Group")
         verbose_name_plural = _("Seat Groups")
         
     def __unicode__(self):
-        return "%s" % self.name
+        return u"%s" % self.name
     
     def save(self, force_insert=False, force_update=False):
         super(SeatGroup, self).save()
         
+class SeatGroupPrice(models.Model):
+    """docstring for SeatGroupPrice"""
+    group = models.ForeignKey(SeatGroup, related_name='prices')
+    event = models.ForeignKey(Event, related_name='prices')
+    price = models.IntegerField()
     
-    def get_absolute_url(self):
-        return reverse("view_name", kwargs={"SeatGroup_id": self.pk})
+    class Meta:
+        verbose_name = _("Seat Group Price")
+        verbose_name_plural = _("Seat Group Prices")
+    
+    def __unicode__(self):
+        return u"%s - %s - %s" % (self.event.product.name, self.group.name, self.price)
 
 class SeatLocation(models.Model):
     """docstring for SeatLocation"""
@@ -133,10 +179,7 @@ class SeatLocation(models.Model):
     
     def __unicode__(self):
         if self.row and self.col:
-            if self.group.section:
-                return _("Section: %(sec)s (Row:%(row)s;Col:%(col)s)" % {'sec':self.group.section, 'row':self.row, 'col':self.col})
-            else:
-                return _("Row:%(row)s;Col:%(col)s" % {'row':self.row, 'col':self.col})
+            return "%s-%s-%s)" % (self.group.section, self.row, self.col}
         else:
             return _("No place")
     
@@ -187,3 +230,4 @@ class Ticket(models.Model):
             self.name = ""
 
         super(Ticket, self).save(**kwargs)
+
