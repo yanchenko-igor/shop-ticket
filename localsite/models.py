@@ -188,9 +188,9 @@ class SeatLocation(models.Model):
     
     def __unicode__(self):
         if self.row and self.col:
-            return "%s-%s-%s)" % (self.group.section, self.row, self.col}
+            return "%s-%s-%s" % (self.group.section, self.row, self.col)
         else:
-            return _("No place")
+            return "No place"
     
     def get_absolute_url(self):
         return reverse("view_name", kwargs={"SeatLocation_id": self.pk})
