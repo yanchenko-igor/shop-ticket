@@ -17,7 +17,7 @@ def get_product_types():
 
 class City(models.Model):
     """docstring for City"""
-    name = models.CharField(max_length=25)
+    name = models.CharField(max_length=25, unique=True)
     slug = models.SlugField(max_length=25)
     
     class Meta:
@@ -37,17 +37,14 @@ class Hall(models.Model):
     class Meta:
         verbose_name = _("Hall")
         verbose_name_plural = _("Halls")
+        unique_together = (('name', 'city'),)
         
     def __unicode__(self):
         return u"%s(%s)" % (self.name, self.city)
     
-    def get_absolute_url(self):
-        return reverse("hall", kwargs={"hall_id": self.pk})
-
-
 class HallScheme(models.Model):
     """docstring for HallScheme"""
-    name = models.CharField(max_length=75)
+    name = models.CharField(max_length=75, unique=True)
     hall = models.ForeignKey('Hall', related_name='schemes')
     substrate = models.FileField(upload_to='substrates', max_length=100)
 
@@ -59,10 +56,6 @@ class HallScheme(models.Model):
     def __unicode__(self):
         return u"%s: %s" % (self.hall, self.name)
     
-    def get_absolute_url(self):
-        return reverse("view_name", kwargs={"HallScheme_id": self.pk})
-
-
 class Event(models.Model):
     """docstring for Event"""
     product = models.OneToOneField(Product, verbose_name=_('Product'), primary_key=True)
@@ -76,9 +69,6 @@ class Event(models.Model):
     def __unicode__(self):
         return u"Event: %s" % self.product.name
     
-    def get_absolute_url(self):
-        return reverse("event", kwargs={"slug": self.slug})
-
     def _get_subtype(self):
         return 'Event'
 
@@ -121,7 +111,6 @@ class Event(models.Model):
             name=u"%s :: %s :: %s" % (self.product.name, datetime.__unicode__(), seat)
             print name
 
-        pricevalue = self.prices.filter(group=seat.group).values('price')[0]['price']
         if Product.objects.filter(site=site, slug=slug):
             variant = Product.objects.get(site=site, slug=slug)
             variant.name=name
@@ -131,6 +120,7 @@ class Event(models.Model):
             variant = Product(site=site, name=name, items_in_stock=1, active=False, slug=slug)
             variant.save()
 
+        pricevalue = self.prices.filter(group=seat.group).values('price')[0]['price']
         try:
             price = Price.objects.get(product=variant, quantity='1')
         except Price.DoesNotExist:
@@ -159,7 +149,7 @@ class EventDate(models.Model):
     class Meta:
         verbose_name = _("Event Date")
         verbose_name_plural = _("Event Dates")
-        
+        unique_together = (('event', 'datetime'),)
     
     def __unicode__(self):
         return u"%s" % self.datetime.strftime("%d.%m.%Y %H:%M")
@@ -173,6 +163,7 @@ class SeatGroup(models.Model):
     class Meta:
         verbose_name = _("Seat Group")
         verbose_name_plural = _("Seat Groups")
+        unique_together = (('hallscheme', 'name'),)
         
     def __unicode__(self):
         return u"%s" % self.name
@@ -189,6 +180,7 @@ class SeatGroupPrice(models.Model):
     class Meta:
         verbose_name = _("Seat Group Price")
         verbose_name_plural = _("Seat Group Prices")
+        unique_together = (('group', 'event'),)
     
     def __unicode__(self):
         return u"%s - %s - %s" % (self.event.product.name, self.group.name, self.price)
@@ -205,6 +197,7 @@ class SeatLocation(models.Model):
     class Meta:
         verbose_name = _("Seat Location")
         verbose_name_plural = _("Seat Locations")
+        unique_together = (("hallscheme", "group", 'row', "col"),)
     
     def __unicode__(self):
         if self.row and self.col:
@@ -212,9 +205,6 @@ class SeatLocation(models.Model):
         else:
             return "No place"
     
-    def get_absolute_url(self):
-        return reverse("view_name", kwargs={"SeatLocation_id": self.pk})
-
 class Ticket(models.Model):
     """docstring for Ticket"""
     product = models.OneToOneField(Product, verbose_name=_('Product'), primary_key=True)
@@ -225,6 +215,10 @@ class Ticket(models.Model):
     class Meta:
         verbose_name = _("Ticket")
         verbose_name_plural = _("Tickets")
+        unique_together = (
+                ("product", "datetime", 'seat'),
+                ("parent", "datetime", 'seat'),
+                )
 
     def __unicode__(self):
         return "Ticket: %s" % self.product.name
