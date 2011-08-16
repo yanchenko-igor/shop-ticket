@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from product.models import Option, Product, ProductPriceLookup, OptionGroup, Price ,make_option_unique_id
 from satchmo_utils import cross_list
 from satchmo_utils.unique_id import slugify
+from localsite.utils.translit import cyr2lat
 
 SATCHMO_PRODUCT=True
 
@@ -111,23 +112,43 @@ class Event(models.Model):
         for (datetime, seat) in self.get_all_options():
             self.create_variation(datetime, seat)
 
-    def create_variation(self, datetime, seat, slug=u""):
+    def create_variation(self, datetime, seat, name=u"", slug=u""):
         site = self.product.site
 
-        variant = Product(site=site, items_in_stock=1)
         if not slug:
-            slug = slugify(u'%s_%s_%s' % (self.product.slug, datetime, seat))
+            slug = slugify(cyr2lat('%s_%s_%s' % (self.product.slug, datetime, seat)))
+        if not name:
+            name=u"%s :: %s :: %s" % (self.product.name, datetime.__unicode__(), seat)
+            print name
 
-        while Product.objects.filter(slug=slug).count():
-            slug = u'_'.join((slug, unicode(self.product.id)))
+        pricevalue = self.prices.filter(group=seat.group).values('price')[0]['price']
+        if Product.objects.filter(site=site, slug=slug):
+            variant = Product.objects.get(site=site, slug=slug)
+            variant.name=name
+            variant.active=False
+            variant.save(force_update=True)
+        else:
+            variant = Product(site=site, name=name, items_in_stock=1, active=False, slug=slug)
+            variant.save()
 
-        variant.slug = slug
-        variant.save()
+        try:
+            price = Price.objects.get(product=variant, quantity='1')
+        except Price.DoesNotExist:
+            price = Price(product=variant, quantity='1')
+        price.price = pricevalue
+        price.save()
 
-        ticket = Ticket(product=variant, parent=self)
-        ticket.datetime = datetime
-        ticket.seat = seat
-        ticket.save(force_insert=True)
+        if Ticket.objects.filter(product=variant):
+            ticket = Ticket.objects.get(product=variant)
+            ticket.parent = self
+            ticket.datetime = datetime
+            ticket.seat = seat
+            ticket.save()
+        else:
+            ticket = Ticket(product=variant, parent=self)
+            ticket.datetime = datetime
+            ticket.seat = seat
+            ticket.save()
 
 
 class EventDate(models.Model):
