@@ -3,6 +3,7 @@ from django.template import RequestContext
 from livesettings import config_value
 from product.models import Product
 from django.core.paginator import Paginator, InvalidPage
+from django.contrib.auth.decorators import user_passes_test
 
 def example(request):
     ctx = RequestContext(request, {})

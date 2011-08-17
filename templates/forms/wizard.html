@@ -1,0 +1,6 @@
+<form action="{% url create_event_wizard %}" method="post">{% csrf_token %}
+    <input type="hidden" name="{{ step_field }}" value="{{ step0 }}" />
+{{ form.as_p }}
+{{ previous_fields|safe }}
+<input type="submit" value="Submit" />
+</form>

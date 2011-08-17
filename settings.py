@@ -96,6 +96,7 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'django.contrib.sessions',
     'django.contrib.sitemaps',
+    'django.contrib.formtools',
     'tagging',
     'registration',
     'sorl.thumbnail',
