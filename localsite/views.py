@@ -4,6 +4,8 @@ from livesettings import config_value
 from product.models import Product
 from django.core.paginator import Paginator, InvalidPage
 from django.contrib.auth.decorators import user_passes_test
+from localsite.forms import EventForm1, EventForm2
+from django.contrib.formtools.wizard.views import SessionWizardView
 
 def example(request):
     ctx = RequestContext(request, {})
@@ -32,3 +34,8 @@ def display_featured(request, page=0, count=0, template='localsite/featured.html
         'paginator' : paginator,
     })
     return render_to_response(template, context_instance=ctx)
+
+def create_event(request):
+    form = SessionWizardView.as_view([EventForm1, EventForm2])
+    ctx = RequestContext(request, {'form':form})
+    return render_to_response('forms/wizard.html', context_instance=ctx)
