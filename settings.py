@@ -161,7 +161,6 @@ SATCHMO_SETTINGS = {
             url(r'^i18n/', include('l10n.urls')),
             url(r'^featured/', 'localsite.views.display_featured', name='localsite_featured'),
             url(r'^$', 'product.views.filters.display_recent', name='satchmo_shop_home'),
-            url(r'^create_event/', 'localsite.views.create_event', name='create_event'),
             )
 }
 
