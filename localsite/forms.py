@@ -1,5 +1,6 @@
 from django import forms
-from localsite.models import City, Hall, HallScheme, Event
+from django.forms.formsets import formset_factory
+from localsite.models import City, Hall, HallScheme, Event, SeatGroupPrice
 from product.models import Product
 
 class ProductForm(forms.ModelForm):
@@ -18,6 +19,9 @@ class HallSchemeForm(forms.ModelForm):
     class Meta:
         model = HallScheme
 
+class SeatGroupPriceForm(forms.ModelForm):
+    class Meta:
+        model = SeatGroupPrice
 
 class EventForm1(forms.Form):
     city = HallForm.base_fields['city']
@@ -28,10 +32,14 @@ class EventForm1(forms.Form):
     meta = ProductForm.base_fields['meta']
     related_items = ProductForm.base_fields['related_items']
     related_items.queryset = Product.objects.filter(id__in=Event.objects.all())
+    tags = EventForm.base_fields['tags']
 
 class EventForm2(forms.Form):
     hall = HallSchemeForm.base_fields['hall']
 
 class EventForm3(forms.Form):
     hallscheme = EventForm.base_fields['hallscheme']
+
+class EventForm4(forms.Form):
+    pass
 

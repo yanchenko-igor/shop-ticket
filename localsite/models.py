@@ -175,7 +175,7 @@ class SeatGroupPrice(models.Model):
     """docstring for SeatGroupPrice"""
     group = models.ForeignKey(SeatGroup, related_name='prices')
     event = models.ForeignKey(Event, related_name='prices')
-    price = models.IntegerField()
+    price = models.IntegerField(blank=True, null=True)
     
     class Meta:
         verbose_name = _("Seat Group Price")

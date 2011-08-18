@@ -5,7 +5,7 @@ from product.models import Product
 from django.core.paginator import Paginator, InvalidPage
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.formtools.wizard.views import SessionWizardView
-from localsite.models import City, Hall, HallScheme
+from localsite.models import City, Hall, HallScheme, Event
 from localsite.forms import EventForm2, EventForm3
 
 def example(request):
@@ -57,6 +57,29 @@ class EventWizard(SessionWizardView):
                 hall = form.cleaned_data['hall']
                 EventForm3.base_fields['hallscheme'].queryset = HallScheme.objects.filter(hall=hall)
                 self.form_list["2"] = EventForm3
+
+        if self.steps.current == "2":
+            if form.is_valid():
+                form_data = self.get_all_cleaned_data()
+
+                product = Product(name=form_data['name'], short_desctiption=form_data['short_description'],
+                        desctiption=form_data['description'], category=form_data['category'], meta=form_data['meta'],
+                        related_items=form_data['related_items'])
+                product.save()
+
+                event = Event(product=product, hallscheme=form_data['hallscheme'], tags=form_data['tags'])
+                event.save()
+
+                seatgroups = hallscheme.seatgroups.all()
+
+                for seatgroup in seatgroups:
+                    sgp = SeatGroupPrice(group=seatgroup, event=event)
+                    sgp.save()
+                    EventForm4.base_fields["seatgroup-%s" % seatgroup.name].queryset = SeatGroupPrice.objects.get(id=sgp)
+                self.form_list["3"] = EventForm4
+
+
+
 
         return self.get_form_step_data(form)
 
