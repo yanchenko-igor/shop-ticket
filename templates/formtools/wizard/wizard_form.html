@@ -1,8 +1,6 @@
-<html>
-    <head>
-    </head>
-    <body>
+{% extends "base.html" %}
 {% load i18n %}
+{% block content %}
 <form action="." method="post" >{% csrf_token %}
 {{ wizard.management_form }}
 {% if wizard.form.forms %}
@@ -20,5 +18,4 @@
 {% endif %}
 <input type="submit" name="submit" value="{% trans "submit" %}" />
 </form>
-    </body>
-</html>
+{% endblock %}

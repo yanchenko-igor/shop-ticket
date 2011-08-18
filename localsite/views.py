@@ -5,8 +5,8 @@ from product.models import Product
 from django.core.paginator import Paginator, InvalidPage
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.formtools.wizard.views import SessionWizardView
-from localsite.models import City, Hall
-from localsite.forms import EventForm2
+from localsite.models import City, Hall, HallScheme
+from localsite.forms import EventForm2, EventForm3
 
 def example(request):
     ctx = RequestContext(request, {})
@@ -51,6 +51,12 @@ class EventWizard(SessionWizardView):
                 city = form.cleaned_data['city']
                 EventForm2.base_fields['hall'].queryset = Hall.objects.filter(city=city)
                 self.form_list["1"] = EventForm2
+
+        if self.steps.current == "1":
+            if form.is_valid():
+                hall = form.cleaned_data['hall']
+                EventForm3.base_fields['hallscheme'].queryset = HallScheme.objects.filter(hall=hall)
+                self.form_list["2"] = EventForm3
 
         return self.get_form_step_data(form)
 
