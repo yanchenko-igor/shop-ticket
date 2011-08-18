@@ -24,7 +24,7 @@ u, font, s, center, dir, menu, strike, xmp                                      
 
 /* ----- common ----- */
 html, body  {
-    background: #fff url(../images/body_bg.jpg) repeat-x ;
+    background: #fff url(/static/images/body_bg.jpg) repeat-x ;
     font-family: Arial, sans-serif;
     font-size: 100.01%;
     color: #171717;
@@ -123,9 +123,7 @@ tfoot {
 /* ----- /tables ----- */
 
 /* ----- forms ----- */
-form {
-    margin: 0 0 1em 0;
-}
+
 fieldset {
     padding: 12px;
     border: 1px solid gray;
@@ -165,10 +163,10 @@ optgroup option {
 
 .input{
     margin-right: 12px;
-    background: url(../images/input_bg.png) no-repeat;
+    background: url(/static/images/input_bg.png) no-repeat;
 }
 .input2 {
-    background: url(../images/input_bg.png) 100% 0 no-repeat;
+    background: url(/static/images/input_bg.png) 100% 0 no-repeat;
     position: relative;
     left: 12px;
     height: 24px;
@@ -181,6 +179,56 @@ optgroup option {
     margin: 0;
     font-size: 14px;
     margin-top: 4px;
+}
+.input_2{
+    background: url(/static/images/input_bg2.gif) no-repeat;
+    padding-left: 5px;
+}
+    .input_2_2{
+        background: url(/static/images/input_bg2.gif) 100% 0 no-repeat;
+        height: 24px;
+        padding-right: 5px;
+    }
+    .input_2_2 input{
+        border: none 0;
+        width: 100%;
+        margin-top: 3px;
+        font-size: 12px;
+    }
+.textarea_top, .textarea_top *, .textarea_bott, .textarea_bott *{
+    background: url(/static/images/textarea_bg.png) no-repeat;
+    height: 4px;
+}
+        .textarea_top div {
+           background-position: 100% -4px;
+            padding: 0 4px;
+        }
+        .textarea_top div span{
+            display: block;
+            background-position: 0 -8px;
+            background-repeat: repeat-x;
+        }
+    .textarea_bott {
+           background-position: 0 -16px;
+        }
+    .textarea_bott div {
+        background-position: 100% -12px;
+        padding: 0 4px;
+        }
+        .textarea_bott div span{
+            display: block;
+            background-position: 0 -20px;
+            background-repeat: repeat-x;
+        }
+.textarea_body{
+    background: url(/static/images/textarea_body_bg.gif) repeat-y;
+}
+.textarea_body2{
+    background: url(/static/images/textarea_body_bg.gif) 100% 0 repeat-y;
+    padding: 0 4px;
+}
+.textarea_wrap{
+    background-color:#fff;
 }
 /* ----- /forms ----- */
 
@@ -229,7 +277,7 @@ optgroup option {
         width: 313px;
     }
 .cols_cont{
-    background: url(../images/cols_cont.gif) repeat-y;
+    background: url(/static/images/cols_cont.gif) repeat-y;
 }
 
 /* ----- /columns ----- */
@@ -286,7 +334,7 @@ optgroup option {
 
 /* -------------------- LAYOUT -------------------- */
 .wraper_header{
-    background: #d0d0d0 url(../images/header_bg.jpg) repeat-x;
+    background: #d0d0d0 url(/static/images/header_bg.jpg) repeat-x;
     border-bottom: 1px solid #bbbbbb;
 }
 
@@ -327,10 +375,10 @@ optgroup option {
     vertical-align: bottom;
 }
 .header_bl_reg_top{
-    background: url(../images/header_bl_reg_top.gif) no-repeat;
+    background: url(/static/images/header_bl_reg_top.gif) no-repeat;
 }
     .header_bl_reg_top div{
-        background: url(../images/header_bl_reg_top.gif) 100% -3px no-repeat;
+        background: url(/static/images/header_bl_reg_top.gif) 100% -3px no-repeat;
         padding: 0 3px;
     }
         .header_bl_reg_top div span{
@@ -349,7 +397,7 @@ optgroup option {
 }
 .wraper_top{
     margin-top: 15px;
-    background: #000 url(../images/wraper_top.jpg) repeat-x;
+    background: #000 url(/static/images/wraper_top.jpg) repeat-x;
     position: relative;
     z-index: 102;
     height: 73px;
@@ -358,7 +406,7 @@ optgroup option {
 
 }
 .w_t_l, .w_t_r, .w_t_l_b, .w_t_r_b{
-    background: url(../images/wraper_top_curve.gif) no-repeat;
+    background: url(/static/images/wraper_top_curve.gif) no-repeat;
     position: absolute;
     width: 2px;
     height: 2px;
@@ -383,15 +431,15 @@ optgroup option {
         bottom: 0;
     }
 .wraper_top_shadow{
-    background: url(../images/wraper_top_shadow.png) no-repeat;
+    background: url(/static/images/wraper_top_shadow.png) no-repeat;
     margin: -16px -4px 0 -5px;
 }
 .wraper_top_shadow div{
-    background: url(../images/wraper_top_shadow.png) 100% -19px no-repeat;
+    background: url(/static/images/wraper_top_shadow.png) 100% -19px no-repeat;
     padding: 0 13px;
 }
 .wraper_top_shadow div span{
-    background: url(../images/wraper_top_shadow.png) 0 -38px repeat-x;
+    background: url(/static/images/wraper_top_shadow.png) 0 -38px repeat-x;
     display: block;
     height: 19px;
 }
@@ -447,7 +495,7 @@ optgroup option {
         border-left: 1px solid #535353;
     }
     .menu_top .active{
-        background:#e9e9e9 url(../images/dop_menu_active.jpg) repeat-x;
+        background:#e9e9e9 url(/static/images/dop_menu_active.jpg) repeat-x;
         margin-bottom: -12px;
         padding-bottom: 12px;
         border-left: none 0;
@@ -499,7 +547,7 @@ optgroup option {
         margin: 0;
         padding: 64px 0 16px 0;
         list-style: none;
-        background:#616060 url(../images/dop_menu_bg.jpg) repeat-x;
+        background:#616060 url(/static/images/dop_menu_bg.jpg) repeat-x;
         border-radius: 5px;
         border-top: 2px solid #696868;
         border-bottom: 2px solid #373737;
@@ -550,7 +598,7 @@ optgroup option {
     bottom: 0;
     left: 0;
     width: 100%;
-    background: url(../images/transparent_bg.png);
+    background: url(/static/images/transparent_bg.png);
     padding: 15px 0 20px 0;
     color: #fff;
 }
@@ -586,12 +634,12 @@ optgroup option {
     padding: 34px 12px 0 0;
 }
 .search_bg{
-    background: url(../images/search_bg.png) 100% 0 no-repeat;
+    background: url(/static/images/search_bg.png) 100% 0 no-repeat;
     margin-left: 10px;
 
 }
 .search_bg2{
-    background: url(../images/search_bg.png) no-repeat;
+    background: url(/static/images/search_bg.png) no-repeat;
     height: 24px;
     position: relative;
     left: -10px;
@@ -610,7 +658,7 @@ optgroup option {
 }
 .submit_search{
     font-size: 0;
-    background: transparent url(../images/search_submit.gif) no-repeat;
+    background: transparent url(/static/images/search_submit.gif) no-repeat;
     width: 17px;
     height: 16px;
     border: none 0;
@@ -641,16 +689,23 @@ optgroup option {
     padding-right: 0;
 }
 .feed_img{
-    width: 215px;
+    width: 100%;
     height: 134px;
-    display: table-cell;
-    vertical-align: middle;
     overflow: hidden;
     margin-bottom: 14px;
+    position: relative;
 }
-.feed_img img{
-    display: block;
-    margin: 0 auto;
+.feed_img_wrap{
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+.feed_img_wrap a{
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
 }
 .feed_tag{
     height: 23px;
@@ -660,23 +715,42 @@ optgroup option {
     .feed_tag a{
         color: #0f5fa4;
     }
+.feed_date{
+    font-size: 13px;
+    color: #656565;
+    height: 36px;
+    overflow: hidden;
+}
+    .feed_date p{
+        padding-bottom: 2px;
+    }
+.feed_date p span{
+    color: #9e9e9e;
+}
+
 .feed_txt{
     font-size: 14px;
     font-weight: bold;
     height: 36px;
     overflow: hidden;
 }
+.feed_txt a{
+    color: #171717;
+    text-decoration: none;
+}
 .heading_bg{
-    background: #1a1a1a url(../images/heading_bg.jpg) repeat-x;
+    background: #1a1a1a url(/static/images/heading_bg.jpg) repeat-x;
     position: relative;
     margin-bottom: 12px;
 }
 .heading_bg h2{
     color: #fffbfb;
     padding: 5px 0 7px 15px;
+    font-weight: normal;
+    font-size: 19px;
 }
 .h_t_l, .h_t_r, .h_b_l, .h_b_r{
-    background: url(../images/heading_curve.gif) no-repeat;
+    background: url(/static/images/heading_curve.gif) no-repeat;
     position: absolute;
     width: 3px;
     height: 3px;
@@ -716,17 +790,18 @@ optgroup option {
     overflow: hidden;
     border: 1px solid #fff;
     margin-right: -87px;
+    text-align: center;
+    display: table;
 }
 .feed_list_img a{
     display: table-cell;
-    width: 85px;
-    height: 61px;
+    width: 100%;
+    height: 100%;
     vertical-align: middle;
+    text-align: center;
 }
-.feed_list_img img{
-    display: block;
-    margin: 0 auto;
-}
+
+
 .feed_list_txt{
     margin-left: 99px;
 }
@@ -742,6 +817,11 @@ optgroup option {
     font-size: 13px;
     font-weight: bold;
 }
+.feed_list_detail{
+    color: #171717;
+    text-decoration: none;
+}
+
 .all_link{
     text-align: right;
     padding-bottom: 7px;
@@ -750,13 +830,17 @@ optgroup option {
     color: #586d80;
     font-size: 0.858em; /* 12px*/
 }
+.wrap_line_bl{
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 20px;
+}
 
 /*------------- Curve -------------*/
 .curve_top{
-    background: url(../images/curve.jpg) no-repeat;
+    background: url(/static/images/curve.jpg) no-repeat;
 }
     .curve_top div{
-        background: url(../images/curve.jpg) 100% -2px no-repeat;
+        background: url(/static/images/curve.jpg) 100% -2px no-repeat;
         padding: 0 2px;
     }
         .curve_top div span{
@@ -765,10 +849,10 @@ optgroup option {
             height: 1px;
         }
 .curve_bott{
-    background: url(../images/curve.jpg) 0 -6px no-repeat;
+    background: url(/static/images/curve.jpg) 0 -6px no-repeat;
 }
     .curve_bott div{
-        background: url(../images/curve.jpg) 100% -4px no-repeat;
+        background: url(/static/images/curve.jpg) 100% -4px no-repeat;
         padding: 0 2px;
     }
         .curve_bott div span{
@@ -920,7 +1004,7 @@ optgroup option {
     border-right: 1px solid #cccccc;
 }
 .tab_activ_sh{
-    background: url(../images/tab_activ_sh.png) 100% 0 repeat-y;
+    background: url(/static/images/tab_activ_sh.png) 100% 0 repeat-y;
     margin-right: -7px;
     min-height: 40px;
     padding: 0 12px;
@@ -929,6 +1013,21 @@ optgroup option {
     font-size: 24px;
     font-weight: normal;
     padding-top: 6px;
+}
+.content{
+    padding-bottom: 20px;
+}
+.back_heading{
+    float: right;
+    padding-top: 14px;
+    font-size: 12px;
+}
+.back_heading a{
+    color: #c63d3a;
+    text-decoration: none;
+}
+.wraper_basket{
+    padding-bottom: 30px;
 }
 .basked_bl{
     padding-bottom: 12px;
@@ -942,6 +1041,9 @@ optgroup option {
     padding: 11px 22px 0 0;
     color: #2c2929;
     text-shadow: 0 1px #fff ;
+}
+.basket_count a{
+    color: #c63d3a;
 }
 .basket_grey{
     background-color: #efefef;
@@ -1011,11 +1113,195 @@ td.basked_td_price{
     text-align: center;
     vertical-align: middle;
 }
+.basket_total{
+    border-bottom: 1px solid #e8e8e8;
+    padding-bottom: 18px;
+}
+.back_shopping{
+    float: left;
+    font-size: 12px;
+    padding-top: 12px;
+}
+    .back_shopping a{
+        color: #c63d3a;
+        text-decoration: none;
+    }
+    .back_shopping img{
+        vertical-align: middle;
+        margin-right: 6px;
+    }
+.basket_total_bl{
+    float: right;
+    padding-right: 20px;
+}
+.basket_total_price{
+    color: #a32f2f;
+}
+.basket_total_price label{
+    font-size: 26px;
+}
+.form_ormit_order{
+    padding: 20px 0 30px 0;
+}
+.ormit_order{
+    float: left;
+    width: 636px;
+}
+.ormit_order label{
+    display: block;
+    color: #969696;
+    font-size: 12px;
+    height: 20px;
+
+}
+.ormit_order_1{
+    float: left;
+    width: 48%;
+}
+.ormit_order_2{
+    float: right;
+    width: 48%;
+}
+
+.textarea_ormit{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none 0;
+    height: 138px;
+    overflow: auto;
+}
+.ormit_order_call{
+    float: right;
+    width: 298px;
+    padding-top: 18px;
+}
+.ormit_call_txt{
+    color: #626262;
+    text-align: center;
+    padding-bottom: 15px
+}
+.ormit_call_tel{
+    color: #292828;
+    font-size: 30px;
+    text-align: center;
+    padding-bottom: 6px;
+    font-weight: bold;
+}
+.ormit_call_time{
+    color: #f14743;
+    font-size: 15px;
+    text-align: center;
+}
+.event_img{
+    position: relative;
+    margin-right: 1px;
+}
+.event_img_description{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: url(/static/images/transparent_bg.png);
+}
+.event_description_tab{
+    width: 100%;
+    padding-bottom: 12px;
+}
+.event_description_tab td{
+    vertical-align: bottom;
+}
+.event_description_btn{
+    width: 264px;
+    padding-right:11px;
+    color: #fff;
+
+}
+.event_description_inf{
+    padding-left: 13px;
+    padding-top: 13px;
+}
+.title_theater{
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+.underline{
+    border-bottom: 1px dashed #fff;
+}
+.title_theater_addres{
+    color: #d7d7d7;
+    font-size: 13px;
+    padding-top: 4px;
+    display: none;
+}
+.select_place a{
+    color: #f14743;
+    text-decoration: none;
+}
+.wrap_event_date{
+    padding: 20px 0 4px 0;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #e8e8e8;
+}
+.event_date{
+    margin-left: -14px;
+}
+.event_date li{
+    float: left;
+    font-size: 16px;
+    border-right: 1px solid #d3d3d3;
+    padding:0  14px;
+    margin-bottom: 8px;
+    color: #f14743;
+}
+.event_date li.last{
+    border-right: none 0;
+}
+.event_date_time{
+    color: #616161;
+}
+.wrap_article{
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 12px;
+}
+.wrap_article p{
+    padding-bottom: 20px;
+}
+.h2_article{
+    font-size: 28px;
+    font-weight: normal;
+    padding-bottom: 20px;
+}
+.annotation{
+    font-size: 16px;
+    color: #888;
+    padding-bottom: 20px;
+}
+.other_inf{
+    border-bottom: 1px solid #e8e8e8;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+    
+}
+.article_tag{
+    float: left;
+    color: #0f5fa4;
+    font-size: 12px;
+    padding-top: 7px;
+}
+.heading_tag{
+    color: #888;
+}
+.social_network{
+    float: right;
+}
 
 /*--------------- Footer ---------------*/
 
 .wraper_footer{
-    background: #6f6e6e url(../images/footer_bg.jpg) repeat-x;
+    background: #6f6e6e url(/static/images/footer_bg.jpg) repeat-x;
     width: 100%;
     padding: 1px 0;
     color: #f4f4f4;
@@ -1026,6 +1312,7 @@ td.basked_td_price{
     border-bottom: 1px solid #5a5a5a;
     margin: 18px 6px 13px 12px;
     padding-bottom: 15px;
+    border-radius: 7px;
 
 }
 .search_footer{
@@ -1095,7 +1382,7 @@ td.basked_td_price{
         padding-bottom: 0;
     }
 .footer_bott{
-    background: url(../images/footer_bott_bg.jpg) repeat-x;
+    background: url(/static/images/footer_bott_bg.jpg) repeat-x;
     height: 50px;
     color: #d7d7d7;
     font-size: 11px;
