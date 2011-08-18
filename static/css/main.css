@@ -24,7 +24,7 @@ u, font, s, center, dir, menu, strike, xmp                                      
 
 /* ----- common ----- */
 html, body  {
-    background: #fff url(../images/body_bg.jpg) repeat-x ;
+    background: #fff url(/static/images/body_bg.jpg) repeat-x ;
     font-family: Arial, sans-serif;
     font-size: 100.01%;
     color: #171717;
@@ -163,10 +163,10 @@ optgroup option {
 
 .input{
     margin-right: 12px;
-    background: url(../images/input_bg.png) no-repeat;
+    background: url(/static/images/input_bg.png) no-repeat;
 }
 .input2 {
-    background: url(../images/input_bg.png) 100% 0 no-repeat;
+    background: url(/static/images/input_bg.png) 100% 0 no-repeat;
     position: relative;
     left: 12px;
     height: 24px;
@@ -181,11 +181,11 @@ optgroup option {
     margin-top: 4px;
 }
 .input_2{
-    background: url(../images/input_bg2.gif) no-repeat;
+    background: url(/static/images/input_bg2.gif) no-repeat;
     padding-left: 5px;
 }
     .input_2_2{
-        background: url(../images/input_bg2.gif) 100% 0 no-repeat;
+        background: url(/static/images/input_bg2.gif) 100% 0 no-repeat;
         height: 24px;
         padding-right: 5px;
     }
@@ -196,7 +196,7 @@ optgroup option {
         font-size: 12px;
     }
 .textarea_top, .textarea_top *, .textarea_bott, .textarea_bott *{
-    background: url(../images/textarea_bg.png) no-repeat;
+    background: url(/static/images/textarea_bg.png) no-repeat;
     height: 4px;
 }
         .textarea_top div {
@@ -221,10 +221,10 @@ optgroup option {
             background-repeat: repeat-x;
         }
 .textarea_body{
-    background: url(../images/textarea_body_bg.gif) repeat-y;
+    background: url(/static/images/textarea_body_bg.gif) repeat-y;
 }
 .textarea_body2{
-    background: url(../images/textarea_body_bg.gif) 100% 0 repeat-y;
+    background: url(/static/images/textarea_body_bg.gif) 100% 0 repeat-y;
     padding: 0 4px;
 }
 .textarea_wrap{
@@ -277,7 +277,7 @@ optgroup option {
         width: 313px;
     }
 .cols_cont{
-    background: url(../images/cols_cont.gif) repeat-y;
+    background: url(/static/images/cols_cont.gif) repeat-y;
 }
 
 /* ----- /columns ----- */
@@ -334,7 +334,7 @@ optgroup option {
 
 /* -------------------- LAYOUT -------------------- */
 .wraper_header{
-    background: #d0d0d0 url(../images/header_bg.jpg) repeat-x;
+    background: #d0d0d0 url(/static/images/header_bg.jpg) repeat-x;
     border-bottom: 1px solid #bbbbbb;
 }
 
@@ -375,10 +375,10 @@ optgroup option {
     vertical-align: bottom;
 }
 .header_bl_reg_top{
-    background: url(../images/header_bl_reg_top.gif) no-repeat;
+    background: url(/static/images/header_bl_reg_top.gif) no-repeat;
 }
     .header_bl_reg_top div{
-        background: url(../images/header_bl_reg_top.gif) 100% -3px no-repeat;
+        background: url(/static/images/header_bl_reg_top.gif) 100% -3px no-repeat;
         padding: 0 3px;
     }
         .header_bl_reg_top div span{
@@ -397,7 +397,7 @@ optgroup option {
 }
 .wraper_top{
     margin-top: 15px;
-    background: #000 url(../images/wraper_top.jpg) repeat-x;
+    background: #000 url(/static/images/wraper_top.jpg) repeat-x;
     position: relative;
     z-index: 102;
     height: 73px;
@@ -406,7 +406,7 @@ optgroup option {
 
 }
 .w_t_l, .w_t_r, .w_t_l_b, .w_t_r_b{
-    background: url(../images/wraper_top_curve.gif) no-repeat;
+    background: url(/static/images/wraper_top_curve.gif) no-repeat;
     position: absolute;
     width: 2px;
     height: 2px;
@@ -431,15 +431,15 @@ optgroup option {
         bottom: 0;
     }
 .wraper_top_shadow{
-    background: url(../images/wraper_top_shadow.png) no-repeat;
+    background: url(/static/images/wraper_top_shadow.png) no-repeat;
     margin: -16px -4px 0 -5px;
 }
 .wraper_top_shadow div{
-    background: url(../images/wraper_top_shadow.png) 100% -19px no-repeat;
+    background: url(/static/images/wraper_top_shadow.png) 100% -19px no-repeat;
     padding: 0 13px;
 }
 .wraper_top_shadow div span{
-    background: url(../images/wraper_top_shadow.png) 0 -38px repeat-x;
+    background: url(/static/images/wraper_top_shadow.png) 0 -38px repeat-x;
     display: block;
     height: 19px;
 }
@@ -495,7 +495,7 @@ optgroup option {
         border-left: 1px solid #535353;
     }
     .menu_top .active{
-        background:#e9e9e9 url(../images/dop_menu_active.jpg) repeat-x;
+        background:#e9e9e9 url(/static/images/dop_menu_active.jpg) repeat-x;
         margin-bottom: -12px;
         padding-bottom: 12px;
         border-left: none 0;
@@ -547,7 +547,7 @@ optgroup option {
         margin: 0;
         padding: 64px 0 16px 0;
         list-style: none;
-        background:#616060 url(../images/dop_menu_bg.jpg) repeat-x;
+        background:#616060 url(/static/images/dop_menu_bg.jpg) repeat-x;
         border-radius: 5px;
         border-top: 2px solid #696868;
         border-bottom: 2px solid #373737;
@@ -612,7 +612,7 @@ optgroup option {
     bottom: 0;
     left: 0;
     width: 100%;
-    background: url(../images/transparent_bg.png);
+    background: url(/static/images/transparent_bg.png);
     padding: 15px 0 20px 0;
     color: #fff;
     
@@ -653,12 +653,12 @@ optgroup option {
     padding: 34px 12px 0 0;
 }
 .search_bg{
-    background: url(../images/search_bg.png) 100% 0 no-repeat;
+    background: url(/static/images/search_bg.png) 100% 0 no-repeat;
     margin-left: 10px;
 
 }
 .search_bg2{
-    background: url(../images/search_bg.png) no-repeat;
+    background: url(/static/images/search_bg.png) no-repeat;
     height: 24px;
     position: relative;
     left: -10px;
@@ -677,7 +677,7 @@ optgroup option {
 }
 .submit_search{
     font-size: 0;
-    background: transparent url(../images/search_submit.gif) no-repeat;
+    background: transparent url(/static/images/search_submit.gif) no-repeat;
     width: 17px;
     height: 16px;
     border: none 0;
@@ -757,8 +757,15 @@ optgroup option {
     color: #171717;
     text-decoration: none;
 }
+.feed_img_bl{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: url(/static/images/transparent_bg.png);
+}
 .heading_bg{
-    background: #1a1a1a url(../images/heading_bg.jpg) repeat-x;
+    background: #1a1a1a url(/static/images/heading_bg.jpg) repeat-x;
     position: relative;
     margin-bottom: 12px;
 }
@@ -769,7 +776,7 @@ optgroup option {
     font-size: 19px;
 }
 .h_t_l, .h_t_r, .h_b_l, .h_b_r{
-    background: url(../images/heading_curve.gif) no-repeat;
+    background: url(/static/images/heading_curve.gif) no-repeat;
     position: absolute;
     width: 3px;
     height: 3px;
@@ -856,10 +863,10 @@ optgroup option {
 
 /*------------- Curve -------------*/
 .curve_top{
-    background: url(../images/curve.jpg) no-repeat;
+    background: url(/static/images/curve.jpg) no-repeat;
 }
     .curve_top div{
-        background: url(../images/curve.jpg) 100% -2px no-repeat;
+        background: url(/static/images/curve.jpg) 100% -2px no-repeat;
         padding: 0 2px;
     }
         .curve_top div span{
@@ -868,10 +875,10 @@ optgroup option {
             height: 1px;
         }
 .curve_bott{
-    background: url(../images/curve.jpg) 0 -6px no-repeat;
+    background: url(/static/images/curve.jpg) 0 -6px no-repeat;
 }
     .curve_bott div{
-        background: url(../images/curve.jpg) 100% -4px no-repeat;
+        background: url(/static/images/curve.jpg) 100% -4px no-repeat;
         padding: 0 2px;
     }
         .curve_bott div span{
@@ -1023,7 +1030,7 @@ optgroup option {
     border-right: 1px solid #cccccc;
 }
 .tab_activ_sh{
-    background: url(../images/tab_activ_sh.png) 100% 0 repeat-y;
+    background: url(/static/images/tab_activ_sh.png) 100% 0 repeat-y;
     margin-right: -7px;
     min-height: 40px;
     padding: 0 12px;
@@ -1221,7 +1228,7 @@ td.basked_td_price{
     left: 0;
     bottom: 0;
     width: 100%;
-    background: url(../images/transparent_bg.png);
+    background: url(/static/images/transparent_bg.png);
 }
 .event_description_tab{
     width: 100%;
@@ -1345,7 +1352,7 @@ td.basked_td_price{
     width: 150px;
     padding-left: 10px;
 }
-.form_wizard select, .form_wizard textarea{
+.form_wizard select, .form_wizard textarea, .form_wizard input{
     float:left;
 }
 .helptext{
@@ -1360,7 +1367,7 @@ td.basked_td_price{
 /*--------------- Footer ---------------*/
 
 .wraper_footer{
-    background: #6f6e6e url(../images/footer_bg.jpg) repeat-x;
+    background: #6f6e6e url(/static/images/footer_bg.jpg) repeat-x;
     width: 100%;
     padding: 1px 0;
     color: #f4f4f4;
@@ -1441,7 +1448,7 @@ td.basked_td_price{
         padding-bottom: 0;
     }
 .footer_bott{
-    background: url(../images/footer_bott_bg.jpg) repeat-x;
+    background: url(/static/images/footer_bott_bg.jpg) repeat-x;
     height: 50px;
     color: #d7d7d7;
     font-size: 11px;
