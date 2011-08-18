@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block content %}
-<form action="." method="post" >{% csrf_token %}
+{% block body %}
+<form class="form_wizard" action="." method="post" >{% csrf_token %}
 {{ wizard.management_form }}
 {% if wizard.form.forms %}
     {{ wizard.form.management_form }}
