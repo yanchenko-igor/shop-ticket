@@ -1,5 +1,6 @@
 from django import forms
 from django.forms.formsets import formset_factory
+from django.forms.models import modelformset_factory
 from localsite.models import City, Hall, HallScheme, Event, SeatGroupPrice
 from product.models import Product
 from localsite.utils.translit import cyr2lat
@@ -21,8 +22,15 @@ class HallSchemeForm(forms.ModelForm):
         model = HallScheme
 
 class SeatGroupPriceForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(SeatGroupPriceForm, self).__init__(*args, **kwargs)
+        try:
+            self.fields['price'].label = self.instance.group.name
+        except:
+            pass
     class Meta:
         model = SeatGroupPrice
+        fields = ('price',)
 
 class EventForm1(forms.Form):
     city = HallForm.base_fields['city']
@@ -41,13 +49,4 @@ class EventForm2(forms.Form):
 class EventForm3(forms.Form):
     hallscheme = EventForm.base_fields['hallscheme']
 
-#class EventForm4(forms.Form):
-#    pass
-
-def make_eventform4(hallscheme):
-    fields = {}
-    for group in hallscheme.seatgroups.all():
-        print group.name
-        fields[cyr2lat(group.name)] = forms.IntegerField()
-    print fields
-    return type('EventForm4', (forms.Form,), fields)
+EventForm4 = modelformset_factory(SeatGroupPrice, form=SeatGroupPriceForm, extra=0)

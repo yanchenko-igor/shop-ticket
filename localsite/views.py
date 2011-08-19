@@ -6,7 +6,7 @@ from django.core.paginator import Paginator, InvalidPage
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.formtools.wizard.views import SessionWizardView
 from localsite.models import City, Hall, HallScheme, Event, SeatGroupPrice
-from localsite.forms import EventForm2, EventForm3, make_eventform4
+from localsite.forms import EventForm2, EventForm3, EventForm4
 
 def example(request):
     ctx = RequestContext(request, {})
@@ -73,12 +73,18 @@ class EventWizard(SessionWizardView):
                 event = Event(product=product, hallscheme=hallscheme, tags=form_data['tags'])
                 event.save()
 
-                EventForm4 = make_eventform4(hallscheme)
+                print event
+                for group in hallscheme.seatgroups.all():
+                    price = SeatGroupPrice(event=event, group=group)
+                    price.save()
+                EventForm4.queryset=event.prices.all()
                 self.form_list["3"] = EventForm4
+                print EventForm4
 
         if self.steps.current == "3":
             if form.is_valid():
-                pass
+                print form.as_p()
+                form.save()
 
 
 
