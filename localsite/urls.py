@@ -1,8 +1,8 @@
 from django.conf.urls.defaults import *
-from localsite.forms import EventForm1, EventForm2, EventForm3, EventForm4
+from localsite.forms import EventForm1, EventForm2, EventForm3
 from localsite.views import EventWizard
 
-eventforms = [EventForm1, EventForm2, EventForm3, EventForm4]
+eventforms = [EventForm1, EventForm2, EventForm3]
 
 urlpatterns = patterns('',
     (r'example/', 'store.localsite.views.example', {}),

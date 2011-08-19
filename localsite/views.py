@@ -5,8 +5,8 @@ from product.models import Product
 from django.core.paginator import Paginator, InvalidPage
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.formtools.wizard.views import SessionWizardView
-from localsite.models import City, Hall, HallScheme, Event
-from localsite.forms import EventForm2, EventForm3
+from localsite.models import City, Hall, HallScheme, Event, SeatGroupPrice
+from localsite.forms import EventForm2, EventForm3, make_eventform4
 
 def example(request):
     ctx = RequestContext(request, {})
@@ -62,22 +62,23 @@ class EventWizard(SessionWizardView):
             if form.is_valid():
                 form_data = self.get_all_cleaned_data()
 
-                product = Product(name=form_data['name'], short_desctiption=form_data['short_description'],
-                        desctiption=form_data['description'], category=form_data['category'], meta=form_data['meta'],
-                        related_items=form_data['related_items'])
+                product = Product(site_id=1, name=form_data['name'], short_description=form_data['short_description'],
+                        description=form_data['description'], meta=form_data['meta'])
+                product.save()
+                product.category.add(*form_data['category'])
+                product.related_items.add(*form_data['related_items'])
                 product.save()
 
-                event = Event(product=product, hallscheme=form_data['hallscheme'], tags=form_data['tags'])
+                hallscheme=form.cleaned_data['hallscheme']
+                event = Event(product=product, hallscheme=hallscheme, tags=form_data['tags'])
                 event.save()
 
-                seatgroups = hallscheme.seatgroups.all()
-
-                for seatgroup in seatgroups:
-                    sgp = SeatGroupPrice(group=seatgroup, event=event)
-                    sgp.save()
-                    EventForm4.base_fields["seatgroup-%s" % seatgroup.name].queryset = SeatGroupPrice.objects.get(id=sgp)
+                EventForm4 = make_eventform4(hallscheme)
                 self.form_list["3"] = EventForm4
 
+        if self.steps.current == "3":
+            if form.is_valid():
+                pass
 
 
 
