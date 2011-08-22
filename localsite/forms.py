@@ -1,17 +1,37 @@
 from django import forms
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
-from localsite.models import City, Hall, HallScheme, Event, SeatGroupPrice
+from django.forms.models import inlineformset_factory
+from localsite.models import *
 from product.models import Product
 from localsite.utils.translit import cyr2lat
 
+EventFormInline = inlineformset_factory(Product, Event)
+
 class ProductForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProductForm, self).__init__(*args, **kwargs)
+        self.base_fields['related_items'].queryset = Product.objects.filter(id__in=Event.objects.all())
     class Meta:
         model = Product
+        fields = (
+                'name',
+                'category',
+                'short_description',
+                'description',
+                'meta',
+                'related_items',
+                'active',
+                'featured',
+                'ordering',
+                'site',
+                )
+
 
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
+
 
 class HallForm(forms.ModelForm):
     class Meta:
@@ -20,6 +40,7 @@ class HallForm(forms.ModelForm):
 class HallSchemeForm(forms.ModelForm):
     class Meta:
         model = HallScheme
+        exclude = ('substrate',)
 
 class SeatGroupPriceForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -32,21 +53,10 @@ class SeatGroupPriceForm(forms.ModelForm):
         model = SeatGroupPrice
         fields = ('price',)
 
-class EventForm1(forms.Form):
-    city = HallForm.base_fields['city']
-    name = ProductForm.base_fields['name']
-    short_description = ProductForm.base_fields['short_description']
-    description = ProductForm.base_fields['description']
-    category = ProductForm.base_fields['category']
-    meta = ProductForm.base_fields['meta']
-    related_items = ProductForm.base_fields['related_items']
-    related_items.queryset = Product.objects.filter(id__in=Event.objects.all())
-    tags = EventForm.base_fields['tags']
+SeatGroupPriceFormset = modelformset_factory(SeatGroupPrice, form=SeatGroupPriceForm, extra=0)
 
-class EventForm2(forms.Form):
-    hall = HallSchemeForm.base_fields['hall']
+class EventDateForm(forms.ModelForm):
+    class Meta:
+        model = EventDate
 
-class EventForm3(forms.Form):
-    hallscheme = EventForm.base_fields['hallscheme']
-
-EventForm4 = modelformset_factory(SeatGroupPrice, form=SeatGroupPriceForm, extra=0)
+EventDateFormInline = inlineformset_factory(Event, EventDate, form=EventDateForm, extra=3)

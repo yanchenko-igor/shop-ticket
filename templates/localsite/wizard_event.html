@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block body %}
+<form class="form_wizard" action="." method="post" >{% csrf_token %}
+{{ wizard.management_form }}
+        {{ form.as_p }}
+        {% for formset in formsets %}
+        {{ formset.as_p }}
+        {% endfor %}
+
+<input type="submit" name="submit" value="{% trans "submit" %}" />
+</form>
+{% endblock %}

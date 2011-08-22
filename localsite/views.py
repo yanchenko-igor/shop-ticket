@@ -6,7 +6,8 @@ from django.core.paginator import Paginator, InvalidPage
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.formtools.wizard.views import SessionWizardView
 from localsite.models import City, Hall, HallScheme, Event, SeatGroupPrice
-from localsite.forms import EventForm2, EventForm3, EventForm4
+from localsite.forms import *
+from django.http import HttpResponseRedirect
 
 def example(request):
     ctx = RequestContext(request, {})
@@ -36,57 +37,98 @@ def display_featured(request, page=0, count=0, template='localsite/featured.html
     })
     return render_to_response(template, context_instance=ctx)
 
-class EventWizard(SessionWizardView):
-    def done(self, form_list, **kwargs):
-        return render_to_response('localsite/create_event_done.html', {
-            'form_data': [form.cleaned_data for form in form_list],
-        })
+@user_passes_test(lambda u: u.is_staff, login_url='/admin/')
+def wizard_event_step0(request, template='localsite/wizard_event.html'):
+    wizard = request.session.get('wizard')
+    if not wizard:
+        wizard = {}
 
-    def get_template(self, step):
-        return 'forms/wizard.html'
+    product = Product()
 
-    def process_step(self, form):
-        if self.steps.current == "0":
-            if form.is_valid():
-                city = form.cleaned_data['city']
-                EventForm2.base_fields['hall'].queryset = Hall.objects.filter(city=city)
-                self.form_list["1"] = EventForm2
+    if request.method == 'POST':
 
-        if self.steps.current == "1":
-            if form.is_valid():
-                hall = form.cleaned_data['hall']
-                EventForm3.base_fields['hallscheme'].queryset = HallScheme.objects.filter(hall=hall)
-                self.form_list["2"] = EventForm3
+        productform = ProductForm(request.POST, instance=product)
+        producteventformset = EventFormInline(request.POST, instance=product)
+        if productform.is_valid() and producteventformset.is_valid():
+            productform.save()
+            producteventformset.save()
+            wizard['product'] = productform.instance
+            event = producteventformset.instance.event
+            wizard['event'] = event
+            wizard['step'] = 1
+            request.session['wizard'] = wizard
+            for group in event.hallscheme.seatgroups.all():
+                price = SeatGroupPrice(event=event, group=group)
+                price.save()
+            return HttpResponseRedirect('/wizards/event/step1/')
+    else:
+        productform = ProductForm(instance=product)
+        producteventformset = EventFormInline(instance=product)
 
-        if self.steps.current == "2":
-            if form.is_valid():
-                form_data = self.get_all_cleaned_data()
-
-                product = Product(site_id=1, name=form_data['name'], short_description=form_data['short_description'],
-                        description=form_data['description'], meta=form_data['meta'])
-                product.save()
-                product.category.add(*form_data['category'])
-                product.related_items.add(*form_data['related_items'])
-                product.save()
-
-                hallscheme=form.cleaned_data['hallscheme']
-                event = Event(product=product, hallscheme=hallscheme, tags=form_data['tags'])
-                event.save()
-
-                print event
-                for group in hallscheme.seatgroups.all():
-                    price = SeatGroupPrice(event=event, group=group)
-                    price.save()
-                EventForm4.queryset=event.prices.all()
-                self.form_list["3"] = EventForm4
-                print EventForm4
-
-        if self.steps.current == "3":
-            if form.is_valid():
-                print form.as_p()
-                form.save()
+    ctx = RequestContext(request, {
+        'form' : productform,
+        'formsets' : [producteventformset,]
+    })
+    return render_to_response(template, context_instance=ctx)
 
 
+@user_passes_test(lambda u: u.is_staff, login_url='/admin/')
+def wizard_event_step1(request, template='localsite/wizard_event.html'):
+    wizard = request.session.get('wizard')
+    if not wizard:
+        HttpResponseRedirect('/wizards/event/')
+    event = wizard['event']
 
-        return self.get_form_step_data(form)
+    if request.method == 'POST':
+
+        priceformset = SeatGroupPriceFormset(request.POST, queryset=event.prices.all())
+        if priceformset.is_valid():
+            priceformset.save()
+            wizard['step'] = 2
+            return HttpResponseRedirect('/wizards/event/step2/')
+    else:
+        priceformset = SeatGroupPriceFormset(queryset=event.prices.all())
+
+    ctx = RequestContext(request, {
+        'form' : priceformset,
+    })
+    return render_to_response(template, context_instance=ctx)
+
+
+@user_passes_test(lambda u: u.is_staff, login_url='/admin/')
+def wizard_event_step2(request, template='localsite/wizard_event.html'):
+    wizard = request.session.get('wizard')
+    if not wizard:
+        HttpResponseRedirect('/wizards/event/')
+    event = wizard['event']
+
+    if request.method == 'POST':
+
+        dateformset = EventDateFormInline(request.POST, instance=event)
+        if dateformset.is_valid():
+            dateformset.save()
+            wizard['step'] = 3
+            return HttpResponseRedirect('/wizards/event/done/')
+    else:
+        dateformset = EventDateFormInline(instance=event)
+
+    ctx = RequestContext(request, {
+        'form' : dateformset,
+    })
+    return render_to_response(template, context_instance=ctx)
+
+
+@user_passes_test(lambda u: u.is_staff, login_url='/admin/')
+def wizard_event_done(request, template='localsite/wizard_event_done.html'):
+    wizard = request.session.get('wizard')
+    if not wizard:
+        HttpResponseRedirect('/wizards/event/')
+    event = wizard['event']
+    
+    event.create_all_variations()
+
+    del request.session['wizard']
+
+    ctx = RequestContext(request, {})
+    return render_to_response(template, context_instance=ctx)
 
