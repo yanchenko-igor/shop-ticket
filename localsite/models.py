@@ -69,6 +69,9 @@ class Event(models.Model):
     def __unicode__(self):
         return u"Event: %s" % self.product.name
     
+    def get_absolute_url(self):
+        return self.product.get_absolute_url()
+
     def _get_subtype(self):
         return 'Event'
 

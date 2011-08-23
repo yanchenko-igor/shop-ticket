@@ -9,6 +9,7 @@ from localsite.models import City, Hall, HallScheme, Event, SeatGroupPrice
 from django.contrib.sites.models import Site
 from localsite.forms import *
 from django.http import HttpResponseRedirect
+from satchmo_utils.unique_id import slugify
 from localsite.utils.translit import cyr2lat
 
 def example(request):
@@ -42,6 +43,7 @@ def display_featured(request, page=0, count=0, template='localsite/featured.html
 @user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def wizard_event(request, step='step0', template='localsite/wizard_event.html'):
     wizard = request.session.get('wizard')
+    output = {}
     formsets = []
     form = None
 
@@ -55,7 +57,7 @@ def wizard_event(request, step='step0', template='localsite/wizard_event.html'):
             if form.is_valid() and formsets[0].is_valid():
                 product = form.save(commit=False)
                 product.site = Site.objects.get(id=1)
-                product.slug = cyr2lat(product.name)
+                product.slug = slugify(cyr2lat(product.name))
                 product.save()
                 formsets[0].save()
                 event = formsets[0].instance.event
@@ -86,6 +88,7 @@ def wizard_event(request, step='step0', template='localsite/wizard_event.html'):
         else:
             form = SeatGroupPriceFormset(queryset=event.prices.all())
     elif step == 'step2':
+        template='localsite/wizard_event_dates.html'
         if not wizard:
             return HttpResponseRedirect('/wizards/event/')
         event = wizard['event']
@@ -93,25 +96,27 @@ def wizard_event(request, step='step0', template='localsite/wizard_event.html'):
         if step != 2:
             return HttpResponseRedirect('/wizards/event/')
         if request.method == 'POST':
-            form = EventDateFormInline(request.POST, instance=event)
-            if form.is_valid():
-                form.save()
+            formsets.append(EventDateFormInline(request.POST, instance=event))
+            if formsets[0].is_valid():
+                formsets[0].save()
                 wizard['step'] = 3
                 request.session['wizard'] = wizard
                 return HttpResponseRedirect('/wizards/event/done/')
         else:
-            form = EventDateFormInline(instance=event)
+            formsets.append(EventDateFormInline(instance=event))
     elif step == 'done':
+        template='localsite/wizard_event_done.html'
         if not wizard:
             return HttpResponseRedirect('/wizards/event/')
         event = wizard['event']
+        output['event'] = event
         step = wizard['step']
         if step != 3:
             return HttpResponseRedirect('/wizards/event/')
         event.create_all_variations()
         del request.session['wizard']
+        return HttpResponseRedirect(event.get_absolute_url())
 
-    output = {}
     if form:
         output['form'] = form
     if formsets:
