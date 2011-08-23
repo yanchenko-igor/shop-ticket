@@ -6,8 +6,10 @@ from django.core.paginator import Paginator, InvalidPage
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.formtools.wizard.views import SessionWizardView
 from localsite.models import City, Hall, HallScheme, Event, SeatGroupPrice
+from django.contrib.sites.models import Site
 from localsite.forms import *
 from django.http import HttpResponseRedirect
+from localsite.utils.translit import cyr2lat
 
 def example(request):
     ctx = RequestContext(request, {})
@@ -38,97 +40,81 @@ def display_featured(request, page=0, count=0, template='localsite/featured.html
     return render_to_response(template, context_instance=ctx)
 
 @user_passes_test(lambda u: u.is_staff, login_url='/admin/')
-def wizard_event_step0(request, template='localsite/wizard_event.html'):
+def wizard_event(request, step='step0', template='localsite/wizard_event.html'):
     wizard = request.session.get('wizard')
-    if not wizard:
-        wizard = {}
+    formsets = []
+    form = None
 
-    product = Product()
+    if step == 'step0':
+        if not wizard:
+            wizard = {}
+        product = Product()
+        if request.method == 'POST':
+            form = ProductForm(request.POST, instance=product)
+            formsets.append(EventFormInline(request.POST, instance=product))
+            if form.is_valid() and formsets[0].is_valid():
+                product = form.save(commit=False)
+                product.site = Site.objects.get(id=1)
+                product.slug = cyr2lat(product.name)
+                product.save()
+                formsets[0].save()
+                event = formsets[0].instance.event
+                wizard['event'] = event
+                wizard['step'] = 1
+                request.session['wizard'] = wizard
+                for group in event.hallscheme.seatgroups.all():
+                    price = SeatGroupPrice(event=event, group=group)
+                    price.save()
+                return HttpResponseRedirect('/wizards/event/step1/')
+        else:
+            form = ProductForm(instance=product)
+            formsets.append(EventFormInline(instance=product))
+    elif step == 'step1':
+        if not wizard:
+            return HttpResponseRedirect('/wizards/event/')
+        event = wizard['event']
+        step = wizard['step']
+        if step != 1:
+            return HttpResponseRedirect('/wizards/event/')
+        if request.method == 'POST':
+            form = SeatGroupPriceFormset(request.POST, queryset=event.prices.all())
+            if form.is_valid():
+                form.save()
+                wizard['step'] = 2
+                request.session['wizard'] = wizard
+                return HttpResponseRedirect('/wizards/event/step2/')
+        else:
+            form = SeatGroupPriceFormset(queryset=event.prices.all())
+    elif step == 'step2':
+        if not wizard:
+            return HttpResponseRedirect('/wizards/event/')
+        event = wizard['event']
+        step = wizard['step']
+        if step != 2:
+            return HttpResponseRedirect('/wizards/event/')
+        if request.method == 'POST':
+            form = EventDateFormInline(request.POST, instance=event)
+            if form.is_valid():
+                form.save()
+                wizard['step'] = 3
+                request.session['wizard'] = wizard
+                return HttpResponseRedirect('/wizards/event/done/')
+        else:
+            form = EventDateFormInline(instance=event)
+    elif step == 'done':
+        if not wizard:
+            return HttpResponseRedirect('/wizards/event/')
+        event = wizard['event']
+        step = wizard['step']
+        if step != 3:
+            return HttpResponseRedirect('/wizards/event/')
+        event.create_all_variations()
+        del request.session['wizard']
 
-    if request.method == 'POST':
-
-        productform = ProductForm(request.POST, instance=product)
-        producteventformset = EventFormInline(request.POST, instance=product)
-        if productform.is_valid() and producteventformset.is_valid():
-            productform.save()
-            producteventformset.save()
-            wizard['product'] = productform.instance
-            event = producteventformset.instance.event
-            wizard['event'] = event
-            wizard['step'] = 1
-            request.session['wizard'] = wizard
-            for group in event.hallscheme.seatgroups.all():
-                price = SeatGroupPrice(event=event, group=group)
-                price.save()
-            return HttpResponseRedirect('/wizards/event/step1/')
-    else:
-        productform = ProductForm(instance=product)
-        producteventformset = EventFormInline(instance=product)
-
-    ctx = RequestContext(request, {
-        'form' : productform,
-        'formsets' : [producteventformset,]
-    })
+    output = {}
+    if form:
+        output['form'] = form
+    if formsets:
+        output['formsets'] = formsets
+    ctx = RequestContext(request, output)
     return render_to_response(template, context_instance=ctx)
-
-
-@user_passes_test(lambda u: u.is_staff, login_url='/admin/')
-def wizard_event_step1(request, template='localsite/wizard_event.html'):
-    wizard = request.session.get('wizard')
-    if not wizard:
-        HttpResponseRedirect('/wizards/event/')
-    event = wizard['event']
-
-    if request.method == 'POST':
-
-        priceformset = SeatGroupPriceFormset(request.POST, queryset=event.prices.all())
-        if priceformset.is_valid():
-            priceformset.save()
-            wizard['step'] = 2
-            return HttpResponseRedirect('/wizards/event/step2/')
-    else:
-        priceformset = SeatGroupPriceFormset(queryset=event.prices.all())
-
-    ctx = RequestContext(request, {
-        'form' : priceformset,
-    })
-    return render_to_response(template, context_instance=ctx)
-
-
-@user_passes_test(lambda u: u.is_staff, login_url='/admin/')
-def wizard_event_step2(request, template='localsite/wizard_event.html'):
-    wizard = request.session.get('wizard')
-    if not wizard:
-        HttpResponseRedirect('/wizards/event/')
-    event = wizard['event']
-
-    if request.method == 'POST':
-
-        dateformset = EventDateFormInline(request.POST, instance=event)
-        if dateformset.is_valid():
-            dateformset.save()
-            wizard['step'] = 3
-            return HttpResponseRedirect('/wizards/event/done/')
-    else:
-        dateformset = EventDateFormInline(instance=event)
-
-    ctx = RequestContext(request, {
-        'form' : dateformset,
-    })
-    return render_to_response(template, context_instance=ctx)
-
-
-@user_passes_test(lambda u: u.is_staff, login_url='/admin/')
-def wizard_event_done(request, template='localsite/wizard_event_done.html'):
-    wizard = request.session.get('wizard')
-    if not wizard:
-        HttpResponseRedirect('/wizards/event/')
-    event = wizard['event']
-    
-    event.create_all_variations()
-
-    del request.session['wizard']
-
-    ctx = RequestContext(request, {})
-    return render_to_response(template, context_instance=ctx)
-

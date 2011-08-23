@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     #'debug_toolbar',
     'app_plugins',
     'store.localsite',
+    'store',
     'debug_toolbar',
     'south',
     'django_extensions',
@@ -163,11 +164,8 @@ SATCHMO_SETTINGS = {
     'SHOP_URLS' : patterns('', 
             url(r'^i18n/', include('l10n.urls')),
             url(r'^featured/', 'localsite.views.display_featured', name='localsite_featured'),
-            url(r'^wizards/event/$', 'localsite.views.wizard_event_step0', name='wizard_event_step0'),
-            url(r'^wizards/event/step0/$', 'localsite.views.wizard_event_step0'),
-            url(r'^wizards/event/step1/$', 'localsite.views.wizard_event_step1'),
-            url(r'^wizards/event/step2/$', 'localsite.views.wizard_event_step2'),
-            url(r'^wizards/event/done/$', 'localsite.views.wizard_event_done'),
+            url(r'^wizards/event/$', 'localsite.views.wizard_event', name='wizard_event_step0'),
+            url(r'^wizards/event/(?P<step>.*)/$', 'localsite.views.wizard_event'),
             url(r'^$', 'product.views.filters.display_recent', name='satchmo_shop_home'),
             )
 }

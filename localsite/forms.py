@@ -6,12 +6,14 @@ from localsite.models import *
 from product.models import Product
 from localsite.utils.translit import cyr2lat
 
-EventFormInline = inlineformset_factory(Product, Event)
+EventFormInline = inlineformset_factory(Product, Event, can_delete=False)
 
 class ProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
         self.base_fields['related_items'].queryset = Product.objects.filter(id__in=Event.objects.all())
+        self.fields['related_items'].queryset = Product.objects.filter(id__in=Event.objects.all())
+
     class Meta:
         model = Product
         fields = (
@@ -23,8 +25,8 @@ class ProductForm(forms.ModelForm):
                 'related_items',
                 'active',
                 'featured',
+                'shipclass',
                 'ordering',
-                'site',
                 )
 
 
@@ -59,4 +61,4 @@ class EventDateForm(forms.ModelForm):
     class Meta:
         model = EventDate
 
-EventDateFormInline = inlineformset_factory(Event, EventDate, form=EventDateForm, extra=3)
+EventDateFormInline = inlineformset_factory(Event, EventDate, form=EventDateForm, extra=1)
