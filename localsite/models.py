@@ -109,7 +109,6 @@ class Event(models.Model):
             slug = slugify(cyr2lat('%s_%s_%s' % (self.product.slug, datetime, seat)))
         if not name:
             name=u"%s :: %s :: %s" % (self.product.name, datetime.__unicode__(), seat)
-            print name
 
         if Product.objects.filter(site=site, slug=slug):
             variant = Product.objects.get(site=site, slug=slug)
