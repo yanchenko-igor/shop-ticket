@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-14 05:31+0300\n"
+"POT-Creation-Date: 2011-08-23 11:21+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,19 +30,19 @@ msgstr ""
 msgid "Ukrainian"
 msgstr ""
 
-#: localsite/models.py:21
+#: localsite/models.py:24
 msgid "City"
 msgstr "Город"
 
-#: localsite/models.py:22
+#: localsite/models.py:25
 msgid "Cities"
 msgstr "Города"
 
-#: localsite/models.py:35
+#: localsite/models.py:38
 msgid "Hall"
 msgstr "Площадка"
 
-#: localsite/models.py:36
+#: localsite/models.py:39
 msgid "Halls"
 msgstr "Площадки"
 
@@ -54,67 +54,145 @@ msgstr "Схема зала"
 msgid "Hall Schemes"
 msgstr "Схемы залов"
 
-#: localsite/models.py:65 localsite/models.py:148
+#: localsite/models.py:61 localsite/models.py:210
 msgid "Product"
 msgstr "Товар"
 
-#: localsite/models.py:70
+#: localsite/models.py:66
 msgid "Event"
 msgstr "Событие"
 
-#: localsite/models.py:71
+#: localsite/models.py:67
 msgid "Events"
 msgstr "События"
 
-#: localsite/models.py:89
+#: localsite/models.py:150
 msgid "Event Date"
 msgstr "Дата события"
 
-#: localsite/models.py:90
+#: localsite/models.py:151
 msgid "Event Dates"
 msgstr "Дата события"
 
-#: localsite/models.py:108
+#: localsite/models.py:164
 msgid "Seat Group"
 msgstr ""
 
-#: localsite/models.py:109
+#: localsite/models.py:165
 msgid "Seat Groups"
 msgstr ""
 
-#: localsite/models.py:131
+#: localsite/models.py:181
+msgid "Seat Group Price"
+msgstr ""
+
+#: localsite/models.py:182
+msgid "Seat Group Prices"
+msgstr ""
+
+#: localsite/models.py:198
 msgid "Seat Location"
 msgstr "место"
 
-#: localsite/models.py:132
+#: localsite/models.py:199
 msgid "Seat Locations"
 msgstr "место"
 
-#: localsite/models.py:137
-#, python-format
-msgid "Section: %(sec)s (Row:%(row)s;Col:%(col)s)"
-msgstr "Секция: %(sec)s (Ряд:%(row)s;Место:%(col)s)"
-
-#: localsite/models.py:139
-#, python-format
-msgid "Row:%(row)s;Col:%(col)s"
-msgstr "Ряд:%(row)s;Место:%(col)s"
-
-#: localsite/models.py:141
-msgid "No place"
-msgstr "Без места"
-
-#: localsite/models.py:149
+#: localsite/models.py:211
 msgid "Parent"
 msgstr "Родитель"
 
-#: localsite/models.py:154
+#: localsite/models.py:216
 msgid "Ticket"
 msgstr "Билет"
 
-#: localsite/models.py:155
+#: localsite/models.py:217
 msgid "Tickets"
 msgstr "Билеты"
+
+#: templates/admin/base_site.html:34 templates/admin/base_site.html.py:37
+msgid "Site Administration"
+msgstr ""
+
+#: templates/admin/index.html:20
+msgid "(show)"
+msgstr ""
+
+#: templates/admin/index.html:21
+msgid "(hide)"
+msgstr ""
+
+#: templates/admin/index.html:66
+#, python-format
+msgid "Models available in the %(name)s application."
+msgstr ""
+
+#: templates/admin/index.html:67
+#, python-format
+msgid "%(name)s"
+msgstr ""
+
+#: templates/admin/index.html:77
+msgid "Add"
+msgstr ""
+
+#: templates/admin/index.html:83
+msgid "Change"
+msgstr ""
+
+#: templates/admin/index.html:93
+msgid "You don't have permission to edit anything."
+msgstr ""
+
+#: templates/admin/index.html:101
+#, fuzzy
+msgid "Recent Actions"
+msgstr "место"
+
+#: templates/admin/index.html:103
+msgid "My Actions"
+msgstr ""
+
+#: templates/admin/index.html:107
+msgid "None available"
+msgstr ""
+
+#: templates/admin/index.html:120
+msgid "Admin Tools"
+msgstr ""
+
+#: templates/admin/index.html:124
+msgid "Edit Site Settings"
+msgstr ""
+
+#: templates/admin/index.html:127
+msgid "Edit Inventory"
+msgstr ""
+
+#: templates/admin/index.html:130
+msgid "Export Product Defs"
+msgstr ""
+
+#: templates/admin/index.html:133
+msgid "Product Variation Manager"
+msgstr ""
+
+#: templates/admin/index.html:136
+msgid "Cache Status"
+msgstr ""
+
+#: templates/formtools/wizard/wizard_form.html:16
+msgid "first step"
+msgstr ""
+
+#: templates/formtools/wizard/wizard_form.html:17
+msgid "prev step"
+msgstr ""
+
+#: templates/formtools/wizard/wizard_form.html:19
+#: templates/localsite/wizard_event.html:11
+msgid "submit"
+msgstr ""
 
 #: templates/localsite/featured.html:7 templates/product/best_sellers.html:7
 #: templates/product/category.html:15 templates/product/category_index.html:7
@@ -199,3 +277,12 @@ msgstr ""
 #, python-format
 msgid "This order will be COD for %(order_total)s."
 msgstr ""
+
+#~ msgid "Section: %(sec)s (Row:%(row)s;Col:%(col)s)"
+#~ msgstr "Секция: %(sec)s (Ряд:%(row)s;Место:%(col)s)"
+
+#~ msgid "Row:%(row)s;Col:%(col)s"
+#~ msgstr "Ряд:%(row)s;Место:%(col)s"
+
+#~ msgid "No place"
+#~ msgstr "Без места"
