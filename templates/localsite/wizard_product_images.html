@@ -1,0 +1,24 @@
+{% extends "base.html"%}
+{% load i18n %}
+
+{% block extra-head %}
+    <script src="/static/js/jquery-1.6.2.min.js" type="text/javascript"></script>
+
+        <script src="/static/js/dynamic-formset.js" type="text/javascript"></script>
+
+        {% endblock %}
+
+
+{% block body %}
+
+<form class="form_wizard" enctype="multipart/form-data" action="." method="post" >{% csrf_token %}
+{{ wizard.management_form }}
+        {{ form.as_p }}
+        {% for formset in formsets %}
+        {{ formset.as_p }}
+        {% endfor %}
+
+<input type="submit" name="submit" value="{% trans "submit" %}" />
+</form>
+{% endblock %}
+

@@ -3,7 +3,7 @@ from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from django.forms.models import inlineformset_factory
 from localsite.models import *
-from product.models import Product
+from product.models import Product, ProductImage
 from localsite.utils.translit import cyr2lat
 
 EventFormInline = inlineformset_factory(Product, Event, can_delete=False)
@@ -61,4 +61,6 @@ class EventDateForm(forms.ModelForm):
     class Meta:
         model = EventDate
 
-EventDateFormInline = inlineformset_factory(Event, EventDate, form=EventDateForm, extra=1)
+EventDateFormInline = inlineformset_factory(Event, EventDate, form=EventDateForm, extra=1, can_delete=False)
+
+ProductImageFormInline = inlineformset_factory(Product, ProductImage, extra=1, can_delete=False)
