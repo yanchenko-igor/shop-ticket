@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-23 11:21+0300\n"
+"POT-Creation-Date: 2011-08-26 18:16+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,6 +29,10 @@ msgstr ""
 #: local_settings.py:26
 msgid "Ukrainian"
 msgstr ""
+
+#: localsite/forms.py:42
+msgid "Hall of event"
+msgstr "Площадка проведения"
 
 #: localsite/models.py:24
 msgid "City"
@@ -54,7 +58,7 @@ msgstr "Схема зала"
 msgid "Hall Schemes"
 msgstr "Схемы залов"
 
-#: localsite/models.py:61 localsite/models.py:210
+#: localsite/models.py:61 localsite/models.py:212
 msgid "Product"
 msgstr "Товар"
 
@@ -66,47 +70,47 @@ msgstr "Событие"
 msgid "Events"
 msgstr "События"
 
-#: localsite/models.py:150
+#: localsite/models.py:152
 msgid "Event Date"
 msgstr "Дата события"
 
-#: localsite/models.py:151
+#: localsite/models.py:153
 msgid "Event Dates"
 msgstr "Дата события"
 
-#: localsite/models.py:164
+#: localsite/models.py:166
 msgid "Seat Group"
 msgstr ""
 
-#: localsite/models.py:165
+#: localsite/models.py:167
 msgid "Seat Groups"
 msgstr ""
 
-#: localsite/models.py:181
+#: localsite/models.py:183
 msgid "Seat Group Price"
 msgstr ""
 
-#: localsite/models.py:182
+#: localsite/models.py:184
 msgid "Seat Group Prices"
 msgstr ""
 
-#: localsite/models.py:198
+#: localsite/models.py:200
 msgid "Seat Location"
 msgstr "место"
 
-#: localsite/models.py:199
+#: localsite/models.py:201
 msgid "Seat Locations"
 msgstr "место"
 
-#: localsite/models.py:211
+#: localsite/models.py:213
 msgid "Parent"
 msgstr "Родитель"
 
-#: localsite/models.py:216
+#: localsite/models.py:218
 msgid "Ticket"
 msgstr "Билет"
 
-#: localsite/models.py:217
+#: localsite/models.py:219
 msgid "Tickets"
 msgstr "Билеты"
 
@@ -191,6 +195,8 @@ msgstr ""
 
 #: templates/formtools/wizard/wizard_form.html:19
 #: templates/localsite/wizard_event.html:11
+#: templates/localsite/wizard_event_dates.html:32
+#: templates/localsite/wizard_product_images.html:32
 msgid "submit"
 msgstr ""
 
