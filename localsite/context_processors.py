@@ -2,6 +2,7 @@ from product.models import Category
 from product.models import Product
 from product.queries import bestsellers
 from product.views import display_featured
+from localsite.forms import SelectEventForm
 
 def categories(request):
 
@@ -10,6 +11,7 @@ def categories(request):
         'bestsellers' : bestsellers(5),
         'recent' : Product.objects.recent_by_site()[:6],
         'featured' : display_featured(5, True),
+        'select_event_form': SelectEventForm(),
     }
 
     return ctx

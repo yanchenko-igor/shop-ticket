@@ -4,9 +4,10 @@ from django.forms.models import modelformset_factory
 from django.forms.models import inlineformset_factory
 from django.forms.models import BaseInlineFormSet
 from localsite.models import *
-from product.models import Product, ProductImage
+from product.models import Product, ProductImage, Category
 from localsite.utils.translit import cyr2lat
 from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext as _
 
 class MyModelForm(forms.ModelForm):
     def as_p_d(self):
@@ -34,6 +35,15 @@ class ProductForm(forms.ModelForm):
                 'shipclass',
                 'ordering',
                 )
+
+class SelectEventForm(forms.Form):
+    city = forms.ModelChoiceField(queryset=City.objects.all(), empty_label=None)
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label=None)
+    hall = forms.ModelChoiceField(queryset=Hall.objects.none(), empty_label=_('Hall of event'))
+    min_price = forms.IntegerField()
+    max_price = forms.IntegerField()
+    min_date = forms.DateField(widget=forms.TextInput(attrs={'class':'input_calendar','id':'f_rangeStart'}))
+    max_date = forms.DateField(widget=forms.TextInput(attrs={'class':'input_calendar','id':'f_rangeStart2'}))
 
 
 class EventForm(forms.ModelForm):
