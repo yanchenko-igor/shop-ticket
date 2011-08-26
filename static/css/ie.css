@@ -5,7 +5,8 @@
     _display: none;
 }
 .form_search_top, .search_bg, .heading_bg, .curve_gray_top, .curve_gray_bott,
-.curve_gray_body,.form_search_footer, .curve_body{
+.curve_gray_body,.form_search_footer, .curve_body, .visual_list_footer2, .textarea_wrap,
+.wraper_visual_list{
     *zoom: 1;
 }
 
@@ -17,5 +18,14 @@
     _line-height: 1.0;
     _height: auto;
     _padding-top: 30px;
-
+}
+.tab_activ{
+    _height: 40px;
+    *zoom: 1;
+}
+.wraper_tab{
+    _height: auto;
+}
+.feed_img_wrap a, .feed_list_img a{
+    *display: block;
 }

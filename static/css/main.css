@@ -699,7 +699,7 @@ optgroup option {
 .feed {}
 .feed li{
     float: left;
-    width: 206px;
+    width: 205px;
     padding-right: 10px;
     padding-bottom: 15px;
 
@@ -757,12 +757,28 @@ optgroup option {
     color: #171717;
     text-decoration: none;
 }
+.feed_img:hover .feed_img_bl{
+    display: block;
+}
 .feed_img_bl{
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     background: url(/static/images/transparent_bg.png);
+    display: none;
+}
+.feed_img_bl_txt{
+    padding: 6px  0 6px 14px;
+    color: #fff;
+}
+    .feed_img_bl_txt p{
+        padding: 0;
+    }
+.feed_img_bl_txt a{
+    color: #f14743;
+    font-size: 12px;
+    text-decoration: none;
 }
 .heading_bg{
     background: #1a1a1a url(/static/images/heading_bg.jpg) repeat-x;
@@ -941,7 +957,7 @@ optgroup option {
     padding-bottom: 10px;
 }
 .selection_name{
-    width: 60px;
+    width: 54px;
     color: #555;
 }
 .selection_from{
@@ -949,20 +965,22 @@ optgroup option {
     width: 20px;
 }
 .selection_input{
-    width: 82px;
+    width: 94px;
 }
 .selection_to{
     color: #888;
-    padding-left: 10px;
+    text-align: center;
 }
 .icon_calendar{
     padding-top: 3px;
-    margin-right: -15px;
+    margin-right: -25px;
     vertical-align: middle;
+    cursor: pointer;
 }
 .input_calendar{
     vertical-align: middle;
-    width: 42px !important;
+    width: 55px !important;
+    font-size: 10px !important;
 }
 
 .banner_right{
@@ -1325,6 +1343,10 @@ td.basked_td_price{
 }
 
 /*---------------form_wizard--------------*/
+.wraper_form{
+    width: 1000px;
+    margin: 10px auto;
+}
 
 .form_wizard{
     width: 1000px;
@@ -1334,7 +1356,7 @@ td.basked_td_price{
 .form_wizard p{
     padding-bottom: 20px;
 }
-.form_wizard p:after {
+.form_wizard p:after, .form_wizard .dynamic-form:after {
     clear: both;
     display: block;
     visibility: hidden;
@@ -1343,14 +1365,24 @@ td.basked_td_price{
     line-height: 0;
     font-size: 0;
 }
-.form_wizard p {
+.form_wizard p, .form_wizard .dynamic-form {
     *zoom: 1; /* IE7 */
     _height: 1%; /* IE6 */
 }
+.p_float, .p_float:after{
+    float: left;
+    clear: none !important;
+    padding-bottom: 5px !important;
+}
+.dynamic-form{
+    margin-bottom: 10px;
+}
+
+
 .form_wizard label{
     float: left;
     width: 150px;
-    padding-left: 10px;
+    padding-right: 10px;
 }
 .form_wizard select, .form_wizard textarea, .form_wizard input{
     float:left;
@@ -1360,6 +1392,15 @@ td.basked_td_price{
     padding-left: 10px;
     font-size: 11px;
     width: 200px;
+}
+.add-row{
+    color: red;
+    float: left;
+}
+.delete-row{
+    color: red;
+    padding-left: 4px;
+    font-size: 18px;
 }
 
 /*---------------/form_wizard--------------*/
