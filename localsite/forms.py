@@ -2,11 +2,17 @@ from django import forms
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from django.forms.models import inlineformset_factory
+from django.forms.models import BaseInlineFormSet
 from localsite.models import *
 from product.models import Product, ProductImage
 from localsite.utils.translit import cyr2lat
+from django.utils.safestring import mark_safe
 
-EventFormInline = inlineformset_factory(Product, Event, can_delete=False)
+class MyModelForm(forms.ModelForm):
+    def as_p_d(self):
+        return u'''<div id="%(prefix)s-row" class="dynamic-form">
+        %(as_p)s\n<a href="javascript:void(0)" class="delete-row"></a>\n</div>''' % \
+                {'as_p':self.as_p(), 'prefix':self.prefix}
 
 class ProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -57,10 +63,21 @@ class SeatGroupPriceForm(forms.ModelForm):
 
 SeatGroupPriceFormset = modelformset_factory(SeatGroupPrice, form=SeatGroupPriceForm, extra=0)
 
-class EventDateForm(forms.ModelForm):
+class EventDateForm(MyModelForm):
     class Meta:
         model = EventDate
 
-EventDateFormInline = inlineformset_factory(Event, EventDate, form=EventDateForm, extra=1, can_delete=False)
+class ProductImageForm(MyModelForm):
+    class Meta:
+        model = ProductImage
+        exclude = ('sort',)
 
-ProductImageFormInline = inlineformset_factory(Product, ProductImage, extra=1, can_delete=False)
+class MyBaseInlineFormSet(BaseInlineFormSet):
+    def as_p_d(self):
+        forms = u' '.join([form.as_p_d() for form in self])
+        return mark_safe(u'\n'.join([unicode(self.management_form),
+            forms, '<p><a href="javascript:void(0)" class="add-row">add</a></p>']))
+
+EventDateFormInline = inlineformset_factory(Event, EventDate, form=EventDateForm, formset=MyBaseInlineFormSet, extra=1, can_delete=False)
+ProductImageFormInline = inlineformset_factory(Product, ProductImage, form=ProductImageForm, formset=MyBaseInlineFormSet, extra=1, can_delete=False)
+EventFormInline = inlineformset_factory(Product, Event, can_delete=False)

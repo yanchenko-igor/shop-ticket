@@ -10,15 +10,27 @@
 
 
 {% block body %}
+<body>
+            <script type="text/javascript">
+            <!--
+            $(function () {
+                $('.add-row').click(function() {
+                    return addForm(this, 'productimage_set');
+                });
+                $('.delete-row').click(function() {
+                    return deleteForm(this, 'productimage_set');
+                })
+            })
+            //-->
+            </script>
 
 <form class="form_wizard" enctype="multipart/form-data" action="." method="post" >{% csrf_token %}
-{{ wizard.management_form }}
-        {{ form.as_p }}
+        {{ form.as_p_d }}
         {% for formset in formsets %}
-        {{ formset.as_p }}
+        {{ formset.as_p_d }}
         {% endfor %}
-
 <input type="submit" name="submit" value="{% trans "submit" %}" />
 </form>
+</body>
 {% endblock %}
 

@@ -10,9 +10,8 @@
 
 
 {% block body %}
-<div class="wraper_form">
-
-             <script type="text/javascript">
+<body>
+            <script type="text/javascript">
             <!--
             $(function () {
                 $('.add-row').click(function() {
@@ -24,32 +23,14 @@
             })
             //-->
             </script>
+
 <form class="form_wizard" action="." method="post" >{% csrf_token %}
-  {% for formset in formsets %}
-        {{ formset.management_form }}
-
-
-
-
-
-    {% for form in formset %}
-        <div class="hidden">
-        {% for field in form.hidden_fields %}
-           {{ field }}
+        {{ form.as_p_d }}
+        {% for formset in formsets %}
+        {{ formset.as_p_d }}
         {% endfor %}
-        </div>
-
-<p id="{{ form.prefix }}-row" class="dynamic-form">
-<label for="id_{{ form.prefix }}-datetime">{{ form.datetime.label }}:</label> {{ form.datetime }} <a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row">-</a>
-</p>
-    {% endfor %}
-
-  {% endfor %}
-
-  <a href="javascript:void(0)" class="add-row">add</a>
-
 <input type="submit" name="submit" value="{% trans "submit" %}" />
 </form>
-  </div>
+</body>
 {% endblock %}
 
