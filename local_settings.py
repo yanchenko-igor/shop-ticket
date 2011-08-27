@@ -1,4 +1,5 @@
 # this is an extremely simple Satchmo standalone store.
+# -*- coding: UTF-8 -*-
 
 import logging
 import os, os.path
@@ -61,6 +62,16 @@ CACHE_TIMEOUT = 60*5
 CACHE_PREFIX = "Z"
 
 ACCOUNT_ACTIVATION_DAYS = 7
+
+L10N_SETTINGS = {
+  'currency_formats' : {
+     'UAH' : {'symbol': u'₴', 'positive' : u"%(val)0.2f грн.", 'negative': u"(%(val)0.2f грн.)",
+               'decimal' : ','},
+  },
+  'default_currency' : 'UAH',
+  'show_admin_translations': False,
+  'allow_translation_choice': False,
+}
 
 #Configure logging
 LOGFILE = "satchmo.log"
