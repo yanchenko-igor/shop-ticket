@@ -11,6 +11,22 @@ from localsite.forms import *
 from django.http import HttpResponseRedirect
 from satchmo_utils.unique_id import slugify
 from localsite.utils.translit import cyr2lat
+from django.core.serializers import json, serialize
+from django.db.models.query import QuerySet
+from django.http import HttpResponse
+from django.utils import simplejson
+
+class JsonResponse(HttpResponse):
+    def __init__(self, object):
+        if isinstance(object, QuerySet):
+            content = serialize('json', object)
+        else:
+            content = simplejson.dumps(
+                object, indent=0, cls=json.DjangoJSONEncoder,
+                ensure_ascii=False)
+        super(JsonResponse, self).__init__(
+            content, content_type='application/json')
+
 
 def example(request):
     ctx = RequestContext(request, {})
@@ -39,6 +55,13 @@ def display_featured(request, page=0, count=0, template='localsite/featured.html
         'paginator' : paginator,
     })
     return render_to_response(template, context_instance=ctx)
+
+def ajax_select_city(request):
+    if request.method == 'POST':
+        form = SelectCityForm(request.POST)
+        if form.is_valid():
+            city = form.cleaned_data['city']
+    return JsonResponse([dict([[hall.id,hall.name]]) for hall in city.halls.all()])
 
 @user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def wizard_event(request, step='step0', template='localsite/wizard_event.html'):
