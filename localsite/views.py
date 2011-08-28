@@ -15,6 +15,7 @@ from django.core.serializers import json, serialize
 from django.db.models.query import QuerySet
 from django.http import HttpResponse
 from django.utils import simplejson
+from django.utils.translation import ugettext as _
 
 class JsonResponse(HttpResponse):
     def __init__(self, object):
@@ -61,7 +62,8 @@ def ajax_select_city(request):
         form = SelectCityForm(request.POST)
         if form.is_valid():
             city = form.cleaned_data['city']
-    return JsonResponse([dict([[hall.id,hall.name]]) for hall in city.halls.all()])
+            return JsonResponse([dict([[hall.id,hall.name]]) for hall in city.halls.all()])
+    return JsonResponse([{"":_('Hall of event')}])
 
 @user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def wizard_event(request, step='step0', template='localsite/wizard_event.html'):
