@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Max, Min
 from django.utils.translation import ugettext as _
 from tagging.fields import TagField
 from django.core.urlresolvers import reverse
@@ -75,6 +76,18 @@ class Event(models.Model):
     
     def get_absolute_url(self):
         return self.product.get_absolute_url()
+
+    def save(self, *args, **kwargs):
+        dates = self.dates.aggregate(Min('datetime'), Max('datetime'))
+        prices = self.prices.aggregate(Min('price'), Max('price'))
+        self.min_date = dates['datetime__min']
+        self.max_date = dates['datetime__max']
+        self.min_price = prices['price__min']
+        self.max_price = prices['price__max']
+        super(Event, self).save(*args, **kwargs)
+
+    def __init__(self, *args, **kwargs):
+        super(Event, self).__init__(*args, **kwargs)
 
     def _get_subtype(self):
         return 'Event'
@@ -160,6 +173,22 @@ class EventDate(models.Model):
     def __unicode__(self):
         return u"%s" % self.datetime.strftime("%d.%m.%Y %H:%M")
     
+    def save(self, *args, **kwargs):
+        if not self.event.min_date:
+            self.event.min_date = self.datetime
+            self.event.save()
+        if not self.event.max_date:
+            self.event.max_date = self.datetime
+            self.event.save()
+        if self.datetime < self.event.min_date:
+            self.event.min_date = self.datetime
+            self.event.save()
+        elif self.datetime > self.event.max_date:
+            self.event.max_date = self.datetime
+            self.event.save()
+        super(EventDate, self).save(*args, **kwargs)
+
+
 class SeatGroup(models.Model):
     """docstring for SeatGroup"""
     hallscheme = models.ForeignKey('HallScheme', related_name='seatgroups')
@@ -190,6 +219,15 @@ class SeatGroupPrice(models.Model):
     
     def __unicode__(self):
         return u"%s - %s - %s" % (self.event.product.name, self.group.name, self.price)
+
+    def save(self, *args, **kwargs):
+        if self.price < self.event.min_price:
+            self.event.min_price = self.price
+            self.event.save()
+        elif self.price > self.event.max_price:
+            self.event.max_price = self.price
+            self.event.save()
+        super(SeatGroupPrice, self).save(*args, **kwargs)
 
 class SeatLocation(models.Model):
     """docstring for SeatLocation"""
