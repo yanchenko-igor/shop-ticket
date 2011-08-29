@@ -9,6 +9,10 @@ from localsite.utils.translit import cyr2lat
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
+class MyModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.name
+
 class MyModelForm(forms.ModelForm):
     def as_p_d(self):
         return u'''<div id="%(prefix)s-row" class="dynamic-form">
@@ -41,7 +45,7 @@ class SelectCityForm(forms.Form):
 
 class SelectEventForm(forms.Form):
     category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label=None)
-    hall = forms.ModelChoiceField(queryset=City.objects.all()[0].halls.all(), empty_label=_('Hall of event'))
+    hall = MyModelChoiceField(queryset=City.objects.all()[0].halls.all(), empty_label=_('Hall of event'))
     min_price = forms.IntegerField()
     max_price = forms.IntegerField()
     min_date = forms.DateField(widget=forms.TextInput(attrs={'class':'input_calendar','id':'f_rangeStart'}))

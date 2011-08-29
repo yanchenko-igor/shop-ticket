@@ -62,7 +62,7 @@ def ajax_select_city(request):
         form = SelectCityForm(request.POST)
         if form.is_valid():
             city = form.cleaned_data['city']
-            return JsonResponse([dict([[hall.id,hall.name]]) for hall in city.halls.all()])
+            return JsonResponse([{"":_('Hall of event')}] + [dict([[hall.id,hall.name]]) for hall in city.halls.all()])
     return JsonResponse([{"":_('Hall of event')}])
 
 @user_passes_test(lambda u: u.is_staff, login_url='/admin/')
