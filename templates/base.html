@@ -228,7 +228,16 @@
                                                 <div class="input2">
 
                                                     {{ select_event_form.min_date }}
-                                                    <img class="icon_calendar" id="f_rangeStart_trigger" src="{{ media_url }}images/icon_calendar.jpg"  alt="" />
+                                                    <img class="icon_calendar" id="{{ select_event_form.min_date.id_for_label }}_trigger" src="{{ media_url }}images/icon_calendar.jpg"  alt="" />
+                                                    <script type="text/javascript">
+                                                           var {{ select_event_form.min_date.id_for_label }}_CAL = new Calendar({
+                                                                  inputField: "{{ select_event_form.min_date.id_for_label }}",
+                                                                  dateFormat: "%d/%m/%Y",
+                                                                  trigger: "{{ select_event_form.min_date.id_for_label }}_trigger",
+                                                                  //showTime: 24,
+                                                                  onSelect   : function() { this.hide() }
+                                                          });
+                                                    </script>
                                                 </div>
                                             </div>
                                         </td>
@@ -237,7 +246,16 @@
                                             <div class="input">
                                                 <div class="input2" >
                                                     {{ select_event_form.max_date }}
-                                                    <img class="icon_calendar" id="f_rangeStart2_trigger" src="{{ media_url }}images/icon_calendar.jpg" alt="" />
+                                                    <img class="icon_calendar" id="{{ select_event_form.max_date.id_for_label }}_trigger" src="{{ media_url }}images/icon_calendar.jpg"  alt="" />
+                                                    <script type="text/javascript">
+                                                           var {{ select_event_form.max_date.id_for_label }}_CAL = new Calendar({
+                                                                  inputField: "{{ select_event_form.max_date.id_for_label }}",
+                                                                  dateFormat: "%d/%m/%Y",
+                                                                  trigger: "{{ select_event_form.max_date.id_for_label }}_trigger",
+                                                                  //showTime: 24,
+                                                                  onSelect   : function() { this.hide() }
+                                                          });
+                                                    </script>
                                                 </div>
                                             </div>
                                         </td>
@@ -249,21 +267,6 @@ $(function()
 {
 	$('#id_city').chainSelect('#id_hall','{% url ajax_select_city %}');
 });
-                                      var RANGE_CAL_1 = new Calendar({
-                                              inputField: "f_rangeStart",
-                                              dateFormat: "%d/%m/%Y",
-                                              trigger: "f_rangeStart_trigger",
-                                              //showTime: 24,
-                                              onSelect   : function() { this.hide() }
-                                      });
-
-                                       var RANGE_CAL_2 = new Calendar({
-                                              inputField: "f_rangeStart2",
-                                              dateFormat: "%d/%m/%Y",
-                                              trigger: "f_rangeStart2_trigger",
-                                              //showTime: 24,
-                                              onSelect   : function() { this.hide() }
-                                      });
                                 </script>
                             </form>
                         </div>

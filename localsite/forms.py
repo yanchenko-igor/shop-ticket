@@ -37,15 +37,15 @@ class ProductForm(forms.ModelForm):
                 )
 
 class SelectCityForm(forms.Form):
-    city = forms.ModelChoiceField(queryset=City.objects.all(), empty_label=None)
+    city = forms.ModelChoiceField(queryset=City.objects.all(), empty_label=_('City'))
 
 class SelectEventForm(forms.Form):
     category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label=None)
-    hall = forms.ModelChoiceField(queryset=City.objects.all()[0].halls.all(), empty_label=_('Hall of event'))
+    hall = forms.ModelChoiceField(queryset=Hall.objects.none(), empty_label=_('Hall of event'))
     min_price = forms.IntegerField()
     max_price = forms.IntegerField()
-    min_date = forms.DateField(widget=forms.TextInput(attrs={'class':'input_calendar','id':'f_rangeStart'}))
-    max_date = forms.DateField(widget=forms.TextInput(attrs={'class':'input_calendar','id':'f_rangeStart2'}))
+    min_date = forms.DateField(widget=forms.TextInput(attrs={'class':'input_calendar'}))
+    max_date = forms.DateField(widget=forms.TextInput(attrs={'class':'input_calendar'}))
 
 
 class EventForm(forms.ModelForm):
