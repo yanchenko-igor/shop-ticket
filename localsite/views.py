@@ -16,6 +16,7 @@ from django.db.models.query import QuerySet
 from django.http import HttpResponse
 from django.utils import simplejson
 from django.utils.translation import ugettext as _
+from django.db.models import Q
 
 class JsonResponse(HttpResponse):
     def __init__(self, object):
@@ -54,6 +55,42 @@ def display_featured(request, page=0, count=0, template='localsite/featured.html
     ctx = RequestContext(request, {
         'page' : currentpage,
         'paginator' : paginator,
+    })
+    return render_to_response(template, context_instance=ctx)
+        
+def select_event(request, template='localsite/select_event.html'):
+    events = Event.objects.none()
+    form_city = None
+    form_event = None
+    if request.method == 'POST':
+        form_city = SelectCityForm(request.POST)
+        if form_city.is_valid():
+            city = form_city.cleaned_data['city']
+            form_event = SelectEventForm(request.POST)
+            form_event.fields['hall'].queryset = city.halls.all()
+            if form_event.is_valid():
+                hall = form_event.cleaned_data['hall']
+                category = form_event.cleaned_data['category']
+                min_price = form_event.cleaned_data['min_price']
+                max_price = form_event.cleaned_data['max_price']
+                min_date = form_event.cleaned_data['min_date']
+                max_date = form_event.cleaned_data['max_date']
+                events = Event.objects.filter(
+                        Q(min_price__gte=min_price) | Q(max_price__gte=min_price),
+                        Q(max_price__lte=max_price) | Q(min_price__lte=max_price), 
+                        Q(min_date__gte=min_date) | Q(max_date__gte=min_date),
+                        Q(max_date__lte=max_date) | Q(min_date__lte=max_date)
+                        )
+     
+
+    if not form_city:
+        form_city = SelectCityForm()
+    if not form_event:
+        form_event = SelectEventForm()
+    ctx = RequestContext(request, {
+        'events': events,
+        'form_city': form_city,
+        'form_event': form_event,
     })
     return render_to_response(template, context_instance=ctx)
 

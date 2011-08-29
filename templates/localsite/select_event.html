@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load thumbnail %}
+
+{% block content %}
+
+
+
+
+                    <div class="wrap_line">
+                        <ul id="event_list" class="feed reset_list clearfix">
+                        {% for event in events %}
+                        <li{% cycle '' '' ' class="last"' %}>
+                            <div class="feed_img">
+                                <div class="feed_img_wrap">
+                                    {% thumbnail event.product.main_image.picture 215x134 as image %}
+                                    <a href="{{ event.product.get_absolute_url }}"><img src="{{ image }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                </div>
+                                <div class="feed_img_bl">
+                                    <div class="feed_img_bl_txt">
+                                        <p>{{ event.hallscheme.hall.name }}</p>
+                                        <a href="#">выбрать место и дату</a><img alt="" src="images/icon_arrow.gif">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="feed_date">
+                                {% for date in event.dates.all %}
+                                {% ifchanged date.datetime.date %}<p>{{ date.datetime|date:"d E" }}{% endifchanged %}
+                                {% ifchanged date.datetime.date date.datetime.hour %}{{ date.datetime|date:"H:i" }}{% else %}</p>{% endifchanged %}
+                                {% endfor %}
+                            </div>
+                            <div class="feed_txt">
+                                <a href="#">{{ event.product.short_description }}</a>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    </div>
+
+
+
+
+
+
+{% for event in events %}
+    {{ event }}
+{% endfor %}
+{% endblock %}
+{% block selection_events %}
+
+                            <form class="selection_events_form" action="" method="post">{% csrf_token %}
+                                {{ form_city.errors }}
+                                {{ form_event.errors }}
+
+                                {{ form_city.city }}
+                                {{ form_event.category }}
+                                {{ form_event.hall }}
+
+                                <table class="tab_selection">
+                                    <tr>
+                                        <td class="selection_name">По цене:</td>
+                                        <td class="selection_from">от</td>
+                                        <td class="selection_input">
+                                            <div class="input">
+                                                <div class="input2">
+                                                    {{ form_event.min_price }}
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="selection_to">до</td>
+                                        <td class="selection_input">
+                                            <div class="input">
+                                                <div class="input2">
+                                                    {{ form_event.max_price }}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td class="selection_name">По дате:</td>
+                                        <td class="selection_from">от</td>
+                                        <td class="selection_input">
+                                            <div class="input">
+                                                <div class="input2">
+
+                                                    {{ form_event.min_date }}
+                                                    <img class="icon_calendar" id="{{ form_event.min_date.id_for_label }}_trigger" src="{{ media_url }}images/icon_calendar.jpg"  alt="" />
+                                                    <script type="text/javascript">
+                                                           var {{ form_event.min_date.id_for_label }}_CAL = new Calendar({
+                                                                  inputField: "{{ form_event.min_date.id_for_label }}",
+                                                                  dateFormat: "%Y-%m-%d",
+                                                                  trigger: "{{ form_event.min_date.id_for_label }}_trigger",
+                                                                  //showTime: 24,
+                                                                  onSelect   : function() { this.hide() }
+                                                          });
+                                                    </script>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="selection_to">до</td>
+                                        <td class="selection_input">
+                                            <div class="input">
+                                                <div class="input2" >
+                                                    {{ form_event.max_date }}
+                                                    <img class="icon_calendar" id="{{ form_event.max_date.id_for_label }}_trigger" src="{{ media_url }}images/icon_calendar.jpg"  alt="" />
+                                                    <script type="text/javascript">
+                                                           var {{ form_event.max_date.id_for_label }}_CAL = new Calendar({
+                                                                  inputField: "{{ form_event.max_date.id_for_label }}",
+                                                                  dateFormat: "%Y-%m-%d",
+                                                                  trigger: "{{ form_event.max_date.id_for_label }}_trigger",
+                                                                  //showTime: 24,
+                                                                  onSelect   : function() { this.hide() }
+                                                          });
+                                                    </script>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                </table>
+                                <script type="text/javascript">
+$(function()
+{
+	$('#id_city').chainSelect('#id_hall','{% url ajax_select_city %}');
+});
+                                </script>
+<input type="submit" name="submit" value="{% trans "submit" %}" />
+                            </form>
+
+{% endblock %}
