@@ -60,6 +60,10 @@ class Event(models.Model):
     """docstring for Event"""
     product = models.OneToOneField(Product, verbose_name=_('Product'), primary_key=True)
     hallscheme = models.ForeignKey(HallScheme, related_name='events')
+    min_price = models.IntegerField(null=True, blank=True, editable=False)
+    max_price = models.IntegerField(null=True, blank=True, editable=False)
+    min_date = models.DateField(null=True, blank=True, editable=False)
+    max_date = models.DateField(null=True, blank=True, editable=False)
     tags = TagField()
     
     class Meta:
