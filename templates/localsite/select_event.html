@@ -13,13 +13,13 @@
                         <li{% cycle '' '' ' class="last"' %}>
                             <div class="feed_img">
                                 <div class="feed_img_wrap">
-                                    {% if product.main_image.picture|is_portrait %}
-                                          {% thumbnail product.main_image.picture "215x134" crop="50% 25%" as image %}
-                                          <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                    {% if event.product.main_image.picture|is_portrait %}
+                                          {% thumbnail event.product.main_image.picture "215x134" crop="50% 25%" as image %}
+                                          <a href="{{ event.product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
                                           {% endthumbnail %}
                                     {% else %}
-                                          {% thumbnail product.main_image.picture "215x134" crop="center" as image %}
-                                          <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                          {% thumbnail event.product.main_image.picture "215x134" crop="center" as image %}
+                                          <a href="{{ event.product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
                                           {% endthumbnail %}
                                     {% endif %}
                                 </div>
