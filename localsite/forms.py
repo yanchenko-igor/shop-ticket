@@ -19,6 +19,12 @@ class MyModelForm(forms.ModelForm):
         %(as_p)s\n<a href="javascript:void(0)" class="delete-row"></a>\n</div>''' % \
                 {'as_p':self.as_p(), 'prefix':self.prefix}
 
+class MyDateInput(forms.DateInput):
+    def render(self, name, value, attrs=None):
+        final_attrs = self.build_attrs(attrs, **{'class':'input_calendar'})
+        result = super(MyDateInput, self).render(name, value, final_attrs)
+        return mark_safe(u'%s<img alt="" src="/static/images/icon_calendar.jpg" id="%s_trigger" class="icon_calendar">' % (result,final_attrs['id']))
+
 class ProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
@@ -48,8 +54,8 @@ class SelectEventForm(forms.Form):
     hall = MyModelChoiceField(queryset=City.objects.all()[0].halls.all(), empty_label=_('Hall of event'))
     min_price = forms.IntegerField()
     max_price = forms.IntegerField()
-    min_date = forms.DateField(widget=forms.TextInput(attrs={'class':'input_calendar','id':'f_rangeStart'}))
-    max_date = forms.DateField(widget=forms.TextInput(attrs={'class':'input_calendar','id':'f_rangeStart2'}))
+    min_date = forms.DateField(widget=MyDateInput())
+    max_date = forms.DateField(widget=MyDateInput())
 
 
 class EventForm(forms.ModelForm):
