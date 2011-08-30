@@ -45,7 +45,7 @@ class Hall(models.Model):
     
 class HallScheme(models.Model):
     """docstring for HallScheme"""
-    name = models.CharField(max_length=75, unique=True)
+    name = models.CharField(max_length=75)
     hall = models.ForeignKey('Hall', related_name='schemes')
     substrate = models.FileField(upload_to='substrates', max_length=100)
 
@@ -53,6 +53,7 @@ class HallScheme(models.Model):
     class Meta:
         verbose_name = _("Hall Scheme")
         verbose_name_plural = _("Hall Schemes")
+        unique_together = (('name', 'hall'),)
         
     def __unicode__(self):
         return u"%s: %s" % (self.hall, self.name)
@@ -177,11 +178,11 @@ class EventDate(models.Model):
         if not self.event.min_date:
             self.event.min_date = self.datetime
             self.event.save()
+        elif self.datetime < self.event.min_date:
+            self.event.min_date = self.datetime
+            self.event.save()
         if not self.event.max_date:
             self.event.max_date = self.datetime
-            self.event.save()
-        if self.datetime < self.event.min_date:
-            self.event.min_date = self.datetime
             self.event.save()
         elif self.datetime > self.event.max_date:
             self.event.max_date = self.datetime

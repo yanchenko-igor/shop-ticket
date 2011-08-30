@@ -60,12 +60,12 @@ class SelectCityForm(forms.Form):
     city = forms.ModelChoiceField(queryset=City.objects.all(), empty_label=None)
 
 class SelectEventForm(forms.Form):
-    category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label=None)
-    hall = MyModelChoiceField(queryset=City.objects.all()[0].halls.all(), empty_label=_('Hall of event'))
-    min_price = forms.IntegerField()
-    max_price = forms.IntegerField()
-    min_date = forms.DateField(widget=MyDateInput())
-    max_date = forms.DateField(widget=MyDateInput())
+    category = forms.ModelChoiceField(required=False, queryset=Category.objects.all(), empty_label=_('Category genre'))
+    hall = MyModelChoiceField(required=False, queryset=City.objects.all()[0].halls.all(), empty_label=_('Hall of event'))
+    min_price = forms.IntegerField(required=False, )
+    max_price = forms.IntegerField(required=False, )
+    min_date = forms.DateField(required=False, widget=MyDateInput())
+    max_date = forms.DateField(required=False, widget=MyDateInput())
 
 
 class EventForm(forms.ModelForm):
