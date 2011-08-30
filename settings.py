@@ -164,6 +164,7 @@ SATCHMO_SETTINGS = {
     'SHOP_URLS' : patterns('', 
             url(r'^i18n/', include('l10n.urls')),
             url(r'^featured/', 'localsite.views.display_featured', name='localsite_featured'),
+            url(r'^events/$', 'localsite.views.select_event', name='select_event'),
             url(r'^ajax_select_city/$', 'localsite.views.ajax_select_city', name='ajax_select_city'),
             url(r'^wizards/event/$', 'localsite.views.wizard_event', name='wizard_event_step0'),
             url(r'^wizards/event/(?P<step>.*)/$', 'localsite.views.wizard_event'),

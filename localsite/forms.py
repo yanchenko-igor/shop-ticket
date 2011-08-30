@@ -47,7 +47,7 @@ class ProductForm(forms.ModelForm):
                 )
 
 class SelectCityForm(forms.Form):
-    city = forms.ModelChoiceField(queryset=City.objects.all(), empty_label=None)
+    city = forms.ModelChoiceField(queryset=City.objects.all(), empty_label=_('City'))
 
 class SelectEventForm(forms.Form):
     category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label=None)
