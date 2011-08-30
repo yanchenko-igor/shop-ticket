@@ -31,10 +31,7 @@
                                 </div>
                             </div>
                             <div class="feed_date">
-                                {% for date in event.dates.all %}
-                                {% ifchanged date.datetime.date %}<p>{{ date.datetime|date:"d E" }}{% endifchanged %}
-                                {% ifchanged date.datetime.date date.datetime.hour %}{{ date.datetime|date:"H:i" }}{% else %}</p>{% endifchanged %}
-                                {% endfor %}
+                                {% for date in event.dates.all %}{% ifchanged date.datetime.date %}{% if forloop.first %}{% else %}</p>{% endif %}<p>{{ date.datetime|date:"j E" }}{% else %}, {% endifchanged %} {{ date.datetime|date:"H:i" }}{% if forloop.last %}</p>{% endif %}{% endfor %}
                             </div>
                             <div class="feed_txt">
                                 <a href="#">{{ event.product.short_description }}</a>

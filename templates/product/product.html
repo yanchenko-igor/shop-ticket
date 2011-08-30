@@ -81,13 +81,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
                         </div>
                         <div class="wrap_event_date">
                             <ul class="event_date reset_list clearfix">
-                                <li>
-                                    30 мая 2012, Вторник <span class="event_date_time">19:00, 21:00</span>
-                                </li>
-                                <li class="last">
-                                    1 юня 2012, Четверг <span class="event_date_time">16:30, 21:00</span>
-                                </li>
-
+                                {% for date in product.event.dates.all %}{% ifchanged date.datetime.date %}{% if forloop.first %}{% else %}</span></li>{% endif %}<li>{{ date.datetime|date:"j E Y, l" }}<span class="event_date_time">{% else %}, {% endifchanged %} {{ date.datetime|date:"H:i" }}{% if forloop.last %}</span></li>{% endif %}{% endfor %}
                             </ul>
                         </div>
                         <div class="wrap_article">
