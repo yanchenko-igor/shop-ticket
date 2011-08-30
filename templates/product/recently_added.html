@@ -42,7 +42,7 @@
                             <ul class="reset_list" id="carousel">
                                 {% for announcement in announcements %}
                                 <li>
-                                      {% thumbnail announcement.event.product.main_image.picture 637x298 as image %}
+                                      {% thumbnail announcement.event.product.main_image.picture 637x298 crop="center" as image %}
                                       <img src="{{ image }}" alt="" />
                                     <div class="visual_list_footer">
                                         <div class="visual_list_footer2">
