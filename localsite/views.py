@@ -123,6 +123,7 @@ def wizard_event(request, step='step0', template='localsite/wizard_event.html'):
                 product.site = Site.objects.get(id=1)
                 product.slug = slugify(cyr2lat(product.name))
                 product.save()
+                form.save_m2m()
                 formsets[0].save()
                 event = formsets[0].instance.event
                 wizard['event'] = event
