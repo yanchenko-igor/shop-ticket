@@ -18,11 +18,13 @@
               {% thumbnail product.main_image.picture 215x134 as image %}
               <a href="{{ product.get_absolute_url }}"><img src="{{ image }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
         </div>
-        {% if product.main_category %}
         <div class="feed_tag">
-            <a href="{{ product.main_category.get_absolute_url }}">{{ product.main_category.translated_name }}</a>
-        </div>
+        {% if product.main_category %}
+            <a href="{{ product.main_category.get_absolute_url }}">{{ product.main_category.translated_name }}</a> &nbsp; 23 мая
+        {% else %}
+            &nbsp;
         {% endif %}
+        </div>
         <div class="feed_txt">
             <p><a href="{{ product.get_absolute_url }}">{{ product.translated_name }}</a></p>
         </div>
