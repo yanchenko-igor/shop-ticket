@@ -42,8 +42,13 @@
                             <ul class="reset_list" id="carousel">
                                 {% for announcement in announcements %}
                                 <li>
+                                {% if announcement.event.product.main_image.picture|is_portrait %}
+                                      {% thumbnail announcement.event.product.main_image.picture 637x298 crop="top" as image %}
+                                      <img src="{{ image }}" alt="" />
+                                {% else %}
                                       {% thumbnail announcement.event.product.main_image.picture 637x298 crop="center" as image %}
                                       <img src="{{ image }}" alt="" />
+                                {% endif %}
                                     <div class="visual_list_footer">
                                         <div class="visual_list_footer2">
                                             <h3>U2 <span class="f_date">25 мая</span> в Киеве отожгут</h3>
