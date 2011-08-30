@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-30 14:12+0300\n"
+"POT-Creation-Date: 2011-08-30 18:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -119,8 +119,16 @@ msgstr ""
 msgid "Tickets"
 msgstr ""
 
-#: templates/base.html:251 templates/formtools/wizard/wizard_form.html:19
-#: templates/localsite/select_event.html:106
+#: localsite/models.py:296
+msgid "Announcement"
+msgstr ""
+
+#: localsite/models.py:297
+msgid "Announcements"
+msgstr ""
+
+#: templates/base.html:265 templates/formtools/wizard/wizard_form.html:19
+#: templates/localsite/select_event.html:113
 #: templates/localsite/wizard_event.html:11
 #: templates/localsite/wizard_event_dates.html:32
 #: templates/localsite/wizard_product_images.html:32
@@ -207,21 +215,21 @@ msgstr ""
 
 #: templates/localsite/featured.html:7 templates/product/best_sellers.html:7
 #: templates/product/category.html:15 templates/product/category_index.html:7
-#: templates/product/recently_added.html:7 templates/shop/index.html:7
-#: templates/shop/checkout/base_confirm.html:7
+#: templates/product/product.html:23 templates/product/recently_added.html:7
+#: templates/shop/index.html:7 templates/shop/checkout/base_confirm.html:7
 #: templates/shop/checkout/cod/confirm.html:9
 msgid "Home"
 msgstr ""
 
-#: templates/localsite/featured.html:38 templates/localsite/featured.html:40
-#: templates/product/recently_added.html:37
-#: templates/product/recently_added.html:39
+#: templates/localsite/featured.html:45 templates/localsite/featured.html:47
+#: templates/product/recently_added.html:103
+#: templates/product/recently_added.html:105
 msgid "Previous"
 msgstr ""
 
-#: templates/localsite/featured.html:50 templates/localsite/featured.html:52
-#: templates/product/recently_added.html:42
-#: templates/product/recently_added.html:44
+#: templates/localsite/featured.html:57 templates/localsite/featured.html:59
+#: templates/product/recently_added.html:108
+#: templates/product/recently_added.html:110
 msgid "Next"
 msgstr ""
 
@@ -233,11 +241,27 @@ msgstr ""
 msgid "Category Index"
 msgstr ""
 
+#: templates/product/product.html:143
+msgid "Price"
+msgstr ""
+
+#: templates/product/product.html:143
+msgid "(incl. tax)"
+msgstr ""
+
+#: templates/product/product.html:164
+msgid "Quantity"
+msgstr ""
+
+#: templates/product/product.html:166
+msgid "Add to cart"
+msgstr ""
+
 #: templates/product/recently_added.html:8
 msgid "Recently Added"
 msgstr ""
 
-#: templates/product/recently_added.html:51
+#: templates/product/recently_added.html:117
 msgid "Bad Page"
 msgstr ""
 
