@@ -108,8 +108,9 @@
                                         <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
                                         <div class="curve_body feed_gray clearfix">
                                                 <div class="feed_list_img">
-                                                    {% thumbnail product.main_image.picture 85x61 as image %}
-                                                    <a href="{{ product.get_absolute_url }}"><img src="{{ image }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                                    {% thumbnail product.main_image.picture "85x61" as image %}
+                                                    <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                                    {% endthumbnail %}
                                                 </div>
                                             <div class="feed_list_txt">
                                                 {% if product.main_category %}
@@ -148,8 +149,9 @@
                                         <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
                                         <div class="curve_body feed_gray clearfix">
                                                 <div class="feed_list_img">
-                                                    {% thumbnail product.main_image.picture 85x61 as image %}
-                                                    <a href="{{ product.get_absolute_url }}"><img src="{{ image }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                                    {% thumbnail product.main_image.picture "85x61" as image %}
+                                                    <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                                    {% endthumbnail %}
                                                 </div>
                                             <div class="feed_list_txt">
                                                 {% if product.main_category %}

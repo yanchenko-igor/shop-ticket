@@ -43,11 +43,13 @@
                                 {% for announcement in announcements %}
                                 <li>
                                 {% if announcement.event.product.main_image.picture|is_portrait %}
-                                      {% thumbnail announcement.event.product.main_image.picture 637x298 crop="top" as image %}
-                                      <img src="{{ image }}" alt="" />
+                                      {% thumbnail announcement.event.product.main_image.picture "637x298" crop="top" as image %}
+                                      <img src="{{ image.url }}" alt="" />
+                                      {% endthumbnail %}
                                 {% else %}
-                                      {% thumbnail announcement.event.product.main_image.picture 637x298 crop="center" as image %}
-                                      <img src="{{ image }}" alt="" />
+                                      {% thumbnail announcement.event.product.main_image.picture "637x298" crop="center" as image %}
+                                      <img src="{{ image.url }}" alt="" />
+                                      {% endthumbnail %}
                                 {% endif %}
                                     <div class="visual_list_footer">
                                         <div class="visual_list_footer2">
@@ -73,8 +75,9 @@
     <li{% cycle '' '' ' class="last"' %}>
         <div class="feed_img">
             <div class="feed_img_wrap">
-              {% thumbnail product.main_image.picture 215x134 as image %}
-              <a href="{{ product.get_absolute_url }}"><img src="{{ image }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+              {% thumbnail product.main_image.picture "215x134" as image %}
+              <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+              {% endthumbnail %}
             </div>
         </div>
         <div class="feed_tag">
