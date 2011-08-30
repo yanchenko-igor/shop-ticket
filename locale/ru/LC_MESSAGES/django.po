@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-26 18:16+0300\n"
+"POT-Creation-Date: 2011-08-30 14:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,101 +18,113 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: local_settings.py:24
+#: local_settings.py:25
 msgid "English"
 msgstr ""
 
-#: local_settings.py:25
+#: local_settings.py:26
 msgid "Russian"
 msgstr ""
 
-#: local_settings.py:26
+#: local_settings.py:27
 msgid "Ukrainian"
 msgstr ""
 
-#: localsite/forms.py:42
+#: localsite/forms.py:63
+msgid "Category genre"
+msgstr "Жанр категории"
+
+#: localsite/forms.py:64 localsite/views.py:104 localsite/views.py:105
 msgid "Hall of event"
 msgstr "Площадка проведения"
 
-#: localsite/models.py:24
+#: localsite/models.py:25
 msgid "City"
 msgstr "Город"
 
-#: localsite/models.py:25
+#: localsite/models.py:26
 msgid "Cities"
 msgstr "Города"
 
-#: localsite/models.py:38
+#: localsite/models.py:39
 msgid "Hall"
 msgstr "Площадка"
 
-#: localsite/models.py:39
+#: localsite/models.py:40
 msgid "Halls"
 msgstr "Площадки"
 
-#: localsite/models.py:53
+#: localsite/models.py:54
 msgid "Hall Scheme"
 msgstr "Схема зала"
 
-#: localsite/models.py:54
+#: localsite/models.py:55
 msgid "Hall Schemes"
 msgstr "Схемы залов"
 
-#: localsite/models.py:61 localsite/models.py:212
+#: localsite/models.py:63 localsite/models.py:255
 msgid "Product"
 msgstr "Товар"
 
-#: localsite/models.py:66
+#: localsite/models.py:72
 msgid "Event"
 msgstr "Событие"
 
-#: localsite/models.py:67
+#: localsite/models.py:73
 msgid "Events"
 msgstr "События"
 
-#: localsite/models.py:152
+#: localsite/models.py:170
 msgid "Event Date"
 msgstr "Дата события"
 
-#: localsite/models.py:153
+#: localsite/models.py:171
 msgid "Event Dates"
 msgstr "Дата события"
 
-#: localsite/models.py:166
+#: localsite/models.py:200
 msgid "Seat Group"
 msgstr ""
 
-#: localsite/models.py:167
+#: localsite/models.py:201
 msgid "Seat Groups"
 msgstr ""
 
-#: localsite/models.py:183
+#: localsite/models.py:217
 msgid "Seat Group Price"
 msgstr ""
 
-#: localsite/models.py:184
+#: localsite/models.py:218
 msgid "Seat Group Prices"
 msgstr ""
 
-#: localsite/models.py:200
+#: localsite/models.py:243
 msgid "Seat Location"
 msgstr "место"
 
-#: localsite/models.py:201
+#: localsite/models.py:244
 msgid "Seat Locations"
 msgstr "место"
 
-#: localsite/models.py:213
+#: localsite/models.py:256
 msgid "Parent"
 msgstr "Родитель"
 
-#: localsite/models.py:218
+#: localsite/models.py:261
 msgid "Ticket"
 msgstr "Билет"
 
-#: localsite/models.py:219
+#: localsite/models.py:262
 msgid "Tickets"
 msgstr "Билеты"
+
+#: templates/base.html:251 templates/formtools/wizard/wizard_form.html:19
+#: templates/localsite/select_event.html:106
+#: templates/localsite/wizard_event.html:11
+#: templates/localsite/wizard_event_dates.html:32
+#: templates/localsite/wizard_product_images.html:32
+msgid "submit"
+msgstr ""
 
 #: templates/admin/base_site.html:34 templates/admin/base_site.html.py:37
 msgid "Site Administration"
@@ -191,13 +203,6 @@ msgstr ""
 
 #: templates/formtools/wizard/wizard_form.html:17
 msgid "prev step"
-msgstr ""
-
-#: templates/formtools/wizard/wizard_form.html:19
-#: templates/localsite/wizard_event.html:11
-#: templates/localsite/wizard_event_dates.html:32
-#: templates/localsite/wizard_product_images.html:32
-msgid "submit"
 msgstr ""
 
 #: templates/localsite/featured.html:7 templates/product/best_sellers.html:7
