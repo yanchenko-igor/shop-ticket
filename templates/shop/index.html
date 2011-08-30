@@ -20,6 +20,8 @@
         <div class="feed_tag">
         {% if product.main_category %}
             <a href="{{ product.main_category.get_absolute_url }}">{{ product.main_category.translated_name }}</a> &nbsp; 23 мая
+        {% else %}
+            &nbsp;
         {% endif %}
         </div>
         <div class="feed_txt">
