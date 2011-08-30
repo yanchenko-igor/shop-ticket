@@ -14,8 +14,15 @@
     {% for product in page.object_list %} 
     <li{% cycle '' '' ' class="last"' %}>
         <div class="feed_img">
-              {% thumbnail product.main_image.picture 215x134 as image %}
-              <a href="{{ product.get_absolute_url }}"><img src="{{ image }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+            {% if product.main_image.picture|is_portrait %}
+                  {% thumbnail product.main_image.picture "215x134" crop="50% 25%" as image %}
+                  <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                  {% endthumbnail %}
+            {% else %}
+                  {% thumbnail product.main_image.picture "215x134" crop="center" as image %}
+                  <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                  {% endthumbnail %}
+            {% endif %}
         </div>
         {% if product.main_category %}
         <div class="feed_tag">
