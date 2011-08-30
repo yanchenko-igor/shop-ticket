@@ -43,7 +43,6 @@
                                 {% for announcement in announcements %}
                                 <li>
                                       {% thumbnail announcement.event.product.main_image.picture 637x298 as image %}
-                                      <a href="{{ product.get_absolute_url }}"><img src="{{ image }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
                                       <img src="{{ image }}" alt="" />
                                     <div class="visual_list_footer">
                                         <div class="visual_list_footer2">
