@@ -23,7 +23,17 @@ class MyDateInput(forms.DateInput):
     def render(self, name, value, attrs=None):
         final_attrs = self.build_attrs(attrs, **{'class':'input_calendar'})
         result = super(MyDateInput, self).render(name, value, final_attrs)
-        return mark_safe(u'%s<img alt="" src="/static/images/icon_calendar.jpg" id="%s_trigger" class="icon_calendar">' % (result,final_attrs['id']))
+        script = """
+                                                    <script type="text/javascript">
+                                                           var %(id_und)s_CAL = new Calendar({
+                                                                  inputField: "%(id)s",
+                                                                  dateFormat: "%%d/%%m/%%Y",
+                                                                  trigger: "%(id)s_trigger",
+                                                                  onSelect   : function() { this.hide() }
+                                                          });
+                                                    </script>
+                                                    """ % {'id':final_attrs['id'],'id_und':final_attrs['id'].replace('-', '_')}
+        return mark_safe(u'%s<img alt="" src="/static/images/icon_calendar.jpg" id="%s_trigger" class="icon_calendar">%s' % (result,final_attrs['id'],script))
 
 class ProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

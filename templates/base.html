@@ -196,6 +196,12 @@
                             <form class="selection_events_form" action="" method="post">{% csrf_token %}
 
                                 {{ select_city_form.city }}
+                                <script type="text/javascript">
+                                    $(function()
+                                    {
+									    $('#id_city').chainSelect('#id_hall','{% url ajax_select_city %}');
+                                    });
+                                </script>
                                 {{ select_event_form.category }}
                                 {{ select_event_form.hall }}
 
@@ -228,14 +234,6 @@
                                             <div class="input">
                                                 <div class="input2">
                                                     {{ select_event_form.min_date }}
-                                                    <script type="text/javascript">
-                                                           var {{ select_event_form.min_date.id_for_label }}_CAL = new Calendar({
-                                                                  inputField: "{{ select_event_form.min_date.id_for_label }}",
-                                                                  dateFormat: "%d/%m/%Y",
-                                                                  trigger: "{{ select_event_form.min_date.id_for_label }}_trigger",
-                                                                  onSelect   : function() { this.hide() }
-                                                          });
-                                                    </script>
                                                 </div>
                                             </div>
                                         </td>
@@ -244,31 +242,12 @@
                                             <div class="input">
                                                 <div class="input2" >
                                                     {{ select_event_form.max_date }}
-                                                    <script type="text/javascript">
-                                                           var {{ select_event_form.max_date.id_for_label }}_CAL = new Calendar({
-                                                                  inputField: "{{ select_event_form.max_date.id_for_label }}",
-                                                                  dateFormat: "%d/%m/%Y",
-                                                                  trigger: "{{ select_event_form.max_date.id_for_label }}_trigger",
-                                                                  //showTime: 24,
-                                                                  onSelect   : function() { this.hide() }
-                                                          });
-                                                    </script>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                 </table>
-                                <script type="text/javascript">
-$(function()
-{
-	$('#id_city').chainSelect('#id_hall','{% url ajax_select_city %}');
-});
-function get_hall_by_city() {
-    new Ajax.Request('{% url ajax_select_city %}', {
-    });
-}
-                                </script>
                             </form>
                             {% endblock %}
                         </div>
