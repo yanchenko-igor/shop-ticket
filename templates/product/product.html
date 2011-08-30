@@ -37,7 +37,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
 	<span id="price">{{ product|discount_price:sale|currency }}</span>
 </h3>
 {% for pic in product.productimage_set.all %}
-    {% thumbnail pic.picture 280x280 as image %}
+    {% thumbnail pic.picture "280x280" as image %}
     <img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" />
     {% endthumbnail %}
 {% endfor %}
