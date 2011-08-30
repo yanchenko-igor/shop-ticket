@@ -35,3 +35,7 @@ class EventDateInline(admin.StackedInline):
 class EventAdmin(admin.ModelAdmin):
     inlines = [EventDateInline, SeatGroupPriceInline]
 admin.site.register(Event, EventAdmin)
+
+class AnnouncementAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Announcement, AnnouncementAdmin)

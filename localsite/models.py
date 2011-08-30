@@ -286,3 +286,15 @@ class Ticket(models.Model):
 
         super(Ticket, self).save(**kwargs)
 
+class Announcement(models.Model):
+    """docstring for Announcement"""
+    from_date = models.DateField()
+    to_date = models.DateField()
+    event = models.ForeignKey('Event', related_name='announcements')
+    
+    class Meta:
+        verbose_name = _("Announcement")
+        verbose_name_plural = _("Announcements")
+    
+    def __unicode__(self):
+        return "%s" % self.event.product.name

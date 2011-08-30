@@ -9,6 +9,59 @@
 {% endblock %}
 
 {% block content %}
+{% if announcements %} 
+            <script type="text/javascript" language="javascript">
+                $(function() {
+                  var el = $('#carousel');
+                  var lis = el.children();
+                  var len = lis.length;
+                  lis.each( function(i) {
+                    $(this).attr('rel',i+1);
+                  } );
+                  $('#pager').text( 1+'/'+len );
+                                el.carouFredSel({
+                                    prev: '#prev',
+                                    next: '#next',
+                                    pagination: {
+                                     container: "#pager",
+                                     anchorBuilder: function( nr, item ) {
+                                     }
+                                   },
+                                    scroll: {
+                                        pauseOnHover: true,
+                                        onBefore: function( oldItems, newItems, newSizes ) {
+                                        $('#pager').text( $(newItems).eq(0).attr('rel')+'/'+len );
+                                       }
+                                    }
+                                });
+                });
+            </script>
+
+                    <div class="wraper_visual_list ">
+                        <div class="wraper_visual_list2 list_carousel">
+                            <ul class="reset_list" id="carousel">
+                                {% for announcement in announcements %}
+                                <li>
+                                      {% thumbnail announcement.event.product.main_image.picture 637x298 as image %}
+                                      <a href="{{ product.get_absolute_url }}"><img src="{{ image }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                      <img src="{{ image }}" alt="" />
+                                    <div class="visual_list_footer">
+                                        <div class="visual_list_footer2">
+                                            <h3>U2 <span class="f_date">25 мая</span> в Киеве отожгут</h3>
+                                            Национальный академический театр русской драмы<br />им. Леси Украинки
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <ul class="visual_list_pager reset_list">
+                            <li><a id="prev" class="prev" href="#"> < </a></li>
+                            <li id="pager"></li>
+                            <li><a id="next" class="next" href="#"> > </a></li>
+                        </ul>
+                     </div>
+{% endif %}
 {% if page %}
 <div class="wrap_line">
     <ul class="feed reset_list clearfix">
