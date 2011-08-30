@@ -226,9 +226,7 @@
                                         <td class="selection_input">
                                             <div class="input">
                                                 <div class="input2">
-
                                                     {{ select_event_form.min_date }}
-                                                    <img class="icon_calendar" id="f_rangeStart_trigger" src="{{ media_url }}images/icon_calendar.jpg"  alt="" />
                                                 </div>
                                             </div>
                                         </td>
@@ -237,7 +235,6 @@
                                             <div class="input">
                                                 <div class="input2" >
                                                     {{ select_event_form.max_date }}
-                                                    <img class="icon_calendar" id="f_rangeStart2_trigger" src="{{ media_url }}images/icon_calendar.jpg" alt="" />
                                                 </div>
                                             </div>
                                         </td>
@@ -249,6 +246,10 @@ $(function()
 {
 	$('#id_city').chainSelect('#id_hall','{% url ajax_select_city %}');
 });
+function get_hall_by_city() {
+    new Ajax.Request('{% url ajax_select_city %}', {
+    });
+}
                                       var RANGE_CAL_1 = new Calendar({
                                               inputField: "f_rangeStart",
                                               dateFormat: "%d/%m/%Y",
