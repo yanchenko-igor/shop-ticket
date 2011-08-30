@@ -15,8 +15,10 @@
 	{% for product in page.object_list %}
     <li{% cycle '' '' ' class="last"' %}>
         <div class="feed_img">
+            <div class="feed_img_wrap">
               {% thumbnail product.main_image.picture 215x134 as image %}
               <a href="{{ product.get_absolute_url }}"><img src="{{ image }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+            </div>
         </div>
         <div class="feed_tag">
         {% if product.main_category %}
