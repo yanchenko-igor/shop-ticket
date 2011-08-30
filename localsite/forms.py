@@ -27,7 +27,7 @@ class MyDateInput(forms.DateInput):
                                                     <script type="text/javascript">
                                                            var %(id_und)s_CAL = new Calendar({
                                                                   inputField: "%(id)s",
-                                                                  dateFormat: "%%d/%%m/%%Y",
+                                                                  dateFormat: "%%Y-%%m-%%d",
                                                                   trigger: "%(id)s_trigger",
                                                                   onSelect   : function() { this.hide() }
                                                           });
@@ -57,7 +57,7 @@ class ProductForm(forms.ModelForm):
                 )
 
 class SelectCityForm(forms.Form):
-    city = forms.ModelChoiceField(queryset=City.objects.all(), empty_label=_('City'))
+    city = forms.ModelChoiceField(queryset=City.objects.all(), empty_label=None)
 
 class SelectEventForm(forms.Form):
     category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label=None)
