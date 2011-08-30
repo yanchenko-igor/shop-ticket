@@ -14,8 +14,9 @@
     {% for product in recent %} 
     <li{% cycle '' '' ' class="last"' %}>
         <div class="feed_img">
-              {% thumbnail product.main_image.picture 215x134 as image %}
-              <a href="{{ product.get_absolute_url }}"><img src="{{ image }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+              {% thumbnail product.main_image.picture "215x134" as image %}
+              <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+	      {% endthumbnail %}
         </div>
         <div class="feed_tag">
             {% if product.main_category %}<a href="{{ product.main_category.get_absolute_url }}">{{ product.main_category.translated_name }}</a>{% endif %} &nbsp; {{ product.event.dates.all.0.datetime|date:"j E" }}
