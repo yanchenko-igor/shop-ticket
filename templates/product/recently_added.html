@@ -21,11 +21,7 @@
             </div>
         </div>
         <div class="feed_tag">
-        {% if product.main_category %}
-            <a href="{{ product.main_category.get_absolute_url }}">{{ product.main_category.translated_name }}</a> &nbsp; 23 мая
-        {% else %}
-            &nbsp;
-        {% endif %}
+            {% if product.main_category %}<a href="{{ product.main_category.get_absolute_url }}">{{ product.main_category.translated_name }}</a>{% endif %} &nbsp; {{ product.event.dates.all.0.datetime|date:"j E" }}
         </div>
         <div class="feed_txt">
             <p><a href="{{ product.get_absolute_url }}">{{ product.translated_name }}</a></p>
