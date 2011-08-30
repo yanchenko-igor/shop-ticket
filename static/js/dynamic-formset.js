@@ -18,6 +18,12 @@ function updateElementIndex(el, prefix, ndx) {
     	    deleteForm(this, prefix);
         });
         $('#id_' + prefix + '-TOTAL_FORMS').val(formCount + 1);
+        
+        var input_calendar = "id_dates-" + formCount + "-datetime";
+        var icon_calendar = "id_dates-" + formCount + "-datetime_trigger";
+        if( document.getElementById( icon_calendar ))
+            generationCalendar( input_calendar , icon_calendar, formCount );
+        
         return false;
     }
 
@@ -31,5 +37,15 @@ function updateElementIndex(el, prefix, ndx) {
     	    });
         }
         return false;
+    }
+    function generationCalendar( el_input, el_img, formCount ){
+        var obj = "id_dates_" + formCount + "_datetime_cal" ;
+        obj  = new Calendar({
+              inputField: el_input,
+              dateFormat: "%d/%m/%Y",
+              trigger: el_img,
+              showTime: 24,
+              onSelect   : function() { this.hide() }
+      });
     }
 
