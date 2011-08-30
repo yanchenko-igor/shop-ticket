@@ -29,6 +29,115 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
 
 {% block content %}
 {% block productdetail %}
+                    <div class="content">
+
+                        <script type="text/javascript">
+                            $(document).ready(function(){
+                                $('.title_theater').hover(
+                                    function(){
+                                      $('#theater').removeClass('underline');
+                                      $('.title_theater_addres').show();
+                                    },
+                                    function(){
+                                      $('#theater').addClass('underline');
+                                      $('.title_theater_addres').hide();
+                                    }
+
+                                )
+                            });
+
+                        </script>
+
+                        <div class="event_img">
+                            {% if product.main_image.picture|is_portrait %}
+                                  {% thumbnail product.main_image.picture "637x354" crop="50% 25%" as image %}
+                                  <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                  {% endthumbnail %}
+                            {% else %}
+                                  {% thumbnail product.main_image.picture "637x354" crop="center" as image %}
+                                  <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                  {% endthumbnail %}
+                            {% endif %}
+                            <div class="event_img_description">
+                                <table class="event_description_tab">
+                                    <tr>
+                                        <td class="event_description_inf">
+                                            <div class="title_theater">
+                                                <span class="underline" id="theater">{{ product.event.hallscheme.hall }}</span>
+                                                <div class="title_theater_addres">
+                                                    {{ product.event.hallscheme.hall.address }}
+                                                </div>
+                                            </div>
+                                            <div class="select_place">
+                                                <a href="#">Выбрать дату и место в зале на схеме  </a>
+                                            </div>
+                                        </td>
+                                        <td class="event_description_btn">
+                                            Button
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="wrap_event_date">
+                            <ul class="event_date reset_list clearfix">
+                                <li>
+                                    30 мая 2012, Вторник <span class="event_date_time">19:00, 21:00</span>
+                                </li>
+                                <li class="last">
+                                    1 юня 2012, Четверг <span class="event_date_time">16:30, 21:00</span>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="wrap_article">
+                            <h2 class="h2_article">Концерт группы Metallica в Киеве!</h2>
+                            <div class="annotation">
+                                Более 20 лет на сцене, живой звук, лучшие исполнители в своем жанре. Они покажут
+                                настоящий драйв и отрыв по полной.
+                            </div>
+                            <p>
+                                Нынешняя постановка сильно отличается от предыдущих, хотя бы даже тем, что предыдущие
+                                были поставлены еще в советское время, и многие из идей режиссуры просто-напросто
+                                вырывались на корню не дремлющими работниками цензуры. Сергей Женовач, уже упрочивший
+                                за собой звание одного из интереснейших режиссеров современности, сумел-таки из столь
+                                несобираемой мозаики актеров сделать что-то грандиозное.
+                            </p>
+                            <p>
+                                Несмотря на всю трагичность произведения и постановки, само действие все-таки оставляет
+                                на душе лишь умиротворенность. Сцена построенная в спектакле под углом, будто бы от
+                                одного дуновения ветерка вот вот все повалится кубарем прочь, как и все в России тех
+                                времен приобретает не такой грустный оттенок, когда на ней за столом появляются герои,
+                                раскрасневшиеся от мороза, а также их извечные спутники - рюмки, как ни накренена сцена,
+                                а стол на ней стоит, причем на всех четырех ножках.
+                            </p>
+                            <p>
+                                Несмотря на всю трагичность произведения и постановки, само действие все-таки оставляет
+                                на душе лишь умиротворенность. Сцена построенная в спектакле под углом, будто бы от
+                                одного дуновения ветерка вот вот все повалится кубарем прочь, как и все в России тех
+                                времен приобретает не такой грустный оттенок, когда на ней за столом появляются герои,
+                                раскрасневшиеся от мороза, а также их извечные спутники - рюмки, как ни накренена сцена,
+                                а стол на ней стоит, причем на всех четырех ножках.
+                            </p>
+                        </div>
+
+                        <div class="other_inf clearfix">
+                            <div class="article_tag">
+                                <span class="heading_tag">Теги:</span>
+                                <a href="#">концерты</a>,
+                                <a href="#">музыка</a>,
+                                <a href="#">металл</a>
+                            </div>
+
+                            <div class="social_network">
+                                <img src="images/temp/social_btn.jpg" alt="" />
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
 <h4>{{ product.translated_name }}</h4>
 <p>{{ product.translated_description }}</p>
 {% trans "Price" %} {% if default_view_tax %} {% trans '(incl. tax)' %}{% endif %}:
