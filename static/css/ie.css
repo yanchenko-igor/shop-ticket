@@ -10,7 +10,7 @@
     *zoom: 1;
 }
 
-.banner_right_bl{
+.banner_right_bl, .btn_red, .btn_red span{
     *display:inline;
 	*zoom:1;
 }
