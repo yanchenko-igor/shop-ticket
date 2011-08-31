@@ -150,12 +150,12 @@ class Event(models.Model):
 
         if Ticket.objects.filter(product=variant):
             ticket = Ticket.objects.get(product=variant)
-            ticket.parent = self
+            ticket.event = self
             ticket.datetime = datetime
             ticket.seat = seat
             ticket.save()
         else:
-            ticket = Ticket(product=variant, parent=self)
+            ticket = Ticket(product=variant, event=self)
             ticket.datetime = datetime
             ticket.seat = seat
             ticket.save()
@@ -253,7 +253,7 @@ class SeatLocation(models.Model):
 class Ticket(models.Model):
     """docstring for Ticket"""
     product = models.OneToOneField(Product, verbose_name=_('Product'), primary_key=True)
-    parent = models.ForeignKey(Event, verbose_name=_('Parent'))
+    event = models.ForeignKey(Event, verbose_name=_('Event'), related_name='tickets')
     datetime = models.ForeignKey(EventDate, related_name='tickets')
     seat = models.ForeignKey(SeatLocation)
     
@@ -262,7 +262,7 @@ class Ticket(models.Model):
         verbose_name_plural = _("Tickets")
         unique_together = (
                 ("product", "datetime", 'seat'),
-                ("parent", "datetime", 'seat'),
+                ("event", "datetime", 'seat'),
                 )
 
     def __unicode__(self):
