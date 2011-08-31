@@ -1,4 +1,4 @@
-{% extends "shop/base.html" %}
+{% extends "localsite/base.html" %}
 {% load i18n %}
 {% load thumbnail %}
 {% load satchmo_util %}
@@ -47,17 +47,20 @@
 {% endblock %}
 
 {% block subnav %}
-<div class="tab_activ tab_main">
-        <h1 class="h1_m">НОВИНКИ И БЕСТСЕЛЛЕРЫ</h1>
+<div class="tab">
+    <h1 class="h1_m"><a href="{% url satchmo_shop_home %}">НОВИНКИ</a></h1>
 </div>
-<div class="tab_recommend">
+<div class="tab">
+    <h1 class="h1_m"><a href="{% url satchmo_product_best_selling %}">БЕСТСЕЛЛЕРЫ</a></h1>
+</div>
+<div class="tab_activ tab">
     <div class="tab_activ_sh">
-    <h2 class="tab_nested"><a href="#">РЕКОМЕНДУЕМ</a></h2>
+        <h2 class="tab_nested"><a href="{% url localsite_featured %}">РЕКОМЕНДУЕМ</a></h2>
     </div>
 </div>
-<div class="tab_order">
+<div class="tab">
     <div class="tab_nested">
-        <a href="#">КАК ЗАКАЗАТЬ И ОПЛАТИТЬ?</a>
+        <a class="how_order" href="#">КАК ЗАКАЗАТЬ И ОПЛАТИТЬ?</a>
     </div>
 </div>
 {% endblock %}
