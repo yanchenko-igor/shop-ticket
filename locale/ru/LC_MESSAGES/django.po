@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-30 18:12+0300\n"
+"POT-Creation-Date: 2011-08-31 10:34+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -126,8 +126,8 @@ msgstr "Анонс"
 msgid "Announcements"
 msgstr "Анонсы"
 
-#: templates/base.html:265 templates/formtools/wizard/wizard_form.html:19
-#: templates/localsite/select_event.html:113
+#: templates/base.html:227 templates/formtools/wizard/wizard_form.html:19
+#: templates/localsite/select_event.html:110
 #: templates/localsite/wizard_event.html:11
 #: templates/localsite/wizard_event_dates.html:32
 #: templates/localsite/wizard_product_images.html:32
@@ -212,6 +212,14 @@ msgstr ""
 msgid "prev step"
 msgstr ""
 
+#: templates/localsite/block_bestsellers.html:44
+msgid "All Best Sellers"
+msgstr "Все хиты продаж"
+
+#: templates/localsite/block_featured.html:42
+msgid "All Featured"
+msgstr "Все рекомендации"
+
 #: templates/localsite/featured.html:7 templates/product/best_sellers.html:7
 #: templates/product/category.html:15 templates/product/category_index.html:7
 #: templates/product/product.html:23 templates/product/recently_added.html:7
@@ -220,13 +228,13 @@ msgstr ""
 msgid "Home"
 msgstr "Главная"
 
-#: templates/localsite/featured.html:45 templates/localsite/featured.html:47
+#: templates/localsite/featured.html:43 templates/localsite/featured.html:45
 #: templates/product/recently_added.html:103
 #: templates/product/recently_added.html:105
 msgid "Previous"
 msgstr "Назад"
 
-#: templates/localsite/featured.html:57 templates/localsite/featured.html:59
+#: templates/localsite/featured.html:55 templates/localsite/featured.html:57
 #: templates/product/recently_added.html:108
 #: templates/product/recently_added.html:110
 msgid "Next"
@@ -240,19 +248,19 @@ msgstr "Хиты продаж"
 msgid "Category Index"
 msgstr "Список категорий"
 
-#: templates/product/product.html:143
+#: templates/product/product.html:137
 msgid "Price"
 msgstr ""
 
-#: templates/product/product.html:143
+#: templates/product/product.html:137
 msgid "(incl. tax)"
 msgstr ""
 
-#: templates/product/product.html:164
+#: templates/product/product.html:158
 msgid "Quantity"
 msgstr ""
 
-#: templates/product/product.html:166
+#: templates/product/product.html:160
 msgid "Add to cart"
 msgstr ""
 
