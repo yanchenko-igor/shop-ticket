@@ -47,67 +47,11 @@
 
 
 {% endblock %}
-{% block selection_events %}
-
-                            <form class="selection_events_form" action="" method="post">{% csrf_token %}
-                                {{ form_city.errors }}
-                                {{ form_event.errors }}
-
-                                {{ form_city.city }}
-                                <script type="text/javascript">
-                                    $(function()
-                                    {
-									    $('#id_city').chainSelect('#id_hall','{% url ajax_select_city %}');
-                                    });
-                                </script>
-                                {{ form_event.category }}
-                                {{ form_event.hall }}
-
-                                <table class="tab_selection">
-                                    <tr>
-                                        <td class="selection_name">По цене:</td>
-                                        <td class="selection_from">от</td>
-                                        <td class="selection_input">
-                                            <div class="input">
-                                                <div class="input2">
-                                                    {{ form_event.min_price }}
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="selection_to">до</td>
-                                        <td class="selection_input">
-                                            <div class="input">
-                                                <div class="input2">
-                                                    {{ form_event.max_price }}
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-
-                                    <tr>
-                                        <td class="selection_name">По дате:</td>
-                                        <td class="selection_from">от</td>
-                                        <td class="selection_input">
-                                            <div class="input">
-                                                <div class="input2">
-
-                                                    {{ form_event.min_date }}
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="selection_to">до</td>
-                                        <td class="selection_input">
-                                            <div class="input">
-                                                <div class="input2" >
-                                                    {{ form_event.max_date }}
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                </table>
-<input type="submit" name="submit" value="{% trans "submit" %}" />
-                            </form>
-
+{% block contentfooter %}
+{% endblock %}
+{% block sidebar3 %}
+    {% include "localsite/block_bestsellers.html" %}
+{% endblock %}
+{% block sidebar4 %}
+    {% include "localsite/block_featured.html" %}
 {% endblock %}

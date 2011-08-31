@@ -1,0 +1,18 @@
+{% load i18n thumbnail %}
+<div class="feed_img">
+    {% if product.main_image.picture|is_portrait %}
+          {% thumbnail product.main_image.picture "215x134" crop="50% 25%" as image %}
+          <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+          {% endthumbnail %}
+    {% else %}
+          {% thumbnail product.main_image.picture "215x134" crop="center" as image %}
+          <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+          {% endthumbnail %}
+    {% endif %}
+</div>
+<div class="feed_tag">
+    {% if product.main_category %}<a href="{{ product.main_category.get_absolute_url }}">{{ product.main_category.translated_name }}</a>{% endif %} &nbsp; {{ product.event.dates.all.0.datetime|date:"j E" }}
+</div>
+<div class="feed_txt">
+    <p><a href="{{ product.get_absolute_url }}">{{ product.translated_name }}</a></p>
+</div>

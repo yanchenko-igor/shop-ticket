@@ -1,0 +1,73 @@
+{% load i18n %}
+<div class="selection_events">
+    <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
+    <div class="curve_body selection_events_body">
+        
+        <div class="heading_icon clearfix">
+            <h2 class="heading_h2"><span>Подбор события</span></h2>
+            <div class="icon_h"><a href="#"><img src="{{ media_url }}images/icon_help.png" alt="" /></a></div>
+        </div>
+
+        <form class="selection_events_form" action="{% url select_event %}" method="post">{% csrf_token %}
+            {{ form_city.city }}
+            <script type="text/javascript">
+                $(function()
+                {
+				    $('#id_city').chainSelect('#id_hall','{% url ajax_select_city %}');
+                });
+            </script>
+            {{ form_event.category }}
+            {{ form_event.hall }}
+
+            <table class="tab_selection">
+                <tr>
+                    <td class="selection_name">По цене:</td>
+                    <td class="selection_from">от</td>
+                    <td class="selection_input">
+                        <div class="input">
+                            <div class="input2">
+                                {{ form_event.min_price }}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="selection_to">до</td>
+                    <td class="selection_input">
+                        <div class="input">
+                            <div class="input2">
+                                {{ form_event.max_price }}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="selection_name">По дате:</td>
+                    <td class="selection_from">от</td>
+                    <td class="selection_input">
+                        <div class="input">
+                            <div class="input2">
+
+                                {{ form_event.min_date }}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="selection_to">до</td>
+                    <td class="selection_input">
+                        <div class="input">
+                            <div class="input2" >
+                                {{ form_event.max_date }}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+            </table>
+            <div class="selection_events_submit">
+                <a class="btn_red" href="#" onclick="jQuery(this).parents('form:first').trigger('submit');"><span>Найти<b>Найти</b></span></a>
+            </div>
+        </form>
+
+    </div>
+    <div class="curve_bott"><div><span class="curve_gray"><!-- --></span></div></div>
+</div>

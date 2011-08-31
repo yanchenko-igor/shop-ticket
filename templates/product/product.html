@@ -13,6 +13,8 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
 {% load satchmo_util satchmo_discounts %}
 {% load app_plugins %}
 
+{% block announcements %}{% endblock %}
+
 {% block extra-head %}
 {% if product.meta %}
     <meta name="description" content="{{product.meta}}">
@@ -81,7 +83,8 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
                         </div>
                         <div class="wrap_event_date">
                             <ul class="event_date reset_list clearfix">
-                                {% for date in product.event.dates.all %}{% ifchanged date.datetime.date %}{% if forloop.first %}{% else %}</span></li>{% endif %}<li>{{ date.datetime|date:"j E Y, l" }}<span class="event_date_time">{% else %}, {% endifchanged %} {{ date.datetime|date:"H:i" }}{% if forloop.last %}</span></li>{% endif %}{% endfor %}
+                                {% for date in product.event.dates.all %}{% ifchanged date.datetime.date %}{% if forloop.first %}{% else %}</span></li>
+                                {% endif %}<li{% if date.datetime.date == product.event.max_date %} class="last"{% endif %}>{{ date.datetime|date:"j E Y, l" }} <span class="event_date_time">{% else %}, {% endifchanged %}{{ date.datetime|date:"H:i" }}{% if forloop.last %}</span></li>{% endif %}{% endfor %}
                             </ul>
                         </div>
                         <div class="wrap_article">
@@ -167,4 +170,25 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
 {% if sale %}{% include "product/product_discount_eligible.html" %}{% endif %}
 {% plugin_point "product_footer" %}
 {% endblock %}
+{% endblock %}
+
+{% block contentfooter %}
+{% endblock %}
+{% block sidebar3 %}
+    {% include "localsite/block_featured.html" %}
+{% endblock %}
+{% block sidebar4 %}
+{% endblock %}
+{% block subnav %}
+<div class="tab_activ">
+    <div class="tab_activ_sh">
+        <h1 class="h1_h fl_l">Западные звезды</h1>
+        <div class="back_heading">
+            <img alt="" src="{{ media_url }}images/icon_back_shopping.gif">
+            <a href="#">Вернуться в концерты</a>
+
+        </div>
+    </div>
+</div>
+
 {% endblock %}
