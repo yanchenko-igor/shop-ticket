@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-31 10:34+0300\n"
+"POT-Creation-Date: 2011-08-31 16:55+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -126,13 +126,12 @@ msgstr "Анонс"
 msgid "Announcements"
 msgstr "Анонсы"
 
-#: templates/base.html:227 templates/formtools/wizard/wizard_form.html:19
-#: templates/localsite/select_event.html:110
-#: templates/localsite/wizard_event.html:11
-#: templates/localsite/wizard_event_dates.html:32
-#: templates/localsite/wizard_product_images.html:32
-msgid "submit"
-msgstr ""
+#: templates/base.html:119
+msgid "In your cart %(counter)s ticket"
+msgid_plural "In your cart %(counter)s tickets"
+msgstr[0] "В Вашей корзине %(counter)s билет"
+msgstr[1] "В Вашей корзине %(counter)s билета"
+msgstr[2] "В Вашей корзине %(counter)s билетов"
 
 #: templates/admin/base_site.html:34 templates/admin/base_site.html.py:37
 msgid "Site Administration"
@@ -212,6 +211,13 @@ msgstr ""
 msgid "prev step"
 msgstr ""
 
+#: templates/formtools/wizard/wizard_form.html:19
+#: templates/localsite/wizard_event.html:11
+#: templates/localsite/wizard_event_dates.html:32
+#: templates/localsite/wizard_product_images.html:32
+msgid "submit"
+msgstr ""
+
 #: templates/localsite/block_bestsellers.html:44
 msgid "All Best Sellers"
 msgstr "Все хиты продаж"
@@ -222,21 +228,21 @@ msgstr "Все рекомендации"
 
 #: templates/localsite/featured.html:7 templates/product/best_sellers.html:7
 #: templates/product/category.html:15 templates/product/category_index.html:7
-#: templates/product/product.html:23 templates/product/recently_added.html:7
+#: templates/product/product.html:25 templates/product/recently_added.html:7
 #: templates/shop/index.html:7 templates/shop/checkout/base_confirm.html:7
 #: templates/shop/checkout/cod/confirm.html:9
 msgid "Home"
 msgstr "Главная"
 
-#: templates/localsite/featured.html:43 templates/localsite/featured.html:45
-#: templates/product/recently_added.html:103
-#: templates/product/recently_added.html:105
+#: templates/localsite/featured.html:27 templates/localsite/featured.html:29
+#: templates/product/recently_added.html:26
+#: templates/product/recently_added.html:28
 msgid "Previous"
 msgstr "Назад"
 
-#: templates/localsite/featured.html:55 templates/localsite/featured.html:57
-#: templates/product/recently_added.html:108
-#: templates/product/recently_added.html:110
+#: templates/localsite/featured.html:39 templates/localsite/featured.html:41
+#: templates/product/recently_added.html:31
+#: templates/product/recently_added.html:33
 msgid "Next"
 msgstr "Вперёд"
 
@@ -248,19 +254,19 @@ msgstr "Хиты продаж"
 msgid "Category Index"
 msgstr "Список категорий"
 
-#: templates/product/product.html:137
+#: templates/product/product.html:140
 msgid "Price"
 msgstr ""
 
-#: templates/product/product.html:137
+#: templates/product/product.html:140
 msgid "(incl. tax)"
 msgstr ""
 
-#: templates/product/product.html:158
+#: templates/product/product.html:161
 msgid "Quantity"
 msgstr ""
 
-#: templates/product/product.html:160
+#: templates/product/product.html:163
 msgid "Add to cart"
 msgstr ""
 
@@ -268,7 +274,7 @@ msgstr ""
 msgid "Recently Added"
 msgstr "Самые свежие"
 
-#: templates/product/recently_added.html:117
+#: templates/product/recently_added.html:40
 msgid "Bad Page"
 msgstr "Не найдено"
 
