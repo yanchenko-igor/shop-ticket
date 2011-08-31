@@ -76,12 +76,12 @@ def select_event(request, template='localsite/select_event.html'):
                 min_date = form_event.cleaned_data['min_date']
                 max_date = form_event.cleaned_data['max_date']
                 events = Event.objects.filter(
-                        min_price and Q(min_price__gte=min_price) | Q(max_price__gte=min_price) or Q(product__active=True),
-                        max_price and Q(max_price__lte=max_price) | Q(min_price__lte=max_price) or Q(product__active=True),
-                        min_date and Q(min_date__gte=min_date) | Q(max_date__gte=min_date) or Q(product__active=True),
-                        max_date and Q(max_date__lte=max_date) | Q(min_date__lte=max_date) or Q(product__active=True),
-                        hall and Q(hallscheme__hall=hall) or city and Q(hallscheme__hall__city=city) or Q(product__active=True),
-                        category and Q(product__category=category) or Q(product__active=True),
+                        min_price and Q(min_price__gte=min_price) | Q(max_price__gte=min_price) or Q(),
+                        max_price and Q(max_price__lte=max_price) | Q(min_price__lte=max_price) or Q(),
+                        min_date and Q(min_date__gte=min_date) | Q(max_date__gte=min_date) or Q(),
+                        max_date and Q(max_date__lte=max_date) | Q(min_date__lte=max_date) or Q(),
+                        hall and Q(hallscheme__hall=hall) or city and Q(hallscheme__hall__city=city) or Q(),
+                        category and Q(product__category=category) or Q(),
                         )
      
 
