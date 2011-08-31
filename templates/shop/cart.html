@@ -1,0 +1,261 @@
+{% extends "shop/base.html" %}
+{% load i18n %}
+{% load satchmo_cart %}
+{% load satchmo_currency %}
+{% load satchmo_util %}
+{% load satchmo_product %}
+{% load satchmo_discounts %}
+{% load normalize_decimal %}
+{% load thumbnail %}
+
+{% block navbar %}
+    <li class="first"><a href="{{shop_base}}/">{% trans "Home" %}</a></li>
+    <li>{% trans "Cart" %}</li>
+{% endblock %}
+
+{% block contentwraper %}
+
+{% if not cart|length %}
+    <h4>{% trans "Your cart is empty." %}</h4>
+{% else %}
+            <div class="wraper_basket">
+                <table class="table_heading_basket">
+                    <tbody><tr>
+                        <th>Предстоящее событие</th>
+                        <th class="basked_td_ticket">Кол-во и места</th>
+                        <th class="basked_td_price">Цена</th>
+                        <th class="basked_td_del2">Удалить</th>
+                    </tr>
+                </tbody></table>
+
+    {% for cartitem in cart %}
+                <div class="basked_bl">
+                    <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
+                    <div class="curve_body basket_grey">
+                        <table class="basket_tab">
+                            <tbody><tr>
+                                <td class="basket_td_img">
+                                    <div class="basket_td_img_bl">
+                                        {% if cartitem.product.main_image.picture|is_portrait %}
+                                              {% thumbnail cartitem.product.main_image.picture "107x76" crop="50% 25%" as image %}
+                                              <a href="{{ cartitem.product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                              {% endthumbnail %}
+                                        {% else %}
+                                              {% thumbnail cartitem.product.main_image.picture "107x76" crop="center" as image %}
+                                              <a href="{{ cartitem.product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                              {% endthumbnail %}
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td class="basked_td_inf">
+                                    <div class="basked_td_inf_date">
+                                        <span>{{ cartitem.product.ticket.datetime.datetime|date:"j E Y, l" }}</span>  {{ cartitem.product.ticket.datetime.datetime|date:"H:i" }}
+                                    </div>
+                                    <div class="basked_td_inf_txt">
+                                        \u0420\u0430\u0437\u0433\u043e\u0432\u043e\u0440\u044b \u043c\u0443\u0436\u0447\u0438\u043d \u0441\u0440\u0435\u0434\u043d\u0435\u0433\u043e \u0432\u043e\u0437\u0440\u0430\u0441\u0442\u0430 \u043e \u043b\u044e\u0431\u0432\u0438 \u0438 \u0431\u043b\u0430\u0433\u043e\u043f\u043e\u043b\u0443\u0447\u0438\u0438
+                                    </div>
+                                </td>
+                                <td class="basked_td_ticket">
+                                    <div class="basked_td_ticket_cont">
+                                        2 \u0431\u0438\u043b\u0435\u0442\u0430
+                                    </div>
+                                    <p>{{ cartitem.product.ticket }}</p>
+                                </td>
+                                <td class="basked_td_price">
+                                    {{ cartitem.product.unit_price|currency }}
+                                </td>
+                                <td class="basked_td_del">
+                                    <img alt="" src="{{ media_url }}images/icon_del.png">
+                                </td>
+                            </tr>
+                        </tbody></table>
+                    </div>
+                    <div class="curve_bott"><div><span class="curve_gray"><!-- --></span></div></div>
+                </div>
+                <!-- /<div class="basked_bl">-->
+    {% endfor %}
+
+                <div class="basked_bl">
+                    <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
+                    <div class="curve_body basket_grey">
+                        <table class="basket_tab">
+                            <tbody><tr>
+                                <td class="basket_td_img">
+                                    <div class="basket_td_img_bl">
+                                        <img alt="" src="images/temp/img_10.jpg">
+                                    </div>
+                                </td>
+                                <td class="basked_td_inf">
+                                    <div class="basked_td_inf_date">
+                                        <span>30 \u043c\u0430\u044f 2012, \u0412\u0442\u043e\u0440\u043d\u0438\u043a</span>  22:00
+                                    </div>
+                                    <div class="basked_td_inf_txt">
+                                        \u0420\u0430\u0437\u0433\u043e\u0432\u043e\u0440\u044b \u043c\u0443\u0436\u0447\u0438\u043d \u0441\u0440\u0435\u0434\u043d\u0435\u0433\u043e \u0432\u043e\u0437\u0440\u0430\u0441\u0442\u0430 \u043e \u043b\u044e\u0431\u0432\u0438 \u0438 \u0431\u043b\u0430\u0433\u043e\u043f\u043e\u043b\u0443\u0447\u0438\u0438
+                                    </div>
+                                </td>
+                                <td class="basked_td_ticket">
+                                    <div class="basked_td_ticket_cont">
+                                        2 \u0431\u0438\u043b\u0435\u0442\u0430
+                                    </div>
+                                    <p>1 \u0440\u044f\u0434, 20 \u043c\u0435\u0441\u0442\u043e</p>
+                                    <p>1 \u0440\u044f\u0434, 19 \u043c\u0435\u0441\u0442\u043e</p>
+                                </td>
+                                <td class="basked_td_price">
+                                    1500
+                                </td>
+                                <td class="basked_td_del">
+                                    <img alt="" src="images/icon_del.png">
+                                </td>
+                            </tr>
+                        </tbody></table>
+                    </div>
+                    <div class="curve_bott"><div><span class="curve_gray"><!-- --></span></div></div>
+                </div>
+                <!-- /<div class="basked_bl">-->
+
+                <div class="basket_total clearfix">
+                    <div class="back_shopping">
+                        <img alt="" src="images/icon_back_shopping.gif"> <a href="#">\u0412\u0435\u0440\u043d\u0443\u0442\u044c\u0441\u044f \u043a \u043f\u043e\u043a\u0443\u043f\u043a\u0430\u043c  </a>
+                    </div>
+                    <div class="basket_total_bl">
+                        \u0418\u0442\u043e\u0433\u043e \u0432 \u0441\u0443\u043c\u043c\u0435: <span class="basket_total_price"><label>2500</label> \u0433\u0440\u043d.</span>
+
+                    </div>
+                </div>
+            </div>
+            <!-- /<div class="wraper_basket"> -->
+
+            <h1 class="h1_h">\u041e\u0444\u043e\u0440\u043c\u043b\u0435\u043d\u0438\u0435 \u043f\u043e\u043a\u0443\u043f\u043a\u0438</h1>
+            <form action="" class="form_ormit_order clearfix">
+                <div class="ormit_order">
+                    <div class="ormit_order_1">
+
+                        <label>\u0418\u043c\u044f, \u0424\u0430\u043c\u0438\u043b\u0438\u044f:</label>
+                        <div class="input_2">
+                            <div class="input_2_2">
+                                <input type="text">
+                            </div>
+                        </div>
+                        <br>
+
+                        <label>\u0418\u043c\u044f, \u0424\u0430\u043c\u0438\u043b\u0438\u044f:</label>
+                        <div class="input_2">
+                            <div class="input_2_2">
+                                <input type="text">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="ormit_order_2">
+                        <label>\u0422\u0435\u043b\u0435\u0444\u043e\u043d:</label>
+                        <div class="input_2">
+                            <div class="input_2_2">
+                                <input type="text">
+                            </div>
+                        </div>
+                        <br>
+
+                        <label>\u0410\u0434\u0440\u0435\u0441 \u0434\u043e\u0441\u0442\u0430\u0432\u043a\u0438:</label>
+                        <div class="input_2">
+                            <div class="input_2_2">
+                                <input type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"><!-- --></div>
+                    <br>
+
+                    <label>\u0414\u043e\u043f\u043e\u043b\u043d\u0438\u0442\u0435\u043b\u044c\u043d\u0430\u044f \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f:</label>
+
+                    <div class="textarea_top"><div><span><!-- --></span></div></div>
+                    <div class="textarea_body">
+                        <div class="textarea_body2">
+                            <div class="textarea_wrap">
+                                <textarea class="textarea_ormit"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="textarea_bott"><div><span><!-- --></span></div></div>
+
+
+                </div>
+                <div class="ormit_order_call">
+                    <div class="ormit_call_txt">\u0414\u043b\u044f \u0437\u0430\u043a\u0430\u0437\u0430 \u0431\u0438\u043b\u0435\u0442\u043e\u0432 \u0412\u044b \u043c\u043e\u0436\u0435\u0442\u0435<br> \u043f\u0440\u043e\u0441\u0442\u043e \u043f\u043e\u0437\u0432\u043e\u043d\u0438\u0442\u044c \u043d\u0430\u043c</div>
+
+                    <div class="ormit_call_tel">044 245 58 90</div>
+                    <div class="ormit_call_time">\u0420\u0430\u0431\u043e\u0442\u0430\u0435\u043c \u0441 9-00 \u0434\u043e 21-00</div>
+                </div>
+
+            </form>
+
+{% endif %}
+
+
+{% if error_message %}
+<div class="error">{{ error_message }}</div>
+{% endif %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if not cart|length %}
+    <h4>{% trans "Your cart is empty." %}</h4>
+{% else %}
+    <h4>{% trans "Your Cart" %}</h4>
+    <table><tr><th></th>
+    <th align="left">{% trans "Quantity" %}</th>
+    <th>{% trans "Item" %}</th>
+    {% if sale %}
+		<th>{% trans "Regular Price" %}</th>
+		<th>{% trans "Sale Price" %}
+	{% else %}
+		<th>{% trans "Price" %}</th>
+	{% endif %}
+    <th align="center">{% if default_view_tax %}{% trans "Total<br/>(incl.&nbsp;tax)" %}{% else %}{% trans "Total" %}{% endif %}</th>
+    </tr>
+
+    {% for cartitem in cart %}
+        <tr><td>
+            <form action="{% url satchmo_cart_remove %}" method="post">{% csrf_token %}
+                <input type="hidden" name="cartitem" value="{{ cartitem.id }}" />
+                <input type="submit" value="{% trans 'Remove' %}" />
+            </form>
+            </td>
+            <td align="center">
+                <form class="qtyform" id="form-{{ cartitem.id }}" action="{% url satchmo_cart_set_qty %}" method="post">{% csrf_token %}
+                    <input type="hidden" name="cartitem" value="{{ cartitem.id }}" />
+					<input type="text" name="quantity" id="id_quantity" value="{{ cartitem.quantity|normalize_decimal }}" />
+                    <input type="submit" id="id_update_submit" value="{% trans 'update amount' %}" />
+                </form>
+            </td>
+            <td><a href="{{cartitem.product.get_absolute_url}}">{{ cartitem.description }}</a></td>
+			{% if sale %}<td align="center">{{ cartitem.product.unit_price|currency }}</td>{% endif %}
+			<td align="center">{{ cartitem.product|discount_price:sale|currency }}</td>
+            <td align="center">{{ cartitem|discount_line_total:sale|currency }}</td>
+        </tr>
+		{% cartitem_custom_details cartitem %}
+		{% cartitem_subscription_details cartitem %}
+    {% endfor %}
+    <tr><td colspan="{% if sale %}5{% else %}4{% endif %}" align="right">{% trans "Cart Total" %}:</td>
+        <td>{{ cart|discount_cart_total:sale|currency }}</td></tr>
+    </table>
+    {% if sale %}
+	{% include "product/some_discount_eligible.html" %}
+	{% endif %}
+
+    <a href="{% url satchmo_checkout-step1 %}">{% trans "Check out" %}</a>
+{% endif %}
+{% endblock %}
+
+{% block subnav %}
+<div class="tab_long tab_activ">
+    <div class="tab_activ_sh">
+        <h1 class="h1_h">Ваша корзина</h1>
+    </div>
+</div>
+{% endblock %}
