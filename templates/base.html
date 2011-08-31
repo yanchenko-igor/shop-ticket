@@ -115,8 +115,8 @@
                 {% endblock %}
                 <div class="tab_basket">
                     <div class="basket_count">
-                        <a href="#"><img style="vertical-align: middle;" alt="" src="{{ media_url }}images/icon_basket.gif"></a>
-                        <b><a href="#">В вашей корзине 5 билетов</a></b>
+                        <a href="{% url satchmo_cart %}"><img style="vertical-align: middle;" alt="" src="{{ media_url }}images/icon_basket.gif"></a>
+                        <b><a href="{% url satchmo_cart %}">{% blocktrans count counter=cart|length %}In your cart {{ counter }} ticket{% plural %}In your cart {{ counter }} tickets{% endblocktrans %}</a></b>
                     </div>
                 </div>
             </div>

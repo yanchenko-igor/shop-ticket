@@ -31,7 +31,14 @@
                                 </div>
                             </div>
                             <div class="feed_date">
-                                {% for date in event.dates.all %}{% ifchanged date.datetime.date %}{% if forloop.first %}{% else %}</p>{% endif %}<p>{{ date.datetime|date:"j E" }}{% else %}, {% endifchanged %} {{ date.datetime|date:"H:i" }}{% if forloop.last %}</p>{% endif %}{% endfor %}
+                                <div class="feed_date_cont">
+                                    {% for date in event.dates.all %}{% ifchanged date.datetime.date %}{% if forloop.first %}{% else %}</p>
+                                    {% endif %}<p>{{ date.datetime|date:"j E" }}{% else %}, {% endifchanged %} {{ date.datetime|date:"H:i" }}{% if forloop.last %}</p>{% endif %}{% endfor %}
+                                 </div>
+                                <div class="feed_date_pop">
+                                    {% for date in event.dates.all %}{% ifchanged date.datetime.date %}{% if forloop.first %}{% else %}</p>
+                                    {% endif %}<p>{{ date.datetime|date:"j E" }}{% else %}, {% endifchanged %} {{ date.datetime|date:"H:i" }}{% if forloop.last %}</p>{% endif %}{% endfor %}
+                                </div>
                             </div>
                             <div class="feed_txt">
                                 <a href="#">{{ event.product.short_description }}</a>
