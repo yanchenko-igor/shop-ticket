@@ -41,7 +41,7 @@
                 </tbody></table>
 
     {% for cartitem in cart %}
-                <div class="basked_bl">
+                <div class="basked_bl cartitem" id="cartitem-{{cartitem.id}}">
                     <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
                     <div class="curve_body basket_grey">
                         <table class="basket_tab">
@@ -78,6 +78,10 @@
                                     {{ cartitem.product.unit_price|currency }}
                                 </td>
                                 <td class="basked_td_del">
+                                    <form action="{% url satchmo_cart_remove %}" method="post" class="removeform" id="rmform-{{cartitem.id}}">
+                                        <input type="hidden" name="cartitem" class="cartitem_id" value="{{ cartitem.id }}" />
+                                        <input type="submit" class="remove_item" value="{% trans 'Remove' %}" />
+                                    </form>
                                     <img alt="" src="{{ media_url }}images/icon_del.png">
                                 </td>
                             </tr>
@@ -92,7 +96,7 @@
                         <img alt="" src="{{ media_url }}images/icon_back_shopping.gif"> <a href="#">Вернуться к покупкам</a>
                     </div>
                     <div class="basket_total_bl">
-                        Итого в сумме: <span class="basket_total_price"><label>{{ cart|discount_cart_total:sale|currency }}</label></span>
+                        Итого в сумме: <span class="basket_total_price"><label id="cart_total">{{ cart|discount_cart_total:sale|currency }}</label></span>
 
                     </div>
                 </div>
@@ -164,6 +168,95 @@
             </form>
     <a href="{% url satchmo_checkout-step1 %}">{% trans "Check out" %}</a>
 
+
+<script type="text/javascript">
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+function clearCart() {
+    $("#cart").remove();
+    $("#checkout_link").remove();
+    $("#cartheader").text('{% trans "Your cart is empty." %}');
+    $("#quickcart").html("<br>");
+}
+
+function removeItem(data) {
+    $("#cartitem-" + data.item_id).remove();
+    updateSidebar(data);
+    $("#infobox").html("Item removed!");
+    
+}
+
+function updateSidebar(data) {
+    $("#quickcart").html("(" + data.cart_count + " - $" + data.cart_total + ")<br >");
+}
+$(function() {
+    
+    $(".qtyform").submit(function() {
+        $.post('{% url satchmo_cart_set_qty %}', {
+            cartitem: $(this).children('input.cartitem_id').val(),
+            quantity: $(this).children('input.cartitem_qty').val()
+            },
+            function(data) {
+                if (parseInt(data.item_qty) > 0) {
+                    $("#cartitem-" + data.item_id + " .cartitem_linetotalprice").text('$' + data.item_price);
+                    $("#cart_total").text('$' + data.cart_total);
+                    
+                    updateSidebar(data);
+                    $("#infobox").html("Quantity updated!");
+                } else {
+                    if (parseInt(data.cart_count) <= 0) {
+                        clearCart();
+                    } else {
+                        removeItem(data);
+                    }
+                }
+            },
+            'json'
+        );
+        return false;
+    });
+    
+    $(".removeform").submit(function() {
+        $.post('{% url satchmo_cart_remove %}', {
+            csrfmiddlewaretoken: getCookie('csrftoken'),
+            cartitem: $(this).children('input.cartitem_id').val()
+            },
+            function(data) {
+                $("#cart_total").text(data.cart_total + ' грн.');
+                $("#cart_count").text(data.cart_count);
+                if (parseInt(data.cart_count) <= 0) {
+                    clearCart();
+                } else {
+                    removeItem(data);
+                }
+            },
+            'json'
+        );
+        return false;
+    });
+    
+    $.ajaxSetup({
+        error: function() {
+            $("#errormessages").html("<strong>There was an error with your request</strong>");
+        }
+    });
+       
+});
+</script>
+
 {% endif %}
 
 {% endblock %}
@@ -175,3 +268,5 @@
     </div>
 </div>
 {% endblock %}
+
+

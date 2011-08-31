@@ -116,7 +116,7 @@
                 <div class="tab_basket">
                     <div class="basket_count">
                         <a href="{% url satchmo_cart %}"><img style="vertical-align: middle;" alt="" src="{{ media_url }}images/icon_basket.gif"></a>
-                        <b><a href="{% url satchmo_cart %}">{% blocktrans count counter=cart|length %}In your cart {{ counter }} ticket{% plural %}In your cart {{ counter }} tickets{% endblocktrans %}</a></b>
+                        <b><a href="{% url satchmo_cart %}">{% blocktrans count counter=cart|length %}In your cart <span id="cart_count">{{ counter }}</span> ticket{% plural %}In your cart <span id="cart_count">{{ counter }}</span> tickets{% endblocktrans %}</a></b>
                     </div>
                 </div>
             </div>
