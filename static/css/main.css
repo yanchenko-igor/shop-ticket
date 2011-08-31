@@ -1088,22 +1088,33 @@ optgroup option {
     border-bottom: 1px solid #cccccc;
     margin: 0 -12px 17px -12px;
 }
+.wraper_tab a{
+    color: #666666;
+}
 .tab_activ{
     background-color: #fff;
-    float:left;
-    min-height: 40px;
+    border-right: none 0 !important;
     margin-bottom: -1px;
-    width: 658px;
-    border-right: 1px solid #cccccc;
+    padding: 0 !important;
+
 }
-.tab_activ_sh{
+.tab_activ .tab_activ_sh{
     background: url(/static/images/tab_activ_sh.png) 100% 0 repeat-y;
     margin-right: -7px;
     min-height: 40px;
-    padding: 0 12px;
+    padding: 0 19px 0 12px;
+}
+.tab_long{
+    height: 40px;
+    float: left;
+    width: 656px;
 }
 .tab_main{
     width: 223px;
+    height: 40px;
+    padding: 0 17px;
+    float:left;
+    border-right: 1px solid #cccccc;
 }
 .h1_h{
     font-size: 24px;
@@ -1120,26 +1131,17 @@ optgroup option {
 .tab_nested{
         font-size: 13px;
         padding: 13px 0 0 0;
-        color: #666666;
     }
-.tab_recommend{
+.tab{
     float: left;
     height: 40px;
-    padding: 0 24px;
+    padding: 0 19px;
     border-right: 1px solid #ccc;
 }
-.tab_recommend a{
-    color: #666666;
-}
 
-.tab_order{
-    float: left;
-    height: 40px;
-    padding: 0 20px;
+a.how_order{
+    color: #c63d3a;
 }
-    .tab_order a{
-        color: #c63d3a;
-    }
 .back_heading{
     float: right;
     padding-top: 14px;
