@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-31 16:55+0300\n"
+"POT-Creation-Date: 2011-08-31 23:33+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,7 +66,7 @@ msgstr "Схемы залов"
 msgid "Product"
 msgstr "Товар"
 
-#: localsite/models.py:72
+#: localsite/models.py:72 localsite/models.py:256
 msgid "Event"
 msgstr "Событие"
 
@@ -106,10 +106,6 @@ msgstr "место"
 msgid "Seat Locations"
 msgstr "место"
 
-#: localsite/models.py:256
-msgid "Parent"
-msgstr "Родитель"
-
 #: localsite/models.py:261
 msgid "Ticket"
 msgstr "Билет"
@@ -127,11 +123,12 @@ msgid "Announcements"
 msgstr "Анонсы"
 
 #: templates/base.html:119
-msgid "In your cart %(counter)s ticket"
-msgid_plural "In your cart %(counter)s tickets"
-msgstr[0] "В Вашей корзине %(counter)s билет"
-msgstr[1] "В Вашей корзине %(counter)s билета"
-msgstr[2] "В Вашей корзине %(counter)s билетов"
+#, python-format
+msgid "In your cart <span id=\"cart_count\">%(counter)s</span> ticket"
+msgid_plural "In your cart <span id=\"cart_count\">%(counter)s</span> tickets"
+msgstr[0] "В Вашей корзине <span id=\"cart_count\">%(counter)s</span> билет"
+msgstr[1] "В Вашей корзине <span id=\"cart_count\">%(counter)s</span> билета"
+msgstr[2] "В Вашей корзине <span id=\"cart_count\">%(counter)s</span> билетов"
 
 #: templates/admin/base_site.html:34 templates/admin/base_site.html.py:37
 msgid "Site Administration"
@@ -229,7 +226,8 @@ msgstr "Все рекомендации"
 #: templates/localsite/featured.html:7 templates/product/best_sellers.html:7
 #: templates/product/category.html:15 templates/product/category_index.html:7
 #: templates/product/product.html:25 templates/product/recently_added.html:7
-#: templates/shop/index.html:7 templates/shop/checkout/base_confirm.html:7
+#: templates/shop/cart.html:12 templates/shop/index.html:7
+#: templates/shop/checkout/base_confirm.html:7
 #: templates/shop/checkout/cod/confirm.html:9
 msgid "Home"
 msgstr "Главная"
@@ -282,6 +280,22 @@ msgstr "Не найдено"
 msgid "All Products"
 msgstr "Все товары"
 
+#: templates/shop/cart.html:13
+msgid "Cart"
+msgstr ""
+
+#: templates/shop/cart.html:31 templates/shop/cart.html.py:191
+msgid "Your cart is empty."
+msgstr ""
+
+#: templates/shop/cart.html:83
+msgid "Remove"
+msgstr ""
+
+#: templates/shop/cart.html:169
+msgid "Check out"
+msgstr ""
+
 #: templates/shop/checkout/base_confirm.html:8
 #: templates/shop/checkout/base_confirm.html:12
 #: templates/shop/checkout/cod/confirm.html:10
@@ -325,6 +339,9 @@ msgstr ""
 #, python-format
 msgid "This order will be COD for %(order_total)s."
 msgstr ""
+
+#~ msgid "Parent"
+#~ msgstr "Родитель"
 
 #~ msgid "Section: %(sec)s (Row:%(row)s;Col:%(col)s)"
 #~ msgstr "Секция: %(sec)s (Ряд:%(row)s;Место:%(col)s)"

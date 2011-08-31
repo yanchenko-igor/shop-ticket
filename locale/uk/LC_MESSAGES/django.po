@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-31 16:55+0300\n"
+"POT-Creation-Date: 2011-08-31 23:33+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,7 +67,7 @@ msgstr ""
 msgid "Product"
 msgstr ""
 
-#: localsite/models.py:72
+#: localsite/models.py:72 localsite/models.py:256
 msgid "Event"
 msgstr ""
 
@@ -107,10 +107,6 @@ msgstr ""
 msgid "Seat Locations"
 msgstr ""
 
-#: localsite/models.py:256
-msgid "Parent"
-msgstr ""
-
 #: localsite/models.py:261
 msgid "Ticket"
 msgstr ""
@@ -129,8 +125,8 @@ msgstr ""
 
 #: templates/base.html:119
 #, python-format
-msgid "In your cart %(counter)s ticket"
-msgid_plural "In your cart %(counter)s tickets"
+msgid "In your cart <span id=\"cart_count\">%(counter)s</span> ticket"
+msgid_plural "In your cart <span id=\"cart_count\">%(counter)s</span> tickets"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
@@ -231,7 +227,8 @@ msgstr ""
 #: templates/localsite/featured.html:7 templates/product/best_sellers.html:7
 #: templates/product/category.html:15 templates/product/category_index.html:7
 #: templates/product/product.html:25 templates/product/recently_added.html:7
-#: templates/shop/index.html:7 templates/shop/checkout/base_confirm.html:7
+#: templates/shop/cart.html:12 templates/shop/index.html:7
+#: templates/shop/checkout/base_confirm.html:7
 #: templates/shop/checkout/cod/confirm.html:9
 msgid "Home"
 msgstr ""
@@ -282,6 +279,22 @@ msgstr ""
 
 #: templates/shop/_search.html:7
 msgid "All Products"
+msgstr ""
+
+#: templates/shop/cart.html:13
+msgid "Cart"
+msgstr ""
+
+#: templates/shop/cart.html:31 templates/shop/cart.html.py:191
+msgid "Your cart is empty."
+msgstr ""
+
+#: templates/shop/cart.html:83
+msgid "Remove"
+msgstr ""
+
+#: templates/shop/cart.html:169
+msgid "Check out"
 msgstr ""
 
 #: templates/shop/checkout/base_confirm.html:8
