@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-31 23:33+0300\n"
+"POT-Creation-Date: 2011-09-01 12:25+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,87 +39,99 @@ msgstr ""
 msgid "Hall of event"
 msgstr ""
 
-#: localsite/models.py:25
-msgid "City"
+#: localsite/models.py:23 localsite/models.py:304
+msgid "Ordering"
+msgstr ""
+
+#: localsite/models.py:23
+msgid "Override alphabetical order in city display"
 msgstr ""
 
 #: localsite/models.py:26
+msgid "City"
+msgstr ""
+
+#: localsite/models.py:27
 msgid "Cities"
 msgstr ""
 
-#: localsite/models.py:39
+#: localsite/models.py:41
 msgid "Hall"
 msgstr ""
 
-#: localsite/models.py:40
+#: localsite/models.py:42
 msgid "Halls"
 msgstr ""
 
-#: localsite/models.py:54
+#: localsite/models.py:57 localsite/models.py:68
 msgid "Hall Scheme"
 msgstr ""
 
-#: localsite/models.py:55
+#: localsite/models.py:58
 msgid "Hall Schemes"
 msgstr ""
 
-#: localsite/models.py:63 localsite/models.py:255
+#: localsite/models.py:67 localsite/models.py:264
 msgid "Product"
 msgstr ""
 
-#: localsite/models.py:72 localsite/models.py:256
+#: localsite/models.py:76 localsite/models.py:265
 msgid "Event"
 msgstr ""
 
-#: localsite/models.py:73
+#: localsite/models.py:77
 msgid "Events"
 msgstr ""
 
-#: localsite/models.py:170
+#: localsite/models.py:175
 msgid "Event Date"
 msgstr ""
 
-#: localsite/models.py:171
+#: localsite/models.py:176
 msgid "Event Dates"
 msgstr ""
 
-#: localsite/models.py:200
+#: localsite/models.py:206
 msgid "Seat Group"
 msgstr ""
 
-#: localsite/models.py:201
+#: localsite/models.py:207
 msgid "Seat Groups"
 msgstr ""
 
-#: localsite/models.py:217
+#: localsite/models.py:224
 msgid "Seat Group Price"
 msgstr ""
 
-#: localsite/models.py:218
+#: localsite/models.py:225
 msgid "Seat Group Prices"
 msgstr ""
 
-#: localsite/models.py:243
+#: localsite/models.py:251
 msgid "Seat Location"
 msgstr ""
 
-#: localsite/models.py:244
+#: localsite/models.py:252
 msgid "Seat Locations"
 msgstr ""
 
-#: localsite/models.py:261
+#: localsite/models.py:270
 msgid "Ticket"
 msgstr ""
 
-#: localsite/models.py:262
+#: localsite/models.py:271
 msgid "Tickets"
 msgstr ""
 
-#: localsite/models.py:296
+#: localsite/models.py:304
+msgid "Override alphabetical order in announcement display"
+msgstr ""
+
+#: localsite/models.py:307
 msgid "Announcement"
 msgstr ""
 
-#: localsite/models.py:297
+#: localsite/models.py:308
 msgid "Announcements"
 msgstr ""
 
@@ -216,11 +228,11 @@ msgstr ""
 msgid "submit"
 msgstr ""
 
-#: templates/localsite/block_bestsellers.html:44
+#: templates/localsite/block_bestsellers.html:18
 msgid "All Best Sellers"
 msgstr ""
 
-#: templates/localsite/block_featured.html:42
+#: templates/localsite/block_featured.html:16
 msgid "All Featured"
 msgstr ""
 
@@ -285,15 +297,11 @@ msgstr ""
 msgid "Cart"
 msgstr ""
 
-#: templates/shop/cart.html:31 templates/shop/cart.html.py:191
+#: templates/shop/cart.html:31 templates/shop/cart.html.py:54
 msgid "Your cart is empty."
 msgstr ""
 
-#: templates/shop/cart.html:83
-msgid "Remove"
-msgstr ""
-
-#: templates/shop/cart.html:169
+#: templates/shop/cart.html:262
 msgid "Check out"
 msgstr ""
 
