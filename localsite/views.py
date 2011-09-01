@@ -30,6 +30,11 @@ class JsonResponse(HttpResponse):
             content, content_type='application/json')
 
 
+def sitemap(request):
+
+    ctx = RequestContext(request, {})
+    return render_to_response('localsite/sitemap.html', context_instance=ctx)
+
 def example(request):
     ctx = RequestContext(request, {})
     return render_to_response('localsite/example.html', context_instance=ctx)
