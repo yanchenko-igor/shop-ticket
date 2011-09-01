@@ -7,6 +7,7 @@ from product.models import Option, Product, ProductPriceLookup, OptionGroup, Pri
 from satchmo_utils import cross_list
 from satchmo_utils.unique_id import slugify
 from localsite.utils.translit import cyr2lat
+import datetime
 
 SATCHMO_PRODUCT=True
 
@@ -20,10 +21,12 @@ class City(models.Model):
     """docstring for City"""
     name = models.CharField(max_length=25, unique=True)
     slug = models.SlugField(max_length=25)
+    ordering = models.IntegerField(_("Ordering"), default=0, help_text=_("Override alphabetical order in city display"))
     
     class Meta:
         verbose_name = _("City")
         verbose_name_plural = _("Cities")
+        ordering = ['ordering', 'name']
     
     def __unicode__(self):
         return u"%s" % self.name
@@ -39,6 +42,7 @@ class Hall(models.Model):
         verbose_name = _("Hall")
         verbose_name_plural = _("Halls")
         unique_together = (('name', 'city'),)
+        ordering = ['city', 'name']
         
     def __unicode__(self):
         return u"%s(%s)" % (self.name, self.city)
@@ -54,6 +58,7 @@ class HallScheme(models.Model):
         verbose_name = _("Hall Scheme")
         verbose_name_plural = _("Hall Schemes")
         unique_together = (('name', 'hall'),)
+        ordering = ['hall', 'name']
         
     def __unicode__(self):
         return u"%s: %s" % (self.hall, self.name)
@@ -61,7 +66,7 @@ class HallScheme(models.Model):
 class Event(models.Model):
     """docstring for Event"""
     product = models.OneToOneField(Product, verbose_name=_('Product'), primary_key=True)
-    hallscheme = models.ForeignKey(HallScheme, related_name='events')
+    hallscheme = models.ForeignKey(HallScheme, verbose_name=_('Hall Scheme'), related_name='events')
     min_price = models.IntegerField(null=True, blank=True, editable=False)
     max_price = models.IntegerField(null=True, blank=True, editable=False)
     min_date = models.DateField(null=True, blank=True, editable=False)
@@ -71,6 +76,7 @@ class Event(models.Model):
     class Meta:
         verbose_name = _("Event")
         verbose_name_plural = _("Events")
+        ordering = ['min_date', 'max_date']
         
     def __unicode__(self):
         return u"Event: %s" % self.product.name
@@ -170,6 +176,7 @@ class EventDate(models.Model):
         verbose_name = _("Event Date")
         verbose_name_plural = _("Event Dates")
         unique_together = (('event', 'datetime'),)
+        ordering = ['datetime', 'event']
     
     def __unicode__(self):
         return u"%s" % self.datetime.strftime("%d.%m.%Y %H:%M")
@@ -200,6 +207,7 @@ class SeatGroup(models.Model):
         verbose_name = _("Seat Group")
         verbose_name_plural = _("Seat Groups")
         unique_together = (('hallscheme', 'name'),)
+        ordering = ['hallscheme', 'section', 'name']
         
     def __unicode__(self):
         return u"%s" % self.name
@@ -217,6 +225,7 @@ class SeatGroupPrice(models.Model):
         verbose_name = _("Seat Group Price")
         verbose_name_plural = _("Seat Group Prices")
         unique_together = (('group', 'event'),)
+        ordering = ['event', 'group']
     
     def __unicode__(self):
         return u"%s - %s - %s" % (self.event.product.name, self.group.name, self.price)
@@ -243,6 +252,7 @@ class SeatLocation(models.Model):
         verbose_name = _("Seat Location")
         verbose_name_plural = _("Seat Locations")
         unique_together = (("hallscheme", "group", 'row', "col"),)
+        ordering = ['group', 'row', 'col']
     
     def __unicode__(self):
         if self.row and self.col:
@@ -260,6 +270,7 @@ class Ticket(models.Model):
     class Meta:
         verbose_name = _("Ticket")
         verbose_name_plural = _("Tickets")
+        ordering = ['datetime', 'event']
         unique_together = (
                 ("product", "datetime", 'seat'),
                 ("event", "datetime", 'seat'),
@@ -286,15 +297,35 @@ class Ticket(models.Model):
 
         super(Ticket, self).save(**kwargs)
 
+class AnnouncementManager(models.Manager):
+
+    def active(self, **kwargs):
+        return self.filter(begin__lte=datetime.datetime.now(), end__gte=datetime.datetime.now(), **kwargs)
+
+
 class Announcement(models.Model):
     """docstring for Announcement"""
-    from_date = models.DateField()
-    to_date = models.DateField()
-    event = models.ForeignKey('Event', related_name='announcements')
+    begin = models.DateTimeField(_("Begin"), blank=True, null=True)
+    end = models.DateTimeField(_("End"), blank=True, null=True)
+    event = models.ForeignKey('Event', verbose_name=_("Event"), related_name='announcements')
+    ordering = models.IntegerField(_("Ordering"), default=0, help_text=_("Override alphabetical order in announcement display"))
+
+    objects = AnnouncementManager()
     
     class Meta:
         verbose_name = _("Announcement")
         verbose_name_plural = _("Announcements")
+        ordering = ['ordering', 'begin']
     
     def __unicode__(self):
-        return "%s" % self.event.product.name
+        begin = self.begin.strftime('%Y.%m.%d')
+        end = self.end.strftime('%Y.%m.%d')
+
+        return "%s (%s - %s)" % (self.event.product.name, begin, end)
+
+    def save(self, **kwargs):
+        if not self.begin:
+            self.begin=datetime.datetime.now()
+        if not self.end:
+            self.end=self.begin + datetime.timedelta(days=7)
+        super(Announcement, self).save(**kwargs)

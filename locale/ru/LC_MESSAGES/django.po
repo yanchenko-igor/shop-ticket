@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-31 23:33+0300\n"
+"POT-Creation-Date: 2011-09-01 14:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,87 +38,107 @@ msgstr "Жанр категории"
 msgid "Hall of event"
 msgstr "Площадка проведения"
 
-#: localsite/models.py:25
+#: localsite/models.py:24 localsite/models.py:311
+msgid "Ordering"
+msgstr "Сортировка"
+
+#: localsite/models.py:24
+msgid "Override alphabetical order in city display"
+msgstr "Переопределяет алфавитный порядок при отображении городов"
+
+#: localsite/models.py:27
 msgid "City"
 msgstr "Город"
 
-#: localsite/models.py:26
+#: localsite/models.py:28
 msgid "Cities"
 msgstr "Города"
 
-#: localsite/models.py:39
+#: localsite/models.py:42
 msgid "Hall"
 msgstr "Площадка"
 
-#: localsite/models.py:40
+#: localsite/models.py:43
 msgid "Halls"
 msgstr "Площадки"
 
-#: localsite/models.py:54
+#: localsite/models.py:58 localsite/models.py:69
 msgid "Hall Scheme"
 msgstr "Схема зала"
 
-#: localsite/models.py:55
+#: localsite/models.py:59
 msgid "Hall Schemes"
 msgstr "Схемы залов"
 
-#: localsite/models.py:63 localsite/models.py:255
+#: localsite/models.py:68 localsite/models.py:265
 msgid "Product"
 msgstr "Товар"
 
-#: localsite/models.py:72 localsite/models.py:256
+#: localsite/models.py:77 localsite/models.py:266 localsite/models.py:310
 msgid "Event"
 msgstr "Событие"
 
-#: localsite/models.py:73
+#: localsite/models.py:78
 msgid "Events"
 msgstr "События"
 
-#: localsite/models.py:170
+#: localsite/models.py:176
 msgid "Event Date"
 msgstr "Дата события"
 
-#: localsite/models.py:171
+#: localsite/models.py:177
 msgid "Event Dates"
 msgstr "Дата события"
 
-#: localsite/models.py:200
+#: localsite/models.py:207
 msgid "Seat Group"
-msgstr ""
+msgstr "Группа мест"
 
-#: localsite/models.py:201
+#: localsite/models.py:208
 msgid "Seat Groups"
-msgstr ""
+msgstr "Группы мест"
 
-#: localsite/models.py:217
+#: localsite/models.py:225
 msgid "Seat Group Price"
 msgstr ""
 
-#: localsite/models.py:218
+#: localsite/models.py:226
 msgid "Seat Group Prices"
 msgstr ""
 
-#: localsite/models.py:243
+#: localsite/models.py:252
 msgid "Seat Location"
 msgstr "место"
 
-#: localsite/models.py:244
+#: localsite/models.py:253
 msgid "Seat Locations"
 msgstr "место"
 
-#: localsite/models.py:261
+#: localsite/models.py:271
 msgid "Ticket"
 msgstr "Билет"
 
-#: localsite/models.py:262
+#: localsite/models.py:272
 msgid "Tickets"
 msgstr "Билеты"
 
-#: localsite/models.py:296
+#: localsite/models.py:308
+msgid "Begin"
+msgstr "Начало"
+
+#: localsite/models.py:309
+msgid "End"
+msgstr "Конец"
+
+#: localsite/models.py:311
+msgid "Override alphabetical order in announcement display"
+msgstr "Переопределяет алфавитный порядок при отображении аннонсов"
+
+#: localsite/models.py:316
 msgid "Announcement"
 msgstr "Анонс"
 
-#: localsite/models.py:297
+#: localsite/models.py:317
 msgid "Announcements"
 msgstr "Анонсы"
 
@@ -215,11 +235,11 @@ msgstr ""
 msgid "submit"
 msgstr ""
 
-#: templates/localsite/block_bestsellers.html:44
+#: templates/localsite/block_bestsellers.html:13
 msgid "All Best Sellers"
 msgstr "Все хиты продаж"
 
-#: templates/localsite/block_featured.html:42
+#: templates/localsite/block_featured.html:12
 msgid "All Featured"
 msgstr "Все рекомендации"
 
@@ -254,7 +274,7 @@ msgstr "Список категорий"
 
 #: templates/product/product.html:140
 msgid "Price"
-msgstr ""
+msgstr "Цена"
 
 #: templates/product/product.html:140
 msgid "(incl. tax)"
@@ -262,7 +282,7 @@ msgstr ""
 
 #: templates/product/product.html:161
 msgid "Quantity"
-msgstr ""
+msgstr "Количество"
 
 #: templates/product/product.html:163
 msgid "Add to cart"
@@ -282,17 +302,13 @@ msgstr "Все товары"
 
 #: templates/shop/cart.html:13
 msgid "Cart"
-msgstr ""
+msgstr "Корзина"
 
-#: templates/shop/cart.html:31 templates/shop/cart.html.py:191
+#: templates/shop/cart.html:31 templates/shop/cart.html.py:54
 msgid "Your cart is empty."
-msgstr ""
+msgstr "Ваша корзина пуста"
 
-#: templates/shop/cart.html:83
-msgid "Remove"
-msgstr ""
-
-#: templates/shop/cart.html:169
+#: templates/shop/cart.html:262
 msgid "Check out"
 msgstr ""
 

@@ -28,7 +28,7 @@
 {% endif %}
 
 {% if not cart|length %}
-    <h4>{% trans "Your cart is empty." %}</h4>
+    <h4 id="cartheader">{% trans "Your cart is empty." %}</h4>
 {% else %}
 
 <script type="text/javascript">
@@ -50,6 +50,7 @@ function getCookie(name) {
 function clearCart() {
     $("#cart").remove();
     $("#checkout_link").remove();
+    $("#checkout_form").remove();
     $("#cartheader").text('{% trans "Your cart is empty." %}');
     $("#quickcart").html("<br>");
 }
@@ -91,15 +92,16 @@ $(function() {
         return false;
     });
     
-    $(".removeform").submit(function() {
+    $(".removeform a").click(function() {
         $.post('{% url satchmo_cart_remove %}', {
             csrfmiddlewaretoken: getCookie('csrftoken'),
-            cartitem: $(this).children('input.cartitem_id').val()
+            cartitem: $(this).parents('form:first').children('input.cartitem_id').val()
             },
             function(data) {
-                $("#cart_total").text(data.cart_total + ' грн.');
+                $("#cart_total label").text(data.cart_total);
                 $("#cart_count").text(data.cart_count);
                 if (parseInt(data.cart_count) <= 0) {
+                    removeItem(data);
                     clearCart();
                 } else {
                     removeItem(data);
@@ -119,7 +121,8 @@ $(function() {
 });
 </script>
 
-            <div class="wraper_basket">
+    <h4 id="cartheader"></h4>
+            <div class="wraper_basket" id="cart">
                 <table class="table_heading_basket">
                     <tbody><tr>
                         <th>Предстоящее событие</th>
@@ -169,7 +172,7 @@ $(function() {
                                 <td class="basked_td_del">
                                     <form action="{% url satchmo_cart_remove %}" method="post" class="removeform" id="rmform-{{cartitem.id}}">
                                         <input type="hidden" name="cartitem" class="cartitem_id" value="{{ cartitem.id }}" />
-                                        <img alt="" onclick="jQuery(this).parents('form:first').trigger('submit');" src="{{ media_url }}images/icon_del.png">
+                                        <a href="#"><img alt="" src="{{ media_url }}images/icon_del.png"></a>
                                     </form>
                                 </td>
                             </tr>
@@ -191,6 +194,7 @@ $(function() {
             </div>
             <!-- /<div class="wraper_basket"> -->
 
+            <div id=checkout_form>
             <h1 class="h1_h">Оформление покупки</h1>
             <form action="" class="form_ormit_order clearfix">
                 <div class="ormit_order">
@@ -254,7 +258,8 @@ $(function() {
                 </div>
 
             </form>
-    <a href="{% url satchmo_checkout-step1 %}">{% trans "Check out" %}</a>
+            </div>
+    <a id="checkout_link" href="{% url satchmo_checkout-step1 %}">{% trans "Check out" %}</a>
 
 {% endif %}
 

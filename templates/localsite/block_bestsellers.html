@@ -1,4 +1,4 @@
-{% load thumbnail i18n %}
+{% load thumbnail i18n local_tags %}
 <div class="heading_bg">
     <span class="h_t_l"><!-- --></span>
     <span class="h_t_r"><!-- --></span>
@@ -7,38 +7,7 @@
     <span class="h_b_r"><!-- --></span>
 </div>
 <div class="wrap_line">
-    <ul class="feed_list reset_list">
-        {% for product in bestsellers %}
-        <li>
-            <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
-            <div class="curve_body feed_gray clearfix">
-                    <div class="feed_list_img">
-                        {% if product.main_image.picture|is_portrait %}
-                              {% thumbnail product.main_image.picture "85x61" crop="50% 25%" as image %}
-                              <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
-                              {% endthumbnail %}
-                        {% else %}
-                              {% thumbnail product.main_image.picture "85x61" crop="center" as image %}
-                              <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
-                              {% endthumbnail %}
-                        {% endif %}
-                    </div>
-                <div class="feed_list_txt">
-                    {% if product.main_category %}
-                    <div class="feed_list_txt_tag">
-                        <a href="{{ product.main_category.get_absolute_url }}">{{ product.main_category.translated_name }}</a>
-                    </div>
-                    {% endif %}
-                    <div class="feed_list_txt_inf">
-                        <p><a href="{{ product.get_absolute_url }}">{{ product.translated_name }}</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="curve_bott"><div><span class="curve_gray"><!-- --></span></div></div>
-        </li>
-        {% endfor %}
-
-    </ul>
+    {% show_bestsellers_items 5 %}
     <div class="all_link">
     {% url satchmo_product_best_selling as popularurl %}
     {% if popularurl %}<br/><a href="{{ popularurl }}">{% trans "All Best Sellers" %}</a><br/>{% endif %}
