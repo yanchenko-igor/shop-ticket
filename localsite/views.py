@@ -17,6 +17,8 @@ from django.http import HttpResponse
 from django.utils import simplejson
 from django.utils.translation import ugettext as _
 from django.db.models import Q
+from satchmo_store.shop.views.sitemaps import sitemaps
+from django.contrib.sitemaps.views import sitemap as django_sitemap
 
 class JsonResponse(HttpResponse):
     def __init__(self, object):
@@ -31,7 +33,6 @@ class JsonResponse(HttpResponse):
 
 
 def sitemap(request):
-
     ctx = RequestContext(request, {})
     return render_to_response('localsite/sitemap.html', context_instance=ctx)
 
