@@ -7,6 +7,7 @@ from product.models import Option, Product, ProductPriceLookup, OptionGroup, Pri
 from satchmo_utils import cross_list
 from satchmo_utils.unique_id import slugify
 from localsite.utils.translit import cyr2lat
+import datetime
 
 SATCHMO_PRODUCT=True
 
@@ -296,17 +297,35 @@ class Ticket(models.Model):
 
         super(Ticket, self).save(**kwargs)
 
+class AnnouncementManager(models.Manager):
+
+    def active(self, **kwargs):
+        return self.filter(begin__lte=datetime.datetime.now(), end__gte=datetime.datetime.now(), **kwargs)
+
+
 class Announcement(models.Model):
     """docstring for Announcement"""
-    from_date = models.DateField()
-    to_date = models.DateField()
-    event = models.ForeignKey('Event', related_name='announcements')
+    begin = models.DateTimeField(_("Begin"), blank=True, null=True)
+    end = models.DateTimeField(_("End"), blank=True, null=True)
+    event = models.ForeignKey('Event', verbose_name=_("Event"), related_name='announcements')
     ordering = models.IntegerField(_("Ordering"), default=0, help_text=_("Override alphabetical order in announcement display"))
+
+    objects = AnnouncementManager()
     
     class Meta:
         verbose_name = _("Announcement")
         verbose_name_plural = _("Announcements")
-        ordering = ['ordering', 'from_date']
+        ordering = ['ordering', 'begin']
     
     def __unicode__(self):
-        return "%s" % self.event.product.name
+        begin = self.begin.strftime('%Y.%m.%d')
+        end = self.end.strftime('%Y.%m.%d')
+
+        return "%s (%s - %s)" % (self.event.product.name, begin, end)
+
+    def save(self, **kwargs):
+        if not self.begin:
+            self.begin=datetime.datetime.now()
+        if not self.end:
+            self.end=self.begin + datetime.timedelta(days=7)
+        super(Announcement, self).save(**kwargs)
