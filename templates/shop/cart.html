@@ -98,7 +98,7 @@ $(function() {
             cartitem: $(this).parents('form:first').children('input.cartitem_id').val()
             },
             function(data) {
-                $("#cart_total").text(data.cart_total + ' грн.');
+                $("#cart_total label").text(data.cart_total);
                 $("#cart_count").text(data.cart_count);
                 if (parseInt(data.cart_count) <= 0) {
                     removeItem(data);
