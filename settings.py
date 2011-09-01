@@ -148,6 +148,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'south',
     'django_extensions',
+    'tinymce',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -168,6 +169,7 @@ SATCHMO_SETTINGS = {
             url(r'^i18n/', include('l10n.urls')),
             url(r'^featured/', 'localsite.views.display_featured', name='localsite_featured'),
             url(r'^events/$', 'localsite.views.select_event', name='select_event'),
+            url(r'^tinymce/', include('tinymce.urls')),
             url(r'^sitemap/$', 'localsite.views.sitemap', name="sitemap"),
             url(r'^ajax_select_city/$', 'localsite.views.ajax_select_city', name='ajax_select_city'),
             url(r'^wizards/event/$', 'localsite.views.wizard_event', name='wizard_event_step0'),
@@ -177,6 +179,8 @@ SATCHMO_SETTINGS = {
 }
 
 SKIP_SOUTH_TESTS=True
+
+TINYMCE_DEFAULT_CONFIG = {'theme': "advanced", 'relative_urls': False}
 
 # Load the local settings
 from local_settings import *

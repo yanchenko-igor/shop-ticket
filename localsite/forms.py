@@ -8,6 +8,7 @@ from product.models import Product, ProductImage, Category
 from localsite.utils.translit import cyr2lat
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
+from tinymce.widgets  import TinyMCE
 
 class MyModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
@@ -40,6 +41,7 @@ class ProductForm(forms.ModelForm):
         super(ProductForm, self).__init__(*args, **kwargs)
         self.base_fields['related_items'].queryset = Product.objects.filter(id__in=Event.objects.all())
         self.fields['related_items'].queryset = Product.objects.filter(id__in=Event.objects.all())
+        self.fields['description'].widget = TinyMCE(attrs={'cols': 80, 'rows': 30})
 
     class Meta:
         model = Product
