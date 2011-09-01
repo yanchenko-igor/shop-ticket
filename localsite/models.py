@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Max, Min
 from django.utils.translation import ugettext as _
 from tagging.fields import TagField
+from tagging.models import Tag
 from django.core.urlresolvers import reverse
 from product.models import Option, Product, ProductPriceLookup, OptionGroup, Price ,make_option_unique_id
 from satchmo_utils import cross_list
@@ -99,6 +100,10 @@ class Event(models.Model):
     def _get_subtype(self):
         return 'Event'
 
+    def _get_tags(self):
+        return Tag.objects.get_for_object(self)
+    taglist = property(_get_tags)
+
     def get_all_options(self):
         """
         Returns all possible combinations of options for this products OptionGroups as a List of Lists.
@@ -114,8 +119,9 @@ class Event(models.Model):
             sublist.append(date)
         masterlist.append(sublist)
         sublist = []
-        for seat in self.hallscheme.seats.all():
-            sublist.append(seat)
+        for group in self.hallscheme.seatgroups.all():
+            for seat in group.seats.all():
+                sublist.append(seat)
         masterlist.append(sublist)
         sublist = []
         return cross_list(masterlist)
@@ -210,7 +216,7 @@ class SeatGroup(models.Model):
         ordering = ['hallscheme', 'section', 'name']
         
     def __unicode__(self):
-        return u"%s" % self.name
+        return u"%s - %s" % (self.hallscheme.__unicode__(), self.name)
     
     def save(self, force_insert=False, force_update=False):
         super(SeatGroup, self).save()
@@ -241,7 +247,6 @@ class SeatGroupPrice(models.Model):
 
 class SeatLocation(models.Model):
     """docstring for SeatLocation"""
-    hallscheme = models.ForeignKey('HallScheme', related_name='seats')
     group = models.ForeignKey(SeatGroup, related_name='seats')
     row = models.IntegerField(blank=True, null=True)
     col = models.IntegerField(blank=True, null=True)
@@ -251,7 +256,7 @@ class SeatLocation(models.Model):
     class Meta:
         verbose_name = _("Seat Location")
         verbose_name_plural = _("Seat Locations")
-        unique_together = (("hallscheme", "group", 'row', "col"),)
+        unique_together = (("group", 'row', "col"),)
         ordering = ['group', 'row', 'col']
     
     def __unicode__(self):

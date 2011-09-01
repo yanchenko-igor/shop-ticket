@@ -1,0 +1,129 @@
+{% extends "shop/base.html" %}
+{% comment %}
+-------------------------------------------------------------------
+This is the base product detail page.
+To modify the templates of specific types of products, such as
+ProductVariations or CustomProducts, look for product/detail_xxx.html
+-------------------------------------------------------------------
+{% endcomment %}
+{% load i18n %}
+{% load thumbnail %}
+{% load satchmo_price %}
+{% load satchmo_currency satchmo_category %}
+{% load satchmo_util satchmo_discounts %}
+{% load app_plugins %}
+
+{% block announcements %}{% endblock %}
+
+{% block extra-head %}
+{% if product.meta %}
+    <meta name="description" content="{{product.meta}}">
+{% endif %}
+{% endblock %}
+
+{% block navbar %}
+<li class="first"><a href="{{ shop_base }}/">{% trans "Home" %}</a></li>
+{% for name, url in product.category.all.0.get_url_name %}
+    <li><a href="{{ url }}">{{ name }}</a></li>
+{% endfor %}
+<li>{{ product.translated_name }}</li>
+{% endblock %}
+
+{% block content %}
+{% block productdetail %}
+                    <div class="content">
+
+                        <script type="text/javascript">
+                            $(document).ready(function(){
+                                $('.title_theater').hover(
+                                    function(){
+                                      $('#theater').removeClass('underline');
+                                      $('.title_theater_addres').show();
+                                    },
+                                    function(){
+                                      $('#theater').addClass('underline');
+                                      $('.title_theater_addres').hide();
+                                    }
+
+                                )
+                            });
+
+                        </script>
+
+                        <div class="event_img">
+                            {% if product.main_image.picture|is_portrait %}
+                                  {% thumbnail product.main_image.picture "637x354" crop="50% 25%" as image %}
+                                  <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                  {% endthumbnail %}
+                            {% else %}
+                                  {% thumbnail product.main_image.picture "637x354" crop="center" as image %}
+                                  <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                  {% endthumbnail %}
+                            {% endif %}
+                            <div class="event_img_description">
+                                <table class="event_description_tab">
+                                    <tr>
+                                        <td class="event_description_inf">
+                                            <div class="title_theater">
+                                                <span class="underline" id="theater">{{ product.event.hallscheme.hall.name }}</span>
+                                                <div class="title_theater_addres">
+                                                    {{ product.event.hallscheme.hall.city }}, {{ product.event.hallscheme.hall.address }}
+                                                </div>
+                                            </div>
+                                            <div class="select_place">
+                                                <a href="#">Выбрать дату и место в зале на схеме  </a>
+                                            </div>
+                                        </td>
+                                        <td class="event_description_btn">
+                                            Button
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="wrap_event_date">
+                            <ul class="event_date reset_list clearfix">
+                                {% for date in product.event.dates.all %}{% ifchanged date.datetime.date %}{% if forloop.first %}{% else %}</span></li>
+                                {% endif %}<li{% if date.datetime.date == product.event.max_date %} class="last"{% endif %}>{{ date.datetime|date:"j E Y, l" }} <span class="event_date_time">{% else %}, {% endifchanged %}{{ date.datetime|date:"H:i" }}{% if forloop.last %}</span></li>{% endif %}{% endfor %}
+                            </ul>
+                        </div>
+                        <div class="wrap_article">
+                            <h2 class="h2_article">{{ product.translated_name }}</h2>
+                            <div class="annotation">
+                                {{ product.translated_short_description }}
+                            </div>
+                                {{ product.translated_description }}
+                        </div>
+
+                        <div class="other_inf clearfix">
+                            <div class="article_tag">
+                                <span class="heading_tag">Теги:</span>
+                                {% for tag in product.event.taglist %}
+                                <a href="#">{{ tag }}</a>,
+                                {% endfor %}
+                            </div>
+
+                            <div class="social_network">
+                                <img src="images/temp/social_btn.jpg" alt="" />
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+{% endblock %}
+
+{% block productfooter %}
+{% if sale %}{% include "product/product_discount_eligible.html" %}{% endif %}
+{% plugin_point "product_footer" %}
+{% endblock %}
+{% endblock %}
+
+{% block contentfooter %}
+{% endblock %}
+{% block sidebar3 %}
+    {% include "localsite/block_featured.html" %}
+{% endblock %}
+{% block sidebar4 %}
+{% endblock %}
