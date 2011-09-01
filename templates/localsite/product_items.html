@@ -1,0 +1,30 @@
+{% load thumbnail %}
+<ul class="feed_list reset_list">
+    {% for product in items %}
+        <li>
+            <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
+            <div class="curve_body feed_gray clearfix">
+                <div class="feed_list_img">
+                        {% if product.main_image.picture|is_portrait %}
+                              {% thumbnail product.main_image.picture "85x61" crop="50% 25%" as image %}
+                              <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                              {% endthumbnail %}
+                        {% else %}
+                              {% thumbnail product.main_image.picture "85x61" crop="center" as image %}
+                              <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                              {% endthumbnail %}
+                        {% endif %}
+                </div>
+                <div class="feed_list_txt">
+                    <div class="feed_list_txt_tag">
+                        {% if product.main_category %}<a href="{{ product.main_category.get_absolute_url }}">{{ product.main_category.translated_name }}</a>{% endif %} &nbsp; {{ product.event.dates.all.0.datetime|date:"j E" }}
+                    </div>
+                    <div class="feed_list_txt_inf">
+                        <a href="{{ product.get_absolute_url }}" class="feed_list_detail">{{ product.translated_name }}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="curve_bott"><div><span class="curve_gray"><!-- --></span></div></div>
+        </li>
+    {% endfor %}
+</ul>

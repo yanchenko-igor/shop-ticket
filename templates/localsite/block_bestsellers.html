@@ -1,4 +1,4 @@
-{% load thumbnail i18n %}
+{% load thumbnail i18n local_tags %}
 <div class="heading_bg">
     <span class="h_t_l"><!-- --></span>
     <span class="h_t_r"><!-- --></span>
@@ -7,12 +7,7 @@
     <span class="h_b_r"><!-- --></span>
 </div>
 <div class="wrap_line">
-    <ul class="feed_list reset_list">
-        {% for product in bestsellers %}
-            {% include "localsite/block_product_item2.html" %}
-        {% endfor %}
-
-    </ul>
+    {% show_bestsellers_items 5 %}
     <div class="all_link">
     {% url satchmo_product_best_selling as popularurl %}
     {% if popularurl %}<br/><a href="{{ popularurl }}">{% trans "All Best Sellers" %}</a><br/>{% endif %}
