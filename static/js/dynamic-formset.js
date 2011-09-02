@@ -42,7 +42,7 @@ function updateElementIndex(el, prefix, ndx) {
         var obj = "id_dates_" + formCount + "_datetime_cal" ;
         obj  = new Calendar({
               inputField: el_input,
-              dateFormat: "%d/%m/%Y",
+              dateFormat: "%Y-%m-%d %H:%M",
               trigger: el_img,
               showTime: 24,
               onSelect   : function() { this.hide() }
