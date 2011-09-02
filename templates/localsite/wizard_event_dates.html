@@ -9,8 +9,8 @@
         {% endblock %}
 
 
-{% block body %}
-<body>
+{% block contentwraper %}
+<div style="padding-bottom:40px;">
             <script type="text/javascript">
             <!--
             $(function () {
@@ -31,6 +31,6 @@
         {% endfor %}
 <input type="submit" name="submit" value="{% trans "submit" %}" />
 </form>
-</body>
+</div>
 {% endblock %}
 
