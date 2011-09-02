@@ -1,5 +1,9 @@
 from django.contrib import admin
 from store.localsite.models import *
+from django.contrib.flatpages.admin import FlatPageAdmin
+from django.contrib.flatpages.models import FlatPage
+from tinymce.widgets import TinyMCE
+from product.admin import ProductOptions
 
 class SeatGroupInline(admin.TabularInline):
     model = SeatGroup
@@ -45,6 +49,16 @@ class AnnouncementInline(admin.StackedInline):
     extra = 0
     max_num = 1
 
+class EventInline(admin.StackedInline):
+    model = Event
+    extra = 0
+    max_num = 1
+
+class TicketInline(admin.StackedInline):
+    model = Ticket
+    extra = 0
+    max_num = 1
+
 class EventAdmin(admin.ModelAdmin):
     inlines = [EventDateInline, SeatGroupPriceInline, AnnouncementInline]
     readonly_fields = ('product',)
@@ -53,3 +67,26 @@ admin.site.register(Event, EventAdmin)
 class AnnouncementAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Announcement, AnnouncementAdmin)
+
+class TinyMCEFlatPageAdmin(FlatPageAdmin):
+    formfield_overrides = {
+        models.TextField: {'widget': TinyMCE(attrs={'cols': 80, 'rows': 30})},
+    }
+
+admin.site.unregister(FlatPage)
+admin.site.register(FlatPage, TinyMCEFlatPageAdmin)
+
+class TinyMCEProductOptions(ProductOptions):
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        if db_field.name == 'description':
+            result = super(TinyMCEProductOptions, self).formfield_for_dbfield(db_field, **kwargs)
+            result.widget = TinyMCE(
+                attrs={'cols': 80, 'rows': 30},
+            )
+            return result
+        return super(TinyMCEProductOptions, self).formfield_for_dbfield(db_field, **kwargs)
+
+admin.site.unregister(Product)
+TinyMCEProductOptions.inlines.append(EventInline)
+TinyMCEProductOptions.inlines.append(TicketInline)
+admin.site.register(Product, TinyMCEProductOptions)
