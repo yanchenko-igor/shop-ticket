@@ -127,3 +127,19 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
 {% endblock %}
 {% block sidebar4 %}
 {% endblock %}
+
+{% block subnav %}
+<div class="tab_long tab_activ">
+    <div class="tab_activ_sh">
+        {% if product.category.all.1 %}
+        <h1 class="h1_h fl_l">{{ product.category.all.1.name }}</h1>
+        <div class="back_heading">
+            <img alt="" src="{{ media_url }}images/icon_back_shopping.gif">
+            <a href="#">Вернуться в {{ product.category.all.1.name|lower }}</a>
+        </div>
+        {% else %}
+        <h1 class="h1_h fl_l">{{ product.main_category }}</h1>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
