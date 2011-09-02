@@ -182,5 +182,8 @@ SKIP_SOUTH_TESTS=True
 
 TINYMCE_DEFAULT_CONFIG = {'theme': "advanced", 'relative_urls': False}
 
+TINYMCE_JS_URL = MEDIA_URL + 'js/tiny_mce/tiny_mce.js'
+TINYMCE_JS_ROOT = MEDIA_ROOT + 'js/tiny_mce'
+
 # Load the local settings
 from local_settings import *
