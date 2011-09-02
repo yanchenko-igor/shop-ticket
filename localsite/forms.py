@@ -56,7 +56,7 @@ class MyDateTimeInput(forms.DateTimeInput):
 class FlatPageForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FlatPageForm, self).__init__(*args, **kwargs)
-        self.fields['content'].widget = TinyMCE(attrs={'cols': 80, 'rows': 30})
+        self.fields['content'].widget = TinyMCE(attrs={'cols': 90, 'rows': 30})
 
     class Meta:
         model = FlatPage
