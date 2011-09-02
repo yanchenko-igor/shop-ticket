@@ -64,6 +64,10 @@ class HallScheme(models.Model):
     def __unicode__(self):
         return u"%s: %s" % (self.hall, self.name)
     
+class EventManager(models.Manager):
+    def active(self, **kwargs):
+        return self.filter(max_date__gte=datetime.datetime.now(), product__active=True, **kwargs)
+
 class Event(models.Model):
     """docstring for Event"""
     product = models.OneToOneField(Product, verbose_name=_('Product'), primary_key=True)
@@ -74,6 +78,8 @@ class Event(models.Model):
     max_date = models.DateField(null=True, blank=True, editable=False)
     tags = TagField()
     
+    objects = EventManager()
+
     class Meta:
         verbose_name = _("Event")
         verbose_name_plural = _("Events")
@@ -303,10 +309,8 @@ class Ticket(models.Model):
         super(Ticket, self).save(**kwargs)
 
 class AnnouncementManager(models.Manager):
-
     def active(self, **kwargs):
         return self.filter(begin__lte=datetime.datetime.now(), end__gte=datetime.datetime.now(), **kwargs)
-
 
 class Announcement(models.Model):
     """docstring for Announcement"""
