@@ -68,6 +68,7 @@ MIDDLEWARE_CLASSES = (
     "satchmo_store.shop.SSLMiddleware.SSLRedirect",
     #"satchmo_ext.recentlist.middleware.RecentProductMiddleware",
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
 
 #this is used to add additional config variables to each request
@@ -103,6 +104,7 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'django.contrib.formtools',
     'django.contrib.staticfiles',
+    'django.contrib.flatpages',
     'tagging',
     'registration',
     'sorl.thumbnail',
