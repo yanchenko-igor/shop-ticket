@@ -189,9 +189,25 @@ def wizard_event(request, step='step0', template='localsite/wizard_event.html'):
                 formsets[0].save()
                 wizard['step'] = 4
                 request.session['wizard'] = wizard
-                return HttpResponseRedirect('/wizards/event/done/')
+                return HttpResponseRedirect('/wizards/event/step4/')
         else:
             formsets.append(ProductImageFormInline(instance=event.product))
+    elif step == 'step4':
+        if not wizard:
+            return HttpResponseRedirect('/wizards/event/')
+        event = wizard['event']
+        step = wizard['step']
+        if step != 4:
+            return HttpResponseRedirect('/wizards/event/')
+        if request.method == 'POST':
+            formsets.append(AnnouncementFormInline(request.POST, request.FILES, instance=event))
+            if formsets[0].is_valid():
+                formsets[0].save()
+                wizard['step'] = 5
+                request.session['wizard'] = wizard
+                return HttpResponseRedirect('/wizards/event/done/')
+        else:
+            formsets.append(AnnouncementFormInline(instance=event))
     elif step == 'done':
         template='localsite/wizard_event_done.html'
         if not wizard:
@@ -199,7 +215,7 @@ def wizard_event(request, step='step0', template='localsite/wizard_event.html'):
         event = wizard['event']
         output['event'] = event
         step = wizard['step']
-        if step != 4:
+        if step != 5:
             return HttpResponseRedirect('/wizards/event/')
         event.create_all_variations()
         del request.session['wizard']
