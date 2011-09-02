@@ -1,11 +1,15 @@
 {% extends "localsite/base.html" %}
 {% load recurse %}
+{% load i18n %}
 {% block contentwraper %}
         {% with root_categories as categories %}
+        <ul>
+            <li><a href="/category/">{% trans "Categories" %}</a>
             {% recurse category.child.all with categories as category %}
                 <ul>
                     {% loop %}<li><a href="{{ category.get_absolute_url }}">{{ category.translated_name }}</a>{% child %}</li>
                 {% endloop %}</ul>
-            {% endrecurse %}
+            {% endrecurse %}</li>
+        </ul>
         {% endwith %}
 {% endblock %}
