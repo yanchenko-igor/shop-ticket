@@ -56,6 +56,13 @@ def flatpages(request, template_name='localsite/flatpages.html'):
         })
     return render_to_response(template_name, context_instance=ctx)
 
+def event_list(request, template_name='localsite/event_list.html'):
+    events = Event.objects.active()
+    ctx = RequestContext(request, {
+        'events': events,
+        })
+    return render_to_response(template_name, context_instance=ctx)
+
 def example(request):
     ctx = RequestContext(request, {})
     return render_to_response('localsite/example.html', context_instance=ctx)
@@ -101,7 +108,7 @@ def select_event(request, template='localsite/select_event.html'):
                 max_price = form_event.cleaned_data['max_price']
                 min_date = form_event.cleaned_data['min_date']
                 max_date = form_event.cleaned_data['max_date']
-                events = Event.objects.filter(
+                events = Event.objects.active().filter(
                         min_price and Q(min_price__gte=min_price) | Q(max_price__gte=min_price) or Q(),
                         max_price and Q(max_price__lte=max_price) | Q(min_price__lte=max_price) or Q(),
                         min_date and Q(min_date__gte=min_date) | Q(max_date__gte=min_date) or Q(),
