@@ -53,13 +53,37 @@
 
 
 
+{% endblock %}
 
-{% endblock %}
+
+
 {% block contentfooter %}
+{% if events|length >= 13 %}
+{% else %}
+<div class="col1">
+{% include "localsite/block_featured.html" %}
+</div>
+
+<div class="col2">
+{% include "localsite/block_bestsellers.html" %}
+</div>
+{% endif %}
 {% endblock %}
+
 {% block sidebar3 %}
+{% if events|length > 0 and events|length < 13 %}
+    {% include "localsite/block_subscription.html" %}
+{% endif %}
+{% if events|length >= 13 %}
     {% include "localsite/block_bestsellers.html" %}
+{% endif %}
 {% endblock %}
+
 {% block sidebar4 %}
+{% if events|length >= 4 and events|length < 13 %}
+    {% include "localsite/block_about_us.html" %}
+{% endif %}
+{% if events|length >= 13 %}
     {% include "localsite/block_featured.html" %}
+{% endif %}
 {% endblock %}
