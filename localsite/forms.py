@@ -22,8 +22,7 @@ class MyModelForm(forms.ModelForm):
 
 class MyDateInput(forms.DateInput):
     def render(self, name, value, attrs=None):
-        final_attrs = self.build_attrs(attrs, **{'class':'input_calendar'})
-        result = super(MyDateInput, self).render(name, value, final_attrs)
+        result = super(MyDateInput, self).render(name, value, attrs)
         script = """
                                                     <script type="text/javascript">
                                                            var %(id_und)s_CAL = new Calendar({
@@ -33,8 +32,25 @@ class MyDateInput(forms.DateInput):
                                                                   onSelect   : function() { this.hide() }
                                                           });
                                                     </script>
-                                                    """ % {'id':final_attrs['id'],'id_und':final_attrs['id'].replace('-', '_')}
-        return mark_safe(u'%s<img alt="" src="/static/images/icon_calendar.jpg" id="%s_trigger" class="icon_calendar">%s' % (result,final_attrs['id'],script))
+                                                    """ % {'id':attrs['id'],'id_und':attrs['id'].replace('-', '_')}
+        return mark_safe(u'%s<img alt="" src="/static/images/icon_calendar.jpg" id="%s_trigger" class="icon_calendar">%s' % (result,attrs['id'],script))
+
+
+class MyDateTimeInput(forms.DateTimeInput):
+    def render(self, name, value, attrs=None):
+        result = super(MyDateTimeInput, self).render(name, value, attrs)
+        script = """
+                                                    <script type="text/javascript">
+                                                           var %(id_und)s_CAL = new Calendar({
+                                                                  inputField: "%(id)s",
+                                                                  dateFormat: "%%Y-%%m-%%d %%H:%%M",
+                                                                  trigger: "%(id)s_trigger",
+                                                                  showTime: true,
+                                                                  onSelect   : function() { this.hide() }
+                                                          });
+                                                    </script>
+                                                    """ % {'id':attrs['id'],'id_und':attrs['id'].replace('-', '_')}
+        return mark_safe(u'%s<img alt="" src="/static/images/icon_calendar.jpg" id="%s_trigger" class="icon_calendar">%s' % (result,attrs['id'],script))
 
 class ProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -55,7 +71,6 @@ class ProductForm(forms.ModelForm):
                 'active',
                 'featured',
                 'shipclass',
-                'ordering',
                 )
 
 class SelectCityForm(forms.Form):
@@ -66,8 +81,8 @@ class SelectEventForm(forms.Form):
     hall = MyModelChoiceField(required=False, queryset=City.objects.all()[0].halls.all(), empty_label=_('Hall of event'))
     min_price = forms.IntegerField(required=False, )
     max_price = forms.IntegerField(required=False, )
-    min_date = forms.DateField(required=False, widget=MyDateInput())
-    max_date = forms.DateField(required=False, widget=MyDateInput())
+    min_date = forms.DateField(required=False, widget=MyDateInput(attrs={'class':'input_calendar'}))
+    max_date = forms.DateField(required=False, widget=MyDateInput(attrs={'class':'input_calendar'}))
 
 
 class EventForm(forms.ModelForm):
@@ -97,7 +112,19 @@ class SeatGroupPriceForm(forms.ModelForm):
 
 SeatGroupPriceFormset = modelformset_factory(SeatGroupPrice, form=SeatGroupPriceForm, extra=0)
 
+class AnnouncementForm(MyModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AnnouncementForm, self).__init__(*args, **kwargs)
+        self.fields['begin'].widget = MyDateTimeInput()
+        self.fields['end'].widget = MyDateTimeInput()
+    class Meta:
+        model = Announcement
+        exclude = ('ordering',)
+
 class EventDateForm(MyModelForm):
+    def __init__(self, *args, **kwargs):
+        super(EventDateForm, self).__init__(*args, **kwargs)
+        self.fields['datetime'].widget = MyDateTimeInput()
     class Meta:
         model = EventDate
 
@@ -113,5 +140,6 @@ class MyBaseInlineFormSet(BaseInlineFormSet):
             forms, '<p><a href="javascript:void(0)" class="add-row">add</a></p>']))
 
 EventDateFormInline = inlineformset_factory(Event, EventDate, form=EventDateForm, formset=MyBaseInlineFormSet, extra=1, can_delete=False)
+AnnouncementFormInline = inlineformset_factory(Event, Announcement, form=AnnouncementForm, formset=MyBaseInlineFormSet, extra=1, can_delete=False)
 ProductImageFormInline = inlineformset_factory(Product, ProductImage, form=ProductImageForm, formset=MyBaseInlineFormSet, extra=1, can_delete=False)
 EventFormInline = inlineformset_factory(Product, Event, can_delete=False)
