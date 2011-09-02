@@ -19,6 +19,7 @@ from django.utils.translation import ugettext as _
 from django.db.models import Q
 from satchmo_store.shop.views.sitemaps import sitemaps
 from django.contrib.sitemaps.views import sitemap as django_sitemap
+from django.contrib.flatpages.models import FlatPage
 
 class JsonResponse(HttpResponse):
     def __init__(self, object):
@@ -32,9 +33,28 @@ class JsonResponse(HttpResponse):
             content, content_type='application/json')
 
 
-def sitemap(request):
-    ctx = RequestContext(request, {})
-    return render_to_response('localsite/sitemap.html', context_instance=ctx)
+def flatpage_editor(request, flatpage_id, template_name='localsite/flatpage_editor.html'):
+    flatpage = FlatPage.objects.get(id=flatpage_id)
+    if request.method == 'POST':
+        form= FlatPageForm(request.POST, instance=flatpage)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(flatpage.get_absolute_url())
+    else:
+        form= FlatPageForm(instance=flatpage)
+    ctx = RequestContext(request, {
+        'flatpage': flatpage,
+        'form': form,
+        })
+    return render_to_response(template_name, context_instance=ctx)
+
+
+def flatpages(request, template_name='localsite/flatpages.html'):
+    flatpages = FlatPage.objects.all()
+    ctx = RequestContext(request, {
+        'flatpages': flatpages,
+        })
+    return render_to_response(template_name, context_instance=ctx)
 
 def example(request):
     ctx = RequestContext(request, {})

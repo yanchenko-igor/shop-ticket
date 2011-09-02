@@ -9,6 +9,7 @@ from localsite.utils.translit import cyr2lat
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from tinymce.widgets  import TinyMCE
+from django.contrib.flatpages.models import FlatPage
 
 class MyModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
@@ -51,6 +52,14 @@ class MyDateTimeInput(forms.DateTimeInput):
                                                     </script>
                                                     """ % {'id':attrs['id'],'id_und':attrs['id'].replace('-', '_')}
         return mark_safe(u'%s<img alt="" src="/static/images/icon_calendar.jpg" id="%s_trigger" class="icon_calendar">%s' % (result,attrs['id'],script))
+
+class FlatPageForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(FlatPageForm, self).__init__(*args, **kwargs)
+        self.fields['content'].widget = TinyMCE(attrs={'cols': 80, 'rows': 30})
+
+    class Meta:
+        model = FlatPage
 
 class ProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

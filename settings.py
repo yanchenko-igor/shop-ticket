@@ -67,8 +67,8 @@ MIDDLEWARE_CLASSES = (
     "threaded_multihost.middleware.ThreadLocalMiddleware",
     "satchmo_store.shop.SSLMiddleware.SSLRedirect",
     #"satchmo_ext.recentlist.middleware.RecentProductMiddleware",
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 #this is used to add additional config variables to each request
@@ -171,8 +171,9 @@ SATCHMO_SETTINGS = {
             url(r'^i18n/', include('l10n.urls')),
             url(r'^featured/', 'localsite.views.display_featured', name='localsite_featured'),
             url(r'^events/$', 'localsite.views.select_event', name='select_event'),
+            url(r'^flatpages/$', 'localsite.views.flatpages', name='flatpages'),
+            url(r'^flatpage/(?P<flatpage_id>\d+)/$', 'localsite.views.flatpage_editor', name='flatpage_editor'),
             url(r'^tinymce/', include('tinymce.urls')),
-            url(r'^sitemap/$', 'localsite.views.sitemap', name="sitemap"),
             url(r'^ajax_select_city/$', 'localsite.views.ajax_select_city', name='ajax_select_city'),
             url(r'^wizards/event/$', 'localsite.views.wizard_event', name='wizard_event_step0'),
             url(r'^wizards/event/(?P<step>.*)/$', 'localsite.views.wizard_event'),

@@ -1,6 +1,15 @@
 {% extends "localsite/base.html" %}
 {% load recurse %}
 {% load i18n %}
+
+{% block subnav %}
+<div class="tab_long tab_activ">
+    <div class="tab_activ_sh">
+        <h1 class="h1_h">{{ flatpage.title }}</h1>
+    </div>
+</div>
+{% endblock %}
+
 {% block contentwraper %}
         {% with root_categories as categories %}
         <ul>

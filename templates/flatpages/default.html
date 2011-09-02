@@ -1,0 +1,19 @@
+{% extends "localsite/base.html" %}
+{% load recurse %}
+{% load i18n %}
+
+{% block subnav %}
+<div class="tab_long tab_activ">
+    <div class="tab_activ_sh">
+        <h1 class="h1_h">{{ flatpage.title }}</h1>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block contentwraper %}
+{{ flatpage.content }}
+{% if user.is_superuser %}
+	<a href="{% url flatpage_editor flatpage.id %}">{% trans "Edit" %}</a>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "localsite/base.html" %}
+{% load recurse %}
+{% load i18n %}
+{% block contentwraper %}
+<ul>
+{% for page in flatpages %}
+<li><a href="{% url flatpage_editor page.id %}">{{ page.title }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

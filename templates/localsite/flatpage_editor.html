@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block extra-head %}
+{{ form.media }}
+{% endblock %}
+{% block contentwraper %}
+<div style="padding-bottom:40px;">
+<form class="form_wizard" action="." method="post" >{% csrf_token %}
+        {{ form.as_p }}
+<input type="submit" name="submit" value="{% trans "submit" %}" />
+</form>
+</div>
+{% endblock %}
