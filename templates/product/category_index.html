@@ -15,8 +15,9 @@
     <li{% cycle '' '' ' class="last"' %}>
    		{% if category.main_image %}
         <div class="feed_img">
-            {% thumbnail category.main_image.picture 215x134 as image %}
-            <a href="{{ category.get_absolute_url }}"><img src="{{ image }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+            {% thumbnail category.main_image.picture "215x134" as image %}
+            <a href="{{ category.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+            {% endthumbnail %}
         </div>
    		{% endif %}     
         <div class="feed_txt">
