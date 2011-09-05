@@ -4,6 +4,7 @@
 {% endblock %}
 <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="{% url eventfeed %}">
         <link href="{{ media_url }}css/main.css" rel="stylesheet" type="text/css" media="Screen, projection"/>        
         <link href="{{ media_url }}css/jscal2.css" rel="stylesheet" type="text/css" media="Screen, projection"/>
         <!--[if IE]>
