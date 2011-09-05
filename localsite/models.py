@@ -195,6 +195,7 @@ class EventDate(models.Model):
         return u"%s" % self.datetime.strftime("%d.%m.%Y %H:%M")
     
     def save(self, *args, **kwargs):
+        super(EventDate, self).save(*args, **kwargs)
         if not self.event.min_date:
             self.event.min_date = self.datetime
             self.event.save()
@@ -207,7 +208,6 @@ class EventDate(models.Model):
         elif self.datetime > self.event.max_date:
             self.event.max_date = self.datetime
             self.event.save()
-        super(EventDate, self).save(*args, **kwargs)
 
 
 class SeatGroup(models.Model):
