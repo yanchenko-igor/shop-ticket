@@ -67,7 +67,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
                                             <div class="title_theater">
                                                 <span class="underline" id="theater">{{ product.event.hallscheme.hall.name }}</span>
                                                 <div class="title_theater_addres">
-                                                    {{ product.event.hallscheme.hall.city }}, {{ product.event.hallscheme.hall.address }}
+                                                    {{ product.event.hallscheme.hall.city }}{% if product.event.hallscheme.hall.address %}, {{ product.event.hallscheme.hall.address }}{% endif %}.
                                                 </div>
                                             </div>
                                             <div class="select_place">
