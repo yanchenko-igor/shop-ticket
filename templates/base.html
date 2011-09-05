@@ -31,7 +31,7 @@
                 <tr>
                     <td class="hader_tab_menu">
                         <ul class="header_menu">
-                            <li class="first"><a href="#">Новости и акции</a></li>
+                            <li class="first"><a href="{{ news_page.url }}">{{ news_page.title }}</a></li>
                             <li><a href="{{ about_page.url }}">{{ about_page.title }}</a></li>
                             <li><a href="{{ help_page.url }}">{{ help_page.title }}</a></li>
                             <li><a href="{{ cooperation_page.url }}">{{ cooperation_page.title }}</a></li>
@@ -177,19 +177,19 @@
                 </div>
                 {% endblock %}
             </div>
-        </div>
         {% endblock %}
+        </div>
 
         <div class="wraper_footer">
 
             <div class="footer_top clearfix">
                 <ul class="reset_list footer_menu">
-                    <li><a href="#">Новости и акции</a></li>
-                    <li><a href="/about/">О нас</a></li>
-                    <li><a href="/help/">Помощь</a></li>
-                    <li><a href="/cooperation/">Сотрудничество</a></li>
+                    <li><a href="{{ news_page.url }}">{{ news_page.title }}</a></li>
+                    <li><a href="{{ about_page.url }}">{{ about_page.title }}</a></li>
+                    <li><a href="{{ help_page.url }}">{{ help_page.title }}</a></li>
+                    <li><a href="{{ cooperation_page.url }}">{{ cooperation_page.title }}</a></li>
                     <li><a href="{% url satchmo_checkout-step1 %}">Оформление заказов</a></li>
-                    <li class="last"><a href="/sitemap/">Карта сайта</a></li>
+                    <li class="last"><a href="{{ sitemap_page.url }}">{{ sitemap_page.title }}</a></li>
                 </ul>
                 <div class="search_footer">
                     <form class="form_search_footer" action="">

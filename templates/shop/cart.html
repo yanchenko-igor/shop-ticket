@@ -121,132 +121,132 @@ $(function() {
 });
 </script>
 
-    <h4 id="cartheader"></h4>
-            <div class="wraper_basket" id="cart">
-                <table class="table_heading_basket">
-                    <tbody><tr>
-                        <th>Предстоящее событие</th>
-                        <th class="basked_td_ticket">Кол-во и места</th>
-                        <th class="basked_td_price">Цена</th>
-                        <th class="basked_td_del2">Удалить</th>
-                    </tr>
-                </tbody></table>
+<h4 id="cartheader"></h4>
+    <div class="wraper_basket" id="cart">
+        <table class="table_heading_basket">
+            <tbody>
+                <tr>
+                    <th>Предстоящее событие</th>
+                    <th class="basked_td_ticket">Кол-во и места</th>
+                    <th class="basked_td_price">Цена</th>
+                    <th class="basked_td_del2">Удалить</th>
+                </tr>
+            </tbody>
+        </table>
 
-    {% for cartitem in cart %}
-                <div class="basked_bl cartitem" id="cartitem-{{cartitem.id}}">
-                    <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
-                    <div class="curve_body basket_grey">
-                        <table class="basket_tab">
-                            <tbody><tr>
-                                <td class="basket_td_img">
-                                    <div class="basket_td_img_bl">
-                                        {% if cartitem.product.ticket.event.product.main_image.picture|is_portrait %}
-                                              {% thumbnail cartitem.product.ticket.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
-                                              <a href="{{ cartitem.product.ticket.event.product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
-                                              {% endthumbnail %}
-                                        {% else %}
-                                              {% thumbnail cartitem.product.ticket.event.product.main_image.picture "107x76" crop="center" as image %}
-                                              <a href="{{ cartitem.product.ticket.event.product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
-                                              {% endthumbnail %}
-                                        {% endif %}
-                                    </div>
-                                </td>
-                                <td class="basked_td_inf">
-                                    <div class="basked_td_inf_date">
-                                        <span>{{ cartitem.product.ticket.datetime.datetime|date:"j E Y, l" }}</span>  {{ cartitem.product.ticket.datetime.datetime|date:"H:i" }}
-                                    </div>
-                                    <div class="basked_td_inf_txt">
-                                        {{ cartitem.product.ticket.event.product.name }}
-                                        {{ cartitem.product.ticket.event.product.short_description }}
-                                    </div>
-                                </td>
-                                <td class="basked_td_ticket">
-                                    <div class="basked_td_ticket_cont">
-                                        {{ cartitem.product.ticket.seat.group.section }}
-                                    </div>
-                                    <p>{{ cartitem.product.ticket.seat.row }} Ряд, {{ cartitem.product.ticket.seat.col }} Место</p>
-                                </td>
-                                <td class="basked_td_price">
-                                    {{ cartitem.product.unit_price|currency }}
-                                </td>
-                                <td class="basked_td_del">
-                                    <form action="{% url satchmo_cart_remove %}" method="post" class="removeform" id="rmform-{{cartitem.id}}">
-                                        <input type="hidden" name="cartitem" class="cartitem_id" value="{{ cartitem.id }}" />
-                                        <a href="#"><img alt="" src="{{ media_url }}images/icon_del.png"></a>
-                                    </form>
-                                </td>
-                            </tr>
-                        </tbody></table>
-                    </div>
-                    <div class="curve_bott"><div><span class="curve_gray"><!-- --></span></div></div>
-                </div>
-                <!-- /<div class="basked_bl">-->
+        {% for cartitem in cart %}
+        <div class="basked_bl cartitem" id="cartitem-{{cartitem.id}}">
+            <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
+            <div class="curve_body basket_grey">
+                <table class="basket_tab">
+                    <tbody>
+                        <tr>
+                            <td class="basket_td_img">
+                                <div class="basket_td_img_bl">
+                                {% if cartitem.product.ticket.event.product.main_image.picture|is_portrait %}
+                                      {% thumbnail cartitem.product.ticket.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
+                                      <a href="{{ cartitem.product.ticket.event.product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                      {% endthumbnail %}
+                                {% else %}
+                                      {% thumbnail cartitem.product.ticket.event.product.main_image.picture "107x76" crop="center" as image %}
+                                      <a href="{{ cartitem.product.ticket.event.product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                      {% endthumbnail %}
+                                {% endif %}
+                                </div>
+                            </td>
+                            <td class="basked_td_inf">
+                                <div class="basked_td_inf_date">
+                                    <span>{{ cartitem.product.ticket.datetime.datetime|date:"j E Y, l" }}</span>  {{ cartitem.product.ticket.datetime.datetime|date:"H:i" }}
+                                </div>
+                                <div class="basked_td_inf_txt">
+                                    {{ cartitem.product.ticket.event.product.name }}
+                                    {{ cartitem.product.ticket.event.product.short_description }}
+                                </div>
+                            </td>
+                            <td class="basked_td_ticket">
+                                <div class="basked_td_ticket_cont">
+                                    {{ cartitem.product.ticket.seat.group.section }}
+                                </div>
+                                <p>{{ cartitem.product.ticket.seat.row }} Ряд, {{ cartitem.product.ticket.seat.col }} Место</p>
+                            </td>
+                            <td class="basked_td_price">
+                                {{ cartitem.product.unit_price|currency }}
+                            </td>
+                            <td class="basked_td_del">
+                                <form action="{% url satchmo_cart_remove %}" method="post" class="removeform" id="rmform-{{cartitem.id}}">
+                                    <input type="hidden" name="cartitem" class="cartitem_id" value="{{ cartitem.id }}" />
+                                    <a href="#"><img alt="" src="{{ media_url }}images/icon_del.png"></a>
+                                </form>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="curve_bott"><div><span class="curve_gray"><!-- --></span></div></div>
+    </div>
     {% endfor %}
-                <div class="basket_total clearfix">
-                    <div class="back_shopping">
-                        <img alt="" src="{{ media_url }}images/icon_back_shopping.gif"> <a href="#">Вернуться к покупкам</a>
-                    </div>
-                    <div class="basket_total_bl">
-                        Итого в сумме: <span class="basket_total_price"><label id="cart_total">{{ cart|discount_cart_total:sale|currency }}</label></span>
+    <div class="basket_total clearfix">
+        <div class="back_shopping">
+            <img alt="" src="{{ media_url }}images/icon_back_shopping.gif"> <a href="#">Вернуться к покупкам</a>
+        </div>
+        <div class="basket_total_bl">
+            Итого в сумме: <span class="basket_total_price"><label id="cart_total">{{ cart|discount_cart_total:sale|currency }}</label></span>
+        </div>
+        </div>
 
+        <div id=checkout_form>
+        <h1 class="h1_h">Оформление покупки</h1>
+        <form action="" class="form_ormit_order clearfix">
+            <div class="ormit_order">
+                <div class="ormit_order_1">
+
+                    <label>Имя, Фамилия:</label>
+                    <div class="input_2">
+                        <div class="input_2_2">
+                            <input type="text">
+                        </div>
                     </div>
+                    <br />
+
+                    <label>Имя, Фамилия:</label>
+                    <div class="input_2">
+                        <div class="input_2_2">
+                            <input type="text">
+                        </div>
+                    </div>
+
                 </div>
-            </div>
-            <!-- /<div class="wraper_basket"> -->
 
-            <div id=checkout_form>
-            <h1 class="h1_h">Оформление покупки</h1>
-            <form action="" class="form_ormit_order clearfix">
-                <div class="ormit_order">
-                    <div class="ormit_order_1">
-
-                        <label>Имя, Фамилия:</label>
-                        <div class="input_2">
-                            <div class="input_2_2">
-                                <input type="text">
-                            </div>
-                        </div>
-                        <br>
-
-                        <label>Имя, Фамилия:</label>
-                        <div class="input_2">
-                            <div class="input_2_2">
-                                <input type="text">
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="ormit_order_2">
-                        <label>Телефон:</label>
-                        <div class="input_2">
-                            <div class="input_2_2">
-                                <input type="text">
-                            </div>
-                        </div>
-                        <br>
-
-                        <label>Адрес доставки:</label>
-                        <div class="input_2">
-                            <div class="input_2_2">
-                                <input type="text">
-                            </div>
+                <div class="ormit_order_2">
+                    <label>Телефон:</label>
+                    <div class="input_2">
+                        <div class="input_2_2">
+                            <input type="text">
                         </div>
                     </div>
-                    <div class="clear"><!-- --></div>
                     <br>
 
-                    <label>Дополнительная информация:</label>
-
-                    <div class="textarea_top"><div><span><!-- --></span></div></div>
-                    <div class="textarea_body">
-                        <div class="textarea_body2">
-                            <div class="textarea_wrap">
-                                <textarea class="textarea_ormit"></textarea>
-                            </div>
+                    <label>Адрес доставки:</label>
+                    <div class="input_2">
+                        <div class="input_2_2">
+                            <input type="text">
                         </div>
                     </div>
-                    <div class="textarea_bott"><div><span><!-- --></span></div></div>
+                </div>
+                <div class="clear"><!-- --></div>
+                <br />
+
+                <label>Дополнительная информация:</label>
+
+                <div class="textarea_top"><div><span><!-- --></span></div></div>
+                <div class="textarea_body">
+                    <div class="textarea_body2">
+                        <div class="textarea_wrap">
+                            <textarea class="textarea_ormit"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="textarea_bott"><div><span><!-- --></span></div></div>
 
 
                 </div>
@@ -258,8 +258,10 @@ $(function() {
                 </div>
 
             </form>
-            </div>
+        </div>
+    </div>
     <a id="checkout_link" href="{% url satchmo_checkout-step1 %}">{% trans "Check out" %}</a>
+</div>
 
 {% endif %}
 
