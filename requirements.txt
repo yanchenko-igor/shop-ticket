@@ -18,3 +18,4 @@ sorl-thumbnail>=11.05.2
 -e hg+http://bitbucket.org/chris1610/satchmo/#egg=satchmo
 django_extensions
 django-tinymce>=1.5.1a2
+django-flatblocks>=0.5.1

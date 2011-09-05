@@ -151,6 +151,7 @@ INSTALLED_APPS = (
     'south',
     'django_extensions',
     'tinymce',
+    'flatblocks',
 )
 
 AUTHENTICATION_BACKENDS = (
