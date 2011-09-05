@@ -43,8 +43,8 @@
             {% endif %}
                 <div class="visual_list_footer">
                     <div class="visual_list_footer2">
-                        <h3>U2 <span class="f_date">25 мая</span> в Киеве отожгут</h3>
-                        Национальный академический театр русской драмы<br />им. Леси Украинки
+                        <h3><span class="f_date">{{ announcement.event.min_date|date:"j E" }}</span> {{ announcement.event.product.name }}</h3>
+                        {{ announcement.text|linebreaksbr }}
                     </div>
                 </div>
             </li>

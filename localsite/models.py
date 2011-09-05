@@ -8,6 +8,7 @@ from product.models import Option, Product, ProductPriceLookup, OptionGroup, Pri
 from satchmo_utils import cross_list
 from satchmo_utils.unique_id import slugify
 from localsite.utils.translit import cyr2lat
+from tinymce import models as tinymce_models
 import datetime
 
 SATCHMO_PRODUCT=True
@@ -317,6 +318,7 @@ class Announcement(models.Model):
     begin = models.DateTimeField(_("Begin"), blank=True, null=True)
     end = models.DateTimeField(_("End"), blank=True, null=True)
     event = models.ForeignKey('Event', verbose_name=_("Event"), related_name='announcements')
+    text = models.TextField()
     ordering = models.IntegerField(_("Ordering"), default=0, help_text=_("Override alphabetical order in announcement display"))
 
     objects = AnnouncementManager()
