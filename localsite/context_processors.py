@@ -5,6 +5,7 @@ from product.views import display_featured
 from localsite.forms import SelectCityForm
 from localsite.forms import SelectEventForm
 from localsite.models import Announcement
+from django.contrib.flatpages.models import FlatPage
 
 def categories(request):
 
@@ -14,6 +15,10 @@ def categories(request):
         'select_city_form': SelectCityForm(),
         'select_event_form': SelectEventForm(),
         'announcements': Announcement.objects.active(),
+        'about_page': FlatPage.objects.get(id=1),
+        'help_page': FlatPage.objects.get(id=2),
+        'cooperation_page': FlatPage.objects.get(id=3),
+        'sitemap_page': FlatPage.objects.get(id=4),
     }
 
     return ctx
