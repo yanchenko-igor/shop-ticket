@@ -7,7 +7,7 @@ class EventFeed(Feed):
     description = "description"
 
     def items(self):
-        return Event.objects.order_by('-product__date_added')[:25]
+        return Event.objects.active().order_by('-product__date_added')[:25]
 
     def item_title(self, item):
         return item.product.name
