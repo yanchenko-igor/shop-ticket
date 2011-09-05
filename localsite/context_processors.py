@@ -19,6 +19,7 @@ def categories(request):
         'help_page': FlatPage.objects.get(id=2),
         'cooperation_page': FlatPage.objects.get(id=3),
         'sitemap_page': FlatPage.objects.get(id=4),
+        'news_page': FlatPage.objects.get(id=5),
     }
 
     return ctx
