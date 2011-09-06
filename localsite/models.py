@@ -95,8 +95,10 @@ class Event(models.Model):
     def save(self, *args, **kwargs):
         dates = self.dates.aggregate(Min('datetime'), Max('datetime'))
         prices = self.prices.aggregate(Min('price'), Max('price'))
-        self.min_date = dates['datetime__min']
-        self.max_date = dates['datetime__max']
+        if dates['datetime__min']:
+            self.min_date = dates['datetime__min'].date()
+        if dates['datetime__max']:
+            self.max_date = dates['datetime__max'].date()
         self.min_price = prices['price__min']
         self.max_price = prices['price__max']
         super(Event, self).save(*args, **kwargs)
@@ -192,21 +194,21 @@ class EventDate(models.Model):
         ordering = ['datetime', 'event']
     
     def __unicode__(self):
-        return u"%s" % self.datetime.strftime("%d.%m.%Y %H:%M")
+        return u"%s %s" % (self.event.__unicode__(), self.datetime.strftime("%d.%m.%Y %H:%M"))
     
     def save(self, *args, **kwargs):
         super(EventDate, self).save(*args, **kwargs)
         if not self.event.min_date:
-            self.event.min_date = self.datetime
+            self.event.min_date = self.datetime.date()
             self.event.save()
-        elif self.datetime < self.event.min_date:
-            self.event.min_date = self.datetime
+        elif self.datetime.date() < self.event.min_date:
+            self.event.min_date = self.datetime.date()
             self.event.save()
         if not self.event.max_date:
-            self.event.max_date = self.datetime
+            self.event.max_date = self.datetime.date()
             self.event.save()
-        elif self.datetime > self.event.max_date:
-            self.event.max_date = self.datetime
+        elif self.datetime.date() > self.event.max_date:
+            self.event.max_date = self.datetime.date()
             self.event.save()
 
 

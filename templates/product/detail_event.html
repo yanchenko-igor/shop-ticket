@@ -112,6 +112,9 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
 
 
                     </div>
+{% if user.is_staff %}
+	<a href="{% url edit_event product.id %}">{% trans "Edit" %}</a>
+{% endif %}
 {% endblock %}
 
 {% block productfooter %}

@@ -8,8 +8,8 @@ function updateElementIndex(el, prefix, ndx) {
 
     function addForm(btn, prefix) {
         var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
-        var row = $('.dynamic-form:first').clone(true).get(0);
-        $(row).removeAttr('id').insertAfter($('.dynamic-form:last')).children('.hidden').removeClass('hidden');
+        var row = $('.dynamic-form:first.' + prefix).clone(true).get(0);
+        $(row).removeAttr('id').insertAfter($('.dynamic-form:last.' + prefix)).children('.hidden').removeClass('hidden');
         $(row).children().not(':last').children().each(function() {
     	    updateElementIndex(this, prefix, formCount);
     	    $(this).val('');
@@ -19,17 +19,17 @@ function updateElementIndex(el, prefix, ndx) {
         });
         $('#id_' + prefix + '-TOTAL_FORMS').val(formCount + 1);
         
-        var input_calendar = "id_dates-" + formCount + "-datetime";
-        var icon_calendar = "id_dates-" + formCount + "-datetime_trigger";
+        var input_calendar = "id_" + prefix + "-" + formCount + "-datetime";
+        var icon_calendar = "id_" + prefix + "-" + formCount + "-datetime_trigger";
         if( document.getElementById( icon_calendar ))
-            generationCalendar( input_calendar , icon_calendar, formCount );
+            generationCalendar( input_calendar , icon_calendar, formCount, prefix );
         
         return false;
     }
 
     function deleteForm(btn, prefix) {
         $(btn).parents('.dynamic-form').remove();
-        var forms = $('.dynamic-form');
+        var forms = $('.dynamic-form.' + prefix);
         $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
         for (var i=0, formCount=forms.length; i<formCount; i++) {
     	    $(forms.get(i)).children().not(':last').children().each(function() {
@@ -38,8 +38,8 @@ function updateElementIndex(el, prefix, ndx) {
         }
         return false;
     }
-    function generationCalendar( el_input, el_img, formCount ){
-        var obj = "id_dates_" + formCount + "_datetime_cal" ;
+    function generationCalendar( el_input, el_img, formCount, prefix ){
+        var obj = "id_" + prefix + "_" + formCount + "_datetime_cal" ;
         obj  = new Calendar({
               inputField: el_input,
               dateFormat: "%Y-%m-%d %H:%M",

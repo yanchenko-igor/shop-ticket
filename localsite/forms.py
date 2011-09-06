@@ -10,6 +10,8 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from tinymce.widgets  import TinyMCE
 from django.contrib.flatpages.models import FlatPage
+from satchmo_utils.thumbnail.widgets import AdminImageWithThumbnailWidget
+import re
 
 class MyModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
@@ -17,9 +19,9 @@ class MyModelChoiceField(forms.ModelChoiceField):
 
 class MyModelForm(forms.ModelForm):
     def as_p_d(self):
-        return u'''<div id="%(prefix)s-row" class="dynamic-form">
+        return u'''<div id="%(prefix)s-row" class="dynamic-form %(prefix_wd)s">
         %(as_p)s\n<a href="javascript:void(0)" class="delete-row"></a>\n</div>''' % \
-                {'as_p':self.as_p(), 'prefix':self.prefix}
+                {'as_p':self.as_p(), 'prefix':self.prefix, 'prefix_wd': self.prefix.rsplit('-', 1)[0]}
 
 class MyDateInput(forms.DateInput):
     def render(self, name, value, attrs=None):
@@ -119,7 +121,7 @@ class SeatGroupPriceForm(forms.ModelForm):
         model = SeatGroupPrice
         fields = ('price',)
 
-SeatGroupPriceFormset = modelformset_factory(SeatGroupPrice, form=SeatGroupPriceForm, extra=0)
+SeatGroupPriceFormset = modelformset_factory(SeatGroupPrice, form=SeatGroupPriceForm, extra=0, max_num=1)
 
 class AnnouncementForm(MyModelForm):
     def __init__(self, *args, **kwargs):
@@ -138,6 +140,9 @@ class EventDateForm(MyModelForm):
         model = EventDate
 
 class ProductImageForm(MyModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProductImageForm, self).__init__(*args, **kwargs)
+        self.fields['picture'].widget = AdminImageWithThumbnailWidget()
     class Meta:
         model = ProductImage
         exclude = ('sort',)
@@ -146,9 +151,13 @@ class MyBaseInlineFormSet(BaseInlineFormSet):
     def as_p_d(self):
         forms = u' '.join([form.as_p_d() for form in self])
         return mark_safe(u'\n'.join([unicode(self.management_form),
-            forms, '<p><a href="javascript:void(0)" class="add-row">add</a></p>']))
+            forms, '<p><a href="javascript:void(0)" class="add-row %(prefix)s">add</a></p>' % {'prefix': self.prefix}]))
 
-EventDateFormInline = inlineformset_factory(Event, EventDate, form=EventDateForm, formset=MyBaseInlineFormSet, extra=1, can_delete=False)
-AnnouncementFormInline = inlineformset_factory(Event, Announcement, form=AnnouncementForm, formset=MyBaseInlineFormSet, extra=1, can_delete=False)
-ProductImageFormInline = inlineformset_factory(Product, ProductImage, form=ProductImageForm, formset=MyBaseInlineFormSet, extra=1, can_delete=False)
-EventFormInline = inlineformset_factory(Product, Event, can_delete=False)
+class MyBaseInlineFormSet1(BaseInlineFormSet):
+    def as_p_d(self):
+        return mark_safe("<fieldset>%s</fieldset>" % self.as_p())
+
+EventDateFormInline = inlineformset_factory(Event, EventDate, form=EventDateForm, formset=MyBaseInlineFormSet, extra=1, can_delete=False, max_num=1)
+AnnouncementFormInline = inlineformset_factory(Event, Announcement, form=AnnouncementForm, formset=MyBaseInlineFormSet1, extra=1, can_delete=False, max_num=1)
+ProductImageFormInline = inlineformset_factory(Product, ProductImage, form=ProductImageForm, formset=MyBaseInlineFormSet, extra=1, can_delete=False, max_num=1)
+EventFormInline = inlineformset_factory(Product, Event, can_delete=False, formset=MyBaseInlineFormSet1)

@@ -56,10 +56,33 @@ def flatpages(request, template_name='localsite/flatpages.html'):
         })
     return render_to_response(template_name, context_instance=ctx)
 
-def event_list(request, template_name='localsite/event_list.html'):
-    events = Event.objects.active()
+def edit_event(request, event_id, template_name='localsite/edit_event.html'):
+    event = Event.objects.get(product=event_id)
+    formsets = []
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=event.product)
+        formsets.append(EventFormInline(request.POST, instance=event.product))
+        formsets.append(AnnouncementFormInline(request.POST, instance=event))
+        formsets.append(EventDateFormInline(request.POST, instance=event))
+        formsets.append(ProductImageFormInline(request.POST, request.FILES, instance=event.product))
+        all_valid = form.is_valid()
+        for formset in formsets:
+            all_valid = all_valid and formset.is_valid()
+        if all_valid:
+            form.save()
+            for formset in formsets:
+                formset.save()
+            return HttpResponseRedirect(event.get_absolute_url())
+    else:
+        form = ProductForm(instance=event.product)
+        formsets.append(EventFormInline(instance=event.product))
+        formsets.append(AnnouncementFormInline(instance=event))
+        formsets.append(EventDateFormInline(instance=event))
+        formsets.append(ProductImageFormInline(instance=event.product))
     ctx = RequestContext(request, {
-        'events': events,
+        'event': event,
+        'form': form,
+        'formsets': formsets,
         })
     return render_to_response(template_name, context_instance=ctx)
 
