@@ -272,12 +272,19 @@ class SeatLocation(models.Model):
         else:
             return "No place"
     
+STATUS_CHOICES = (
+        ('freely', _('Freely')),
+        ('reserved', _('Reserved')),
+        ('sold', _('Sold')),
+        )
 class Ticket(models.Model):
     """docstring for Ticket"""
     product = models.OneToOneField(Product, verbose_name=_('Product'), primary_key=True)
     event = models.ForeignKey(Event, verbose_name=_('Event'), related_name='tickets')
     datetime = models.ForeignKey(EventDate, related_name='tickets')
     seat = models.ForeignKey(SeatLocation)
+    status = models.CharField(max_length=8, choices=STATUS_CHOICES, default='freely')
+    
     
     class Meta:
         verbose_name = _("Ticket")

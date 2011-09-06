@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-01 14:20+0300\n"
+"POT-Creation-Date: 2011-09-06 10:07+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,119 +31,131 @@ msgstr ""
 msgid "Ukrainian"
 msgstr ""
 
-#: localsite/forms.py:63
+#: localsite/forms.py:89
 msgid "Category genre"
 msgstr ""
 
-#: localsite/forms.py:64 localsite/views.py:104 localsite/views.py:105
+#: localsite/forms.py:90 localsite/views.py:137 localsite/views.py:138
 msgid "Hall of event"
 msgstr ""
 
-#: localsite/models.py:24 localsite/models.py:311
+#: localsite/models.py:26 localsite/models.py:329
 msgid "Ordering"
 msgstr ""
 
-#: localsite/models.py:24
+#: localsite/models.py:26
 msgid "Override alphabetical order in city display"
 msgstr ""
 
-#: localsite/models.py:27
+#: localsite/models.py:29
 msgid "City"
 msgstr ""
 
-#: localsite/models.py:28
+#: localsite/models.py:30
 msgid "Cities"
 msgstr ""
 
-#: localsite/models.py:42
+#: localsite/models.py:44
 msgid "Hall"
 msgstr ""
 
-#: localsite/models.py:43
+#: localsite/models.py:45
 msgid "Halls"
 msgstr ""
 
-#: localsite/models.py:58 localsite/models.py:69
+#: localsite/models.py:60 localsite/models.py:75
 msgid "Hall Scheme"
 msgstr ""
 
-#: localsite/models.py:59
+#: localsite/models.py:61
 msgid "Hall Schemes"
 msgstr ""
 
-#: localsite/models.py:68 localsite/models.py:265
+#: localsite/models.py:74 localsite/models.py:282
 msgid "Product"
 msgstr ""
 
-#: localsite/models.py:77 localsite/models.py:266 localsite/models.py:310
+#: localsite/models.py:85 localsite/models.py:283 localsite/models.py:327
 msgid "Event"
 msgstr ""
 
-#: localsite/models.py:78
+#: localsite/models.py:86
 msgid "Events"
 msgstr ""
 
-#: localsite/models.py:176
+#: localsite/models.py:189
 msgid "Event Date"
 msgstr ""
 
-#: localsite/models.py:177
+#: localsite/models.py:190
 msgid "Event Dates"
 msgstr ""
 
-#: localsite/models.py:207
+#: localsite/models.py:220
 msgid "Seat Group"
 msgstr ""
 
-#: localsite/models.py:208
+#: localsite/models.py:221
 msgid "Seat Groups"
 msgstr ""
 
-#: localsite/models.py:225
+#: localsite/models.py:238
 msgid "Seat Group Price"
 msgstr ""
 
-#: localsite/models.py:226
+#: localsite/models.py:239
 msgid "Seat Group Prices"
 msgstr ""
 
-#: localsite/models.py:252
+#: localsite/models.py:264
 msgid "Seat Location"
 msgstr ""
 
-#: localsite/models.py:253
+#: localsite/models.py:265
 msgid "Seat Locations"
 msgstr ""
 
-#: localsite/models.py:271
+#: localsite/models.py:276
+msgid "Freely"
+msgstr ""
+
+#: localsite/models.py:277
+msgid "Reserved"
+msgstr ""
+
+#: localsite/models.py:278
+msgid "Sold"
+msgstr ""
+
+#: localsite/models.py:290
 msgid "Ticket"
 msgstr ""
 
-#: localsite/models.py:272
+#: localsite/models.py:291
 msgid "Tickets"
 msgstr ""
 
-#: localsite/models.py:308
+#: localsite/models.py:325
 msgid "Begin"
 msgstr ""
 
-#: localsite/models.py:309
+#: localsite/models.py:326
 msgid "End"
 msgstr ""
 
-#: localsite/models.py:311
+#: localsite/models.py:329
 msgid "Override alphabetical order in announcement display"
 msgstr ""
 
-#: localsite/models.py:316
+#: localsite/models.py:334
 msgid "Announcement"
 msgstr ""
 
-#: localsite/models.py:317
+#: localsite/models.py:335
 msgid "Announcements"
 msgstr ""
 
-#: templates/base.html:119
+#: templates/base.html:120
 #, python-format
 msgid "In your cart <span id=\"cart_count\">%(counter)s</span> ticket"
 msgid_plural "In your cart <span id=\"cart_count\">%(counter)s</span> tickets"
@@ -221,6 +233,10 @@ msgstr ""
 msgid "Cache Status"
 msgstr ""
 
+#: templates/flatpages/default.html:17
+msgid "Edit"
+msgstr ""
+
 #: templates/formtools/wizard/wizard_form.html:16
 msgid "first step"
 msgstr ""
@@ -230,7 +246,8 @@ msgid "prev step"
 msgstr ""
 
 #: templates/formtools/wizard/wizard_form.html:19
-#: templates/localsite/wizard_event.html:11
+#: templates/localsite/flatpage_editor.html:10
+#: templates/localsite/wizard_event.html:18
 #: templates/localsite/wizard_event_dates.html:32
 #: templates/localsite/wizard_product_images.html:32
 msgid "submit"
@@ -246,8 +263,9 @@ msgstr ""
 
 #: templates/localsite/featured.html:7 templates/product/best_sellers.html:7
 #: templates/product/category.html:15 templates/product/category_index.html:7
-#: templates/product/product.html:25 templates/product/recently_added.html:7
-#: templates/shop/cart.html:12 templates/shop/index.html:7
+#: templates/product/detail_event.html:25 templates/product/product.html:25
+#: templates/product/recently_added.html:7 templates/shop/cart.html:12
+#: templates/shop/index.html:7 templates/shop/multiple_product_form.html:10
 #: templates/shop/checkout/base_confirm.html:7
 #: templates/shop/checkout/cod/confirm.html:9
 msgid "Home"
@@ -265,6 +283,10 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
+#: templates/localsite/sitemap.html:16
+msgid "Categories"
+msgstr ""
+
 #: templates/product/best_sellers.html:8
 msgid "Best Sellers"
 msgstr ""
@@ -274,6 +296,7 @@ msgid "Category Index"
 msgstr ""
 
 #: templates/product/product.html:140
+#: templates/shop/multiple_product_form.html:22
 msgid "Price"
 msgstr ""
 
@@ -309,8 +332,21 @@ msgstr ""
 msgid "Your cart is empty."
 msgstr ""
 
-#: templates/shop/cart.html:262
+#: templates/shop/cart.html:263
 msgid "Check out"
+msgstr ""
+
+#: templates/shop/multiple_product_form.html:11
+#: templates/shop/multiple_product_form.html:15
+msgid "Quick Order Form"
+msgstr ""
+
+#: templates/shop/multiple_product_form.html:23
+msgid "Qty"
+msgstr ""
+
+#: templates/shop/multiple_product_form.html:54
+msgid "Add to Cart"
 msgstr ""
 
 #: templates/shop/checkout/base_confirm.html:8
