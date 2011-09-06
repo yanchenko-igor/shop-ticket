@@ -9,7 +9,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         
         # Adding field 'Ticket.status'
-        db.add_column('localsite_ticket', 'status', self.gf('django.db.models.fields.CharField')(default='free', max_length=8), keep_default=False)
+        db.add_column('localsite_ticket', 'status', self.gf('django.db.models.fields.CharField')(default='freely', max_length=8), keep_default=False)
 
 
     def backwards(self, orm):
