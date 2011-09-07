@@ -20,6 +20,8 @@ from django.db.models import Q
 from satchmo_store.shop.views.sitemaps import sitemaps
 from django.contrib.sitemaps.views import sitemap as django_sitemap
 from django.contrib.flatpages.models import FlatPage
+from sorl.thumbnail import default
+from sorl.thumbnail.images import ImageFile
 
 class JsonResponse(HttpResponse):
     def __init__(self, object):
@@ -70,8 +72,13 @@ def edit_event(request, event_id, template_name='localsite/edit_event.html'):
             all_valid = all_valid and formset.is_valid()
         if all_valid:
             form.save()
-            for formset in formsets:
-                formset.save()
+            formsets[0].save()
+            formsets[1].save()
+            formsets[2].save()
+            images = formsets[3].save(commit=False)
+            for image in images:
+                image.save()
+                default.kvstore.delete_thumbnails(ImageFile(image.picture.name))
             return HttpResponseRedirect(event.get_absolute_url())
     else:
         form = ProductForm(instance=event.product)
