@@ -75,9 +75,8 @@ def edit_event(request, event_id, template_name='localsite/edit_event.html'):
             formsets[0].save()
             formsets[1].save()
             formsets[2].save()
-            images = formsets[3].save(commit=False)
+            images = formsets[3].save()
             for image in images:
-                image.save()
                 default.kvstore.delete_thumbnails(ImageFile(image.picture.name))
             return HttpResponseRedirect(event.get_absolute_url())
     else:
