@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-06 10:07+0300\n"
+"POT-Creation-Date: 2011-09-07 16:10+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,15 +30,15 @@ msgstr ""
 msgid "Ukrainian"
 msgstr ""
 
-#: localsite/forms.py:89
+#: localsite/forms.py:91
 msgid "Category genre"
 msgstr "Жанр категории"
 
-#: localsite/forms.py:90 localsite/views.py:137 localsite/views.py:138
+#: localsite/forms.py:92 localsite/views.py:167 localsite/views.py:168
 msgid "Hall of event"
 msgstr "Площадка проведения"
 
-#: localsite/models.py:26 localsite/models.py:329
+#: localsite/models.py:26 localsite/models.py:331
 msgid "Ordering"
 msgstr "Сортировка"
 
@@ -70,11 +70,11 @@ msgstr "Схема зала"
 msgid "Hall Schemes"
 msgstr "Схемы залов"
 
-#: localsite/models.py:74 localsite/models.py:282
+#: localsite/models.py:74 localsite/models.py:284
 msgid "Product"
 msgstr "Товар"
 
-#: localsite/models.py:85 localsite/models.py:283 localsite/models.py:327
+#: localsite/models.py:85 localsite/models.py:285 localsite/models.py:329
 msgid "Event"
 msgstr "Событие"
 
@@ -82,75 +82,75 @@ msgstr "Событие"
 msgid "Events"
 msgstr "События"
 
-#: localsite/models.py:189
+#: localsite/models.py:191
 msgid "Event Date"
 msgstr "Дата события"
 
-#: localsite/models.py:190
+#: localsite/models.py:192
 msgid "Event Dates"
 msgstr "Дата события"
 
-#: localsite/models.py:220
+#: localsite/models.py:222
 msgid "Seat Group"
 msgstr "Группа мест"
 
-#: localsite/models.py:221
+#: localsite/models.py:223
 msgid "Seat Groups"
 msgstr "Группы мест"
 
-#: localsite/models.py:238
+#: localsite/models.py:240
 msgid "Seat Group Price"
 msgstr ""
 
-#: localsite/models.py:239
+#: localsite/models.py:241
 msgid "Seat Group Prices"
 msgstr ""
 
-#: localsite/models.py:264
+#: localsite/models.py:266
 msgid "Seat Location"
 msgstr "место"
 
-#: localsite/models.py:265
+#: localsite/models.py:267
 msgid "Seat Locations"
 msgstr "место"
 
-#: localsite/models.py:276
+#: localsite/models.py:278
 msgid "Freely"
 msgstr "Свободно"
 
-#: localsite/models.py:277
+#: localsite/models.py:279
 msgid "Reserved"
 msgstr "Забронировано"
 
-#: localsite/models.py:278
+#: localsite/models.py:280
 msgid "Sold"
 msgstr "Продано"
 
-#: localsite/models.py:290
+#: localsite/models.py:292
 msgid "Ticket"
 msgstr "Билет"
 
-#: localsite/models.py:291
+#: localsite/models.py:293
 msgid "Tickets"
 msgstr "Билеты"
 
-#: localsite/models.py:325
+#: localsite/models.py:327
 msgid "Begin"
 msgstr "Начало"
 
-#: localsite/models.py:326
+#: localsite/models.py:328
 msgid "End"
 msgstr "Конец"
 
-#: localsite/models.py:329
+#: localsite/models.py:331
 msgid "Override alphabetical order in announcement display"
 msgstr "Переопределяет алфавитный порядок при отображении аннонсов"
 
-#: localsite/models.py:334
+#: localsite/models.py:336
 msgid "Announcement"
 msgstr "Анонс"
 
-#: localsite/models.py:335
+#: localsite/models.py:337
 msgid "Announcements"
 msgstr "Анонсы"
 
@@ -232,9 +232,13 @@ msgstr ""
 msgid "Cache Status"
 msgstr ""
 
-#: templates/flatpages/default.html:17
+#: templates/admin/index.html:139
+msgid "Add event"
+msgstr "Добавить событие"
+
+#: templates/flatpages/default.html:17 templates/product/detail_event.html:116
 msgid "Edit"
-msgstr ""
+msgstr "Редактировать"
 
 #: templates/formtools/wizard/wizard_form.html:16
 msgid "first step"
@@ -245,12 +249,13 @@ msgid "prev step"
 msgstr ""
 
 #: templates/formtools/wizard/wizard_form.html:19
+#: templates/localsite/edit_event.html:31
 #: templates/localsite/flatpage_editor.html:10
 #: templates/localsite/wizard_event.html:18
 #: templates/localsite/wizard_event_dates.html:32
 #: templates/localsite/wizard_product_images.html:32
 msgid "submit"
-msgstr ""
+msgstr "отправить"
 
 #: templates/localsite/block_bestsellers.html:13
 msgid "All Best Sellers"
@@ -281,11 +286,6 @@ msgstr "Назад"
 #: templates/product/recently_added.html:33
 msgid "Next"
 msgstr "Вперёд"
-
-#: templates/localsite/sitemap.html:16
-#, fuzzy
-msgid "Categories"
-msgstr "Жанр категории"
 
 #: templates/product/best_sellers.html:8
 msgid "Best Sellers"
@@ -319,6 +319,42 @@ msgstr "Самые свежие"
 #: templates/product/recently_added.html:40
 msgid "Bad Page"
 msgstr "Не найдено"
+
+#: templates/satchmo_toolbar/toolbar.html:6
+msgid "Hide"
+msgstr ""
+
+#: templates/satchmo_toolbar/toolbar.html:8
+msgid "Admin"
+msgstr ""
+
+#: templates/satchmo_toolbar/toolbar.html:11
+msgid "New order:"
+msgid_plural "New orders:"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: templates/satchmo_toolbar/toolbar.html:12
+#, python-format
+msgid "%(st_new_order_ct)s for %(new_total)s"
+msgstr ""
+
+#: templates/satchmo_toolbar/toolbar.html:15
+#, python-format
+msgid ""
+"Carts in 1h/1d/7d: %(st_cart_1h_ct)s/%(st_cart_1d_ct)s/%(st_cart_7d_ct)s"
+msgstr ""
+
+#: templates/satchmo_toolbar/toolbar.html:18
+#, python-format
+msgid "Contacts: 7d/total: %(st_contacts_7d_ct)s/%(st_contacts_ct)s"
+msgstr ""
+
+#: templates/satchmo_toolbar/toolbar.html:22
+#, python-format
+msgid "Number sold: %(st_total_sold)s"
+msgstr ""
 
 #: templates/shop/_search.html:7
 msgid "All Products"
