@@ -212,23 +212,33 @@ class EventDate(models.Model):
             self.event.save()
 
 
-class SeatGroup(models.Model):
-    """docstring for SeatGroup"""
+class SeatSection(models.Model):
     hallscheme = models.ForeignKey('HallScheme', related_name='seatgroups')
     name = models.CharField(max_length=25)
-    section = models.CharField(max_length=25)
+    
+    class Meta:
+        verbose_name = _("Section")
+        verbose_name_plural = _("Sections")
+        unique_together = (('hallscheme', 'name'),)
+        ordering = ['hallscheme', 'name']
+        
+    def __unicode__(self):
+        return u"%s - %s" % (self.hallscheme.__unicode__(), self.name)
+        
+
+class SeatGroup(models.Model):
+    """docstring for SeatGroup"""
+    section = models.ForeignKey(SeatSection, related_name='groups')
+    name = models.CharField(max_length=25)
     
     class Meta:
         verbose_name = _("Seat Group")
         verbose_name_plural = _("Seat Groups")
-        unique_together = (('hallscheme', 'name'),)
-        ordering = ['hallscheme', 'section', 'name']
+        unique_together = (('section', 'name'),)
+        ordering = ['section', 'name']
         
     def __unicode__(self):
-        return u"%s - %s" % (self.hallscheme.__unicode__(), self.name)
-    
-    def save(self, force_insert=False, force_update=False):
-        super(SeatGroup, self).save()
+        return u"%s - %s" % (self.section.__unicode__(), self.name)
         
 class SeatGroupPrice(models.Model):
     """docstring for SeatGroupPrice"""

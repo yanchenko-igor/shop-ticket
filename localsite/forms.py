@@ -65,6 +65,9 @@ class ProductForm(forms.ModelForm):
                 'shipclass',
                 )
 
+class SelectSeatGroupForm(forms.Form):
+    group = forms.ModelChoiceField(queryset=SeatGroup.objects.all(), empty_label=_("Select section"), widget=forms.Select(attrs={'onChange':"get_values(this, '#id_ticket', '/ajax_select_group/')"}))
+
 class SelectCityForm(forms.Form):
     city = forms.ModelChoiceField(queryset=City.objects.all(), empty_label=None, widget=forms.Select(attrs={'onChange':"get_values(this, '#id_hall', '/ajax_select_city/')"}))
 
