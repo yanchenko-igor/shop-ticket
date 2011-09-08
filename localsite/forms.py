@@ -26,33 +26,14 @@ class MyModelForm(forms.ModelForm):
 class MyDateInput(forms.DateInput):
     def render(self, name, value, attrs=None):
         result = super(MyDateInput, self).render(name, value, attrs)
-        script = """
-                                                    <script type="text/javascript">
-                                                           var %(id_und)s_CAL = new Calendar({
-                                                                  inputField: "%(id)s",
-                                                                  dateFormat: "%%Y-%%m-%%d",
-                                                                  trigger: "%(id)s_trigger",
-                                                                  onSelect   : function() { this.hide() }
-                                                          });
-                                                    </script>
-                                                    """ % {'id':attrs['id'],'id_und':attrs['id'].replace('-', '_')}
+        script = """<script type="text/javascript">var %(id_und)s_CAL=new Calendar({inputField:"%(id)s",dateFormat:"%%Y-%%m-%%d",trigger:"%(id)s_trigger",onSelect:function(){this.hide()}});</script>""" % {'id':attrs['id'],'id_und':attrs['id'].replace('-', '_')}
         return mark_safe(u'%s<img alt="" src="/static/images/icon_calendar.jpg" id="%s_trigger" class="icon_calendar">%s' % (result,attrs['id'],script))
 
 
 class MyDateTimeInput(forms.DateTimeInput):
     def render(self, name, value, attrs=None):
         result = super(MyDateTimeInput, self).render(name, value, attrs)
-        script = """
-                                                    <script type="text/javascript">
-                                                           var %(id_und)s_CAL = new Calendar({
-                                                                  inputField: "%(id)s",
-                                                                  dateFormat: "%%Y-%%m-%%d %%H:%%M",
-                                                                  trigger: "%(id)s_trigger",
-                                                                  showTime: true,
-                                                                  onSelect   : function() { this.hide() }
-                                                          });
-                                                    </script>
-                                                    """ % {'id':attrs['id'],'id_und':attrs['id'].replace('-', '_')}
+        script = """<script type="text/javascript">var %(id_und)s_CAL=new Calendar({inputField:"%(id)s",dateFormat:"%%Y-%%m-%%d %%H:%%M",trigger:"%(id)s_trigger",showTime:true,onSelect:function(){this.hide()}});</script>""" % {'id':attrs['id'],'id_und':attrs['id'].replace('-', '_')}
         return mark_safe(u'%s<img alt="" src="/static/images/icon_calendar.jpg" id="%s_trigger" class="icon_calendar">%s' % (result,attrs['id'],script))
 
 class FlatPageForm(forms.ModelForm):
