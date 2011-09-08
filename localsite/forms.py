@@ -85,7 +85,7 @@ class ProductForm(forms.ModelForm):
                 )
 
 class SelectCityForm(forms.Form):
-    city = forms.ModelChoiceField(queryset=City.objects.all(), empty_label=None)
+    city = forms.ModelChoiceField(queryset=City.objects.all(), empty_label=None, widget=forms.Select(attrs={'onChange':"get_values(this, '#id_hall', '/ajax_select_city/')"}))
 
 class SelectEventForm(forms.Form):
     category = forms.ModelChoiceField(required=False, queryset=Category.objects.all(), empty_label=_('Category genre'))

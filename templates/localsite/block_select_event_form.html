@@ -10,12 +10,6 @@
 
         <form class="selection_events_form" action="{% url select_event %}" method="post">{% csrf_token %}
             {{ form_city.city }}
-            <script type="text/javascript">
-                $(function()
-                {
-				    $('#id_city').chainSelect('#id_hall','{% url ajax_select_city %}');
-                });
-            </script>
             {{ form_event.category }}
             {{ form_event.hall }}
 
