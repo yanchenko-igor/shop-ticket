@@ -191,9 +191,10 @@ def wizard_event(request, step='step0', template='localsite/wizard_event.html'):
                 wizard['event'] = event
                 wizard['step'] = 1
                 request.session['wizard'] = wizard
-                for group in event.hallscheme.seatgroups.all():
-                    price = SeatGroupPrice(event=event, group=group)
-                    price.save()
+                for section in event.hallscheme.sections.all():
+                    for group in section.groups.all():
+                        price = SeatGroupPrice(event=event, group=group)
+                        price.save()
                 return HttpResponseRedirect('/wizards/event/step1/')
         else:
             form = ProductForm(instance=product)

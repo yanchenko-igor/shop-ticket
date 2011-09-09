@@ -128,9 +128,10 @@ class Event(models.Model):
             sublist.append(date)
         masterlist.append(sublist)
         sublist = []
-        for group in self.hallscheme.seatgroups.all():
-            for seat in group.seats.all():
-                sublist.append(seat)
+        for section in self.hallscheme.sections.all():
+            for group in section.groups.all():
+                for seat in group.seats.all():
+                    sublist.append(seat)
         masterlist.append(sublist)
         sublist = []
         return cross_list(masterlist)
@@ -213,7 +214,7 @@ class EventDate(models.Model):
 
 
 class SeatSection(models.Model):
-    hallscheme = models.ForeignKey('HallScheme', related_name='seatgroups')
+    hallscheme = models.ForeignKey('HallScheme', related_name='sections')
     name = models.CharField(max_length=25)
     
     class Meta:

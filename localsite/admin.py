@@ -5,6 +5,10 @@ from django.contrib.flatpages.models import FlatPage
 from tinymce.widgets import TinyMCE
 from product.admin import ProductOptions
 
+class SeatSectionInline(admin.TabularInline):
+    model = SeatSection
+    extra = 0
+
 class SeatGroupInline(admin.TabularInline):
     model = SeatGroup
     extra = 0
@@ -13,8 +17,12 @@ class SeatLocationInline(admin.TabularInline):
     model = SeatLocation
     extra = 0
 
-class HallSchemeAdmin(admin.ModelAdmin):
+class SeatSectionAdmin(admin.ModelAdmin):
     inlines = [SeatGroupInline,]
+admin.site.register(SeatSection, SeatSectionAdmin)
+
+class HallSchemeAdmin(admin.ModelAdmin):
+    inlines = [SeatSectionInline,]
 admin.site.register(HallScheme, HallSchemeAdmin)
 
 class CityAdmin(admin.ModelAdmin):
