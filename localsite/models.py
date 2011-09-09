@@ -281,7 +281,7 @@ class SeatLocation(models.Model):
     
     def __unicode__(self):
         if self.row and self.col:
-            return "%s-%s-%s" % (self.group.section, self.row, self.col)
+            return "%s-%s-%s" % (self.group.section.__unicode__(), self.row, self.col)
         else:
             return "No place"
     
