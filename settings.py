@@ -177,6 +177,7 @@ SATCHMO_SETTINGS = {
             url(r'^flatpage/(?P<flatpage_id>\d+)/$', 'localsite.views.flatpage_editor', name='flatpage_editor'),
             url(r'^tinymce/', include('tinymce.urls')),
             url(r'^ajax_select_city/$', 'localsite.views.ajax_select_city', name='ajax_select_city'),
+            url(r'^ajax_add_ticket_to_cart/$', 'localsite.views.ajax_add_ticket_to_cart', name='ajax_add_ticket_to_cart'),
             url(r'^wizards/event/$', 'localsite.views.wizard_event', name='wizard_event_step0'),
             url(r'^wizards/event/(?P<step>.*)/$', 'localsite.views.wizard_event'),
             url(r'^$', 'product.views.filters.display_recent', name='satchmo_shop_home'),

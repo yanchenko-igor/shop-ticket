@@ -69,7 +69,7 @@ class SelectEventDateForm(forms.Form):
     datetime = forms.ModelChoiceField(queryset=EventDate.objects.none(), empty_label=_("Select date"))
 
 class SelectSeatGroupForm(forms.Form):
-    group = forms.ModelChoiceField(queryset=SeatGroup.objects.none(), empty_label=_("Select section"), widget=forms.Select(attrs={'onChange':"get_values(this, '#id_ticket', '/ajax_select_group/')"}))
+    group = forms.ModelChoiceField(queryset=SeatGroup.objects.none(), empty_label=_("Select section"))
 
 class SelectTicketForm(forms.Form):
     ticket = forms.ModelChoiceField(queryset=Ticket.objects.none(), empty_label=_("Select ticket"))

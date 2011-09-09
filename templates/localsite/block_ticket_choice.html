@@ -1,3 +1,32 @@
+<script type="text/javascript">
+$(function() {
+        $('#id_datetime').change(function() {
+            console.log($(this).attr('name'), $(this).val());
+            var postdata = {csrfmiddlewaretoken: getCookie('csrftoken')};
+            postdata[$(this).attr('name')] = $(this).val();
+            postdata[$('#id_group').attr('name')] = $('#id_group').val();
+            $.post('/test/{#% url satchmo_cart_set_qty %#}', postdata,
+                function(data) {
+                    console.log(data);
+                },
+                'json'
+            );
+        });
+        $('#id_group').change(function() {
+            console.log($(this).attr('name'), $(this).val())
+        });
+        $('#id_ticket').change(function() {
+            var postdata = {csrfmiddlewaretoken: getCookie('csrftoken')};
+            postdata[$(this).attr('name')] = $(this).val();
+            $.post('{% url ajax_add_ticket_to_cart %}', postdata,
+                function(data) {
+                    console.log(data);
+                },
+                'json'
+            );
+        });
+});
+</script>
 {% for form in forms %}
     {{ form.as_p }}
 {% endfor %}

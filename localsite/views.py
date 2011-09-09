@@ -22,6 +22,9 @@ from django.contrib.sitemaps.views import sitemap as django_sitemap
 from django.contrib.flatpages.models import FlatPage
 from sorl.thumbnail import default
 from sorl.thumbnail.images import ImageFile
+from satchmo_store.shop.models import Cart
+from satchmo_store.shop.signals import satchmo_cart_changed, satchmo_cart_add_complete, satchmo_cart_details_query, satchmo_cart_view
+from satchmo_utils.numbers import RoundedDecimalError, round_decimal
 
 class JsonResponse(HttpResponse):
     def __init__(self, object):
@@ -157,6 +160,41 @@ def select_event(request, template='localsite/select_event.html'):
         'form_event': form_event,
     })
     return render_to_response(template, context_instance=ctx)
+
+def ajax_add_ticket_to_cart(request, quantity=1):
+    details = []
+    if request.method == 'POST':
+        print 'post'
+        form = SelectTicketForm(request.POST)
+        form.fields['ticket'].queryset = Ticket.objects.all()
+        if form.is_valid():
+            print 'valid'
+            ticket = form.cleaned_data['ticket']
+            if ticket.status == 'freely':
+                print 'freely'
+                cart = Cart.objects.from_request(request, create=True)
+                added_item = cart.add_item(ticket.product, number_added=quantity, details=details)
+                ticket.status = 'reserved'
+                ticket.save()
+                if request.is_ajax():
+                    print 'ajax'
+                    data = {
+                        'id': ticket.product.id,
+                        'name': ticket.product.translated_name(),
+                        'item_id': added_item.id,
+                        'item_qty': str(round_decimal(quantity, 2)),
+                        'item_price': str(added_item.line_total) or "0.00",
+                        'cart_count': str(round_decimal(cart.numItems, 2)),
+                        'cart_total': str(cart.total),
+                        # Legacy result, for now
+                        'results': _("Success"),
+                    }
+                    return JsonResponse(data)
+        else:
+                    return JsonResponse(form.errors)
+
+    return JsonResponse([{"":_('Hall of event')}])
+
 
 def ajax_select_city(request):
     if request.method == 'POST':
