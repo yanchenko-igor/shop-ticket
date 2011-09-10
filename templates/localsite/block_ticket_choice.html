@@ -18,7 +18,7 @@ $(function() {
         $('#id_ticket').change(function() {
             var postdata = {csrfmiddlewaretoken: getCookie('csrftoken')};
             postdata[$(this).attr('name')] = $(this).val();
-            $.post('{% url ajax_add_ticket_to_cart %}', postdata,
+            $.post('{% url add_ticket %}', postdata,
                 function(data) {
                     console.log(data);
                 },

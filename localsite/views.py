@@ -22,21 +22,14 @@ from django.contrib.sitemaps.views import sitemap as django_sitemap
 from django.contrib.flatpages.models import FlatPage
 from sorl.thumbnail import default
 from sorl.thumbnail.images import ImageFile
+from satchmo_store.shop.exceptions import CartAddProhibited
 from satchmo_store.shop.models import Cart
 from satchmo_store.shop.signals import satchmo_cart_changed, satchmo_cart_add_complete, satchmo_cart_details_query, satchmo_cart_view
 from satchmo_utils.numbers import RoundedDecimalError, round_decimal
-
-class JsonResponse(HttpResponse):
-    def __init__(self, object):
-        if isinstance(object, QuerySet):
-            content = serialize('json', object)
-        else:
-            content = simplejson.dumps(
-                object, indent=0, cls=json.DjangoJSONEncoder,
-                ensure_ascii=False)
-        super(JsonResponse, self).__init__(
-            content, content_type='application/json')
-
+from satchmo_store.shop.views.cart import _product_error
+from satchmo_store.shop.views.cart import _json_response
+from satchmo_store.shop.views.cart import _set_quantity
+from satchmo_utils.views import bad_or_missing
 
 def flatpage_editor(request, flatpage_id, template_name='localsite/flatpage_editor.html'):
     flatpage = FlatPage.objects.get(id=flatpage_id)
@@ -161,48 +154,76 @@ def select_event(request, template='localsite/select_event.html'):
     })
     return render_to_response(template, context_instance=ctx)
 
-def ajax_add_ticket_to_cart(request, quantity=1):
+def add_ticket(request, quantity=1, redirect_to='satchmo_cart'):
+    formdata = request.POST.copy()
     details = []
-    if request.method == 'POST':
-        print 'post'
-        form = SelectTicketForm(request.POST)
-        form.fields['ticket'].queryset = Ticket.objects.all()
-        if form.is_valid():
-            print 'valid'
-            ticket = form.cleaned_data['ticket']
-            if ticket.status == 'freely':
-                print 'freely'
-                cart = Cart.objects.from_request(request, create=True)
-                added_item = cart.add_item(ticket.product, number_added=quantity, details=details)
-                ticket.status = 'reserved'
-                ticket.save()
-                if request.is_ajax():
-                    print 'ajax'
-                    data = {
-                        'id': ticket.product.id,
-                        'name': ticket.product.translated_name(),
-                        'item_id': added_item.id,
-                        'item_qty': str(round_decimal(quantity, 2)),
-                        'item_price': str(added_item.line_total) or "0.00",
-                        'cart_count': str(round_decimal(cart.numItems, 2)),
-                        'cart_total': str(cart.total),
-                        # Legacy result, for now
-                        'results': _("Success"),
-                    }
-                    return JsonResponse(data)
+
+    form = SelectTicketForm(request.POST)
+    form.fields['ticket'].queryset = Ticket.objects.all()
+    if form.is_valid():
+        ticket = form.cleaned_data['ticket']
+
+    cart = Cart.objects.from_request(request, create=True)
+    satchmo_cart_details_query.send(
+            cart,
+            product=ticket.product,
+            quantity=quantity,
+            details=details,
+            request=request,
+            form=formdata
+            )
+    try:
+        added_item = cart.add_item(ticket.product, number_added=quantity, details=details)
+
+    except CartAddProhibited, cap:
+        return _product_error(request, ticket.product, cap.message)
+
+    # got to here with no error, now send a signal so that listeners can also operate on this form.
+    satchmo_cart_add_complete.send(cart, cart=cart, cartitem=added_item, product=ticket.product, request=request, form=formdata)
+    satchmo_cart_changed.send(cart, cart=cart, request=request)
+
+    if request.is_ajax():
+        data = {
+            'id': ticket.product.id,
+            'name': ticket.product.translated_name(),
+            'item_id': added_item.id,
+            'item_qty': str(round_decimal(quantity, 2)),
+            'item_price': str(added_item.line_total) or "0.00",
+            'cart_count': str(round_decimal(cart.numItems, 2)),
+            'cart_total': str(cart.total),
+            # Legacy result, for now
+            'results': _("Success"),
+        }
+
+        return _json_response(data)
+    else:
+        url = urlresolvers.reverse(redirect_to)
+        return HttpResponseRedirect(url)
+
+def remove_ticket(request):
+    if not request.POST:
+        return bad_or_missing(request, "Please use a POST request")
+
+    success, cart, cartitem, errors = _set_quantity(request, force_delete=True)
+
+    if request.is_ajax():
+        if errors:
+            return _json_response({'errors': errors, 'results': _("Error")}, True)
         else:
-                    return JsonResponse(form.errors)
-
-    return JsonResponse([{"":_('Hall of event')}])
-
+            return _json_response({
+                'cart_total': str(cart.total),
+                'cart_count': str(cart.numItems),
+                'item_id': cartitem.id,
+                'results': success, # Legacy
+            })
 
 def ajax_select_city(request):
     if request.method == 'POST':
         form = SelectCityForm(request.POST)
         if form.is_valid():
             city = form.cleaned_data['city']
-            return JsonResponse([{"":_('Hall of event')}] + [dict([[hall.id,hall.name]]) for hall in city.halls.all()])
-    return JsonResponse([{"":_('Hall of event')}])
+            return _json_response([{"":_('Hall of event')}] + [dict([[hall.id,hall.name]]) for hall in city.halls.all()])
+    return _json_response([{"":_('Hall of event')}])
 
 @user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def wizard_event(request, step='step0', template='localsite/wizard_event.html'):

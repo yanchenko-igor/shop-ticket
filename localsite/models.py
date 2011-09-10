@@ -360,3 +360,7 @@ class Announcement(models.Model):
         if not self.end:
             self.end=self.begin + datetime.timedelta(days=7)
         super(Announcement, self).save(**kwargs)
+
+
+from localsite.listeners import start_localsite_listening
+start_localsite_listening()
