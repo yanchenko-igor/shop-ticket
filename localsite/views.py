@@ -160,45 +160,49 @@ def add_ticket(request, quantity=1, redirect_to='satchmo_cart'):
 
     form = SelectTicketForm(request.POST)
     form.fields['ticket'].queryset = Ticket.objects.all()
+    print [ticket.product.id for ticket in form.fields['ticket'].queryset]
     if form.is_valid():
         ticket = form.cleaned_data['ticket']
+        cart = Cart.objects.from_request(request, create=True)
+        satchmo_cart_details_query.send(
+                cart,
+                product=ticket.product,
+                quantity=quantity,
+                details=details,
+                request=request,
+                form=formdata
+                )
+        try:
+            added_item = cart.add_item(ticket.product, number_added=1, details=details)
+            added_item.quantity = 1
+            added_item.save()
 
-    cart = Cart.objects.from_request(request, create=True)
-    satchmo_cart_details_query.send(
-            cart,
-            product=ticket.product,
-            quantity=quantity,
-            details=details,
-            request=request,
-            form=formdata
-            )
-    try:
-        added_item = cart.add_item(ticket.product, number_added=quantity, details=details)
+        except CartAddProhibited, cap:
+            return _product_error(request, ticket.product, cap.message)
 
-    except CartAddProhibited, cap:
-        return _product_error(request, ticket.product, cap.message)
+        # got to here with no error, now send a signal so that listeners can also operate on this form.
+        satchmo_cart_add_complete.send(cart, cart=cart, cartitem=added_item, product=ticket.product, request=request, form=formdata)
+        satchmo_cart_changed.send(cart, cart=cart, request=request)
 
-    # got to here with no error, now send a signal so that listeners can also operate on this form.
-    satchmo_cart_add_complete.send(cart, cart=cart, cartitem=added_item, product=ticket.product, request=request, form=formdata)
-    satchmo_cart_changed.send(cart, cart=cart, request=request)
+        if request.is_ajax():
+            data = {
+                'id': ticket.product.id,
+                'name': ticket.product.translated_name(),
+                'item_id': added_item.id,
+                'item_qty': str(round_decimal(quantity, 2)),
+                'item_price': str(added_item.line_total) or "0.00",
+                'cart_count': str(round_decimal(cart.numItems, 2)),
+                'cart_total': str(cart.total),
+                # Legacy result, for now
+                'results': _("Success"),
+            }
 
-    if request.is_ajax():
-        data = {
-            'id': ticket.product.id,
-            'name': ticket.product.translated_name(),
-            'item_id': added_item.id,
-            'item_qty': str(round_decimal(quantity, 2)),
-            'item_price': str(added_item.line_total) or "0.00",
-            'cart_count': str(round_decimal(cart.numItems, 2)),
-            'cart_total': str(cart.total),
-            # Legacy result, for now
-            'results': _("Success"),
-        }
-
-        return _json_response(data)
+            return _json_response(data)
+        else:
+            url = urlresolvers.reverse(redirect_to)
+            return HttpResponseRedirect(url)
     else:
-        url = urlresolvers.reverse(redirect_to)
-        return HttpResponseRedirect(url)
+        return _json_response({'errors': form.errors, 'results': _("Error")}, True)
 
 def remove_ticket(request):
     if not request.POST:
@@ -216,6 +220,23 @@ def remove_ticket(request):
                 'item_id': cartitem.id,
                 'results': success, # Legacy
             })
+
+def ajax_select_ticket(request):
+    if request.method == 'POST':
+        form1 = SelectEventDateForm(request.POST)
+        form1.fields['datetime'].queryset = EventDate.objects.all()
+        print 'post'
+        if form1.is_valid():
+            print 'form1 valid'
+            datetime = form1.cleaned_data['datetime']
+            form2 = SelectSectionForm(request.POST)
+            form2.fields['section'].queryset = datetime.event.hallscheme.sections.all()
+            if form2.is_valid():
+                print 'form2 valid'
+                section = form2.cleaned_data['section']
+                return _json_response([{"":_('Select ticket')}] + [dict([[ticket.product.id,ticket.__unicode__()]]) for ticket in Ticket.objects.filter(seat__section=section,datetime=datetime)])
+    return _json_response([{"":_('Select ticket')}])
+
 
 def ajax_select_city(request):
     if request.method == 'POST':
@@ -250,10 +271,9 @@ def wizard_event(request, step='step0', template='localsite/wizard_event.html'):
                 wizard['event'] = event
                 wizard['step'] = 1
                 request.session['wizard'] = wizard
-                for section in event.hallscheme.sections.all():
-                    for group in section.groups.all():
-                        price = SeatGroupPrice(event=event, group=group)
-                        price.save()
+                for group in event.hallscheme.groups.all():
+                    price = SeatGroupPrice(event=event, group=group)
+                    price.save()
                 return HttpResponseRedirect('/wizards/event/step1/')
         else:
             form = ProductForm(instance=product)

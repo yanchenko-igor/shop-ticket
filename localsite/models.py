@@ -128,10 +128,9 @@ class Event(models.Model):
             sublist.append(date)
         masterlist.append(sublist)
         sublist = []
-        for section in self.hallscheme.sections.all():
-            for group in section.groups.all():
-                for seat in group.seats.all():
-                    sublist.append(seat)
+        for group in self.hallscheme.groups.all():
+            for seat in group.seats.all():
+                sublist.append(seat)
         masterlist.append(sublist)
         sublist = []
         return cross_list(masterlist)
@@ -229,17 +228,17 @@ class SeatSection(models.Model):
 
 class SeatGroup(models.Model):
     """docstring for SeatGroup"""
-    section = models.ForeignKey(SeatSection, related_name='groups')
+    hallscheme = models.ForeignKey('HallScheme', related_name='groups')
     name = models.CharField(max_length=25)
     
     class Meta:
         verbose_name = _("Seat Group")
         verbose_name_plural = _("Seat Groups")
-        unique_together = (('section', 'name'),)
-        ordering = ['section', 'name']
+        unique_together = (('hallscheme', 'name'),)
+        ordering = ['hallscheme', 'name']
         
     def __unicode__(self):
-        return u"%s - %s" % (self.section.__unicode__(), self.name)
+        return u"%s - %s" % (self.hallscheme.__unicode__(), self.name)
         
 class SeatGroupPrice(models.Model):
     """docstring for SeatGroupPrice"""
@@ -267,6 +266,7 @@ class SeatGroupPrice(models.Model):
 
 class SeatLocation(models.Model):
     """docstring for SeatLocation"""
+    section = models.ForeignKey(SeatSection, related_name='seats')
     group = models.ForeignKey(SeatGroup, related_name='seats')
     row = models.IntegerField(blank=True, null=True)
     col = models.IntegerField(blank=True, null=True)
@@ -276,12 +276,12 @@ class SeatLocation(models.Model):
     class Meta:
         verbose_name = _("Seat Location")
         verbose_name_plural = _("Seat Locations")
-        unique_together = (("group", 'row', "col"),)
+        unique_together = (("group", 'row', "col"),("section", 'row', "col"),)
         ordering = ['group', 'row', 'col']
     
     def __unicode__(self):
         if self.row and self.col:
-            return "%s-%s-%s" % (self.group.section.__unicode__(), self.row, self.col)
+            return "%s-%s-%s" % (self.section.__unicode__(), self.row, self.col)
         else:
             return "No place"
     

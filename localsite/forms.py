@@ -68,8 +68,8 @@ class ProductForm(forms.ModelForm):
 class SelectEventDateForm(forms.Form):
     datetime = forms.ModelChoiceField(queryset=EventDate.objects.none(), empty_label=_("Select date"))
 
-class SelectSeatGroupForm(forms.Form):
-    group = forms.ModelChoiceField(queryset=SeatGroup.objects.none(), empty_label=_("Select section"))
+class SelectSectionForm(forms.Form):
+    section = forms.ModelChoiceField(queryset=SeatSection.objects.none(), empty_label=_("Select section"))
 
 class SelectTicketForm(forms.Form):
     ticket = forms.ModelChoiceField(queryset=Ticket.objects.none(), empty_label=_("Select ticket"))

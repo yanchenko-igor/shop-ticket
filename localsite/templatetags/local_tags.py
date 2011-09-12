@@ -2,7 +2,7 @@ from django import template
 from product.models import Product
 from product.queries import bestsellers
 from localsite.forms import SelectEventDateForm
-from localsite.forms import SelectSeatGroupForm
+from localsite.forms import SelectSectionForm
 from localsite.forms import SelectTicketForm
 from localsite.models import SeatSection
 from localsite.models import Ticket
@@ -29,10 +29,10 @@ def select_section_form(event):
     form = SelectEventDateForm()
     form.fields['datetime'].queryset = event.dates.all()
     forms.append(form)
-    form = SelectSeatGroupForm()
-    form.fields['group'].queryset = SeatSection.objects.filter(hallscheme=event.hallscheme)
+    form = SelectSectionForm()
+    form.fields['section'].queryset = SeatSection.objects.filter(hallscheme=event.hallscheme)
     forms.append(form)
     form = SelectTicketForm()
-    form.fields['ticket'].queryset = Ticket.objects.filter(event=event)
+    form.fields['ticket'].queryset = Ticket.objects.none()
     forms.append(form)
     return {'forms': forms}

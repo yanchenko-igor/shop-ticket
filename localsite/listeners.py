@@ -24,4 +24,4 @@ def check_ticket_status(sender, cartitem=None, added_quantity=0, **kwargs):
 
 def start_localsite_listening():
     signals.satchmo_cart_add_verify.connect(check_ticket_status)
-    signals.satchmo_cart_add_complete.connect(update_ticket_status)
+    #signals.satchmo_cart_add_complete.connect(update_ticket_status)
