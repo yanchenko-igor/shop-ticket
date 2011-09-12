@@ -160,7 +160,6 @@ def add_ticket(request, quantity=1, redirect_to='satchmo_cart'):
 
     form = SelectTicketForm(request.POST)
     form.fields['ticket'].queryset = Ticket.objects.all()
-    print [ticket.product.id for ticket in form.fields['ticket'].queryset]
     if form.is_valid():
         ticket = form.cleaned_data['ticket']
         cart = Cart.objects.from_request(request, create=True)
@@ -225,14 +224,11 @@ def ajax_select_ticket(request):
     if request.method == 'POST':
         form1 = SelectEventDateForm(request.POST)
         form1.fields['datetime'].queryset = EventDate.objects.all()
-        print 'post'
         if form1.is_valid():
-            print 'form1 valid'
             datetime = form1.cleaned_data['datetime']
             form2 = SelectSectionForm(request.POST)
             form2.fields['section'].queryset = datetime.event.hallscheme.sections.all()
             if form2.is_valid():
-                print 'form2 valid'
                 section = form2.cleaned_data['section']
                 return _json_response([{"":_('Select ticket')}] + [dict([[ticket.product.id,ticket.__unicode__()]]) for ticket in Ticket.objects.filter(seat__section=section,datetime=datetime)])
     return _json_response([{"":_('Select ticket')}])
