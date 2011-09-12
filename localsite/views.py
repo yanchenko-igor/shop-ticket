@@ -105,10 +105,6 @@ def display(request, cart=None, error_message='', default_view_tax=None):
                            cart=cart,
                            request=request)
 
-    if cart.numItems == 0:
-        return render_to_response('shop/checkout/empty_cart.html',
-                                  context_instance=RequestContext(request))
-
     if not request.user.is_authenticated() and config_value('SHOP', 'AUTHENTICATION_REQUIRED'):
         url = urlresolvers.reverse('satchmo_checkout_auth_required')
         thisurl = urlresolvers.reverse('satchmo_checkout-step1')

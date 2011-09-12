@@ -18,11 +18,11 @@ class SeatLocationInline(admin.TabularInline):
     extra = 0
 
 class SeatSectionAdmin(admin.ModelAdmin):
-    inlines = [SeatGroupInline,]
+    inlines = [SeatLocationInline]
 admin.site.register(SeatSection, SeatSectionAdmin)
 
 class HallSchemeAdmin(admin.ModelAdmin):
-    inlines = [SeatSectionInline,]
+    inlines = [SeatSectionInline,SeatGroupInline]
 admin.site.register(HallScheme, HallSchemeAdmin)
 
 class CityAdmin(admin.ModelAdmin):
