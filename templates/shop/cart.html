@@ -181,22 +181,22 @@ $(function() {
 
         <div id=checkout_form>
         <h1 class="h1_h">Оформление покупки</h1>
-        <form action="" class="form_ormit_order clearfix">
+        <form action="{% url satchmo_checkout-step1 %}" method="post" class="form_ormit_order clearfix">{% csrf_token %}
             <div class="ormit_order">
                 <div class="ormit_order_1">
 
                     <label>Имя, Фамилия:</label>
                     <div class="input_2">
                         <div class="input_2_2">
-                            <input type="text">
+                            {{ form.first_name }}
                         </div>
                     </div>
                     <br />
 
-                    <label>Имя, Фамилия:</label>
+                    <label>Email:</label>
                     <div class="input_2">
                         <div class="input_2_2">
-                            <input type="text">
+                            {{ form.email }}
                         </div>
                     </div>
 
@@ -206,7 +206,7 @@ $(function() {
                     <label>Телефон:</label>
                     <div class="input_2">
                         <div class="input_2_2">
-                            <input type="text">
+                            {{ form.phone }}
                         </div>
                     </div>
                     <br>
@@ -214,7 +214,7 @@ $(function() {
                     <label>Адрес доставки:</label>
                     <div class="input_2">
                         <div class="input_2_2">
-                            <input type="text">
+                            {{ form.street1 }}
                         </div>
                     </div>
                 </div>
@@ -242,10 +242,13 @@ $(function() {
                     <div class="ormit_call_time">Работаем с 9-00 до 21-00</div>
                 </div>
 
+                <br style="clear:both" />
+                <input type="hidden" name="copy_address" value="on">
+                <input type="hidden" name="paymentmethod" value="COD">
+                <input type="submit" value="{% trans "Check out" %}"/>
             </form>
         </div>
     </div>
-    <a id="checkout_link" href="{% url satchmo_checkout-step1 %}">{% trans "Check out" %}</a>
 
 {% endif %}
 
