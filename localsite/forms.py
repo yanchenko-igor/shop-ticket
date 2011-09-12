@@ -66,13 +66,13 @@ class ProductForm(forms.ModelForm):
                 )
 
 class SelectEventDateForm(forms.Form):
-    datetime = forms.ModelChoiceField(queryset=EventDate.objects.none(), empty_label=_("Select date"))
+    datetime = forms.ModelChoiceField(queryset=EventDate.objects.none(), label=_('Date and time'), empty_label=_("Select date"))
 
 class SelectSectionForm(forms.Form):
-    section = forms.ModelChoiceField(queryset=SeatSection.objects.none(), empty_label=_("Select section"))
+    section = forms.ModelChoiceField(queryset=SeatSection.objects.none(), label=_('Section'), empty_label=_("Select section"))
 
 class SelectTicketForm(forms.Form):
-    ticket = forms.ModelChoiceField(queryset=Ticket.objects.none(), empty_label=_("Select ticket"))
+    ticket = forms.ModelChoiceField(queryset=Ticket.objects.none(), label=_('Seat location'), empty_label=_("Select ticket"))
 
 class SelectCityForm(forms.Form):
     city = forms.ModelChoiceField(queryset=City.objects.all(), empty_label=None, widget=forms.Select(attrs={'onChange':"get_values(this, '#id_hall', '/ajax_select_city/')"}))
