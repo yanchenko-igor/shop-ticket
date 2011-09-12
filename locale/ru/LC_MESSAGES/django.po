@@ -125,9 +125,8 @@ msgid "Event Dates"
 msgstr "Дата события"
 
 #: localsite/models.py:221
-#, fuzzy
 msgid "Sections"
-msgstr "место"
+msgstr "Секторы"
 
 #: localsite/models.py:235
 msgid "Seat Group"
