@@ -1,0 +1,38 @@
+{% extends "shop/base.html" %}
+{% load i18n %}
+{% load satchmo_order %}
+{% load satchmo_google %}
+
+{% block navbar %}
+   <li class="first"><a href="{{ shop_base }}/">{% trans "Home" %}</a></li>
+   <li>{% trans "Checkout" %}</li>
+{% endblock %}
+
+{% block content %}
+<div id="ordersuccess">
+<p>{% trans 'Please print out this page as a receipt.  You will also receive an email with this information.' %}</p>
+    
+{% order_tracking_details order %}
+</div>
+{% endblock %}
+
+{% block google-tracker %}
+{% if shop.options.GOOGLE.ANALYTICS.value %}
+{% show_tracker %}
+{% show_receipt %}
+{% endif %}
+{% if shop.options.GOOGLE.ADWORDS.value %}
+{% google_adwords_sale %}
+{% endif %}
+{% endblock %}
+
+
+{% block subnav %}
+<div class="tab_long tab_activ">
+    <div class="tab_activ_sh">
+        <h1 class="h1_h">{% trans "Thank you for your order!" %}</h1>
+    </div>
+</div>
+{% endblock %}
+
+

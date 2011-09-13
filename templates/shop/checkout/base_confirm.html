@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block content %}
-<h3>{% trans "Checkout" %}</h3>
 <div id="checkoutprogress">
 <ul>
     <li class="first"><a href="{% url satchmo_checkout-step1 %}">{% trans "Ship/Bill" %}</a></li>
@@ -43,3 +42,13 @@
 {% endblock %}
 
 {% endblock content %}
+
+{% block subnav %}
+<div class="tab_long tab_activ">
+    <div class="tab_activ_sh">
+        <h1 class="h1_h">{% trans "Checkout" %}</h1>
+    </div>
+</div>
+{% endblock %}
+
+

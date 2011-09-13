@@ -19,7 +19,6 @@
 
 {% block content %}
 <div id="product_category">
-<h3>{{ category.translated_name }}</h3>
 {% if category.translated_description %}<p class="product_category_description">{{ category.translated_description }}</p>{% endif %}
     {% if category.main_image %}
            {% thumbnail category.main_image.picture "85x85" as image %}
@@ -53,3 +52,14 @@
 {% endif %}
 </div>
 {% endblock %}
+
+
+{% block subnav %}
+<div class="tab_long tab_activ">
+    <div class="tab_activ_sh">
+        <h1 class="h1_h">{{ category.translated_name }}</h1>
+    </div>
+</div>
+{% endblock %}
+
+

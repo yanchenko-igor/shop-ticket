@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-13 16:57+0300\n"
+"POT-Creation-Date: 2011-09-13 17:29+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -317,6 +317,7 @@ msgstr "Все рекомендации"
 #: templates/product/recently_added.html:7 templates/shop/cart.html:12
 #: templates/shop/index.html:7 templates/shop/multiple_product_form.html:10
 #: templates/shop/search.html:6 templates/shop/checkout/base_confirm.html:7
+#: templates/shop/checkout/success.html:7
 #: templates/shop/checkout/cod/confirm.html:9
 msgid "Home"
 msgstr "Главная"
@@ -457,37 +458,48 @@ msgid "Search results"
 msgstr "Результаты поиска"
 
 #: templates/shop/checkout/base_confirm.html:8
-#: templates/shop/checkout/base_confirm.html:12
+#: templates/shop/checkout/base_confirm.html:49
+#: templates/shop/checkout/success.html:8
 #: templates/shop/checkout/cod/confirm.html:10
 msgid "Checkout"
 msgstr ""
 
-#: templates/shop/checkout/base_confirm.html:15
+#: templates/shop/checkout/base_confirm.html:14
 msgid "Ship/Bill"
 msgstr ""
 
-#: templates/shop/checkout/base_confirm.html:16
+#: templates/shop/checkout/base_confirm.html:15
 #: templates/shop/checkout/cod/confirm.html:14
 msgid "Payment"
 msgstr ""
 
-#: templates/shop/checkout/base_confirm.html:17
+#: templates/shop/checkout/base_confirm.html:16
 msgid "Confirmation"
 msgstr ""
 
-#: templates/shop/checkout/base_confirm.html:22
+#: templates/shop/checkout/base_confirm.html:21
 msgid ""
 "The following error was returned while trying to process your payment. "
 "Please correct and resubmit."
 msgstr ""
 
-#: templates/shop/checkout/base_confirm.html:25
+#: templates/shop/checkout/base_confirm.html:24
 msgid "Please validate the following information, then submit your order."
 msgstr ""
 
-#: templates/shop/checkout/base_confirm.html:41
+#: templates/shop/checkout/base_confirm.html:40
 msgid "Purchase Items"
 msgstr "Купить товары"
+
+#: templates/shop/checkout/success.html:13
+msgid ""
+"Please print out this page as a receipt.  You will also receive an email "
+"with this information."
+msgstr ""
+
+#: templates/shop/checkout/success.html:33
+msgid "Thank you for your order!"
+msgstr "Спасибо за покупку!"
 
 #: templates/shop/checkout/cod/confirm.html:6
 msgid ""
