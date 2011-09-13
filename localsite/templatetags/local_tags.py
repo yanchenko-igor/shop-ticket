@@ -1,7 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 from product.models import Product
-from product.queries import bestsellers
+from localsite.queries import bestsellers
 from decimal import Decimal, InvalidOperation
 from l10n.utils import moneyfmt
 from localsite.forms import SelectEventDateForm
@@ -13,12 +13,12 @@ register = template.Library()
 
 @register.inclusion_tag('localsite/product_items.html')
 def show_new_arrivals(number):
-    items = Product.objects.all().order_by('date_added')[:number]
+    items = Product.objects.all(ticket__product__isnull=True, ).order_by('date_added')[:number]
     return {'items': items}
 
 @register.inclusion_tag('localsite/product_items.html')
 def show_featured_items(number):
-    items = Product.objects.filter(featured=True)[:number]
+    items = Product.objects.filter(ticket__product__isnull=True, featured=True)[:number]
     return {'items': items}
 
 @register.inclusion_tag('localsite/product_items.html')
