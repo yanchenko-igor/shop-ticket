@@ -1,46 +1,31 @@
 <script type="text/javascript">
+var get_ticket_values = function() {
+    $.post('{% url ajax_select_ticket %}', {
+        csrfmiddlewaretoken: getCookie('csrftoken'),
+        section: $('#id_section').val(),
+        datetime: $('#id_datetime').val()
+    },
+    function(data) {
+	    $('#id_ticket').html("");//clear old options
+		data = eval(data);//get json array
+		for (i = 0; i < data.length; i++)//iterate over all options
+		{
+			for ( key in data[i] )//get key => value
+			{	
+				$('#id_ticket').get(0).add(new Option(data[i][key],[key]), document.all ? i : null);
+            }
+		}
+		$("option:first", '#id_ticket').attr( "selected", "selected" );//select first option
+     },
+     'json'
+);
+}
 $(function() {
         $('#id_datetime').change(function() {
-            console.log($(this).attr('name'), $(this).val());
-            var postdata = {csrfmiddlewaretoken: getCookie('csrftoken')};
-            postdata[$(this).attr('name')] = $(this).val();
-            postdata[$('#id_section').attr('name')] = $('#id_section').val();
-            $.post('{% url ajax_select_ticket %}', postdata,
-                function(data) {
-					$('#id_ticket').html("");//clear old options
-					data = eval(data);//get json array
-					for (i = 0; i < data.length; i++)//iterate over all options
-					{
-					  for ( key in data[i] )//get key => value
-					  {	
-							$('#id_ticket').get(0).add(new Option(data[i][key],[key]), document.all ? i : null);
-                      }
-					}
-					$("option:first", '#id_ticket').attr( "selected", "selected" );//select first option
-                },
-                'json'
-            );
+            get_ticket_values();
         });
         $('#id_section').change(function() {
-            console.log($(this).attr('name'), $(this).val());
-            var postdata = {csrfmiddlewaretoken: getCookie('csrftoken')};
-            postdata[$('#id_datetime').attr('name')] = $('#id_datetime').val();
-            postdata[$(this).attr('name')] = $(this).val();
-            $.post('{% url ajax_select_ticket %}', postdata,
-                function(data){
-					$('#id_ticket').html("");//clear old options
-					data = eval(data);//get json array
-					for (i = 0; i < data.length; i++)//iterate over all options
-					{
-					  for ( key in data[i] )//get key => value
-					  {	
-							$('#id_ticket').get(0).add(new Option(data[i][key],[key]), document.all ? i : null);
-                      }
-					}
-					$("option:first", '#id_ticket').attr( "selected", "selected" );//select first option
-                },
-                'json'
-            );
+            get_ticket_values();
         });
         $('#id_ticket').change(function() {
             var postdata = {csrfmiddlewaretoken: getCookie('csrftoken')};
@@ -48,7 +33,6 @@ $(function() {
             $.post('{% url add_ticket %}', postdata,
                 function(data) {
                     $("#cart_count").text(data.cart_count);
-                    console.log(data);
                 },
                 'json'
             );
