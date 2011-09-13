@@ -1,5 +1,5 @@
 {% load i18n %}
-<form class="form_search_top" action="{{ satchmo_search_url }}" method="get">
+<form class="form_search" action="{{ satchmo_search_url }}" method="get">
    <div class="search_bg">
        <div class="search_bg2 search_prop">
    		{% if categories %}
@@ -10,7 +10,7 @@
    			{% endfor %}
    		</select><br/>
    		{% endif %}
-           <input class="input_search"  type="text"   />
+           <input class="input_search"  name="keywords" type="text"   />
            <input class="submit_search"  type="submit" value="" />
        </div>
    </div>

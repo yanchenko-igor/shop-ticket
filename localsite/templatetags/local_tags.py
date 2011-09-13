@@ -1,6 +1,9 @@
 from django import template
+from django.utils.safestring import mark_safe
 from product.models import Product
 from product.queries import bestsellers
+from decimal import Decimal, InvalidOperation
+from l10n.utils import moneyfmt
 from localsite.forms import SelectEventDateForm
 from localsite.forms import SelectSectionForm
 from localsite.forms import SelectTicketForm
@@ -36,3 +39,36 @@ def select_section_form(event):
     form.fields['ticket'].queryset = Ticket.objects.none()
     forms.append(form)
     return {'forms': forms}
+
+def price_range(product):
+    p_types = product.get_subtypes()
+
+    if 'Event' in p_types:
+        if product.event.min_price == product.event.max_price:
+            return product.event.min_price
+        else:
+            return "%s - %s" % (product.event.min_price, product.event.max_price)
+    else:
+        return product.unit_price
+
+
+register.filter('price_range', price_range)
+
+
+def range_currency(value):
+    values = None
+    if value == '' or value is None:
+        return value
+
+    try:
+        value = Decimal(str(value))
+    except InvalidOperation:
+        values = [mark_safe(moneyfmt(Decimal(str(val)))) for val in value.split(' - ')]
+
+    if values:
+        return mark_safe(' - '.join(values))
+
+    return mark_safe(moneyfmt(value, **kwargs))
+
+register.filter('range_currency', range_currency)
+range_currency.is_safe = True

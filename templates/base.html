@@ -101,7 +101,7 @@
 
             </div>
             <div class="search_top">
-			    {% satchmo_search_form %}
+                {% satchmo_search_form %}
             </div>
             <span class="w_t_l_b"><!-- --></span>
             <span class="w_t_r_b"><!-- --></span>
@@ -193,14 +193,7 @@
                     <li class="last"><a href="{{ sitemap_page.url }}">{{ sitemap_page.title }}</a></li>
                 </ul>
                 <div class="search_footer">
-                    <form class="form_search_footer" action="">
-                        <div class="search_bg">
-                            <div class="search_bg2 search_prop">
-                                <input class="input_search"  type="text"   />
-                                <input class="submit_search"  type="submit" value="" />
-                            </div>
-                        </div>
-                    </form>
+                    {% satchmo_search_form %}
                 </div>
             </div>
             <div class="footer_bl clearfix">
