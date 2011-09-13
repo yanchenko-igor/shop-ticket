@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-12 15:39+0300\n"
+"POT-Creation-Date: 2011-09-13 16:57+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,7 +61,7 @@ msgstr ""
 msgid "Seat location"
 msgstr ""
 
-#: localsite/forms.py:75 localsite/views.py:233 localsite/views.py:234
+#: localsite/forms.py:75 localsite/views.py:350 localsite/views.py:351
 msgid "Select ticket"
 msgstr ""
 
@@ -69,7 +69,7 @@ msgstr ""
 msgid "Category genre"
 msgstr ""
 
-#: localsite/forms.py:82 localsite/views.py:242 localsite/views.py:243
+#: localsite/forms.py:82 localsite/views.py:359 localsite/views.py:360
 msgid "Hall of event"
 msgstr ""
 
@@ -193,11 +193,11 @@ msgstr ""
 msgid "Announcements"
 msgstr ""
 
-#: localsite/views.py:196
+#: localsite/views.py:313
 msgid "Success"
 msgstr ""
 
-#: localsite/views.py:204 localsite/views.py:214
+#: localsite/views.py:321 localsite/views.py:331
 msgid "Error"
 msgstr ""
 
@@ -317,7 +317,7 @@ msgstr ""
 #: templates/product/detail_event.html:26 templates/product/product.html:25
 #: templates/product/recently_added.html:7 templates/shop/cart.html:12
 #: templates/shop/index.html:7 templates/shop/multiple_product_form.html:10
-#: templates/shop/checkout/base_confirm.html:7
+#: templates/shop/search.html:6 templates/shop/checkout/base_confirm.html:7
 #: templates/shop/checkout/cod/confirm.html:9
 msgid "Home"
 msgstr ""
@@ -334,7 +334,7 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: templates/localsite/sitemap.html:16
+#: templates/localsite/sitemap.html:16 templates/shop/search.html:19
 msgid "Categories"
 msgstr ""
 
@@ -434,6 +434,27 @@ msgstr ""
 
 #: templates/shop/multiple_product_form.html:54
 msgid "Add to Cart"
+msgstr ""
+
+#: templates/shop/search.html:12 templates/shop/search.html.py:38
+msgid "Nothing found"
+msgstr ""
+
+#: templates/shop/search.html:15
+#, python-format
+msgid "Search results for %(category_name)s products"
+msgstr ""
+
+#: templates/shop/search.html:29
+msgid "Products"
+msgstr ""
+
+#: templates/shop/search.html:33
+msgid "for"
+msgstr ""
+
+#: templates/shop/search.html:47
+msgid "Search results"
 msgstr ""
 
 #: templates/shop/checkout/base_confirm.html:8
