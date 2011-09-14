@@ -6,6 +6,7 @@ from localsite.forms import SelectCityForm
 from localsite.forms import SelectEventForm
 from localsite.models import Announcement
 from django.contrib.flatpages.models import FlatPage
+from satchmo_ext.newsletter.forms import NewsletterForm
 
 def categories(request):
 
@@ -20,6 +21,7 @@ def categories(request):
         'cooperation_page': FlatPage.objects.get(id=3),
         'sitemap_page': FlatPage.objects.get(id=4),
         'news_page': FlatPage.objects.get(id=5),
+        'subscriptionform': NewsletterForm(),
     }
 
     return ctx

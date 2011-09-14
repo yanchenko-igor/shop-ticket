@@ -8,11 +8,11 @@
             </div>
         </div>
 
-        <form class="subscription_form clearfix" action="">
+        <form class="subscription_form clearfix" method="post" action="{% url newsletter_subscribe %}">{% csrf_token %}
             <div class="subscription_input">
                 <div class="input">
                     <div class="input2">
-                        <input  type="text" />
+                        {{ subscriptionform.email }}
                     </div>
                 </div>
             </div>
