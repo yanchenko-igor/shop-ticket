@@ -17,6 +17,10 @@ class MyModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
         return obj.name
 
+class MyModelChoiceField2(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return "%s-%s" % (obj._unicode(), obj.status)
+
 class MyModelForm(forms.ModelForm):
     def as_p_d(self):
         return u'''<div id="%(prefix)s-row" class="dynamic-form %(prefix_wd)s">
@@ -72,7 +76,7 @@ class SelectSectionForm(forms.Form):
     section = forms.ModelChoiceField(queryset=SeatSection.objects.none(), label=_('Section'), empty_label=_("Select section"))
 
 class SelectTicketForm(forms.Form):
-    ticket = forms.ModelChoiceField(queryset=Ticket.objects.none(), label=_('Seat location'), empty_label=_("Select ticket"))
+    ticket = MyModelChoiceField2(queryset=Ticket.objects.none(), label=_('Seat location'), empty_label=_("Select ticket"))
 
 class SelectCityForm(forms.Form):
     city = forms.ModelChoiceField(queryset=City.objects.all(), empty_label=None, widget=forms.Select(attrs={'onChange':"get_values(this, '#id_hall', '/ajax_select_city/')"}))

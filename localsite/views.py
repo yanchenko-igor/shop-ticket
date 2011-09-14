@@ -347,7 +347,7 @@ def ajax_select_ticket(request):
             form2.fields['section'].queryset = datetime.event.hallscheme.sections.all()
             if form2.is_valid():
                 section = form2.cleaned_data['section']
-                return _json_response([{"":_('Select ticket')}] + [dict([[ticket.product.id,ticket.__unicode__()]]) for ticket in Ticket.objects.filter(seat__section=section,datetime=datetime)])
+                return _json_response([{"":_('Select ticket')}] + [dict([[ticket.product.id, "%s-%s" % (ticket.__unicode__(), ticket.get_status_display())]]) for ticket in Ticket.objects.filter(seat__section=section,datetime=datetime)])
     return _json_response([{"":_('Select ticket')}])
 
 
