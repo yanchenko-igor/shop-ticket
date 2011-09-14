@@ -26,24 +26,34 @@
            {% endthumbnail %}
     {% endif %}
     {% for product in products %} 
-        {% if forloop.first %} <ul>  {% endif %}
-            <li>{% thumbnail product.main_image.picture "85x85" as image %}
-            <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
-            {% endthumbnail %}
-            <a href="{{ product.get_absolute_url }}">{{ product.translated_name }}</a></li>
-        {% if forloop.last %} </ul> {% endif %}
+        {% if forloop.first %}
+        <div class="wrap_line">
+            <ul class="feed reset_list clearfix">
+        {% endif %}
+                <li{% cycle '' '' ' class="last"' %}>
+                    {% include "localsite/block_product_item.html" %}
+                </li>
+        {% if forloop.last %}
+            </ul>
+        </div>
+        {% endif %}
     {% endfor %}
 {% if child_categories %}
         {% for cat in child_categories %}
             <h4>{{cat.translated_name}}</h4>
             {% if cat.translated_description %}<p class="product_category_description">{{ cat.translated_description }}</p>{% endif %}
             {% for product in cat.active_products %}
-                {% if forloop.first %} <ul>  {% endif %}
-                    <li>{% thumbnail product.main_image.picture "85x85" as image %}
-                    <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
-                    {% endthumbnail %}
-                <a href="{{ product.get_absolute_url }}">{{ product.translated_name }}</a></li>
-                {% if forloop.last %} </ul> {% endif %}
+            {% if forloop.first %}
+            <div class="wrap_line">
+                <ul class="feed reset_list clearfix">
+            {% endif %}
+                    <li{% cycle '' '' ' class="last"' %}>
+                        {% include "localsite/block_product_item.html" %}
+                    </li>
+            {% if forloop.last %}
+                </ul>
+            </div>
+            {% endif %}
             {% endfor %}
         {% endfor %}
 {% endif %}
