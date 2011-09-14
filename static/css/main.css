@@ -526,6 +526,10 @@ optgroup option {
         min-height: 46px;
         border-left: 1px solid #535353;
     }
+    body.category_concerts .category_concerts,
+    body.category_cinema .category_cinema,
+    body.category_sport .category_sport,
+    body.category_theatre .category_theatre,
     .menu_top .active{
         background:#e9e9e9 url(/static/images/dop_menu_active.jpg) repeat-x;
         margin-bottom: -12px;
@@ -539,6 +543,10 @@ optgroup option {
         z-index: 6;
 
     }
+    body.category_concerts .category_concerts a,
+    body.category_cinema .category_cinema a,
+    body.category_sport .category_sport a,
+    body.category_theatre .category_theatre a,
     .menu_top .active a{
         color: #070707;
     }
@@ -557,6 +565,10 @@ optgroup option {
             text-decoration: none !important;
 
         }
+    body.category_concerts .category_concerts a,
+    body.category_cinema .category_cinema a,
+    body.category_sport .category_sport a,
+    body.category_theatre .category_theatre a,
          .menu_top .active a{
                 color: #070707;
             }
@@ -1109,13 +1121,7 @@ optgroup option {
     float: left;
     width: 656px;
 }
-.tab_main{
-    width: 223px;
-    height: 40px;
-    padding: 0 17px;
-    float:left;
-    border-right: 1px solid #cccccc;
-}
+
 .h1_h{
     font-size: 24px;
     font-weight: normal;
