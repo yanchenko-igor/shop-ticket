@@ -22,6 +22,8 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
 {% endif %}
 {% endblock %}
 
+{% block bodyclass %}category_{% if product.main_category.parents %}{% with parent=product.main_category.parents|last %}{{ parent.slug }}{% endwith %}{% else %}{{ product.main_category.slug }}{% endif %}{% endblock %}
+
 {% block navbar %}
 <li class="first"><a href="{{ shop_base }}/">{% trans "Home" %}</a></li>
 {% for name, url in product.category.all.0.get_url_name %}
@@ -128,7 +130,49 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
 {% block contentfooter %}
 {% endblock %}
 {% block sidebar3 %}
-    {% include "localsite/block_featured.html" %}
+{% if product.related_items.all %}
+<div class="heading_bg">
+    <span class="h_t_l"><!-- --></span>
+    <span class="h_t_r"><!-- --></span>
+    <h2>{% trans "Related events" %}</h2>
+    <span class="h_b_l"><!-- --></span>
+    <span class="h_b_r"><!-- --></span>
+</div>
+<div class="wrap_line">
+    <ul class="feed_list reset_list">
+        {% for prod in product.related_items.all %}
+            <li>
+                <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
+                <div class="curve_body feed_gray clearfix">
+                    <div class="feed_list_img">
+                            {% if prod.main_image.picture|is_portrait %}
+                                  {% thumbnail prod.main_image.picture "85x61" crop="50% 25%" as image %}
+                                  <a href="{{ prod.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                  {% endthumbnail %}
+                            {% else %}
+                                  {% thumbnail prod.main_image.picture "85x61" crop="center" as image %}
+                                  <a href="{{ prod.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                                  {% endthumbnail %}
+                            {% endif %}
+                    </div>
+                    <div class="feed_list_txt">
+                        <div class="feed_list_txt_tag">
+                            {% if prod.main_category %}<a href="{{ prod.main_category.get_absolute_url }}">{{ prod.main_category.translated_name }}</a>{% endif %} &nbsp; {{ prod.event.dates.all.0.datetime|date:"j E" }}
+                        </div>
+                        <div class="feed_list_txt_inf">
+                            <a href="{{ prod.get_absolute_url }}" class="feed_list_detail">{{ prod.translated_name }}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="curve_bott"><div><span class="curve_gray"><!-- --></span></div></div>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="all_link">
+        <br/><a href="#">{% trans "All related events" %}</a><br/>
+    </div>
+</div>
+{% endif %}
 {% endblock %}
 {% block sidebar4 %}
 {% endblock %}
@@ -136,14 +180,14 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
 {% block subnav %}
 <div class="tab_long tab_activ">
     <div class="tab_activ_sh">
-        {% if product.category.all.1 %}
-        <h1 class="h1_h fl_l">{{ product.category.all.1.name }}</h1>
+        {% if product.main_category.parents %}
+        <h1 class="h1_h fl_l">{{ product.main_category.translated_name }}</h1>
         <div class="back_heading">
             <img alt="" src="{{ media_url }}images/icon_back_shopping.gif">
-            <a href="#">Вернуться в {{ product.category.all.1.name|lower }}</a>
+            {% with parent=product.main_category.parents|last %}<a href="{{ parent.get_absolute_url }}">Вернуться в {{ parent.translated_name|lower }}</a>{% endwith %}
         </div>
         {% else %}
-        <h1 class="h1_h fl_l">{{ product.main_category }}</h1>
+        <h1 class="h1_h fl_l">{{ product.main_category.translated_name }}</h1>
         {% endif %}
     </div>
 </div>

@@ -3,7 +3,7 @@
 {% load thumbnail %}
 {% load satchmo_category %}
 
-{% block bodyclass %}category_{{ category.slug }}{% endblock %}
+{% block bodyclass %}category_{% if category.parents %}{% with parent=category.parents|last %}{{ parent.slug }}{% endwith %}{% else %}{{ category.slug }}{% endif %}{% endblock %}
 
 {% block extra-head %}
 {% if category.meta %}
