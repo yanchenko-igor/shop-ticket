@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-13 17:29+0300\n"
+"POT-Creation-Date: 2011-09-14 11:56+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,35 +41,35 @@ msgstr ""
 msgid "'%s' is sold."
 msgstr ""
 
-#: localsite/forms.py:69
+#: localsite/forms.py:73
 msgid "Date and time"
 msgstr ""
 
-#: localsite/forms.py:69
+#: localsite/forms.py:73
 msgid "Select date"
 msgstr ""
 
-#: localsite/forms.py:72 localsite/models.py:220
+#: localsite/forms.py:76 localsite/models.py:220
 msgid "Section"
 msgstr ""
 
-#: localsite/forms.py:72
+#: localsite/forms.py:76
 msgid "Select section"
 msgstr ""
 
-#: localsite/forms.py:75
+#: localsite/forms.py:79
 msgid "Seat location"
 msgstr ""
 
-#: localsite/forms.py:75 localsite/views.py:350 localsite/views.py:351
+#: localsite/forms.py:79 localsite/views.py:350 localsite/views.py:351
 msgid "Select ticket"
 msgstr ""
 
-#: localsite/forms.py:81
+#: localsite/forms.py:85
 msgid "Category genre"
 msgstr ""
 
-#: localsite/forms.py:82 localsite/views.py:359 localsite/views.py:360
+#: localsite/forms.py:86 localsite/views.py:359 localsite/views.py:360
 msgid "Hall of event"
 msgstr ""
 
@@ -283,7 +283,7 @@ msgstr ""
 msgid "Add event"
 msgstr ""
 
-#: templates/flatpages/default.html:17 templates/product/detail_event.html:118
+#: templates/flatpages/default.html:17 templates/product/detail_event.html:120
 msgid "Edit"
 msgstr ""
 
@@ -314,7 +314,7 @@ msgstr ""
 
 #: templates/localsite/featured.html:7 templates/product/best_sellers.html:7
 #: templates/product/category.html:15 templates/product/category_index.html:7
-#: templates/product/detail_event.html:26 templates/product/product.html:25
+#: templates/product/detail_event.html:28 templates/product/product.html:25
 #: templates/product/recently_added.html:7 templates/shop/cart.html:12
 #: templates/shop/index.html:7 templates/shop/multiple_product_form.html:10
 #: templates/shop/search.html:6 templates/shop/checkout/base_confirm.html:7
@@ -345,6 +345,14 @@ msgstr ""
 
 #: templates/product/category_index.html:8
 msgid "Category Index"
+msgstr ""
+
+#: templates/product/detail_event.html:137
+msgid "Related events"
+msgstr ""
+
+#: templates/product/detail_event.html:144
+msgid "All related events"
 msgstr ""
 
 #: templates/product/product.html:140
