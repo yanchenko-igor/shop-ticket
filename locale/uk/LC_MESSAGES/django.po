@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-14 12:38+0300\n"
+"POT-Creation-Date: 2011-09-14 12:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -338,8 +338,12 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: templates/localsite/related.html:52
-msgid "related events"
+#: templates/localsite/related.html:52 templates/product/detail_event.html:137
+msgid "Related events"
+msgstr ""
+
+#: templates/localsite/select_event.html:94
+msgid "Event selection"
 msgstr ""
 
 #: templates/localsite/sitemap.html:16 templates/shop/search.html:19
@@ -352,10 +356,6 @@ msgstr ""
 
 #: templates/product/category_index.html:8
 msgid "Category Index"
-msgstr ""
-
-#: templates/product/detail_event.html:137
-msgid "Related events"
 msgstr ""
 
 #: templates/product/detail_event.html:172

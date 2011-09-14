@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-14 12:38+0300\n"
+"POT-Creation-Date: 2011-09-14 12:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -337,9 +337,13 @@ msgstr "Назад"
 msgid "Next"
 msgstr "Вперёд"
 
-#: templates/localsite/related.html:52
-msgid "related events"
-msgstr "похожие события"
+#: templates/localsite/related.html:52 templates/product/detail_event.html:137
+msgid "Related events"
+msgstr "Похожие события"
+
+#: templates/localsite/select_event.html:94
+msgid "Event selection"
+msgstr "Подбор события"
 
 #: templates/localsite/sitemap.html:16 templates/shop/search.html:19
 msgid "Categories"
@@ -352,10 +356,6 @@ msgstr "Хиты продаж"
 #: templates/product/category_index.html:8
 msgid "Category Index"
 msgstr "Список категорий"
-
-#: templates/product/detail_event.html:137
-msgid "Related events"
-msgstr "Похожие события"
 
 #: templates/product/detail_event.html:172
 msgid "All related events"
@@ -376,7 +376,7 @@ msgstr "Количество"
 
 #: templates/product/product.html:163
 msgid "Add to cart"
-msgstr ""
+msgstr "Добавить в корзину"
 
 #: templates/product/recently_added.html:8
 msgid "Recently Added"
@@ -526,6 +526,9 @@ msgstr ""
 #, python-format
 msgid "This order will be COD for %(order_total)s."
 msgstr ""
+
+#~ msgid "related events"
+#~ msgstr "похожие события"
 
 #~ msgid "Parent"
 #~ msgstr "Родитель"
