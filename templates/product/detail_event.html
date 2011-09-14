@@ -169,7 +169,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
         {% endfor %}
     </ul>
     <div class="all_link">
-        <br/><a href="#">{% trans "All related events" %}</a><br/>
+        <br/><a href="{% url display_related product.id %}">{% trans "All related events" %}</a><br/>
     </div>
 </div>
 {% endif %}

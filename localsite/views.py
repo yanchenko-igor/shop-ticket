@@ -209,6 +209,32 @@ def display_featured(request, page=0, count=0, template='localsite/featured.html
     })
     return render_to_response(template, context_instance=ctx)
         
+def display_related(request, id, page=0, count=0, template='localsite/related.html'):
+    """Display a list of recently added products."""
+    if count == 0:
+        count = config_value('PRODUCT','NUM_PAGINATED')
+
+    if page == 0:
+        if request.method == 'GET':
+            page = request.GET.get('page', 1)
+        else:
+            page = 1
+     
+    product = Product.objects.get(id=id)
+    query = product.related_items.all()
+    paginator = Paginator(query, count)
+    try:
+        currentpage = paginator.page(page)
+    except InvalidPage:
+        currentpage = None
+    
+    ctx = RequestContext(request, {
+        'prod' : product,
+        'page' : currentpage,
+        'paginator' : paginator,
+    })
+    return render_to_response(template, context_instance=ctx)
+        
 def display_recent(request, page=0, count=0, template='product/recently_added.html'):
     """Display a list of recently added products."""
     if count == 0:

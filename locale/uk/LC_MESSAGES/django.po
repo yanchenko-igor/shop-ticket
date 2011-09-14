@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-14 11:56+0300\n"
+"POT-Creation-Date: 2011-09-14 12:38+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,7 +61,7 @@ msgstr ""
 msgid "Seat location"
 msgstr ""
 
-#: localsite/forms.py:79 localsite/views.py:350 localsite/views.py:351
+#: localsite/forms.py:79 localsite/views.py:376 localsite/views.py:377
 msgid "Select ticket"
 msgstr ""
 
@@ -69,7 +69,7 @@ msgstr ""
 msgid "Category genre"
 msgstr ""
 
-#: localsite/forms.py:86 localsite/views.py:359 localsite/views.py:360
+#: localsite/forms.py:86 localsite/views.py:385 localsite/views.py:386
 msgid "Hall of event"
 msgstr ""
 
@@ -193,11 +193,11 @@ msgstr ""
 msgid "Announcements"
 msgstr ""
 
-#: localsite/views.py:313
+#: localsite/views.py:339
 msgid "Success"
 msgstr ""
 
-#: localsite/views.py:321 localsite/views.py:331
+#: localsite/views.py:347 localsite/views.py:357
 msgid "Error"
 msgstr ""
 
@@ -312,8 +312,9 @@ msgstr ""
 msgid "All Featured"
 msgstr ""
 
-#: templates/localsite/featured.html:7 templates/product/best_sellers.html:7
-#: templates/product/category.html:15 templates/product/category_index.html:7
+#: templates/localsite/featured.html:7 templates/localsite/related.html:7
+#: templates/product/best_sellers.html:7 templates/product/category.html:15
+#: templates/product/category_index.html:7
 #: templates/product/detail_event.html:28 templates/product/product.html:25
 #: templates/product/recently_added.html:7 templates/shop/cart.html:12
 #: templates/shop/index.html:7 templates/shop/multiple_product_form.html:10
@@ -324,15 +325,21 @@ msgid "Home"
 msgstr ""
 
 #: templates/localsite/featured.html:27 templates/localsite/featured.html:29
+#: templates/localsite/related.html:27 templates/localsite/related.html:29
 #: templates/product/recently_added.html:26
 #: templates/product/recently_added.html:28
 msgid "Previous"
 msgstr ""
 
 #: templates/localsite/featured.html:39 templates/localsite/featured.html:41
+#: templates/localsite/related.html:39 templates/localsite/related.html:41
 #: templates/product/recently_added.html:31
 #: templates/product/recently_added.html:33
 msgid "Next"
+msgstr ""
+
+#: templates/localsite/related.html:52
+msgid "related events"
 msgstr ""
 
 #: templates/localsite/sitemap.html:16 templates/shop/search.html:19
@@ -351,7 +358,7 @@ msgstr ""
 msgid "Related events"
 msgstr ""
 
-#: templates/product/detail_event.html:144
+#: templates/product/detail_event.html:172
 msgid "All related events"
 msgstr ""
 

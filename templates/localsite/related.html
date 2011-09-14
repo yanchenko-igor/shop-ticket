@@ -1,0 +1,61 @@
+{% extends "shop/base.html" %}
+{% load i18n %}
+{% load thumbnail %}
+{% load satchmo_util %}
+
+{% block navbar %}
+   <li class="first">{% trans "Home" %}</li>
+{% endblock %}
+
+{% block content %}
+{% if page.object_list %}
+<div class="wrap_line">
+    <ul class="feed reset_list clearfix">
+    {% for product in page.object_list %} 
+    <li{% cycle '' '' ' class="last"' %}>
+        {% include "localsite/block_product_item.html" %}
+    </li>
+    {% endfor %}
+</ul>
+</div>
+{% endif %}
+
+    {% if page.has_other_pages %}
+    <div id = "pagination">
+    <ul>
+        {% if page_obj.has_previous %}
+            <li> <a href="{% url display_related prod.id %}?page={{page_obj.previous_page_number}}">{% trans "Previous" %}</a> </li>
+        {% else %}
+            <li> {% trans "Previous" %} </li>
+        {% endif %}
+        {% for page_number in paginator.num_pages|template_range %}
+            {% ifequal page_number page_obj.number %}
+                <li class="currentpage">{{page_number}}</li>
+            {% else %}
+                <li> <a href="{% url display_related prod.id %}?page={{page_number}}">{{page_number}}</a> </li>
+            {% endifequal %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+            <li> <a href="{% url display_related prod.id %}?page={{page_obj.next_page_number}}">{% trans "Next" %}</a></li>
+        {% else %}
+            <li> {% trans "Next" %} </li>
+        {% endif %}
+    </ul>
+    </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block subnav %}
+<div class="tab_long tab_activ">
+    <div class="tab_activ_sh">
+        <h1 class="h1_h fl_l">{% trans "Related events" %}</h1>
+        <div class="back_heading">
+            <img alt="" src="{{ media_url }}images/icon_back_shopping.gif">
+            <a href="{{ prod.get_absolute_url }}">Вернуться в {{ prod.translated_name|lower }}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
