@@ -3,7 +3,7 @@ from django.utils.safestring import mark_safe
 from product.models import Product
 from localsite.queries import bestsellers
 from decimal import Decimal, InvalidOperation
-from l10n.utils import moneyfmt
+from localsite.utils import moneyfmt
 from localsite.forms import SelectEventDateForm
 from localsite.forms import SelectSectionForm
 from localsite.forms import SelectTicketForm
@@ -72,3 +72,18 @@ def range_currency(value):
 
 register.filter('range_currency', range_currency)
 range_currency.is_safe = True
+
+def wrap_currency(value, args=""):
+    if value == '' or value is None:
+        return value
+
+    try:
+        value = Decimal(str(value))
+    except InvalidOperation:
+        log.error("Could not convert value '%s' to decimal", value)
+        raise
+
+    return mark_safe(moneyfmt(value, wrapval='label'))
+
+register.filter('wrap_currency', wrap_currency)
+wrap_currency.is_safe = True
