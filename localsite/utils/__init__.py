@@ -40,6 +40,9 @@ def moneyfmt(val, currency_code=None, wrapval='', wrapcents='', places=None):
     else:
         val = abs(val)
         key = 'negative'
+
+    if wrapval == 'label':
+        key = "%s%s" % (key,wrapval)
     
     # If we've been passed places, modify the format to use the new value
     if places is None or places == '':
@@ -56,12 +59,6 @@ def moneyfmt(val, currency_code=None, wrapval='', wrapcents='', places=None):
     sep = currency.get('decimal', '.')
     if sep != '.':
         formatted = decimal_separator.sub(r'\1%s\2' % sep, formatted)
-
-    if wrapval:
-        pos = formatted.rfind(str(val))
-        lpos = formatted.lfind(str(val))
-        if pos>-1:
-            formatted = u"%s<%s>%s</%s>" % (formatted[:pos], wrapval, formatted[pos:lpos], wrapval, formated[:lpos])
 
     if wrapcents:
         pos = formatted.rfind(sep)
