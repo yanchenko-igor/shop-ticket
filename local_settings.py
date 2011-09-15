@@ -65,7 +65,7 @@ ACCOUNT_ACTIVATION_DAYS = 7
 
 L10N_SETTINGS = {
   'currency_formats' : {
-     'UAH' : {'symbol': u'₴', 'positive' : u"<label>%(val)0.0f</label> грн.", 'negative': u"<label>(%(val)0.0f</label> грн.)",
+     'UAH' : {'symbol': u'₴', 'positive' : u"%(val)0.2f грн.", 'negative': u"(%(val)0.2f грн.)",
                'decimal' : ','},
   },
   'default_currency' : 'UAH',

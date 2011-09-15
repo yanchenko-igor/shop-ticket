@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load satchmo_cart %}
 {% load satchmo_currency %}
+{% load local_tags %}
 {% load satchmo_util %}
 {% load satchmo_product %}
 {% load satchmo_discounts %}
@@ -175,7 +176,7 @@ $(function() {
             <img alt="" src="{{ media_url }}images/icon_back_shopping.gif"> <a href="#">Вернуться к покупкам</a>
         </div>
         <div class="basket_total_bl">
-            Итого в сумме: <span class="basket_total_price"><label id="cart_total">{{ cart|discount_cart_total:sale|currency }}</label></span>
+            Итого в сумме: <span class="basket_total_price"><label id="cart_total">{{ cart|discount_cart_total:sale|wrap_currency }}</label></span>
         </div>
         </div>
 
@@ -254,12 +255,6 @@ $(function() {
 
 {% endblock %}
 
-{% block subnav %}
-<div class="tab_long tab_activ">
-    <div class="tab_activ_sh">
-        <h1 class="h1_h">Ваша корзина</h1>
-    </div>
-</div>
-{% endblock %}
+{% block navtitle %}Ваша корзина{% endblock %}
 
 
