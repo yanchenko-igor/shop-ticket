@@ -2,13 +2,7 @@
 {% load recurse %}
 {% load i18n %}
 
-{% block subnav %}
-<div class="tab_long tab_activ">
-    <div class="tab_activ_sh">
-        <h1 class="h1_h">{{ flatpage.title }}</h1>
-    </div>
-</div>
-{% endblock %}
+{% block navtitle %}{{ flatpage.title }}{% endblock %}
 
 
 {% block contentwraper %}
