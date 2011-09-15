@@ -179,6 +179,7 @@ SATCHMO_SETTINGS = {
             url(r'^tinymce/', include('tinymce.urls')),
             url(r'^ajax_select_city/$', 'localsite.views.ajax_select_city', name='ajax_select_city'),
             url(r'^ajax_select_ticket/$', 'localsite.views.ajax_select_ticket', name='ajax_select_ticket'),
+            url(r'^ajax_select_ticket2/$', 'localsite.views.ajax_select_ticket2', name='ajax_select_ticket2'),
             url(r'^add_ticket/$', 'localsite.views.add_ticket', name='add_ticket'),
             url(r'^wizards/event/$', 'localsite.views.wizard_event', name='wizard_event_step0'),
             url(r'^wizards/event/(?P<step>.*)/$', 'localsite.views.wizard_event'),

@@ -1,4 +1,50 @@
 <script type="text/javascript">
+function getCursorPosition(e) {
+    /* returns Cell with .row and .column properties */
+    var x;
+    var y;
+    if (e.pageX != undefined && e.pageY != undefined) {
+	x = e.pageX;
+	y = e.pageY;
+    }
+    else {
+	x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+	y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    }
+    x -= $('#canvas').get(0).offsetLeft;
+    y -= $('#canvas').get(0).offsetTop;
+    console.log(x,y);
+    return (x,y);
+}
+
+var click_listener = function(e) {
+    getCursorPosition(e);
+}
+var draw_ticket = function(ticket) {
+   console.log(ticket);
+   var canvas = document.getElementById("canvas");
+   if (canvas.getContext) {
+       var ctx = canvas.getContext("2d");
+       if (ticket.status == 'freely') {
+	       color = "rgb(200,0,0)";
+       } else {
+	       color = "rgb(0,0,200)";
+       }
+
+	console.log(color, ticket.x, ticket.y);
+       ctx.fillStyle = color;
+       //ctx.fillRect (ticket.y, ticket.x, 5, 5);
+    
+       ctx.beginPath();
+       ctx.arc(ticket.x, ticket.y, 4, 0, Math.PI*2, true);
+       ctx.closePath();
+       ctx.fill();
+
+       //ctx.fillStyle = "rgb(200,0,0)";
+       //ctx.fillRect (10, 10, 50, 50);
+
+   }
+}
 var get_ticket_values = function() {
     $.post('{% url ajax_select_ticket %}', {
         csrfmiddlewaretoken: getCookie('csrftoken'),
@@ -20,12 +66,46 @@ var get_ticket_values = function() {
      'json'
 );
 }
+var get_ticket_values2 = function() {
+    $.post('{% url ajax_select_ticket2 %}', {
+        csrfmiddlewaretoken: getCookie('csrftoken'),
+        section: $('#id_section').val(),
+        datetime: $('#id_datetime').val()
+    },
+    function(data) {
+		data = eval(data);//get json array
+		for (i = 0; i < data.length; i++)//iterate over all options
+		{
+			for ( key in data[i] )//get key => value
+			{	
+			        console.log(data[i][key]);
+				    draw_ticket(data[i][key]);
+            }
+		}
+     },
+     'json'
+);
+}
 $(function() {
+        $('#canvas').click(function(e) {
+   var canvas = document.getElementById("canvas");
+   if (canvas.getContext) {
+       var ctx = canvas.getContext("2d");
+        var x = Math.floor(e.pageX-$("#canvas").offset().left);
+        var y = Math.floor(e.pageY-$("#canvas").offset().top);
+        ctx.fillStyle = "rgba(0,255,0,.5)";
+        ctx.fillRect(x-10, y-10, 20, 20);
+        }
+        });
+
+            
         $('#id_datetime').change(function() {
             get_ticket_values();
+            get_ticket_values2();
         });
         $('#id_section').change(function() {
             get_ticket_values();
+            get_ticket_values2();
         });
         $('#id_ticket').change(function() {
             var postdata = {csrfmiddlewaretoken: getCookie('csrftoken')};
@@ -42,3 +122,8 @@ $(function() {
 {% for form in forms %}
     {{ form.as_p }}
 {% endfor %}
+<canvas id="canvas" width="640" height="480">
+    <p>This example requires a browser that supports the
+    <a href="http://www.w3.org/html/wg/html5/">HTML5</a> 
+    &lt;canvas&gt; feature.</p>
+</canvas>

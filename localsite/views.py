@@ -376,6 +376,18 @@ def ajax_select_ticket(request):
                 return _json_response([{"":_('Select ticket')}] + [dict([[ticket.product.id, "%s-%s" % (ticket.__unicode__(), ticket.get_status_display())]]) for ticket in Ticket.objects.filter(seat__section=section,datetime=datetime)])
     return _json_response([{"":_('Select ticket')}])
 
+def ajax_select_ticket2(request):
+    if request.method == 'POST':
+        form1 = SelectEventDateForm(request.POST)
+        form1.fields['datetime'].queryset = EventDate.objects.all()
+        if form1.is_valid():
+            datetime = form1.cleaned_data['datetime']
+            form2 = SelectSectionForm(request.POST)
+            form2.fields['section'].queryset = datetime.event.hallscheme.sections.all()
+            if form2.is_valid():
+                section = form2.cleaned_data['section']
+                return _json_response([dict([[ticket.product.id,  {'status': ticket.status, 'x': ticket.seat.x_position, 'y': ticket.seat.y_position}]]) for ticket in Ticket.objects.filter(seat__section=section,datetime=datetime)])
+    return _json_response([])
 
 def ajax_select_city(request):
     if request.method == 'POST':
