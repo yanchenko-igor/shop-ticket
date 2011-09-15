@@ -13,6 +13,18 @@ from django.contrib.flatpages.models import FlatPage
 from satchmo_utils.thumbnail.widgets import AdminImageWithThumbnailWidget
 import re
 
+def clean_unique(form, field, exclude_initial=True, 
+                 format="The %(field)s %(value)s has already been taken."):
+    value = form.cleaned_data.get(field)
+    if value:
+        qs = form._meta.model._default_manager.filter(**{field:value})
+        if exclude_initial and form.initial:
+            initial_value = form.initial.get(field)
+            qs = qs.exclude(**{field:initial_value})
+        if qs.count() > 0:
+            raise forms.ValidationError(format % {'field':field, 'value':value})
+    return value
+
 class MyModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
         return obj.name
@@ -55,10 +67,14 @@ class ProductForm(forms.ModelForm):
         self.fields['related_items'].queryset = Product.objects.filter(id__in=Event.objects.all())
         self.fields['description'].widget = TinyMCE(attrs={'cols': 80, 'rows': 30})
 
+    def clean_slug(self):
+        return clean_unique(self, 'slug')
+
     class Meta:
         model = Product
         fields = (
                 'name',
+                #'slug',
                 'category',
                 'short_description',
                 'description',
