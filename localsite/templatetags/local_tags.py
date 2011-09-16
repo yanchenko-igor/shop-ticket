@@ -35,9 +35,9 @@ def select_section_form(event):
     form = SelectSectionForm()
     form.fields['section'].queryset = SeatSection.objects.filter(hallscheme=event.hallscheme)
     forms.append(form)
-    form = SelectTicketForm()
-    form.fields['ticket'].queryset = Ticket.objects.none()
-    forms.append(form)
+    #form = SelectTicketForm()
+    #form.fields['ticket'].queryset = Ticket.objects.none()
+    #forms.append(form)
     return {'forms': forms}
 
 def price_range(product):

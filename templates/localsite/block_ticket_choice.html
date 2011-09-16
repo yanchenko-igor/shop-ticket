@@ -1,49 +1,14 @@
+
 <script type="text/javascript">
-function getCursorPosition(e) {
-    /* returns Cell with .row and .column properties */
-    var x;
-    var y;
-    if (e.pageX != undefined && e.pageY != undefined) {
-	x = e.pageX;
-	y = e.pageY;
-    }
-    else {
-	x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-	y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-    }
-    x -= $('#canvas').get(0).offsetLeft;
-    y -= $('#canvas').get(0).offsetTop;
-    console.log(x,y);
-    return (x,y);
-}
-
-var click_listener = function(e) {
-    getCursorPosition(e);
-}
 var draw_ticket = function(ticket) {
-   console.log(ticket);
-   var canvas = document.getElementById("canvas");
-   if (canvas.getContext) {
-       var ctx = canvas.getContext("2d");
-       if (ticket.status == 'freely') {
-	       color = "rgb(200,0,0)";
-       } else {
-	       color = "rgb(0,0,200)";
-       }
-
-	console.log(color, ticket.x, ticket.y);
-       ctx.fillStyle = color;
-       //ctx.fillRect (ticket.y, ticket.x, 5, 5);
-    
-       ctx.beginPath();
-       ctx.arc(ticket.x, ticket.y, 4, 0, Math.PI*2, true);
-       ctx.closePath();
-       ctx.fill();
-
-       //ctx.fillStyle = "rgb(200,0,0)";
-       //ctx.fillRect (10, 10, 50, 50);
-
-   }
+       console.log(ticket);
+       item = new fabric.Circle({top: ticket.y, left: ticket.x, fill: 'rgba(0,250,0,.5)', radius: 4});
+       item.hasControls = item.hasBorders = false;
+       item.lockMovementY = true;
+       item.lockMovementX = true;
+       item.ticket = ticket;
+       console.log(item);
+       canvas.add(item);
 }
 var get_ticket_values = function() {
     $.post('{% url ajax_select_ticket %}', {
@@ -87,18 +52,6 @@ var get_ticket_values2 = function() {
 );
 }
 $(function() {
-        $('#canvas').click(function(e) {
-   var canvas = document.getElementById("canvas");
-   if (canvas.getContext) {
-       var ctx = canvas.getContext("2d");
-        var x = Math.floor(e.pageX-$("#canvas").offset().left);
-        var y = Math.floor(e.pageY-$("#canvas").offset().top);
-        ctx.fillStyle = "rgba(0,255,0,.5)";
-        ctx.fillRect(x-10, y-10, 20, 20);
-        }
-        });
-
-            
         $('#id_datetime').change(function() {
             get_ticket_values();
             get_ticket_values2();
@@ -127,3 +80,59 @@ $(function() {
     <a href="http://www.w3.org/html/wg/html5/">HTML5</a> 
     &lt;canvas&gt; feature.</p>
 </canvas>
+<script type="text/javascript">
+var canvas = new fabric.Canvas('canvas');
+canvas.selectionLineWidth = 0;
+canvas.backgroundColor = "#555";
+canvas.HOVER_CURSOR = 'pointer';
+// piggyback on `canvas.findTarget`, to fire "object:over" and "object:out" events
+
+canvas.findTarget = (function(originalFn) {
+  return function() {
+    var target = originalFn.apply(this, arguments);
+    if (target) {
+      if (this._hoveredTarget !== target) {
+        canvas.fire('object:over', { target: target });
+        if (this._hoveredTarget) {
+          canvas.fire('object:out', { target: this._hoveredTarget });
+        }
+        this._hoveredTarget = target;
+      }
+    }
+    else if (this._hoveredTarget) {
+      canvas.fire('object:out', { target: this._hoveredTarget });
+      this._hoveredTarget = null;
+    }
+    return target;
+  };
+})(canvas.findTarget);
+
+// now we can observe "object:over" and "object:out" events
+// in this example, object is set to red color on hover over and green color on hover out
+
+canvas.observe('object:over', function(e) {
+        console.log(e);
+  e.memo.target.setFill('red');
+  canvas.renderAll();
+});
+
+canvas.observe('object:out', function(e) {
+        console.log(e);
+  e.memo.target.setFill('green');
+  canvas.renderAll();
+});
+
+canvas.observe('mouse:down', function(e) {
+        console.log(e);
+        $.post('{% url add_ticket %}', {
+                csrfmiddlewaretoken: getCookie('csrftoken'),
+                ticket: e.memo.target.ticket.product
+            },
+            function(data) {
+                $("#cart_count").text(data.cart_count);
+            },
+            'json'
+        );
+});
+
+</script>
