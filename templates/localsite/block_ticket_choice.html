@@ -4,6 +4,7 @@ var draw_ticket = function(ticket) {
        console.log(ticket);
        item = new fabric.Circle({top: ticket.y, left: ticket.x, fill: 'rgba(0,250,0,.5)', radius: 4});
        item.hasControls = item.hasBorders = false;
+       item.selectable = true;
        item.lockMovementY = true;
        item.lockMovementX = true;
        item.ticket = ticket;
@@ -82,9 +83,12 @@ $(function() {
 </canvas>
 <script type="text/javascript">
 var canvas = new fabric.Canvas('canvas');
-canvas.selectionLineWidth = 0;
+//canvas.selection = false;
+canvas._drawSelection = function(){};
 canvas.backgroundColor = "#555";
 canvas.HOVER_CURSOR = 'pointer';
+canvas._offset.top -= 25;
+
 // piggyback on `canvas.findTarget`, to fire "object:over" and "object:out" events
 
 canvas.findTarget = (function(originalFn) {
@@ -111,19 +115,18 @@ canvas.findTarget = (function(originalFn) {
 // in this example, object is set to red color on hover over and green color on hover out
 
 canvas.observe('object:over', function(e) {
-        console.log(e);
   e.memo.target.setFill('red');
   canvas.renderAll();
 });
 
 canvas.observe('object:out', function(e) {
-        console.log(e);
   e.memo.target.setFill('green');
   canvas.renderAll();
 });
 
-canvas.observe('mouse:down', function(e) {
+canvas.observe('mouse:up', function(e) {
         console.log(e);
+	if (e.memo.target && e.memo.target.ticket) {
         $.post('{% url add_ticket %}', {
                 csrfmiddlewaretoken: getCookie('csrftoken'),
                 ticket: e.memo.target.ticket.product
@@ -133,6 +136,7 @@ canvas.observe('mouse:down', function(e) {
             },
             'json'
         );
+	}
 });
 
 </script>
