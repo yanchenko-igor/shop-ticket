@@ -2,7 +2,15 @@
 <script type="text/javascript">
 var draw_ticket = function(ticket) {
        console.log(ticket);
-       item = new fabric.Circle({top: ticket.y, left: ticket.x, fill: 'rgba(0,250,0,.5)', radius: 4});
+       if (ticket.in_cart >= 1) {
+           color = 'gray';
+       } else if (ticket.status == 'freely') {
+           color = 'rgba(0,250,0,.9)';
+       } else {
+           color = 'rgba(250,0,0,.9)';
+       }
+       console.log(color);
+       item = new fabric.Circle({top: ticket.y, left: ticket.x, fill: color, radius: 4});
        item.hasControls = item.hasBorders = false;
        item.selectable = true;
        item.lockMovementY = true;
@@ -40,6 +48,7 @@ var get_ticket_values2 = function() {
     },
     function(data) {
 		data = eval(data);//get json array
+        canvas.clear();
 		for (i = 0; i < data.length; i++)//iterate over all options
 		{
 			for ( key in data[i] )//get key => value
@@ -84,8 +93,12 @@ $(function() {
 <script type="text/javascript">
 var canvas = new fabric.Canvas('canvas');
 //canvas.selection = false;
-canvas._drawSelection = function(){};
-canvas.backgroundColor = "#555";
+//canvas._drawSelection = function(){};
+canvas.__onMouseMove = function(e){
+      var target = this.findTarget(e),
+          pointer = this.getPointer(e);
+    return false;};
+//canvas.backgroundColor = "#555";
 canvas.HOVER_CURSOR = 'pointer';
 canvas._offset.top -= 25;
 
@@ -115,18 +128,21 @@ canvas.findTarget = (function(originalFn) {
 // in this example, object is set to red color on hover over and green color on hover out
 
 canvas.observe('object:over', function(e) {
-  e.memo.target.setFill('red');
+  e.memo.target.oldfill = e.memo.target.fill;
+  e.memo.target.setFill('gray');
   canvas.renderAll();
 });
 
 canvas.observe('object:out', function(e) {
-  e.memo.target.setFill('green');
+  e.memo.target.setFill(e.memo.target.oldfill);
   canvas.renderAll();
 });
 
 canvas.observe('mouse:up', function(e) {
         console.log(e);
 	if (e.memo.target && e.memo.target.ticket) {
+        e.memo.target.oldfill = 'gray';
+        e.memo.target.setFill('gray');
         $.post('{% url add_ticket %}', {
                 csrfmiddlewaretoken: getCookie('csrftoken'),
                 ticket: e.memo.target.ticket.product
