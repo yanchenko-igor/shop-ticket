@@ -394,7 +394,8 @@ def ajax_select_ticket2(request):
                     'y': ticket.seat.y_position,
                     'price': str(ticket.product.unit_price),
                     'product': ticket.product.id,
-                    'in_cart': cartitems.filter(product=ticket.product).count(),
+                    'in_cart': str(cartitems.filter(product=ticket.product).count()),
+                    'cartitem_id': cartitems.filter(product=ticket.product).count() and cartitems.filter(product=ticket.product)[0].id or None,
                     }]]) for ticket in Ticket.objects.filter(seat__section=section,datetime=datetime)])
     return _json_response([])
 
