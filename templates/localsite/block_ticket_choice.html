@@ -2,7 +2,7 @@
 <script type="text/javascript">
 var draw_ticket = function(ticket) {
        console.log(ticket);
-       if (ticket.in_cart >= 1) {
+       if (ticket.in_cart != 0) {
            color = 'gray';
        } else if (ticket.status == 'freely') {
            color = 'rgba(0,250,0,.9)';
@@ -128,27 +128,41 @@ canvas.findTarget = (function(originalFn) {
 // in this example, object is set to red color on hover over and green color on hover out
 
 canvas.observe('object:over', function(e) {
-  e.memo.target.oldfill = e.memo.target.fill;
   e.memo.target.setFill('gray');
   canvas.renderAll();
 });
 
 canvas.observe('object:out', function(e) {
-  e.memo.target.setFill(e.memo.target.oldfill);
+  if (e.memo.target.ticket.in_cart != 0) {
+      color = 'gray';
+  } else if (e.memo.target.ticket.status == 'freely') {
+      color = 'rgba(0,250,0,.9)';
+  } else {
+      color = 'rgba(250,0,0,.9)';
+  }
+  e.memo.target.setFill(color);
   canvas.renderAll();
 });
 
 canvas.observe('mouse:up', function(e) {
         console.log(e);
 	if (e.memo.target && e.memo.target.ticket) {
-        e.memo.target.oldfill = 'gray';
-        e.memo.target.setFill('gray');
         $.post('{% url add_ticket %}', {
                 csrfmiddlewaretoken: getCookie('csrftoken'),
                 ticket: e.memo.target.ticket.product
             },
             function(data) {
+                e.memo.target.ticket.in_cart = data.item_qty;
                 $("#cart_count").text(data.cart_count);
+                if (e.memo.target.ticket.in_cart != 0) {
+                    color = 'gray';
+                } else if (e.memo.target.ticket.status == 'freely') {
+                    color = 'rgba(0,250,0,.9)';
+                } else {
+                    color = 'rgba(250,0,0,.9)';
+                }
+                e.memo.target.setFill(color);
+                canvas.renderAll();
             },
             'json'
         );
