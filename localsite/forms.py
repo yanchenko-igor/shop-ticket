@@ -171,3 +171,4 @@ EventDateFormInline = inlineformset_factory(Event, EventDate, form=EventDateForm
 AnnouncementFormInline = inlineformset_factory(Event, Announcement, form=AnnouncementForm, formset=MyBaseInlineFormSet1, extra=1, can_delete=False, max_num=1)
 ProductImageFormInline = inlineformset_factory(Product, ProductImage, form=ProductImageForm, formset=MyBaseInlineFormSet, extra=1, can_delete=False, max_num=1)
 EventFormInline = inlineformset_factory(Product, Event, can_delete=False, formset=MyBaseInlineFormSet1)
+SeatLocationInline = inlineformset_factory(SeatSection, SeatLocation, can_delete=True, extra=0)

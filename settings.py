@@ -174,6 +174,7 @@ SATCHMO_SETTINGS = {
             url(r'^related/(?P<id>.*)/$', 'localsite.views.display_related', name='display_related'),
             url(r'^events/$', 'localsite.views.select_event', name='select_event'),
             url(r'^event/(?P<event_id>\d+)/edit/$', 'localsite.views.edit_event', name='edit_event'),
+            url(r'^section/(?P<section_id>\d+)/edit/$', 'localsite.views.place_editor', name='place_editor'),
             url(r'^flatpages/$', 'localsite.views.flatpages', name='flatpages'),
             url(r'^flatpage/(?P<flatpage_id>\d+)/$', 'localsite.views.flatpage_editor', name='flatpage_editor'),
             url(r'^tinymce/', include('tinymce.urls')),

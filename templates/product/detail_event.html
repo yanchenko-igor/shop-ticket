@@ -17,6 +17,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
 {% block announcements %}{% endblock %}
 
 {% block extra-head %}
+       <script src="{{ media_url }}js/Fabric.js" type="text/javascript" ></script>
 {% if product.meta %}
     <meta name="description" content="{{product.meta}}">
 {% endif %}

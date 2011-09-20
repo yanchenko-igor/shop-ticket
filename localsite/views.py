@@ -36,6 +36,37 @@ from satchmo_utils.views import bad_or_missing
 from django.views.decorators.cache import never_cache
 from payment.forms import ContactInfoForm, PaymentContactInfoForm
 
+@user_passes_test(lambda u: u.is_staff, login_url='/admin/')
+def place_editor(request, section_id, template_name='localsite/place_editor.html'):
+    section = SeatSection.objects.get(id=section_id)
+    if request.method == 'POST':
+        formset = SeatLocationInline(request.POST, instance=section)
+        if formset.is_valid():
+            formset.save()
+            if request.is_ajax():
+                data = {
+                    'results': _("Success"),
+                }
+        
+                return _json_response(data)
+            else:
+                return HttpResponseRedirect('/')
+        else:
+            if request.is_ajax():
+                data = {
+                    'errors': formset.errors,
+                }
+                return _json_response(data)
+    else:
+        formset= SeatLocationInline(instance=section)
+    ctx = RequestContext(request, {
+        'section': section,
+        'formset': formset,
+        })
+    return render_to_response(template_name, context_instance=ctx)
+
+
+@user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def flatpage_editor(request, flatpage_id, template_name='localsite/flatpage_editor.html'):
     flatpage = FlatPage.objects.get(id=flatpage_id)
     if request.method == 'POST':
@@ -52,6 +83,7 @@ def flatpage_editor(request, flatpage_id, template_name='localsite/flatpage_edit
     return render_to_response(template_name, context_instance=ctx)
 
 
+@user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def flatpages(request, template_name='localsite/flatpages.html'):
     flatpages = FlatPage.objects.all()
     ctx = RequestContext(request, {
@@ -59,6 +91,7 @@ def flatpages(request, template_name='localsite/flatpages.html'):
         })
     return render_to_response(template_name, context_instance=ctx)
 
+@user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def edit_event(request, event_id, template_name='localsite/edit_event.html'):
     event = Event.objects.get(product=event_id)
     formsets = []
