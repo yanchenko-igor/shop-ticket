@@ -85,6 +85,9 @@ class ProductForm(forms.ModelForm):
                 'shipclass',
                 )
 
+class SelectSeatGroupForm(forms.Form):
+    group = forms.ModelChoiceField(queryset=SeatGroup.objects.none(), empty_label=_("Don't change group"))
+
 class SelectEventDateForm(forms.Form):
     datetime = forms.ModelChoiceField(queryset=EventDate.objects.none(), label=_('Date and time'), empty_label=_("Select date"))
 
@@ -172,3 +175,4 @@ AnnouncementFormInline = inlineformset_factory(Event, Announcement, form=Announc
 ProductImageFormInline = inlineformset_factory(Product, ProductImage, form=ProductImageForm, formset=MyBaseInlineFormSet, extra=1, can_delete=False, max_num=1)
 EventFormInline = inlineformset_factory(Product, Event, can_delete=False, formset=MyBaseInlineFormSet1)
 SeatLocationInline = inlineformset_factory(SeatSection, SeatLocation, can_delete=True, extra=0)
+SeatSectionInline = inlineformset_factory(HallScheme, SeatSection, can_delete=True, extra=0)

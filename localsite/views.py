@@ -39,28 +39,44 @@ from payment.forms import ContactInfoForm, PaymentContactInfoForm
 @user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def place_editor(request, section_id, template_name='localsite/place_editor.html'):
     section = SeatSection.objects.get(id=section_id)
+    groupform = None
     if request.method == 'POST':
         formset = SeatLocationInline(request.POST, instance=section)
         if formset.is_valid():
             formset.save()
-            if request.is_ajax():
-                data = {
-                    'results': _("Success"),
-                }
-        
-                return _json_response(data)
-            else:
-                return HttpResponseRedirect('/')
+            data = {'results': _("Success")}
+            return _json_response(data)
         else:
-            if request.is_ajax():
-                data = {
-                    'errors': formset.errors,
-                }
-                return _json_response(data)
+            data = {'errors': formset.errors}
+            return _json_response(data)
     else:
         formset= SeatLocationInline(instance=section)
+        groupform = SelectSeatGroupForm()
+        groupform.fields['group'].queryset = SeatGroup.objects.filter(hallscheme__sections=section)
     ctx = RequestContext(request, {
         'section': section,
+        'formset': formset,
+        'groupform': groupform,
+        })
+    return render_to_response(template_name, context_instance=ctx)
+
+
+@user_passes_test(lambda u: u.is_staff, login_url='/admin/')
+def section_editor(request, hallscheme_id, template_name='localsite/hallscheme_editor.html'):
+    hallscheme = HallScheme.objects.get(id=section_id)
+    if request.method == 'POST':
+        formset = SeatSectionInline(request.POST, instance=hallscheme)
+        if formset.is_valid():
+            formset.save()
+            data = {'results': _("Success")}
+            return _json_response(data)
+        else:
+            data = {'errors': formset.errors}
+            return _json_response(data)
+    else:
+        formset= SeatSectionInline(instance=hallscheme)
+    ctx = RequestContext(request, {
+        'hallscheme': hallscheme,
         'formset': formset,
         })
     return render_to_response(template_name, context_instance=ctx)

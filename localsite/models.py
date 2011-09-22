@@ -276,8 +276,8 @@ class SeatLocation(models.Model):
     class Meta:
         verbose_name = _("Seat Location")
         verbose_name_plural = _("Seat Locations")
-        unique_together = (("group", 'row', "col"),("section", 'row', "col"),)
-        ordering = ['group', 'row', 'col']
+        unique_together = (("section", 'row', "col"),)
+        ordering = ['section', 'row', 'col']
     
     def __unicode__(self):
         if self.row and self.col:

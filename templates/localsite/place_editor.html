@@ -11,7 +11,11 @@
     <li><a id="valign" href="#">{% trans "Vertical align" %}</a></li>
     <li><a id="halign" href="#">{% trans "Horizontal align" %}</a></li>
     <li><a id="spread" href="#">{% trans "Spread" %}</a></li>
+    <li id="select_group" >{{ groupform.group }}<a href="#">{% trans "Apply" %}</a></li>
+    <li id="edit_row"><input type="text" value="" /><a href="#">{% trans "Edit row" %}</a></li>
+    <li id="edit_col"><input type="text" value="" /><a href="#">{% trans "Edit col" %}</a></li>
     <li><input type="text" id="addrow_count" value="10" /><a id="addrow" href="#">{% trans "Add row" %}</a></li>
+    <li><a id="remove" href="#">{% trans "Remove" %}</a></li>
     <li><a id="save" href="#">{% trans "Save" %}</a></li>
 </ul>
 <script type="text/javascript" >
@@ -57,6 +61,25 @@ function average()
    }
    return (sum/items)
 }
+
+canvas.observe('mouse:up', function(e) {
+    console.log(e);
+    //if (canvas._activeGroup) {
+    //    $("#select_group select").val("");
+    //    $("#edit_row input").val("");
+    //    $("#edit_col input").val("");
+    //} else
+    if (canvas._activeObject) {
+        $("#select_group select").val(canvas._activeObject.place.group);
+        $("#edit_row input").val(canvas._activeObject.place.row);
+        $("#edit_col input").val(canvas._activeObject.place.col);
+    } else {
+        $("#select_group select").val("");
+        $("#edit_row input").val("");
+        $("#edit_col input").val("");
+    }
+});
+
 $(function() {
     
     $("#addrow").click(function() {
@@ -94,6 +117,61 @@ $(function() {
                     canvas._activeGroup.objects[j].set('left', Math.round(left+(((rigth-left)/count)*j)));
                 }
                 canvas.renderAll();
+            }
+        }
+        return false;
+    });
+    $("#remove").click(function() {
+        if (canvas._activeGroup) {
+            for (j = 0; j < canvas._activeGroup.objects.length; j++)
+            {
+                //canvas.remove(canvas._activeGroup.objects[j]);
+                canvas._activeGroup.objects[j].place.DELETE = 1;
+                canvas._activeGroup.objects[j].opacity = 0;
+            }
+        } else if (canvas._activeObject) {
+                //canvas.remove(canvas._activeObject);
+                canvas._activeObject.place.DELETE = 1;
+                canvas._activeObject.opacity = 0;
+        }
+        canvas.renderAll();
+        return false;
+    });
+    $("#edit_col a").click(function() {
+        if ($("#edit_col input").val() != "") {
+            if (canvas._activeGroup) {
+                for (j = 0; j < canvas._activeGroup.objects.length; j++)
+                {
+                    canvas._activeGroup.objects[j].place.col =  $("#edit_col input").val();
+                }
+            } else if (canvas._activeObject) {
+                canvas._activeObject.place.col =  $("#edit_col input").val();
+            }
+        }
+        return false;
+    });
+    $("#edit_row a").click(function() {
+        if ($("#edit_row input").val() != "") {
+            if (canvas._activeGroup) {
+                for (j = 0; j < canvas._activeGroup.objects.length; j++)
+                {
+                    canvas._activeGroup.objects[j].place.row =  $("#edit_row input").val();
+                }
+            } else if (canvas._activeObject) {
+                canvas._activeObject.place.col =  $("#edit_row input").val();
+            }
+        }
+        return false;
+    });
+    $("#select_group a").click(function() {
+        if ($("#select_group select").val() != "") {
+            if (canvas._activeGroup) {
+                for (j = 0; j < canvas._activeGroup.objects.length; j++)
+                {
+                    canvas._activeGroup.objects[j].place.group =  $("#select_group select").val();
+                }
+            } else if (canvas._activeObject) {
+                canvas._activeObject.place.group =  $("#select_group select").val();
             }
         }
         return false;
