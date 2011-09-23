@@ -64,12 +64,11 @@ function average()
 
 canvas.observe('mouse:up', function(e) {
     console.log(e);
-    //if (canvas._activeGroup) {
-    //    $("#select_group select").val("");
-    //    $("#edit_row input").val("");
-    //    $("#edit_col input").val("");
-    //} else
-    if (canvas._activeObject) {
+    if (canvas._activeGroup) {
+        $("#select_group select").val("");
+        $("#edit_row input").val("");
+        $("#edit_col input").val("");
+    } else if (canvas._activeObject) {
         $("#select_group select").val(canvas._activeObject.place.group);
         $("#edit_row input").val(canvas._activeObject.place.row);
         $("#edit_col input").val(canvas._activeObject.place.col);
