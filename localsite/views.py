@@ -436,15 +436,18 @@ def ajax_select_ticket2(request):
             if form2.is_valid():
                 section = form2.cleaned_data['section']
                 cart = Cart.objects.from_request(request)
-                cartitems = cart.cartitem_set.all()
+                try:
+                    cartitems = cart.cartitem_set.all()
+                except:
+                    cartitems = None
                 return _json_response([dict([[ticket.product.id,  {
                     'status': ticket.status,
                     'x': ticket.seat.x_position,
                     'y': ticket.seat.y_position,
                     'price': str(ticket.product.unit_price),
                     'product': ticket.product.id,
-                    'in_cart': str(cartitems.filter(product=ticket.product).count()),
-                    'cartitem_id': cartitems.filter(product=ticket.product).count() and cartitems.filter(product=ticket.product)[0].id or None,
+                    'in_cart': cartitems and str(cartitems.filter(product=ticket.product).count()) or '0',
+                    'cartitem_id': cartitems and cartitems.filter(product=ticket.product).count() and cartitems.filter(product=ticket.product)[0].id or None,
                     }]]) for ticket in Ticket.objects.filter(seat__section=section,datetime=datetime)])
     return _json_response([])
 
