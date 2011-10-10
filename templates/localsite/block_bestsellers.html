@@ -9,7 +9,7 @@
 <div class="wrap_line">
     {% show_bestsellers_items 5 %}
     <div class="all_link">
-    {% url satchmo_product_best_selling as popularurl %}
-    {% if popularurl %}<br/><a href="{{ popularurl }}">{% trans "All Best Sellers" %}</a><br/>{% endif %}
+        {% url satchmo_product_best_selling as popularurl %}
+        {% if popularurl %}<a class="has_icon_ahead" href="{{ popularurl }}"><i class="icon_ahead"></i>{% trans "All Best Sellers" %}</a>{% endif %}
     </div>
 </div>

@@ -43,16 +43,24 @@
 {% endblock %}
 
 {% block subnav %}
-<div class="tab_activ tab">
-    <div class="tab_activ_sh">
-        <h1 class="h1_m"><a href="{% url satchmo_shop_home %}">НОВИНКИ</a></h1>
+<div class="tab tab_activ first_tab_activ">
+    <div class="tab_activ_sh1">
+        <div class="tab_activ_sh2">
+            <h1 class="h1_m">
+                <a href="{% url satchmo_shop_home %}">НОВИНКИ</a>
+            </h1>
+        </div>
     </div>
 </div>
 <div class="tab">
-    <h1 class="h1_m"><a href="{% url satchmo_product_best_selling %}">БЕСТСЕЛЛЕРЫ</a></h1>
+    <h2 class="tab_nested">
+        <a href="{% url satchmo_product_best_selling %}">БЕСТСЕЛЛЕРЫ</a>
+    </h2>
 </div>
 <div class="tab">
-    <h2 class="tab_nested"><a href="{% url localsite_featured %}">РЕКОМЕНДУЕМ</a></h2>
+    <h2 class="tab_nested">
+        <a href="{% url localsite_featured %}">РЕКОМЕНДУЕМ</a>
+    </h2>
 </div>
 <div class="tab">
     <div class="tab_nested">

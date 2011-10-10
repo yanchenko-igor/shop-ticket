@@ -4,8 +4,8 @@
     <div class="curve_body selection_events_body">
         
         <div class="heading_icon clearfix">
-            <h2 class="heading_h2"><span>Подбор события</span></h2>
-            <div class="icon_h"><a href="#"><img src="{{ media_url }}images/icon_help.png" alt="" /></a></div>
+            <h2 class="heading_h2"><span>{% trans "Event selection" %}</span></h2>
+            <a class="icon_help" href="#"></a>
         </div>
 
         <form class="selection_events_form" action="{% url select_event %}" method="post">{% csrf_token %}

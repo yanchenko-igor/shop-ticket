@@ -65,17 +65,19 @@
 
 
 {% block subnav %}
-<div class="tab_long tab_activ">
-    <div class="tab_activ_sh">
-        {% if category.parents %}
-        <h1 class="h1_h fl_l">{{ category.translated_name }}</h1>
-        <div class="back_heading">
-            <img alt="" src="{{ media_url }}images/icon_back_shopping.gif">
-            <a href="{{ category.parents.0.get_absolute_url }}">Вернуться в {{ category.parents.0.translated_name|lower }}</a>
+<div class="tab_long tab_activ first_tab_activ">
+    <div class="tab_activ_sh1">
+        <div class="tab_activ_sh2">
+            {% if category.parents %}
+            <h1 class="h1_h fl_l">{{ category.translated_name }}</h1>
+            <div class="back_heading">
+                <img alt="" src="{{ media_url }}images/icon_back_shopping.gif">
+                <a href="{{ category.parents.0.get_absolute_url }}">Вернуться в {{ category.parents.0.translated_name|lower }}</a>
+            </div>
+            {% else %}
+            <h1 class="h1_h">{{ category.translated_name }}</h1>
+            {% endif %}
         </div>
-        {% else %}
-        <h1 class="h1_h">{{ category.translated_name }}</h1>
-        {% endif %}
     </div>
 </div>
 {% endblock %}

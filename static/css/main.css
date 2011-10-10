@@ -298,30 +298,69 @@ optgroup option {
     *zoom: 1; /* IE7 */
     _height: 1%; /* IE6 */
 }
-.clear{
-    clear: both;
-    height: 0;
-    overflow: hidden;
-}
+
 /* ----- /clearfix ----- */
 
-
-
-.fl_l{float: left !important;}
-.fl_r{float: right !important;}
-.fl_100{float: left; width: 100%;}
-.img_r{
-    float: left;
-    margin: 0 18px 18px 0;
+/* ----- icons ----- */
+/* icon help */
+.icon_help {
+    float: right;
+    display: block;
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+    background: url(/static/images/icon_help.png) 0 0 no-repeat;
 }
-.read_more{
-    text-align: right;
-    padding: 12px 1px;
+a:hover .icon_help, .icon_help:hover {
+    background-position: 0 -20px;
 }
-/* -------------------- /COMMON -------------------- */
+/* icon ahead */
+.icon_ahead {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    overflow: hidden;
+    vertical-align: middle;
+    background: url(/static/images/icon_ahead.png) 0 0 no-repeat;
+}
+a:hover .icon_ahead, .icon_ahead:hover {
+    background-position: 0 -14px;    
+}
+.has_icon_ahead {
+    padding-left: 20px;
+}
+.has_icon_ahead .icon_ahead {
+    position: relative;
+    top: 0.2em;
+    left: -20px;
+    vertical-align: top;
+    margin-right: -14px;
+}
+/* icon back */
+.icon_back {
+    display: inline-block;
+    width: 3px;
+    height: 6px;
+    overflow: hidden;
+    vertical-align: middle;
+    background: url(/static/images/icon_back.gif) 0 0 no-repeat;
+}
+a:hover .icon_back, .icon_back:hover {
+    background-position: 0 -6px;
+}
+.has_icon_back {
+    padding-left: 7px;
+}
+.has_icon_back .icon_back {
+    position: relative;
+    top: 0.4em;
+    left: -7px;
+    vertical-align: top;
+    margin-right: -3px;
+}
+/* ----- /icons ----- */
 
-/*--------------------- Btn ----------------------*/
-
+/* ----- buttons ----- */
 .btn_red{
     display: inline-block;
     margin-right: 3px;
@@ -350,18 +389,39 @@ optgroup option {
             font-weight: normal;
         }
 .btn_red:hover{
+    background-position: 0 -23px;
     text-decoration: none;
 }
+.btn_red:hover span{
+    background-position: 100% -23px;
+}
+/* ----- /buttons ----- */
 
-/*--------------------- /Btn ----------------------*/
+/* ----- misc ----- */
+.clear{
+    clear: both;
+    height: 0;
+    overflow: hidden;
+}
+.fl_l{float: left !important;}
+.fl_r{float: right !important;}
+.fl_100{float: left; width: 100%;}
+.img_r{
+    float: left;
+    margin: 0 18px 18px 0;
+}
+.read_more{
+    text-align: right;
+    padding: 12px 1px;
+}
+/* ----- /misc ----- */
+/* -------------------- /COMMON -------------------- */
 
-
+/* -------------------- LAYOUT -------------------- */
 .wraper{
     width: 978px;
     margin: 0 auto;
 }
-
-/* -------------------- LAYOUT -------------------- */
 .wraper_header{
     background: #d0d0d0 url(/static/images/header_bg.jpg) repeat-x;
     border-bottom: 1px solid #bbbbbb;
@@ -399,6 +459,9 @@ optgroup option {
             color: #212121;
             text-decoration: none;
         }
+        .header_menu li a:hover{
+            color: #000;
+        }
 .header_tab_reg{
     width: 210px;
     vertical-align: bottom;
@@ -424,8 +487,7 @@ optgroup option {
     position: relative;
     border-left: 1px solid #acacac;
     border-right: 1px solid #acacac;
-    text-align: center;
-    
+    text-align: center;    
 }
 .wraper_top{
     margin-top: 15px;
@@ -434,8 +496,6 @@ optgroup option {
     z-index: 102;
     height: 73px;
     color: #fff;
-
-
 }
 .w_t_l, .w_t_r, .w_t_l_b, .w_t_r_b{
     background: url(/static/images/wraper_top_curve.gif) no-repeat;
@@ -482,13 +542,26 @@ optgroup option {
 }
 .logo{
     float: left;
-    width: 133px;
-    padding: 16px 0 0 12px;
+    padding: 18px 31px 0 12px;
 }
-.logo_txt{
-    color: #bab9b9;
-    padding-top: 3px;
-    font-size: 12px;
+.logo a {
+    display: block;
+    position: relative;
+    width: 102px;
+    height: 39px;
+    overflow: hidden;
+}
+.logo a i {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 102px;
+    height: 39px;
+    background: url(/static/images/logo_bg.jpg) 0 0 no-repeat;
+}
+.logo a:hover i {
+    background-position: 0 -39px;
 }
 .top_telephone{
     float: left;
@@ -498,9 +571,10 @@ optgroup option {
 .telephone_number{
     font-size: 22px;
     font-weight: bold;
-    height: 28px;
 }
 .time_work{
+    position: relative;
+    top: -2px;
     font-size: 12px;
     color: #bab9b9;
 }
@@ -559,7 +633,7 @@ optgroup option {
             display: block;
             padding-left: 10px;
             font-size: 17px;
-            line-height: 4.4;
+            line-height: 4.2;
             height: 46px;
             color: #fff;
             text-decoration: none !important;
@@ -909,7 +983,12 @@ optgroup option {
     color: #9e9e9e;
 }
 .feed_list_txt_tag a{
+    text-decoration: none;
     color: #0f5fa4;
+}
+.feed_list_txt_tag a:hover{
+    text-decoration: none;
+    color: #b43532;
 }
 .feed_list_txt_inf{
     font-size: 13px;
@@ -919,14 +998,23 @@ optgroup option {
     color: #171717;
     text-decoration: none;
 }
+.feed_list_detail:hover{
+    color: #0f5fa4;
+    text-decoration: none;
+}
 
 .all_link{
     text-align: right;
     padding-bottom: 7px;
 }
 .all_link a{
+    text-decoration: none;
     color: #586d80;
     font-size: 0.858em; /* 12px*/
+}
+.all_link a:hover{
+    text-decoration: none;
+    color: #0f5fa4;    
 }
 .wrap_line_bl{
     border-bottom: 1px solid #e8e8e8;
@@ -991,9 +1079,6 @@ optgroup option {
             display: block;
             padding-right: 45px;
     }
-.icon_h{
-    float: right;
-}
 .selection_events_form{
     padding: 0;
     margin: 0;
@@ -1103,18 +1188,34 @@ optgroup option {
 .wraper_tab a{
     color: #666666;
 }
+.wraper_tab a:hover {
+    text-decoration: none;
+    color: #ef332e;
+}
 .tab_activ{
+    height: 41px !important;
     background-color: #fff;
-    border-right: none 0 !important;
+    border-right: 0 !important;
+    border-left: 0 !important;
     margin-bottom: -1px;
     padding: 0 !important;
-
+    font-weight: bold;
 }
-.tab_activ .tab_activ_sh{
-    background: url(/static/images/tab_activ_sh.png) 100% 0 repeat-y;
-    margin-right: -7px;
+.tab_activ .tab_activ_sh1{
+    background: url(/static/images/tab_activ_sh1.gif) 0 0 repeat-y;
+    margin-left: -7px;
+    padding-left: 26px;
+}
+.tab_activ .tab_activ_sh2{
+    background: url(/static/images/tab_activ_sh2.gif) 100% 0 repeat-y;
     min-height: 40px;
-    padding: 0 19px 0 12px;
+    margin-right: -6px;
+    padding-right: 26px;
+}
+.first_tab_activ .tab_activ_sh1{
+    background: none;
+    margin-left: 0;
+    padding-left: 12px;
 }
 .tab_long{
     height: 40px;
@@ -1143,6 +1244,7 @@ optgroup option {
     height: 40px;
     padding: 0 19px;
     border-right: 1px solid #ccc;
+    text-transform: uppercase;
 }
 
 a.how_order{
@@ -1152,10 +1254,15 @@ a.how_order{
     float: right;
     padding-top: 14px;
     font-size: 12px;
+    font-weight: normal;
 }
 .back_heading a{
-    color: #c63d3a;
     text-decoration: none;
+    color: #c63d3a;    
+}
+.back_heading a:hover{
+    text-decoration: none;
+    color: #0f5fa4;
 }
 .wraper_basket{
     padding-bottom: 30px;
@@ -1175,6 +1282,9 @@ a.how_order{
 }
 .basket_count a{
     color: #c63d3a;
+}
+.basket_count a:hover{
+    color: #0f5fa4;
 }
 .basket_grey{
     background-color: #efefef;

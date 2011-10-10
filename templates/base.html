@@ -75,8 +75,7 @@
             <span class="w_t_r"><!-- --></span>
             <div class="wraper_top_bl">
                 <div class="logo">
-                    <a href="/"><img src="{{ media_url }}images/logo.png" alt="" /></a>
-                    <div class="logo_txt">БИЛЕТЫ НА ВСЁ</div>
+                    <a href="/">Show.ua<br>БИЛЕТЫ НА ВСЁ<i></i></a>                    
                 </div>
                 <div class="top_telephone">
                     <div class="telephone_number">044 245 58 90</div>
@@ -110,8 +109,12 @@
         <div class="main_content clearfix">
             <div class="wraper_tab clearfix">
                 {% block subnav %}
-                <div class="tab_long tab_activ">
-                    <div class="tab_activ_sh"><h1 class="h1_h">{% block navtitle %}{% endblock %}</h1></div>
+                <div class="tab_long tab_activ first_tab_activ">
+                    <div class="tab_activ_sh1">
+                        <div class="tab_activ_sh2">
+                            <h1 class="h1_h">{% block navtitle %}{% endblock %}</h1>
+                        </div>
+                    </div>
                 </div>
                 {% endblock %}
                 <div class="tab_basket">
