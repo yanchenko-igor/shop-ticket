@@ -204,7 +204,9 @@ def display(request, cart=None, error_message='', default_view_tax=None):
     form = PaymentContactInfoForm(
         shop=shop,
         contact=contact,
-        shippable=cart.is_shippable,
+        #TODO
+        #shippable=cart.is_shippable,
+        shippable=True,
         initial=init_data,
         cart=cart)
 
