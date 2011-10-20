@@ -63,26 +63,28 @@ class HallScheme(models.Model):
         for i in myxml.iter():
             if i.attrib.has_key('ticket'):
                 #i.attrib['onload'] = "alert('%s');" % i.attrib['id']
-                i.attrib['onmouseenter'] = "mouseover(this);"
-                i.attrib['onmouseleave'] = "mouseleave(this);"
+                i.attrib['onmouseover'] = "mouseover(this);"
+                i.attrib['onmouseout'] = "mouseout(this);"
                 i.attrib['onclick'] = "click(this);"
+                i.attrib['cursor'] = "pointer"
         script = etree.Element('script', attrib={'type':"text/ecmascript"})
         script.text = etree.CDATA("""
               function mouseover(_this) {
-                  var child = _this.children[0];
-                  child.setAttribute("selected","true");
-                  child.setAttribute("stroke-old",child.getAttribute("stroke"));
-                  child.setAttribute("stroke-width-old",child.getAttribute("stroke-width"));
-                  child.setAttribute("stroke","black");
-                  child.setAttribute("stroke-width","3");
+                  var child = _this.firstElementChild;
+                  if (child.getAttribute("stroke")!='black') {
+                      child.setAttribute("stroke-old",child.getAttribute("stroke"));
+                      child.setAttribute("stroke-width-old",child.getAttribute("stroke-width"));
+                      child.setAttribute("stroke","black");
+                      child.setAttribute("stroke-width","3");
+                  }
               }
-              function mouseleave(_this) {
-                  var child = _this.children[0];
+              function mouseout(_this) {
+                  var child = _this.firstElementChild;
                   child.setAttribute("stroke",child.getAttribute("stroke-old"));
                   child.setAttribute("stroke-width",child.getAttribute("stroke-width-old"));
               }
               function click(_this) {
-                  var child = _this.children[0];
+                  var child = _this.firstElementChild;
                   child.setAttribute("fill",'red');
               }
         """)
