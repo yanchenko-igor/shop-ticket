@@ -444,6 +444,9 @@ def ajax_select_ticket2(request):
                     cartitems = None
                 return _json_response([dict([[ticket.product.id,  {
                     'status': ticket.status,
+                    'section': ticket.seat.section.name,
+                    'col': ticket.seat.col,
+                    'row': ticket.seat.row,
                     'x': ticket.seat.x_position,
                     'y': ticket.seat.y_position,
                     'price': str(ticket.product.unit_price),

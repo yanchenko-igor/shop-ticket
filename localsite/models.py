@@ -10,6 +10,7 @@ from satchmo_utils.unique_id import slugify
 from localsite.utils.translit import cyr2lat
 from tinymce import models as tinymce_models
 import datetime
+from lxml import etree
 
 SATCHMO_PRODUCT=True
 
@@ -53,7 +54,43 @@ class HallScheme(models.Model):
     """docstring for HallScheme"""
     name = models.CharField(max_length=75)
     hall = models.ForeignKey('Hall', related_name='schemes')
+    map = models.TextField(blank=True, null=True, editable=False)
     substrate = models.FileField(upload_to='substrates', max_length=100)
+
+    def save(self, *args, **kwargs):
+        xml = self.substrate.read()
+        myxml = etree.fromstring(xml.encode('UTF-8'))
+        for i in myxml.iter():
+            if i.attrib.has_key('ticket'):
+                #i.attrib['onload'] = "alert('%s');" % i.attrib['id']
+                i.attrib['onmouseenter'] = "mouseover(this);"
+                i.attrib['onmouseleave'] = "mouseleave(this);"
+                i.attrib['onclick'] = "click(this);"
+        script = etree.Element('script', attrib={'type':"text/ecmascript"})
+        script.text = etree.CDATA("""
+              function mouseover(_this) {
+                  var child = _this.children[0];
+                  child.setAttribute("selected","true");
+                  child.setAttribute("stroke-old",child.getAttribute("stroke"));
+                  child.setAttribute("stroke-width-old",child.getAttribute("stroke-width"));
+                  child.setAttribute("stroke","black");
+                  child.setAttribute("stroke-width","3");
+              }
+              function mouseleave(_this) {
+                  var child = _this.children[0];
+                  child.setAttribute("stroke",child.getAttribute("stroke-old"));
+                  child.setAttribute("stroke-width",child.getAttribute("stroke-width-old"));
+              }
+              function click(_this) {
+                  var child = _this.children[0];
+                  child.setAttribute("fill",'red');
+              }
+        """)
+        myxml.insert(0, script)
+        xml = etree.tostring(myxml)
+        self.map = xml
+        super(HallScheme, self).save(*args, **kwargs)
+
 
     
     class Meta:
@@ -270,13 +307,14 @@ class SeatLocation(models.Model):
     group = models.ForeignKey(SeatGroup, related_name='seats')
     row = models.IntegerField(blank=True, null=True)
     col = models.IntegerField(blank=True, null=True)
-    x_position = models.IntegerField()
-    y_position = models.IntegerField()
+    slug = models.SlugField(max_length=50, blank=True)
+    x_position = models.IntegerField(blank=True, null=True)
+    y_position = models.IntegerField(blank=True, null=True)
     
     class Meta:
         verbose_name = _("Seat Location")
         verbose_name_plural = _("Seat Locations")
-        unique_together = (("section", 'row', "col"),)
+        unique_together = (("section", 'row', "col"),)#("section","slug"))
         ordering = ['section', 'row', 'col']
     
     def __unicode__(self):

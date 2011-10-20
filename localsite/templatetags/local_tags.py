@@ -38,7 +38,7 @@ def select_section_form(event):
     #form = SelectTicketForm()
     #form.fields['ticket'].queryset = Ticket.objects.none()
     #forms.append(form)
-    return {'forms': forms}
+    return {'forms': forms, 'event': event}
 
 def price_range(product):
     p_types = product.get_subtypes()
