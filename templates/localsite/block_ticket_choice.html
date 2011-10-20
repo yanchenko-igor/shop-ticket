@@ -4,7 +4,7 @@
 
 {{ event.hallscheme.map|safe }}
 
-<script type="text/javascript">
+<script type="text/javascript"><![CDATA[
 var get_ticket_values = function() {
     $.post('{% url ajax_select_ticket %}', {
         csrfmiddlewaretoken: getCookie('csrftoken'),
@@ -44,4 +44,4 @@ $(function() {
             );
         });
 });
-</script>
+]]></script>
