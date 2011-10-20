@@ -185,7 +185,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
             {% if product.main_category.parents %}
             <h1 class="h1_h fl_l">{{ product.main_category.translated_name }}</h1>
             <div class="back_heading">
-                <img alt="" src="{{ media_url }}images/icon_back_shopping.gif">
+                <img alt="" src="{{ media_url }}images/icon_back_shopping.gif"/>
                 {% with parent=product.main_category.parents|last %}<a href="{{ parent.get_absolute_url }}">Вернуться в {{ parent.translated_name|lower }}</a>{% endwith %}
             </div>
             {% else %}
