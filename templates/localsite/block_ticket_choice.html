@@ -1,123 +1,10 @@
 {% for form in forms %}
     {{ form.as_p }}
 {% endfor %}
-<canvas id="canvas" width="640" height="480">
-    <p>This example requires a browser that supports the
-    <a href="http://www.w3.org/html/wg/html5/">HTML5</a> 
-    &lt;canvas&gt; feature.</p>
-</canvas>
+
+{{ event.hallscheme.map|safe }}
+
 <script type="text/javascript">
-var canvas = new fabric.Canvas('canvas');
-canvas.__onMouseMove = function(e){
-      var target = this.findTarget(e),
-          pointer = this.getPointer(e);
-    return false;};
-canvas.HOVER_CURSOR = 'pointer';
-//canvas._offset.top -= 25;
-
-// piggyback on `canvas.findTarget`, to fire "object:over" and "object:out" events
-
-canvas.findTarget = (function(originalFn) {
-  return function() {
-    var target = originalFn.apply(this, arguments);
-    if (target) {
-      if (this._hoveredTarget !== target) {
-        canvas.fire('object:over', { target: target });
-        if (this._hoveredTarget) {
-          canvas.fire('object:out', { target: this._hoveredTarget });
-        }
-        this._hoveredTarget = target;
-      }
-    }
-    else if (this._hoveredTarget) {
-      canvas.fire('object:out', { target: this._hoveredTarget });
-      this._hoveredTarget = null;
-    }
-    return target;
-  };
-})(canvas.findTarget);
-
-// now we can observe "object:over" and "object:out" events
-// in this example, object is set to red color on hover over and green color on hover out
-
-canvas.observe('object:over', function(e) {
-  e.memo.target.setFill('gray');
-  canvas.renderAll();
-});
-
-canvas.observe('object:out', function(e) {
-  if (e.memo.target.ticket.in_cart != '0') {
-      color = 'gray';
-  } else if (e.memo.target.ticket.status == 'freely') {
-      color = 'rgba(0,250,0,.9)';
-  } else {
-      color = 'rgba(250,0,0,.9)';
-  }
-  e.memo.target.setFill(color);
-  canvas.renderAll();
-});
-
-canvas.observe('mouse:up', function(e) {
-	if (e.memo.target && e.memo.target.ticket) {
-        if (e.memo.target.ticket.in_cart == '0') {
-        $.post('{% url add_ticket %}', {
-                csrfmiddlewaretoken: getCookie('csrftoken'),
-                ticket: e.memo.target.ticket.product
-            },
-            function(data) {
-                e.memo.target.ticket.in_cart = data.item_qty;
-                e.memo.target.ticket.cartitem_id = data.item_id;
-                $("#cart_count").text(data.cart_count);
-                if (e.memo.target.ticket.in_cart != '0') {
-                    color = 'gray';
-                } else if (e.memo.target.ticket.status == 'freely') {
-                    color = 'rgba(0,250,0,.9)';
-                } else {
-                    color = 'rgba(250,0,0,.9)';
-                }
-                e.memo.target.setFill(color);
-                canvas.renderAll();
-            },
-            'json'
-        );
-        } else {
-        $.post('{% url satchmo_cart_remove %}', {
-            csrfmiddlewaretoken: getCookie('csrftoken'),
-            cartitem: e.memo.target.ticket.cartitem_id
-            },
-            function(data) {
-                e.memo.target.ticket.in_cart = '0';
-                $("#cart_count").text(data.cart_count);
-                if (e.memo.target.ticket.in_cart != '0') {
-                    color = 'gray';
-                } else if (e.memo.target.ticket.status == 'freely') {
-                    color = 'rgba(0,250,0,.9)';
-                } else {
-                    color = 'rgba(250,0,0,.9)';
-                }
-                e.memo.target.setFill(color);
-                canvas.renderAll();
-            },
-            'json'
-        );
-        }
-	}
-});
-
-var draw_ticket = function(ticket) {
-       if (ticket.in_cart != '0') {
-           color = 'gray';
-       } else if (ticket.status == 'freely') {
-           color = 'rgba(0,250,0,.9)';
-       } else {
-           color = 'rgba(250,0,0,.9)';
-       }
-       item = new fabric.Circle({top: ticket.y, left: ticket.x, fill: color, radius: 4});
-       item.hasControls = item.hasBorders = false;
-       item.selectable = item.lockMovementY = item.lockMovementX = true;
-       item.ticket = ticket;
-       canvas.add(item);
-}
 var get_ticket_values = function() {
     $.post('{% url ajax_select_ticket %}', {
         csrfmiddlewaretoken: getCookie('csrftoken'),
@@ -139,34 +26,12 @@ var get_ticket_values = function() {
      'json'
 );
 }
-var get_ticket_values2 = function() {
-    $.post('{% url ajax_select_ticket2 %}', {
-        csrfmiddlewaretoken: getCookie('csrftoken'),
-        section: $('#id_section').val(),
-        datetime: $('#id_datetime').val()
-    },
-    function(data) {
-		data = eval(data);//get json array
-        canvas.clear();
-		for (i = 0; i < data.length; i++)//iterate over all options
-		{
-			for ( key in data[i] )//get key => value
-			{	
-				    draw_ticket(data[i][key]);
-            }
-		}
-     },
-     'json'
-);
-}
 $(function() {
         $('#id_datetime').change(function() {
             get_ticket_values();
-            get_ticket_values2();
         });
         $('#id_section').change(function() {
             get_ticket_values();
-            get_ticket_values2();
         });
         $('#id_ticket').change(function() {
             var postdata = {csrfmiddlewaretoken: getCookie('csrftoken')};

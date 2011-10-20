@@ -47,15 +47,15 @@
 {% endblock %}
 
 {% block subnav %}
-<div class="tab_long tab_activ">
-    <div class="tab_activ_sh">
-        <h1 class="h1_h fl_l">{% trans "Related events" %}</h1>
-        <div class="back_heading">
-            <img alt="" src="{{ media_url }}images/icon_back_shopping.gif">
-            <a href="{{ prod.get_absolute_url }}">Вернуться в {{ prod.translated_name|lower }}</a>
+<div class="tab_long tab_activ first_tab_activ">
+    <div class="tab_activ_sh1">
+        <div class="tab_activ_sh2">
+            <h1 class="h1_h fl_l">{% trans "Related events" %}</h1>
+            <div class="back_heading">
+                <img alt="" src="{{ media_url }}images/icon_back_shopping.gif">
+                <a href="{{ prod.get_absolute_url }}">Вернуться в {{ prod.translated_name|lower }}</a>
+            </div>
         </div>
     </div>
 </div>
 {% endblock %}
-
-
