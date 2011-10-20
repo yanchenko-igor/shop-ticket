@@ -1,6 +1,6 @@
 /*! Fabric.js Copyright 2008-2011, Bitsonnet (Juriy Zaytsev, Maxim Chernyak) */
 
-var fabric = fabric || { version: "0.5.7" };
+var fabric = fabric || { version: "0.6.1" };
 
 if (typeof exports != 'undefined') {
   exports.fabric = fabric;
@@ -15,6 +15,13 @@ else {
   fabric.document = require("jsdom").jsdom("<!DOCTYPE html><html><head></head><body></body></html>");
   fabric.window = fabric.document.createWindow();
 }
+
+/**
+ * True when in environment that supports touch events
+ * @property isTouchSupported
+ * @type boolean
+ */
+fabric.isTouchSupported = "ontouchstart" in fabric.document.documentElement;
 /*
     http://www.JSON.org/json2.js
     2010-03-20
@@ -1671,10 +1678,14 @@ if (typeof console !== 'undefined') {
   }
 }
 
+/**
+ * @namespace
+ */
 fabric.Observable = {
   
   /**
-   * @mthod observe
+   * Observes specified event
+   * @method observe
    * @param {String} eventName
    * @param {Function} handler
    */
@@ -1697,8 +1708,8 @@ fabric.Observable = {
   },
   
   /**
-   * @mthod stopObserving
-   * @memberOf fabric.util
+   * Stops event observing for a particular event handler
+   * @method stopObserving
    * @param {String} eventName
    * @param {Function} handler
    */
@@ -1713,8 +1724,7 @@ fabric.Observable = {
   
   /**
    * Fires event with an optional memo object
-   * @mthod fire
-   * @memberOf fabric.util
+   * @method fire
    * @param {String} eventName
    * @param {Object} [memo]
    */
@@ -1732,6 +1742,9 @@ fabric.Observable = {
 };
 (function() {
   
+  /**
+   * @namespace
+   */
   fabric.util = { };
   
   /**
@@ -2003,6 +2016,8 @@ fabric.Observable = {
    * @param {String} byProperty
    */
   function max(array, byProperty) {
+    if (!array || array.length === 0) return undefined;
+    
     var i = array.length - 1, 
         result = byProperty ? array[i][byProperty] : array[i];
     if (byProperty) {
@@ -2030,6 +2045,8 @@ fabric.Observable = {
    * @param {String} byProperty
    */
   function min(array, byProperty) {
+    if (!array || array.length === 0) return undefined;
+    
     var i = array.length - 1, 
         result = byProperty ? array[i][byProperty] : array[i];
 
@@ -2444,6 +2461,15 @@ fabric.util.string = {
     return  event.pageY || ((typeof event.clientY != 'unknown' ? event.clientY : 0) +
        (docElement.scrollTop || body.scrollTop) -
        (docElement.clientTop || 0));
+  }
+  
+  if (fabric.isTouchSupported) {
+    pointerX = function(event) {
+      return event.touches && event.touches[0].pageX;
+    };
+    pointerY = function(event) {
+      return event.touches && event.touches[0].pageY;
+    };
   }
   
   fabric.util.getPointer = getPointer;
@@ -4390,7 +4416,7 @@ fabric.util.string = {
     backgroundImage:        '',
     
     /**
-     * Indicates whether object selection should be enabled
+     * Indicates whether group selection should be enabled
      * @property
      * @type Boolean
      */
@@ -4650,24 +4676,52 @@ fabric.util.string = {
     _initEvents: function () {
       var _this = this;
       
-      this._onMouseDown = function (e) { 
+      this._onMouseDown = function (e) {
         _this.__onMouseDown(e);
+        
         addListener(fabric.document, 'mouseup', _this._onMouseUp);
+        fabric.isTouchSupported && addListener(fabric.document, 'touchend', _this._onMouseUp);
+        
         addListener(fabric.document, 'mousemove', _this._onMouseMove);
+        fabric.isTouchSupported && addListener(fabric.document, 'touchmove', _this._onMouseMove);
+        
         removeListener(_this.upperCanvasEl, 'mousemove', _this._onMouseMove);
+        fabric.isTouchSupported && removeListener(_this.upperCanvasEl, 'touchmove', _this._onMouseMove);
       };
-      this._onMouseUp = function (e) { 
-        _this.__onMouseUp(e);
-        removeListener(fabric.document, 'mouseup', _this._onMouseUp);
-        removeListener(fabric.document, 'mousemove', _this._onMouseMove);
-        addListener(_this.upperCanvasEl, 'mousemove', _this._onMouseMove);
-      };
-      this._onMouseMove = function (e) { _this.__onMouseMove(e); };
-      this._onResize = function (e) { _this.calcOffset() };
       
-      addListener(this.upperCanvasEl, 'mousedown', this._onMouseDown);
-      addListener(this.upperCanvasEl, 'mousemove', this._onMouseMove);
+      this._onMouseUp = function (e) {
+        _this.__onMouseUp(e);
+        
+        removeListener(fabric.document, 'mouseup', _this._onMouseUp);
+        fabric.isTouchSupported && removeListener(fabric.document, 'touchend', _this._onMouseUp);
+        
+        removeListener(fabric.document, 'mousemove', _this._onMouseMove);
+        fabric.isTouchSupported && removeListener(fabric.document, 'touchmove', _this._onMouseMove);
+        
+        addListener(_this.upperCanvasEl, 'mousemove', _this._onMouseMove);
+        fabric.isTouchSupported && addListener(_this.upperCanvasEl, 'touchmove', _this._onMouseMove);
+      };
+      
+      this._onMouseMove = function (e) { 
+        e.preventDefault && e.preventDefault();
+        _this.__onMouseMove(e);
+      };
+      
+      this._onResize = function (e) { 
+        _this.calcOffset();
+      };
+      
+
       addListener(fabric.window, 'resize', this._onResize);
+      
+      if (fabric.isTouchSupported) {
+        addListener(this.upperCanvasEl, 'touchstart', this._onMouseDown);
+        addListener(this.upperCanvasEl, 'touchmove', this._onMouseMove);
+      }
+      else {
+        addListener(this.upperCanvasEl, 'mousedown', this._onMouseDown);
+        addListener(this.upperCanvasEl, 'mousemove', this._onMouseMove);
+      }
     },
     
     /**
@@ -4872,7 +4926,7 @@ fabric.util.string = {
     __onMouseDown: function (e) {
       
       // accept only left clicks
-      if (e.which !== 1) return;
+      if (e.which !== 1 && !fabric.isTouchSupported) return;
       
       if (this.isDrawingMode) {
         this._prepareForDrawing(e);
@@ -5168,7 +5222,7 @@ fabric.util.string = {
         if (!target) {  
           // image/text was hovered-out from, we remove its borders
           for (var i = this._objects.length; i--; ) {
-            if (!this._objects[i].active) {
+            if (this._objects[i] && !this._objects[i].active) {
               this._objects[i].setActive(false);
             }
           }
@@ -5197,14 +5251,30 @@ fabric.util.string = {
           
           if (!e.shiftKey) {
             this._rotateObject(x, y);
+            
+            this.fire('object:rotating', {
+              target: this._currentTransform.target
+            });
           }
+          
           this._scaleObject(x, y);
+          this.fire('object:scaling', {
+            target: this._currentTransform.target
+          });
         }
         else if (this._currentTransform.action === 'scaleX') {
           this._scaleObject(x, y, 'x');
+          
+          this.fire('object:scaling', {
+            target: this._currentTransform.target
+          });
         }
         else if (this._currentTransform.action === 'scaleY') {
           this._scaleObject(x, y, 'y');
+          
+          this.fire('object:scaling', {
+            target: this._currentTransform.target
+          });
         }
         else {
           this._translateObject(x, y);
@@ -5381,6 +5451,8 @@ fabric.util.string = {
       for (var i = 0, len = this._objects.length; i < len; ++i) {
         currentObject = this._objects[i];
         
+        if (!currentObject) continue;
+        
         if (currentObject.intersectsWithRect(selectionX1Y1, selectionX2Y2) || 
             currentObject.isContainedWithinRect(selectionX1Y1, selectionX2Y2)) {
           
@@ -5431,10 +5503,16 @@ fabric.util.string = {
      * @method insertAt
      * @param object {Object} Object to insert
      * @param index {Number} index to insert object at
+     * @param nonSplicing {Boolean} when `true`, no splicing (shifting) of objects occurs
      * @return {fabric.Canvas} instance
      */
-    insertAt: function (object, index) {
-      this._objects.splice(index, 0, object);
+    insertAt: function (object, index, nonSplicing) {
+      if (nonSplicing) {
+        this._objects[index] = object;
+      }
+      else {
+        this._objects.splice(index, 0, object);
+      }
       this.stateful && object.setupState();
       object.setCoords();
       this.renderAll();
@@ -5523,8 +5601,7 @@ fabric.util.string = {
       if (length) {
         for (var i = 0; i < length; ++i) {
           if (!activeGroup ||
-              (activeGroup &&
-              !activeGroup.contains(this._objects[i]))) {
+              (activeGroup && this._objects[i] && !activeGroup.contains(this._objects[i]))) {
             this._draw(canvasToDrawOn, this._objects[i]);
           }
         }
@@ -5656,13 +5733,13 @@ fabric.util.string = {
       
       // then check all of the objects on canvas
       for (var i = this._objects.length; i--; ) {
-        if (this.containsPoint(e, this._objects[i])) {
+        if (this._objects[i] && this.containsPoint(e, this._objects[i])) {
           target = this._objects[i];
           this.relatedTarget = target;
           break;
         }
       }
-      if (this.selection && target && target.selectable) {
+      if (target && target.selectable) {
         return target;
       }
     },
@@ -5674,7 +5751,10 @@ fabric.util.string = {
      * @return {String}
      */
     toDataURL: function (format) {
-      return this.upperCanvasEl.toDataURL('image/' + format);
+      this.renderAll(true);
+      var data = this.upperCanvasEl.toDataURL('image/' + format);
+      this.renderAll();
+      return data;
     },
     
     /**
@@ -6264,6 +6344,10 @@ fabric.util.string = {
    */
   fabric.Element = fabric.Canvas;
   
+  if (fabric.isTouchSupported) {
+    fabric.Canvas.prototype._setCursorFromEvent = function() { };
+  }
+  
 })(typeof exports != 'undefined' ? exports : this);
 fabric.util.object.extend(fabric.Canvas.prototype, {
   
@@ -6413,7 +6497,7 @@ fabric.util.object.extend(fabric.Canvas.prototype, {
 
     /** @ignore */
     function onObjectLoaded(object, index) {
-      _this.insertAt(object, index);
+      _this.insertAt(object, index, true);
       object.setCoords();
       if (++numLoadedObjects === numTotalObjects) {
         callback && callback();
@@ -6566,7 +6650,7 @@ fabric.util.object.extend(fabric.Canvas.prototype, {
         case 'image':
         case 'font':
           fabric[fabric.util.string.capitalize(o.type)].fromObject(o, function (o) {
-            _this.insertAt(o, index);
+            _this.insertAt(o, index, true);
             if (++numLoadedImages === numTotalImages) {
               if (callback) {
                 callback();
@@ -6577,7 +6661,7 @@ fabric.util.object.extend(fabric.Canvas.prototype, {
         default:
           var klass = fabric[fabric.util.string.camelize(fabric.util.string.capitalize(o.type))];
           if (klass && klass.fromObject) {
-            _this.insertAt(klass.fromObject(o), index);
+            _this.insertAt(klass.fromObject(o), index, true);
           }
           break;
       }
@@ -6660,6 +6744,7 @@ fabric.util.object.extend(fabric.Canvas.prototype, {
   fabric.Object = fabric.util.createClass(/** @scope fabric.Object.prototype */ {
     
     /**
+     * Type of an object (rect, circle, path, etc)
      * @property
      * @type String
      */
@@ -7964,7 +8049,9 @@ fabric.util.object.extend(fabric.Canvas.prototype, {
   "use strict";
   
   var fabric = global.fabric || (global.fabric = { }),
-      extend = fabric.util.object.extend;
+      extend = fabric.util.object.extend,
+      parentSet = fabric.Object.prototype.set,
+      coordProps = { 'x1': 1, 'x2': 1, 'y1': 1, 'y2': 1 };
       
   if (fabric.Line) {
     fabric.warn('fabric.Line is already defined');
@@ -8002,10 +8089,22 @@ fabric.util.object.extend(fabric.Canvas.prototype, {
       this.set('x2', points[2]);
       this.set('y2', points[3]);
       
+      this._setWidthHeight();
+    },
+    
+    _setWidthHeight: function() {
       this.set('width', (this.x2 - this.x1) || 1);
       this.set('height', (this.y2 - this.y1) || 1);
       this.set('left', this.x1 + this.width / 2);
       this.set('top', this.y1 + this.height / 2);
+    },
+    
+    set: function(name, value) {
+      parentSet.call(this, name, value);
+      if (name in coordProps) {
+        this._setWidthHeight();
+      }
+      return this;
     },
     
     /**
@@ -9650,7 +9749,7 @@ fabric.util.object.extend(fabric.Canvas.prototype, {
     initialize: function(paths, options) {
       
       options = options || { };
-      this.paths = paths;
+      this.paths = paths || [ ];
       
       for (var i = this.paths.length; i--; ) {
         this.paths[i].group = this;
@@ -10257,14 +10356,14 @@ fabric.util.object.extend(fabric.Canvas.prototype, {
       minY = min(aY);
       maxY = max(aY);
       
-      width = maxX - minX;
-      height = maxY - minY;
+      width = (maxX - minX) || 0;
+      height = (maxY - minY) || 0;
       
       this.width = width;
       this.height = height;
       
-      this.left = minX + width / 2;
-      this.top = minY + height / 2;
+      this.left = (minX + width / 2) || 0;
+      this.top = (minY + height / 2) || 0;
     },
     
     /**
@@ -10559,7 +10658,7 @@ fabric.util.object.extend(fabric.Canvas.prototype, {
       replacement.onload = function() {
         _this.setElement(replacement);
         callback && callback();
-        replacement.onload = canvasEl = imgEl = imageData = null;
+        replacement.onload = canvasEl = imgEl = null;
       };
       replacement.width = imgEl.width;
       replacement.height = imgEl.height;
@@ -10773,7 +10872,7 @@ fabric.util.object.extend(fabric.Canvas.prototype, {
      * @property
      * @type Number
      */
-    fontSize:         20,
+    fontSize:         40,
     
     /**
      * @property
@@ -10964,13 +11063,8 @@ fabric.util.object.extend(fabric.Canvas.prototype, {
       container.appendChild(el);
       el.innerHTML = this.text;
       
-      // need to specify these manually, since Jaxer doesn't support retrieving computed style
-      el.style.fontSize = '40px';
-      el.style.fontWeight = '400';
+      el.style.fontSize = this.fontSize + 'px';
       el.style.letterSpacing = 'normal';
-      el.style.color = '#000000';
-      el.style.fontWeight = '600';
-      el.style.fontFamily = 'Verdana';
       
       return el;
     },
@@ -11123,6 +11217,15 @@ fabric.util.object.extend(fabric.Canvas.prototype, {
     var oURL = URL.parse(url),
         client = HTTP.createClient(80, oURL.hostname),
         request = client.request('GET', oURL.pathname, { 'host': oURL.hostname });
+
+    client.addListener('error', function(err) {
+      if (err.errno === process.ECONNREFUSED) {
+        fabric.log('ECONNREFUSED: connection refused to ' + client.host + ':' + client.port);
+      }
+      else {
+        fabric.log(err.message);
+      }
+    });
 
     request.end();
     request.on('response', function (response) {
