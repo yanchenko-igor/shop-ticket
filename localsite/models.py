@@ -61,8 +61,23 @@ class HallScheme(models.Model):
         xml = self.substrate.read()
         myxml = etree.fromstring(xml.encode('UTF-8'))
         for i in myxml.iter():
+            if i.attrib.has_key('row'):
+                for k in i.iter():
+                    if k.attrib.has_key('ticket'):
+                        k.attrib['row'] = i.attrib['row']
+            if i.attrib.has_key('pricegroup'):
+                for k in i.iter():
+                    if k.attrib.has_key('ticket'):
+                        k.attrib['pricegroup'] = i.attrib['pricegroup']
+            if i.attrib.has_key('section'):
+                for k in i.iter():
+                    if k.attrib.has_key('ticket'):
+                        k.attrib['section'] = i.attrib['section']
+            
+        for i in myxml.iter():
             if i.attrib.has_key('ticket'):
                 #i.attrib['onload'] = "alert('%s');" % i.attrib['id']
+                i.attrib['col'] = i.getchildren()[1].getchildren()[0].text
                 i.attrib['onmouseover'] = "mouseover(this);"
                 i.attrib['onmouseout'] = "mouseout(this);"
                 i.attrib['onclick'] = "click(this);"
@@ -254,6 +269,7 @@ class EventDate(models.Model):
 class SeatSection(models.Model):
     hallscheme = models.ForeignKey('HallScheme', related_name='sections')
     name = models.CharField(max_length=25)
+    slug = models.SlugField(max_length=50, blank=True)
     
     class Meta:
         verbose_name = _("Section")
@@ -269,6 +285,7 @@ class SeatGroup(models.Model):
     """docstring for SeatGroup"""
     hallscheme = models.ForeignKey('HallScheme', related_name='groups')
     name = models.CharField(max_length=25)
+    slug = models.SlugField(max_length=50, blank=True)
     
     class Meta:
         verbose_name = _("Seat Group")
