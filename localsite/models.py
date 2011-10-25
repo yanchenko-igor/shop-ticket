@@ -32,7 +32,7 @@ class City(models.Model):
         ordering = ['ordering', 'name']
     
     def __unicode__(self):
-        return u"%s" % self.name
+        return "%s" % self.name
     
 
 class Hall(models.Model):
@@ -48,8 +48,57 @@ class Hall(models.Model):
         ordering = ['city', 'name']
         
     def __unicode__(self):
-        return u"%s(%s)" % (self.name, self.city)
+        return "%s(%s)" % (self.name, self.city)
     
+
+class SeatSection(models.Model):
+    hallscheme = models.ForeignKey('HallScheme', related_name='sections')
+    name = models.CharField(max_length=25)
+    slug = models.SlugField(max_length=50, blank=True)
+    
+    class Meta:
+        verbose_name = _("Section")
+        verbose_name_plural = _("Sections")
+        unique_together = (('hallscheme', 'name'),)
+        ordering = ['hallscheme', 'name']
+        
+    def __unicode__(self):
+        return "%s - %s" % (self.hallscheme.__unicode__(), self.name)
+        
+
+class SeatGroup(models.Model):
+    """docstring for SeatGroup"""
+    hallscheme = models.ForeignKey('HallScheme', related_name='groups')
+    name = models.CharField(max_length=25)
+    slug = models.SlugField(max_length=50, blank=True)
+    
+    class Meta:
+        verbose_name = _("Seat Group")
+        verbose_name_plural = _("Seat Groups")
+        unique_together = (('hallscheme', 'name'),('hallscheme', 'slug'),)
+        ordering = ['hallscheme', 'name']
+        
+    def __unicode__(self):
+        return "%s - %s" % (self.hallscheme.__unicode__(), self.name)
+ 
+class SeatLocation(models.Model):
+    """docstring for SeatLocation"""
+    section = models.ForeignKey('SeatSection', related_name='seats')
+    group = models.ForeignKey('SeatGroup', related_name='seats')
+    row = models.IntegerField(blank=True, null=True)
+    col = models.IntegerField(blank=True, null=True)
+    slug = models.SlugField(max_length=50, blank=True)
+    
+    class Meta:
+        verbose_name = _("Seat Location")
+        verbose_name_plural = _("Seat Locations")
+        unique_together = (("section", 'row', "col"),)#("section","slug"))
+        ordering = ['section', 'row', 'col']
+    
+    def __unicode__(self):
+        return "%s-%s-%s" % (self.section_id, self.row, self.col)
+    
+
 class HallScheme(models.Model):
     """docstring for HallScheme"""
     name = models.CharField(max_length=75)
@@ -58,54 +107,91 @@ class HallScheme(models.Model):
     substrate = models.FileField(upload_to='substrates', max_length=100)
 
     def save(self, *args, **kwargs):
-        xml = self.substrate.read()
-        myxml = etree.fromstring(xml.encode('UTF-8'))
-        for i in myxml.iter():
-            if i.attrib.has_key('row'):
-                for k in i.iter():
-                    if k.attrib.has_key('ticket'):
-                        k.attrib['row'] = i.attrib['row']
-            if i.attrib.has_key('pricegroup'):
-                for k in i.iter():
-                    if k.attrib.has_key('ticket'):
-                        k.attrib['pricegroup'] = i.attrib['pricegroup']
-            if i.attrib.has_key('section'):
-                for k in i.iter():
-                    if k.attrib.has_key('ticket'):
-                        k.attrib['section'] = i.attrib['section']
-            
-        for i in myxml.iter():
-            if i.attrib.has_key('ticket'):
-                #i.attrib['onload'] = "alert('%s');" % i.attrib['id']
-                i.attrib['col'] = i.getchildren()[1].getchildren()[0].text
-                i.attrib['onmouseover'] = "mouseover(this);"
-                i.attrib['onmouseout'] = "mouseout(this);"
-                i.attrib['onclick'] = "click(this);"
-                i.attrib['cursor'] = "pointer"
-        script = etree.Element('script', attrib={'type':"text/ecmascript"})
-        script.text = etree.CDATA("""
-              function mouseover(_this) {
-                  var child = _this.firstElementChild;
-                  if (child.getAttribute("stroke")!='black') {
-                      child.setAttribute("stroke-old",child.getAttribute("stroke"));
-                      child.setAttribute("stroke-width-old",child.getAttribute("stroke-width"));
-                      child.setAttribute("stroke","black");
-                      child.setAttribute("stroke-width","3");
+        if not self.map:
+            xml = self.substrate.read()
+            myxml = etree.fromstring(xml.encode('UTF-8'))
+            for i in myxml.iter():
+                if i.attrib.has_key('row'):
+                    for k in i.iter():
+                        if k.attrib.has_key('ticket'):
+                            k.attrib['row'] = i.attrib['row']
+                if i.attrib.has_key('pricegroup'):
+                    for k in i.iter():
+                        if k.attrib.has_key('ticket'):
+                            k.attrib['pricegroup'] = i.attrib['pricegroup']
+                if i.attrib.has_key('section'):
+                    for k in i.iter():
+                        if k.attrib.has_key('ticket'):
+                            k.attrib['section'] = i.attrib['section']
+                
+            for i in myxml.iter():
+                if i.attrib.has_key('ticket'):
+                    #i.attrib['onload'] = "alert('%s');" % i.attrib['id']
+                    i.attrib['col'] = i.getchildren()[1].getchildren()[0].text
+                    i.attrib['onmouseover'] = "mouseover(this);"
+                    i.attrib['onmouseout'] = "mouseout(this);"
+                    i.attrib['onclick'] = "click(this);"
+                    i.attrib['cursor'] = "pointer"
+            script = etree.Element('script', attrib={'type':"text/ecmascript"})
+            script.text = etree.CDATA("""
+                  function mouseover(_this) {
+                      var child = _this.firstElementChild;
+                      if (child.getAttribute("stroke")!='black') {
+                          child.setAttribute("stroke-old",child.getAttribute("stroke"));
+                          child.setAttribute("stroke-width-old",child.getAttribute("stroke-width"));
+                          child.setAttribute("stroke","black");
+                          child.setAttribute("stroke-width","3");
+                      }
                   }
-              }
-              function mouseout(_this) {
-                  var child = _this.firstElementChild;
-                  child.setAttribute("stroke",child.getAttribute("stroke-old"));
-                  child.setAttribute("stroke-width",child.getAttribute("stroke-width-old"));
-              }
-              function click(_this) {
-                  var child = _this.firstElementChild;
-                  child.setAttribute("fill",'red');
-              }
-        """)
-        myxml.insert(0, script)
-        xml = etree.tostring(myxml)
-        self.map = xml
+                  function mouseout(_this) {
+                      var child = _this.firstElementChild;
+                      child.setAttribute("stroke",child.getAttribute("stroke-old"));
+                      child.setAttribute("stroke-width",child.getAttribute("stroke-width-old"));
+                  }
+                  function click(_this) {
+                      var child = _this.firstElementChild;
+                      child.setAttribute("fill",'red');
+                  }
+            """)
+            myxml.insert(0, script)
+            super(HallScheme, self).save(*args, **kwargs)
+            to_insert = {'sections': {}, 'pricegroups': {}, 'places': []}
+            for i in myxml.iter():
+                if i.attrib.has_key('ticket'):
+                    section=i.attrib['section']
+                    pricegroup=i.attrib['pricegroup']
+                    row=i.attrib['row']
+                    col=i.attrib['col']
+                    slug=i.attrib['id']
+                    to_insert['sections'][section]=None
+                    to_insert['pricegroups'][pricegroup]=None
+                    to_insert['places'].append({'section':section,'pricegroup':pricegroup,'col':col,'row':row,'slug':slug})
+            for k in to_insert['sections'].keys():
+                try:
+                    section=SeatSection.objects.get(hallscheme=self, slug=k)
+                except:
+                    section=SeatSection.objects.create(hallscheme=self, name=k, slug=k)
+                    section.save()
+                to_insert['sections'][k] = section
+            for k in to_insert['pricegroups'].keys():
+                try:
+                    group=SeatGroup.objects.get(hallscheme=self, slug=k)
+                except:
+                    group=SeatGroup.objects.create(hallscheme=self, name=k, slug=k)
+                    group.save()
+                to_insert['pricegroups'][k] = group
+        
+            SeatLocation.objects.bulk_create([
+                SeatLocation(
+                            section=to_insert['sections'][place['section']],
+                            group=to_insert['pricegroups'][place['pricegroup']],
+                            row=place['row'],
+                            col=place['col'],
+                            slug=place['slug'],
+                        ) for place in to_insert['places']
+                ])
+            xml = etree.tostring(myxml)
+            self.map = xml
         super(HallScheme, self).save(*args, **kwargs)
 
 
@@ -117,7 +203,7 @@ class HallScheme(models.Model):
         ordering = ['hall', 'name']
         
     def __unicode__(self):
-        return u"%s: %s" % (self.hall, self.name)
+        return "%s: %s" % (self.hall.__unicode__(), self.name)
     
 class EventManager(models.Manager):
     def active(self, **kwargs):
@@ -167,74 +253,49 @@ class Event(models.Model):
         return Tag.objects.get_for_object(self)
     taglist = property(_get_tags)
 
-    def get_all_options(self):
-        """
-        Returns all possible combinations of options for this products OptionGroups as a List of Lists.
-        Ex:
-        For OptionGroups Color and Size with Options (Blue, Green) and (Large, Small) you'll get
-        [['Blue', 'Small'], ['Blue', 'Large'], ['Green', 'Small'], ['Green', 'Large']]
-        Note: the actual values will be instances of Option instead of strings
-        """
-        sublist = []
-        masterlist = []
-        #Create a list of all the options & create all combos of the options
-        for date in self.dates.all():
-            sublist.append(date)
-        masterlist.append(sublist)
-        sublist = []
-        for group in self.hallscheme.groups.all():
-            for seat in group.seats.all():
-                sublist.append(seat)
-        masterlist.append(sublist)
-        sublist = []
-        return cross_list(masterlist)
 
     def create_all_variations(self):
-        """
-        Get a list of all the optiongroups applied to this object
-        Create all combinations of the options and create variations
-        """
-        # Create a new ProductVariation for each combination.
-        for (datetime, seat) in self.get_all_options():
-            self.create_variation(datetime, seat)
-
-    def create_variation(self, datetime, seat, name=u"", slug=u""):
+        myslug = self.product.slug
+        myname=self.product.name
         site = self.product.site
-
-        if not slug:
-            slug = slugify(cyr2lat('%s_%s_%s' % (self.product.slug, datetime, seat)))
-        if not name:
-            name=u"%s :: %s :: %s" % (self.product.name, datetime.__unicode__(), seat)
-
-        if Product.objects.filter(site=site, slug=slug):
-            variant = Product.objects.get(site=site, slug=slug)
-            variant.name=name
-            variant.active=False
-            variant.save(force_update=True)
-        else:
-            variant = Product(site=site, name=name, items_in_stock=1, active=False, slug=slug)
-            variant.save()
-
-        pricevalue = self.prices.filter(group=seat.group).values('price')[0]['price']
-        try:
-            price = Price.objects.get(product=variant, quantity='1')
-        except Price.DoesNotExist:
-            price = Price(product=variant, quantity='1')
-        price.price = pricevalue
-        price.save()
-
-        if Ticket.objects.filter(product=variant):
-            ticket = Ticket.objects.get(product=variant)
-            ticket.event = self
-            ticket.datetime = datetime
-            ticket.seat = seat
-            ticket.save()
-        else:
-            ticket = Ticket(product=variant, event=self)
-            ticket.datetime = datetime
-            ticket.seat = seat
-            ticket.save()
-
+        to_insert = {'variants':[]}
+        print 1
+        for date in self.dates.all():
+             for group in self.hallscheme.groups.all():
+                 for seat in group.seats.all():
+                     slug = slugify(cyr2lat('%s_%s_%s' % (myslug, date.__unicode__(), seat.__unicode__())))
+                     name=u"%s :: %s :: %s" % (myname, date.__unicode__(), seat.__unicode__())
+                     to_insert['variants'].append({'name':name, 'slug':slug, 'date':date, 'seat':seat})
+        print 2
+        products = Product.objects.bulk_create([
+            Product(
+                site=site,
+                name=u"%s :: %s :: %s" % (myname, variant['date'].__unicode__(), variant['seat'].__unicode__()),
+                items_in_stock=1,
+                active=True,
+                slug="%s" % slugify(cyr2lat('%s_%s_%s' % (myslug,  variant['date'].__unicode__(), variant['seat'].__unicode__())))
+                ) for variant in to_insert['variants']
+            ])
+        to_insert['products'] = {p.slug: Product.objects.get(slug=p.slug) for p in products}
+        print 3
+        Ticket.objects.bulk_create([
+            Ticket(
+                product=to_insert['products'][variant['slug']],
+                event=self,
+                datetime=variant['date'],
+                seat=variant['seat']
+                ) for variant in to_insert['variants']
+            ])
+        print 4
+        Price.objects.bulk_create([
+            Price(
+                product=to_insert['products'][variant['slug']],
+                quantity='1',
+                price=self.prices.filter(group=variant['seat'].group).values('price')[0]['price'],
+                ) for variant in to_insert['variants']
+            ])
+        print 5
+        
 
 class EventDate(models.Model):
     """docstring for EventDate"""
@@ -266,36 +327,6 @@ class EventDate(models.Model):
             self.event.save()
 
 
-class SeatSection(models.Model):
-    hallscheme = models.ForeignKey('HallScheme', related_name='sections')
-    name = models.CharField(max_length=25)
-    slug = models.SlugField(max_length=50, blank=True)
-    
-    class Meta:
-        verbose_name = _("Section")
-        verbose_name_plural = _("Sections")
-        unique_together = (('hallscheme', 'name'),)
-        ordering = ['hallscheme', 'name']
-        
-    def __unicode__(self):
-        return u"%s - %s" % (self.hallscheme.__unicode__(), self.name)
-        
-
-class SeatGroup(models.Model):
-    """docstring for SeatGroup"""
-    hallscheme = models.ForeignKey('HallScheme', related_name='groups')
-    name = models.CharField(max_length=25)
-    slug = models.SlugField(max_length=50, blank=True)
-    
-    class Meta:
-        verbose_name = _("Seat Group")
-        verbose_name_plural = _("Seat Groups")
-        unique_together = (('hallscheme', 'name'),)
-        ordering = ['hallscheme', 'name']
-        
-    def __unicode__(self):
-        return u"%s - %s" % (self.hallscheme.__unicode__(), self.name)
-        
 class SeatGroupPrice(models.Model):
     """docstring for SeatGroupPrice"""
     group = models.ForeignKey(SeatGroup, related_name='prices')
@@ -320,28 +351,6 @@ class SeatGroupPrice(models.Model):
             self.event.save()
         super(SeatGroupPrice, self).save(*args, **kwargs)
 
-class SeatLocation(models.Model):
-    """docstring for SeatLocation"""
-    section = models.ForeignKey(SeatSection, related_name='seats')
-    group = models.ForeignKey(SeatGroup, related_name='seats')
-    row = models.IntegerField(blank=True, null=True)
-    col = models.IntegerField(blank=True, null=True)
-    slug = models.SlugField(max_length=50, blank=True)
-    x_position = models.IntegerField(blank=True, null=True)
-    y_position = models.IntegerField(blank=True, null=True)
-    
-    class Meta:
-        verbose_name = _("Seat Location")
-        verbose_name_plural = _("Seat Locations")
-        unique_together = (("section", 'row', "col"),)#("section","slug"))
-        ordering = ['section', 'row', 'col']
-    
-    def __unicode__(self):
-        if self.row and self.col:
-            return "%s-%s-%s" % (self.section.__unicode__(), self.row, self.col)
-        else:
-            return "No place"
-    
 STATUS_CHOICES = (
         ('freely', _('Freely')),
         ('reserved', _('Reserved')),
