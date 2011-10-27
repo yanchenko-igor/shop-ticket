@@ -202,11 +202,11 @@ msgstr ""
 
 #: templates/base.html:121
 #, python-format
-msgid "In your cart <span id=\"cart_count\">%(counter)s</span> ticket"
-msgid_plural "In your cart <span id=\"cart_count\">%(counter)s</span> tickets"
-msgstr[0] "В Вашей корзине <span id=\"cart_count\">%(counter)s</span> билет"
-msgstr[1] "В Вашей корзине <span id=\"cart_count\">%(counter)s</span> билета"
-msgstr[2] "В Вашей корзине <span id=\"cart_count\">%(counter)s</span> билетов"
+msgid "In your cart <span class=\"cart_count\">%(counter)s</span> ticket"
+msgid_plural "In your cart <span class=\"cart_count\">%(counter)s</span> tickets"
+msgstr[0] "В Вашей корзине <span class=\"cart_count\">%(counter)s</span> билет"
+msgstr[1] "В Вашей корзине <span class=\"cart_count\">%(counter)s</span> билета"
+msgstr[2] "В Вашей корзине <span class=\"cart_count\">%(counter)s</span> билетов"
 
 #: templates/admin/base_site.html:34 templates/admin/base_site.html.py:37
 msgid "Site Administration"
