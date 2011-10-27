@@ -108,7 +108,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
                             </div>
 
                             <div class="social_network">
-                                <img src="images/temp/social_btn.jpg" alt="" />
+                                <img src="{{ MEDIA_URL }}/images/temp/social_btn.jpg" alt="" />
                             </div>
 
                         </div>
@@ -194,4 +194,229 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block overlay %}<div class="overlay hidden"></div>{% endblock %}
+
+{% block overbox%}
+    <div class="overbox hidden">
+        <div class="overbox_toolbar clearfix">
+            <script type="text/javascript">
+
+var zoomlevel = 1;
+var zoom = {
+    1: {
+        "p": "100%",
+        "o": "0%",
+        "s": "0%"
+    },
+    2: {
+        "p": "150%",
+        "o": "-25%",
+        "s": "22%"
+    },
+    3: {
+        "p": "200%",
+        "o": "-50%",
+        "s": "44%"
+    },
+    4: {
+        "p": "250%",
+        "o": "-75%",
+        "s": "66%"
+    },
+    5: {
+        "p": "300%",
+        "o": "-100%",
+        "s": "88%"
+    }
+};
+$(function() {
+                $('.select_place a').click(function(){
+                    $('.overlay').removeClass('hidden');
+                    $('.overbox').removeClass('hidden');
+                    return false;
+                });
+                $('.btn_close').click(function(){
+                    $('.overlay').addClass('hidden');
+                    $('.overbox').addClass('hidden');
+                    return false;
+                });
+                $('.btn_left').click(function(){
+                        val =  (parseFloat($('.map_content')[0].style.left) + 10) + "%";
+                        $('.map_content').css('left', val);
+
+                    return false;
+                });
+                $('.btn_right').click(function(){
+                        val =  (parseFloat($('.map_content')[0].style.left) - 10) + "%";
+                        $('.map_content').css('left', val);
+
+                    return false;
+                });
+                $('.btn_bottom').click(function(){
+                        val =  (parseFloat($('.map_content')[0].style.top) - 10) + "%";
+                        $('.map_content').css('top', val);
+
+                    return false;
+                });
+                $('.btn_top').click(function(){
+                        val =  (parseFloat($('.map_content')[0].style.top) + 10) + "%";
+                        $('.map_content').css('top', val);
+
+                    return false;
+                });
+                $('.btn_zoom_out').click(function(){
+                    if (zoomlevel > 1) {
+                        zoomlevel -= 1;
+                        $('.map_content').css('width', zoom[zoomlevel]['p']);
+                        $('.map_content').css('height', zoom[zoomlevel]['p']);
+                        $('.map_content').css('top', zoom[zoomlevel]['o']);
+                        $('.map_content').css('left', zoom[zoomlevel]['o']);
+                        $('.scale_pointer').css('left', zoom[zoomlevel]['s']);
+                        } else {
+                        }
+
+                    return false;
+                });
+                $('.btn_zoom_in').click(function(){
+                    if (zoomlevel < 5) {
+                        zoomlevel += 1;
+                        $('.map_content').css('width', zoom[zoomlevel]['p']);
+                        $('.map_content').css('height', zoom[zoomlevel]['p']);
+                        $('.map_content').css('top', zoom[zoomlevel]['o']);
+                        $('.map_content').css('left', zoom[zoomlevel]['o']);
+                        $('.scale_pointer').css('left', zoom[zoomlevel]['s']);
+                        } else {
+                        }
+
+                    return false;
+                });
+});
+            </script>
+            <a class="btn_close" href="#">Закрыть<i class="icon_close"></i></a>
+        </div>
+        <div class="overbox_content clearfix">
+
+            <div class="wraper_tab clearfix">
+<div class="tab_long tab_activ first_tab_activ">
+    <div class="tab_activ_sh1">
+        <div class="tab_activ_sh2">
+            <h1 class="h1_h fl_l">{{ product.main_category.translated_name }}</h1>
+        </div>
+    </div>
+</div>
+                <div class="tab_basket">
+                    <div class="basket_count">
+                        <a class="has_icon_basket" href="{% url satchmo_cart %}"><i class="icon_basket"></i>{% blocktrans count counter=cart|length %}In your cart <span class="cart_count">{{ counter }}</span> ticket{% plural %}In your cart <span id="cart_count">{{ counter }}</span> tickets{% endblocktrans %}</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map_wrapper clearfix">
+                <div class="map_box">
+                    <div class="map_name">Выбор мест</div>
+                    <div class="map_viewbox">
+                        <div class="map_content">
+                            <object data="http://igor.eggmen.net/tttt.svg" style="display: block; width: 100%; height: 100%"></object>
+                            <!--
+                            <svg version = "1.1"
+                                 baseProfile="full"
+                                 xmlns = "http://www.w3.org/2000/svg"
+                                 xmlns:xlink = "http://www.w3.org/1999/xlink"
+                                 xmlns:ev = "http://www.w3.org/2001/xml-events"
+                                 viewBox="0 0 400 400">
+                                <rect x="0" y="0" width="400" height="400" fill="yellow"/>
+                                <g fill-opacity="0.6" stroke="black" stroke-width="0.5px">
+                                    <circle cx="200" cy="200" r="100" fill="red"   transform="translate(  0,-70)" />
+                                    <circle cx="200" cy="200" r="100" fill="blue"  transform="translate( 70, 70)" />
+                                    <circle cx="200" cy="200" r="100" fill="green" transform="translate(-70, 70)" />
+                                </g>
+                            </svg>
+                            -->
+                        </div>
+                        <div class="map_controls">
+                            <a class="btn_top" href="#"></a>
+                            <a class="btn_right" href="#"></a>
+                            <a class="btn_bottom" href="#"></a>
+                            <a class="btn_left" href="#"></a>
+                            <div class="map_scale">
+                                <a class="btn_zoom_out" href="#"></a>
+                                <span class="scale_value">
+                                    <span class="scale_line"></span>
+                                    <span class="scale_pointer"></span>
+                                </span>
+                                <a class="btn_zoom_in" href="#"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="map_data">
+                    <div class="map_cart">
+                        <table class="map_cart_table" width="100%" cellpadding="0" cellspacing="0" border="1">
+                            <tr>
+                                <td class="map_cart_point"><img src="{{ MEDIA_URL }}/images/icon_point_my.gif" alt=""/></td>
+                                <td class="map_cart_name">Места</td>
+                                <td class="map_cart_price"><span class="figure">1500</span> грн</td>
+                                <td class="map_cart_quantity">4 шт</td>
+                            </tr>
+                            <tr>
+                                <td class="map_cart_point"><img src="{{ MEDIA_URL }}/images/icon_point_my.gif" alt=""/></td>
+                                <td class="map_cart_name">Места</td>
+                                <td class="map_cart_price"><span class="figure">560</span> грн</td>
+                                <td class="map_cart_quantity">9 шт</td>
+                            </tr>
+                            <tr>
+                                <td class="map_cart_point"><img src="{{ MEDIA_URL }}/images/icon_point_my.gif" alt=""/></td>
+                                <td class="map_cart_name">Места</td>
+                                <td class="map_cart_price"><span class="figure">900</span> грн</td>
+                                <td class="map_cart_quantity">3 шт</td>
+                            </tr>
+                            <tr class="last_row">
+                                <td class="map_cart_point"><img src="{{ MEDIA_URL }}/images/icon_point_dance.gif" alt=""/></td>
+                                <td class="map_cart_name">Танцпол</td>
+                                <td class="map_cart_price"><span class="figure">1500</span> грн</td>
+                                <td class="map_cart_quantity">&nbsp;</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="map_legend_box">
+                        <div class="curve_l_top"><div><span><!-- --></span></div></div>
+                        <div class="curve_l_body clearfix">
+                            <div class="map_legend">
+                                <p><img src="{{ MEDIA_URL }}/images/icon_point_disabled.gif" alt=""/>Недоступно</p>
+                                <p><img src="{{ MEDIA_URL }}/images/icon_point_reserved.gif" alt=""/>Зарезервировано</p>
+                                <p><img src="{{ MEDIA_URL }}/images/icon_point_my.gif" alt=""/>Мои места</p>
+                            </div>
+                        </div>
+                        <div class="curve_l_bot"><div><span><!-- --></span></div></div>
+                    </div>
+                    <div class="map_summary_box">
+                        <div class="curve_l_top"><div><span><!-- --></span></div></div>
+                        <div class="curve_l_body clearfix">
+                            <div class="map_summary">
+                                <table class="map_summary_table" width="100%" cellpadding="0" cellspacing="0" border="1">
+                                    <tr>
+                                        <td class="map_summary_name">Выбрано мест:</td>
+                                        <td class="map_summary_figure">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="map_summary_name">На сумму:</td>
+                                        <td class="map_summary_figure">2500 грн</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="curve_l_bot"><div><span><!-- --></span></div></div>
+                    </div>
+                    <div class="map_order">
+                        <a class="btn_red_l" href="#">
+                            <span>Перейти к заказу<b>Перейти к заказу</b></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 {% endblock %}

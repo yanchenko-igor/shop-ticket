@@ -2,9 +2,9 @@
     {{ form.as_p }}
 {% endfor %}
 
-{{ event.hallscheme.map|safe }}
-
-<script type="text/javascript"><![CDATA[
+{#{ event.hallscheme.map|safe }#}
+<object id="hallmap" width="640" height="480" ></object>
+<script type="text/javascript">
 var get_ticket_values = function() {
     $.post('{% url ajax_select_ticket %}', {
         csrfmiddlewaretoken: getCookie('csrftoken'),
@@ -28,7 +28,7 @@ var get_ticket_values = function() {
 }
 $(function() {
         $('#id_datetime').change(function() {
-            get_ticket_values();
+            $('#hallmap').attr('data', '/hallmap/' + $(this).val() + '/');
         });
         $('#id_section').change(function() {
             get_ticket_values();
@@ -44,4 +44,4 @@ $(function() {
             );
         });
 });
-]]></script>
+</script>
