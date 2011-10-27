@@ -2,15 +2,15 @@
 <div class="about_us_bl clearfix">
     <h2 class="heading_h2">Подписка на новости</h2>
     <div class="about_us_txt">
-        {% flatblock 'about_us_txt' using "localsite/flatblock.html" %}
+        {% flatblock 'about_us_txt' 3600 using "localsite/flatblock.html" %}
     </div>
 
     <div class="about_us_col1">
         <div class="about_as_show"><img src="{{ media_url }}images/show_au.gif" alt="" /></div>
-        <p>{% flatblock 'about_us_col1' using "localsite/flatblock.html" %}</p>
+        <p>{% flatblock 'about_us_col1' 3600 using "localsite/flatblock.html" %}</p>
     </div>
     <div class="about_us_col2">
-        <p>{% flatblock 'about_us_col2' using "localsite/flatblock.html" %}</p>
+        <p>{% flatblock 'about_us_col2' 3600 using "localsite/flatblock.html" %}</p>
         <a href="#">Детальнее</a>
     </div>
 
