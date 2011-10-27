@@ -172,6 +172,7 @@ SATCHMO_SETTINGS = {
             url(r'^i18n/', include('l10n.urls')),
             url(r'^featured/', 'localsite.views.display_featured', name='localsite_featured'),
             url(r'^related/(?P<id>.*)/$', 'localsite.views.display_related', name='display_related'),
+            url(r'^hallmap/(?P<eventdate_id>.*)/$', 'localsite.views.get_hall_map', name='get_hall_map'),
             url(r'^events/$', 'localsite.views.select_event', name='select_event'),
             url(r'^event/(?P<event_id>\d+)/edit/$', 'localsite.views.edit_event', name='edit_event'),
             url(r'^section/(?P<section_id>\d+)/edit/$', 'localsite.views.place_editor', name='place_editor'),

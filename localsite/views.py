@@ -35,6 +35,9 @@ from satchmo_store.shop.views.cart import _set_quantity
 from satchmo_utils.views import bad_or_missing
 from django.views.decorators.cache import never_cache
 from payment.forms import ContactInfoForm, PaymentContactInfoForm
+from lxml import etree
+from lxml.cssselect import CSSSelector
+from django.core.cache import cache
 
 @user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def place_editor(request, section_id, template_name='localsite/place_editor.html'):
@@ -141,6 +144,27 @@ def edit_event(request, event_id, template_name='localsite/edit_event.html'):
         'formsets': formsets,
         })
     return render_to_response(template_name, context_instance=ctx)
+
+def get_hall_map(request, eventdate_id):
+    eventdate = EventDate.objects.get(id=eventdate_id)
+    xml = cache.get('hall_map_%s' % eventdate_id, None)
+    if not xml:
+        xml_obj = etree.fromstring(eventdate.event.hallscheme.map)
+        places = eventdate.event.tickets.exclude(status='freely')
+        for item in xml_obj.iter():
+            if item.attrib.has_key('ticket'):
+                for place in places:
+                    if place.seat.slug == item.attrib['id']:
+                        child = item.getchildren()[0]
+                        if place.status == 'reserved':
+                            child.attrib['fill'] = 'green'
+                        elif place.status == 'sold':
+                            child.attrib['fill'] = 'gray'
+
+        xml = etree.tostring(xml_obj)
+        cache.set('hall_map_%s' % eventdate_id, xml)
+
+    return HttpResponse(xml, mimetype="image/svg+xml")
 
 def display(request, cart=None, error_message='', default_view_tax=None):
     """Display the items in the cart."""
