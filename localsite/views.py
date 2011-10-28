@@ -147,22 +147,7 @@ def edit_event(request, event_id, template_name='localsite/edit_event.html'):
 
 def get_hall_map(request, eventdate_id):
     eventdate = EventDate.objects.get(id=eventdate_id)
-    xml = cache.get('hall_map_%s' % eventdate_id, None)
-    if not xml:
-        xml_obj = etree.fromstring(eventdate.event.hallscheme.map)
-        places = eventdate.event.tickets.exclude(status='freely')
-        for item in xml_obj.iter():
-            if item.attrib.has_key('ticket'):
-                for place in places:
-                    if place.seat.slug == item.attrib['id']:
-                        child = item.getchildren()[0]
-                        if place.status == 'reserved':
-                            child.attrib['fill'] = 'green'
-                        elif place.status == 'sold':
-                            child.attrib['fill'] = 'gray'
-
-        xml = etree.tostring(xml_obj)
-        cache.set('hall_map_%s' % eventdate_id, xml)
+    xml = eventdate.map
 
     return HttpResponse(xml, mimetype="image/svg+xml")
 
