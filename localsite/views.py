@@ -357,6 +357,57 @@ def select_event(request, template='localsite/select_event.html'):
     })
     return render_to_response(template, context_instance=ctx)
 
+def add_ticket2(request, quantity=1, redirect_to='satchmo_cart'):
+    formdata = request.POST.copy()
+    details = []
+
+    form = SelectTicketForm2(request.POST)
+    if form.is_valid():
+        seat = form.cleaned_data['seat']
+        datetime = form.cleaned_data['datetime']
+        ticket = Ticket.objects.get(seat=seat, datetime=datetime)
+        cart = Cart.objects.from_request(request, create=True)
+        satchmo_cart_details_query.send(
+                cart,
+                product=ticket.product,
+                quantity=quantity,
+                details=details,
+                request=request,
+                form=formdata
+                )
+        try:
+            added_item = cart.add_item(ticket.product, number_added=1, details=details)
+            added_item.quantity = 1
+            added_item.save()
+
+        except CartAddProhibited, cap:
+            return _product_error(request, ticket.product, cap.message)
+
+        # got to here with no error, now send a signal so that listeners can also operate on this form.
+        satchmo_cart_add_complete.send(cart, cart=cart, cartitem=added_item, product=ticket.product, request=request, form=formdata)
+        satchmo_cart_changed.send(cart, cart=cart, request=request)
+
+        if request.is_ajax():
+            data = {
+                'id': ticket.product.id,
+                'name': ticket.product.translated_name(),
+                'item_id': added_item.id,
+                'item_qty': str(round_decimal(quantity, 2)),
+                'item_price': str(added_item.line_total) or "0.00",
+                'cart_count': str(round_decimal(cart.numItems, 2)),
+                'cart_total': str(cart.total),
+                # Legacy result, for now
+                'results': _("Success"),
+            }
+
+            return _json_response(data)
+        else:
+            url = urlresolvers.reverse(redirect_to)
+            return HttpResponseRedirect(url)
+    else:
+        return _json_response({'errors': form.errors, 'results': _("Error")}, True)
+
+
 def add_ticket(request, quantity=1, redirect_to='satchmo_cart'):
     formdata = request.POST.copy()
     details = []
