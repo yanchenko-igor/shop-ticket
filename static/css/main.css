@@ -504,14 +504,42 @@ a:hover .icon_back, .icon_back:hover {
     *top: 0;
 }
 .overbox_content {
-    width: 976px;
-    min-height: 200px;
+    width: 976px;    
     margin: 0 auto;
     background: white;
     border: 1px solid #cccccc;
     -moz-box-shadow: 0 0 24px 0 #202020;
     -webkit-box-shadow: 0 0 24px 0 #202020;
     box-shadow: 0 0 24px 0 #202020;
+}
+.overbox_header {
+    background: #3e3e3e url(/static/images/overbox_header_bg.gif) 0 100% repeat-x;
+    color: white;
+}
+.overbox_header .btn_close {
+    float: right;
+    margin: 2px 5px 0 0;
+}
+.overbox_header .btn_close .icon_close {
+    width: 26px;
+    height: 26px;
+    background-position: -12px 0;
+}
+.overbox_header .btn_close:hover .icon_close {
+    background-position: -12px -26px;
+}
+.overbox_name {
+    float: left;
+    padding: 2px 10px 5px 15px;
+    filter:Shadow(Color=#000000, Direction=0, Strength=1);
+    text-shadow: black 0 -1px;
+    font-size: 24px;
+    font-weight: normal;
+}
+.overbox_text {
+    padding: 16px 18px;
+    font-size: 13px;
+    color: #434343;
 }
 .overbox .wraper_tab {
     margin: 0;
@@ -526,41 +554,22 @@ a:hover .icon_back, .icon_back:hover {
     background-position: 0 0;
 }
 /* message overbox */
-.msg_overbox {
-    width: 640px;   
-    margin: 0 auto;
-    background: white;
+.msg_overbox .overbox_content {
+    width: 640px;
     border: 1px solid #d5cfcf;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     border-radius: 4px;
     -moz-box-shadow: 0 0 24px 0 #202020;
     -webkit-box-shadow: 0 0 24px 0 #202020;
-    box-shadow: 0 0 24px 0 #202020;
 }
-.msg_overbox_header {
+.msg_overbox .overbox_header {
     -moz-border-radius-topleft: 3px;
     -webkit-border-top-left-radius: 3px;
     border-top-left-radius: 3px;
     -moz-border-radius-topright: 3px;
     -webkit-border-top-right-radius: 3px;
     border-top-right-radius: 3px;
-    background: #3e3e3e url(/static/images/msg_overbox_header_bg.gif) 0 100% repeat-x;
-    color: white;
-}
-.msg_overbox_header .btn_close {
-    float: right;
-}
-.msg_overbox_name {
-    float: left;
-    padding: 2px 10px 5px 15px;
-    font-size: 24px;
-    font-weight: normal;
-}
-.msg_overbox_content {
-    padding: 16px 18px;
-    font-size: 13px;
-    color: #434343;
 }
 /* ----- /overboxes ----- */
 
@@ -2080,7 +2089,7 @@ td.basked_td_price{
     float: left;
     position: relative;
     width: 77px;
-    height: 22px;
+    height: 22px;    
     margin-right: 4px;
     overflow: hidden;
 }
@@ -2099,10 +2108,16 @@ td.basked_td_price{
     background-position: 0 -22px;
 }
 .map_scale .scale_pointer {
-    top: 5px;
     width: 11px;
     height: 11px;
     background-position: -64px 0;
+}
+.scale_pointer_base {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 66px;
 }
 /* map cart */
 .map_cart {
