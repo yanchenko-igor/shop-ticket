@@ -72,6 +72,7 @@ def no_tickets_search_listener(sender, request=None, category=None, keywords=[],
 def hall_scheme_saved(sender, instance, created, raw, using, **kwargs):
     from localsite.models import SeatSection, SeatGroup, SeatLocation
     if not instance.map:
+        instance.substrate.seek(0)
         xml = instance.substrate.read()
         myxml = etree.fromstring(xml.encode('UTF-8'))
         if not myxml.attrib.has_key('viewBox'):
@@ -119,7 +120,8 @@ def hall_scheme_saved(sender, instance, created, raw, using, **kwargs):
               }
               function click(_this) {
                   var child = _this.firstElementChild;
-                  child.setAttribute("fill",'red');
+                  top.add_ticket(_this.getAttribute("id"));
+                  child.setAttribute("fill",'#a6cd77');
               }
         """)
         myxml.insert(0, script)
@@ -149,15 +151,18 @@ def hall_scheme_saved(sender, instance, created, raw, using, **kwargs):
                 group.save()
             to_insert['pricegroups'][k] = group
     
-        SeatLocation.objects.bulk_create([
-            SeatLocation(
-                        section=to_insert['sections'][place['section']],
-                        group=to_insert['pricegroups'][place['pricegroup']],
-                        row=place['row'],
-                        col=place['col'],
-                        slug=place['slug'],
-                    ) for place in to_insert['places']
-            ])
+        try:
+            SeatLocation.objects.bulk_create([
+                SeatLocation(
+                            section=to_insert['sections'][place['section']],
+                            group=to_insert['pricegroups'][place['pricegroup']],
+                            row=place['row'],
+                            col=place['col'],
+                            slug=place['slug'],
+                        ) for place in to_insert['places']
+                ])
+        except:
+            pass
         xml = etree.tostring(myxml)
         instance.map = xml
         instance.save()
