@@ -85,7 +85,7 @@ $(function() {
             },
             function(data) {
                 $("#cart_total label").text(data.cart_total);
-                $("#cart_count").text(data.cart_count);
+                $(".cart_count").text(data.cart_count);
                 if (parseInt(data.cart_count) <= 0) {
                     removeItem(data);
                     clearCart();
