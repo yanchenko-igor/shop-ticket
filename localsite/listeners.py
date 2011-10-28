@@ -4,7 +4,9 @@ from signals_ahoy.signals import application_search
 from localsite.exceptions import IsReservedOrSoldError
 from django.contrib.sites.models import Site
 from product.models import Product, Category
+from django.db.models.signals import post_save
 from django.db.models import Q
+from lxml import etree
 
 def update_ticket_status(sender, order=None, **kwargs):
     for item in order.orderitem_set.all():
@@ -13,8 +15,7 @@ def update_ticket_status(sender, order=None, **kwargs):
 
         if 'Ticket' in p_types:
             if product.ticket.status == 'freely':
-                product.ticket.status = 'reserved'
-                product.ticket.save()
+                product.ticket.update_status('reserved')
             else:
                 raise Exception
 
@@ -68,9 +69,111 @@ def no_tickets_search_listener(sender, request=None, category=None, keywords=[],
         })
 
 
+def hall_scheme_saved(sender, instance, created, raw, using, **kwargs):
+    from localsite.models import SeatSection, SeatGroup, SeatLocation
+    if not instance.map:
+        xml = instance.substrate.read()
+        myxml = etree.fromstring(xml.encode('UTF-8'))
+        if not myxml.attrib.has_key('viewBox'):
+            width = myxml.attrib['width']
+            height = myxml.attrib['height']
+            myxml.attrib['viewBox'] = "0 0 %i %i" % (width, height)
+            del myxml.attrib['width']
+            del myxml.attrib['height']
+        for i in myxml.iter():
+            if i.attrib.has_key('row'):
+                for k in i.iter():
+                    if k.attrib.has_key('ticket'):
+                        k.attrib['row'] = i.attrib['row']
+            if i.attrib.has_key('pricegroup'):
+                for k in i.iter():
+                    if k.attrib.has_key('ticket'):
+                        k.attrib['pricegroup'] = i.attrib['pricegroup']
+            if i.attrib.has_key('section'):
+                for k in i.iter():
+                    if k.attrib.has_key('ticket'):
+                        k.attrib['section'] = i.attrib['section']
+            
+        for i in myxml.iter():
+            if i.attrib.has_key('ticket'):
+                i.attrib['col'] = i.getchildren()[1].getchildren()[0].text
+                i.attrib['onmouseover'] = "mouseover(this);"
+                i.attrib['onmouseout'] = "mouseout(this);"
+                i.attrib['onclick'] = "click(this);"
+                i.attrib['cursor'] = "pointer"
+        script = etree.Element('script', attrib={'type':"text/ecmascript"})
+        script.text = etree.CDATA("""
+              function mouseover(_this) {
+                  var child = _this.firstElementChild;
+                  if (child.getAttribute("stroke")!='black') {
+                      child.setAttribute("stroke-old",child.getAttribute("stroke"));
+                      child.setAttribute("stroke-width-old",child.getAttribute("stroke-width"));
+                      child.setAttribute("stroke","black");
+                      child.setAttribute("stroke-width","3");
+                  }
+              }
+              function mouseout(_this) {
+                  var child = _this.firstElementChild;
+                  child.setAttribute("stroke",child.getAttribute("stroke-old"));
+                  child.setAttribute("stroke-width",child.getAttribute("stroke-width-old"));
+              }
+              function click(_this) {
+                  var child = _this.firstElementChild;
+                  child.setAttribute("fill",'red');
+              }
+        """)
+        myxml.insert(0, script)
+        to_insert = {'sections': {}, 'pricegroups': {}, 'places': []}
+        for i in myxml.iter():
+            if i.attrib.has_key('ticket'):
+                section=i.attrib['section']
+                pricegroup=i.attrib['pricegroup']
+                row=i.attrib['row']
+                col=i.attrib['col']
+                slug=i.attrib['id']
+                to_insert['sections'][section]=None
+                to_insert['pricegroups'][pricegroup]=None
+                to_insert['places'].append({'section':section,'pricegroup':pricegroup,'col':col,'row':row,'slug':slug})
+        for k in to_insert['sections'].keys():
+            try:
+                section=SeatSection.objects.get(hallscheme=instance, slug=k)
+            except:
+                section=SeatSection.objects.create(hallscheme=instance, name=k, slug=k)
+                section.save()
+            to_insert['sections'][k] = section
+        for k in to_insert['pricegroups'].keys():
+            try:
+                group=SeatGroup.objects.get(hallscheme=instance, slug=k)
+            except:
+                group=SeatGroup.objects.create(hallscheme=instance, name=k, slug=k)
+                group.save()
+            to_insert['pricegroups'][k] = group
+    
+        SeatLocation.objects.bulk_create([
+            SeatLocation(
+                        section=to_insert['sections'][place['section']],
+                        group=to_insert['pricegroups'][place['pricegroup']],
+                        row=place['row'],
+                        col=place['col'],
+                        slug=place['slug'],
+                    ) for place in to_insert['places']
+            ])
+        xml = etree.tostring(myxml)
+        instance.map = xml
+        instance.save()
+
+def event_date_saved(sender, instance, created, raw, using, **kwargs):
+    if created:
+        instance.map = instance.event.hallscheme.map
+        instance.save()
+
 def start_localsite_listening():
+    from localsite.models import EventDate, HallScheme
     store_signals.satchmo_cart_add_verify.connect(check_ticket_status)
     #signals.satchmo_cart_add_complete.connect(update_ticket_status)
     #payment_signals.confirm_sanity_check.connect(update_ticket_status)
     store_signals.order_success.connect(update_ticket_status)
     application_search.connect(no_tickets_search_listener, sender=Product)
+    post_save.connect(event_date_saved, sender=EventDate, dispatch_uid="event_date_saved")
+    post_save.connect(hall_scheme_saved, sender=HallScheme, dispatch_uid="hall_scheme_saved")
+

@@ -106,96 +106,6 @@ class HallScheme(models.Model):
     map = models.TextField(blank=True, null=True, editable=False)
     substrate = models.FileField(upload_to='substrates', max_length=100)
 
-    def save(self, *args, **kwargs):
-        if not self.map:
-            xml = self.substrate.read()
-            myxml = etree.fromstring(xml.encode('UTF-8'))
-            for i in myxml.iter():
-                if i.attrib.has_key('row'):
-                    for k in i.iter():
-                        if k.attrib.has_key('ticket'):
-                            k.attrib['row'] = i.attrib['row']
-                if i.attrib.has_key('pricegroup'):
-                    for k in i.iter():
-                        if k.attrib.has_key('ticket'):
-                            k.attrib['pricegroup'] = i.attrib['pricegroup']
-                if i.attrib.has_key('section'):
-                    for k in i.iter():
-                        if k.attrib.has_key('ticket'):
-                            k.attrib['section'] = i.attrib['section']
-                
-            for i in myxml.iter():
-                if i.attrib.has_key('ticket'):
-                    #i.attrib['onload'] = "alert('%s');" % i.attrib['id']
-                    i.attrib['col'] = i.getchildren()[1].getchildren()[0].text
-                    i.attrib['onmouseover'] = "mouseover(this);"
-                    i.attrib['onmouseout'] = "mouseout(this);"
-                    i.attrib['onclick'] = "click(this);"
-                    i.attrib['cursor'] = "pointer"
-            script = etree.Element('script', attrib={'type':"text/ecmascript"})
-            script.text = etree.CDATA("""
-                  function mouseover(_this) {
-                      var child = _this.firstElementChild;
-                      if (child.getAttribute("stroke")!='black') {
-                          child.setAttribute("stroke-old",child.getAttribute("stroke"));
-                          child.setAttribute("stroke-width-old",child.getAttribute("stroke-width"));
-                          child.setAttribute("stroke","black");
-                          child.setAttribute("stroke-width","3");
-                      }
-                  }
-                  function mouseout(_this) {
-                      var child = _this.firstElementChild;
-                      child.setAttribute("stroke",child.getAttribute("stroke-old"));
-                      child.setAttribute("stroke-width",child.getAttribute("stroke-width-old"));
-                  }
-                  function click(_this) {
-                      var child = _this.firstElementChild;
-                      child.setAttribute("fill",'red');
-                  }
-            """)
-            myxml.insert(0, script)
-            super(HallScheme, self).save(*args, **kwargs)
-            to_insert = {'sections': {}, 'pricegroups': {}, 'places': []}
-            for i in myxml.iter():
-                if i.attrib.has_key('ticket'):
-                    section=i.attrib['section']
-                    pricegroup=i.attrib['pricegroup']
-                    row=i.attrib['row']
-                    col=i.attrib['col']
-                    slug=i.attrib['id']
-                    to_insert['sections'][section]=None
-                    to_insert['pricegroups'][pricegroup]=None
-                    to_insert['places'].append({'section':section,'pricegroup':pricegroup,'col':col,'row':row,'slug':slug})
-            for k in to_insert['sections'].keys():
-                try:
-                    section=SeatSection.objects.get(hallscheme=self, slug=k)
-                except:
-                    section=SeatSection.objects.create(hallscheme=self, name=k, slug=k)
-                    section.save()
-                to_insert['sections'][k] = section
-            for k in to_insert['pricegroups'].keys():
-                try:
-                    group=SeatGroup.objects.get(hallscheme=self, slug=k)
-                except:
-                    group=SeatGroup.objects.create(hallscheme=self, name=k, slug=k)
-                    group.save()
-                to_insert['pricegroups'][k] = group
-        
-            SeatLocation.objects.bulk_create([
-                SeatLocation(
-                            section=to_insert['sections'][place['section']],
-                            group=to_insert['pricegroups'][place['pricegroup']],
-                            row=place['row'],
-                            col=place['col'],
-                            slug=place['slug'],
-                        ) for place in to_insert['places']
-                ])
-            xml = etree.tostring(myxml)
-            self.map = xml
-        super(HallScheme, self).save(*args, **kwargs)
-
-
-    
     class Meta:
         verbose_name = _("Hall Scheme")
         verbose_name_plural = _("Hall Schemes")
@@ -259,14 +169,12 @@ class Event(models.Model):
         myname=self.product.name
         site = self.product.site
         to_insert = {'variants':[]}
-        print 1
         for date in self.dates.all():
              for group in self.hallscheme.groups.all():
                  for seat in group.seats.all():
                      slug = slugify(cyr2lat('%s_%s_%s' % (myslug, date.__unicode__(), seat.__unicode__())))
                      name=u"%s :: %s :: %s" % (myname, date.__unicode__(), seat.__unicode__())
                      to_insert['variants'].append({'name':name, 'slug':slug, 'date':date, 'seat':seat})
-        print 2
         products = Product.objects.bulk_create([
             Product(
                 site=site,
@@ -277,7 +185,6 @@ class Event(models.Model):
                 ) for variant in to_insert['variants']
             ])
         to_insert['products'] = {p.slug: Product.objects.get(slug=p.slug) for p in products}
-        print 3
         Ticket.objects.bulk_create([
             Ticket(
                 product=to_insert['products'][variant['slug']],
@@ -286,7 +193,6 @@ class Event(models.Model):
                 seat=variant['seat']
                 ) for variant in to_insert['variants']
             ])
-        print 4
         Price.objects.bulk_create([
             Price(
                 product=to_insert['products'][variant['slug']],
@@ -294,13 +200,13 @@ class Event(models.Model):
                 price=self.prices.filter(group=variant['seat'].group).values('price')[0]['price'],
                 ) for variant in to_insert['variants']
             ])
-        print 5
         
 
 class EventDate(models.Model):
     """docstring for EventDate"""
     event = models.ForeignKey('Event', related_name='dates')
     datetime = models.DateTimeField()
+    map = models.TextField(blank=True, null=True, editable=False)
     
     class Meta:
         verbose_name = _("Event Date")
@@ -311,6 +217,19 @@ class EventDate(models.Model):
     def __unicode__(self):
         return u"%s %s" % (self.event.__unicode__(), self.datetime.strftime("%d.%m.%Y %H:%M"))
     
+    def update_status(self, slug, status):
+        xml_obj = etree.fromstring(self.map)
+        for item in xml_obj.iter():
+            if item.attrib.has_key('ticket'):
+                if item.attrib['id'] == slug:
+                    child = item.getchildren()[0]
+                    if status == 'reserved':
+                        child.attrib['fill'] = 'green'
+                    elif status == 'sold':
+                        child.attrib['fill'] = 'gray'
+        self.map = etree.tostring(xml_obj)
+        self.save()
+
     def save(self, *args, **kwargs):
         super(EventDate, self).save(*args, **kwargs)
         if not self.event.min_date:
@@ -382,6 +301,12 @@ class Ticket(models.Model):
 
     def _get_subtype(self):
         return 'Ticket'
+
+    def update_status(self, status):
+        if self.status != status:
+            self.status = status
+            event.datetime.update_status(self.slug, self.status)
+            self.save()
 
     def save(self, **kwargs):
         # don't save if the product is a configurableproduct
