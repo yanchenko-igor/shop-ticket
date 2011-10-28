@@ -224,9 +224,9 @@ class EventDate(models.Model):
                 if item.attrib['id'] == slug:
                     child = item.getchildren()[0]
                     if status == 'reserved':
-                        child.attrib['fill'] = 'green'
+                        child.attrib['fill'] = '#ff8d8d'
                     elif status == 'sold':
-                        child.attrib['fill'] = 'gray'
+                        child.attrib['fill'] = '#8c8c8c'
         self.map = etree.tostring(xml_obj)
         self.save()
 
@@ -305,7 +305,7 @@ class Ticket(models.Model):
     def update_status(self, status):
         if self.status != status:
             self.status = status
-            event.datetime.update_status(self.slug, self.status)
+            self.datetime.update_status(self.seat.slug, self.status)
             self.save()
 
     def save(self, **kwargs):
