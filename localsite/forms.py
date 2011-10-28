@@ -101,6 +101,10 @@ class SelectSectionForm(forms.Form):
 class SelectTicketForm(forms.Form):
     ticket = MyModelChoiceField2(queryset=Ticket.objects.none(), label=_('Seat location'), empty_label=_("Select ticket"))
 
+class SelectTicketForm2(forms.Form):
+    seat = forms.ModelChoiceField(queryset=SeatLocation.objects.all(), label=_('Seat location'), empty_label=None, to_field_name='slug')
+    datetime = MyModelChoiceField3(queryset=EventDate.objects.all(), label=_('Date and time'), empty_label=_("Select date"))
+
 class SelectCityForm(forms.Form):
     city = forms.ModelChoiceField(queryset=City.objects.all(), empty_label=None, widget=forms.Select(attrs={'onChange':"get_values(this, '#id_hall', '/ajax_select_city/')"}))
 
