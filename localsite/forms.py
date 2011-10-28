@@ -33,6 +33,10 @@ class MyModelChoiceField2(forms.ModelChoiceField):
     def label_from_instance(self, obj):
         return "%s-%s" % (obj._unicode(), obj.status)
 
+class MyModelChoiceField3(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return "%s" % (obj.datetime.strftime("%d.%m.%Y %H:%M"))
+
 class MyModelForm(forms.ModelForm):
     def as_p_d(self):
         return u'''<div id="%(prefix)s-row" class="dynamic-form %(prefix_wd)s">
@@ -89,7 +93,7 @@ class SelectSeatGroupForm(forms.Form):
     group = forms.ModelChoiceField(queryset=SeatGroup.objects.none(), empty_label=_("Don't change group"))
 
 class SelectEventDateForm(forms.Form):
-    datetime = forms.ModelChoiceField(queryset=EventDate.objects.none(), label=_('Date and time'), empty_label=_("Select date"))
+    datetime = MyModelChoiceField3(queryset=EventDate.objects.none(), label=_('Date and time'), empty_label=_("Select date"))
 
 class SelectSectionForm(forms.Form):
     section = forms.ModelChoiceField(queryset=SeatSection.objects.none(), label=_('Section'), empty_label=_("Select section"))

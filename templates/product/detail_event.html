@@ -108,7 +108,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
                             </div>
 
                             <div class="social_network">
-                                <img src="{{ MEDIA_URL }}/images/temp/social_btn.jpg" alt="" />
+                                <img src="{{ media_url }}/images/temp/social_btn.jpg" alt="" />
                             </div>
 
                         </div>
@@ -116,7 +116,6 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
 
 
                     </div>
-                    {% select_section_form product.event %}
 {% if user.is_staff %}
 	<a href="{% url edit_event product.id %}">{% trans "Edit" %}</a>
 {% endif %}
@@ -315,10 +314,13 @@ $(function() {
 
             <div class="map_wrapper clearfix">
                 <div class="map_box">
+                    <div class="map_date">
+                    {% select_section_form product.event %}
+                    </div>
                     <div class="map_name">Выбор мест</div>
                     <div class="map_viewbox">
                         <div class="map_content">
-                            <object data="http://igor.eggmen.net/tttt.svg" style="display: block; width: 100%; height: 100%"></object>
+                            <object id="hallmap" data="" style="display: block; width: 100%; height: 100%">Please select date</object>
                             <!--
                             <svg version = "1.1"
                                  baseProfile="full"
@@ -355,25 +357,25 @@ $(function() {
                     <div class="map_cart">
                         <table class="map_cart_table" width="100%" cellpadding="0" cellspacing="0" border="1">
                             <tr>
-                                <td class="map_cart_point"><img src="{{ MEDIA_URL }}/images/icon_point_my.gif" alt=""/></td>
+                                <td class="map_cart_point"><img src="{{ media_url }}/images/icon_point_my.gif" alt=""/></td>
                                 <td class="map_cart_name">Места</td>
                                 <td class="map_cart_price"><span class="figure">1500</span> грн</td>
                                 <td class="map_cart_quantity">4 шт</td>
                             </tr>
                             <tr>
-                                <td class="map_cart_point"><img src="{{ MEDIA_URL }}/images/icon_point_my.gif" alt=""/></td>
+                                <td class="map_cart_point"><img src="{{ media_url }}/images/icon_point_my.gif" alt=""/></td>
                                 <td class="map_cart_name">Места</td>
                                 <td class="map_cart_price"><span class="figure">560</span> грн</td>
                                 <td class="map_cart_quantity">9 шт</td>
                             </tr>
                             <tr>
-                                <td class="map_cart_point"><img src="{{ MEDIA_URL }}/images/icon_point_my.gif" alt=""/></td>
+                                <td class="map_cart_point"><img src="{{ media_url }}/images/icon_point_my.gif" alt=""/></td>
                                 <td class="map_cart_name">Места</td>
                                 <td class="map_cart_price"><span class="figure">900</span> грн</td>
                                 <td class="map_cart_quantity">3 шт</td>
                             </tr>
                             <tr class="last_row">
-                                <td class="map_cart_point"><img src="{{ MEDIA_URL }}/images/icon_point_dance.gif" alt=""/></td>
+                                <td class="map_cart_point"><img src="{{ media_url }}/images/icon_point_dance.gif" alt=""/></td>
                                 <td class="map_cart_name">Танцпол</td>
                                 <td class="map_cart_price"><span class="figure">1500</span> грн</td>
                                 <td class="map_cart_quantity">&nbsp;</td>
@@ -384,9 +386,9 @@ $(function() {
                         <div class="curve_l_top"><div><span><!-- --></span></div></div>
                         <div class="curve_l_body clearfix">
                             <div class="map_legend">
-                                <p><img src="{{ MEDIA_URL }}/images/icon_point_disabled.gif" alt=""/>Недоступно</p>
-                                <p><img src="{{ MEDIA_URL }}/images/icon_point_reserved.gif" alt=""/>Зарезервировано</p>
-                                <p><img src="{{ MEDIA_URL }}/images/icon_point_my.gif" alt=""/>Мои места</p>
+                                <p><img src="{{ media_url }}/images/icon_point_disabled.gif" alt=""/>Недоступно</p>
+                                <p><img src="{{ media_url }}/images/icon_point_reserved.gif" alt=""/>Зарезервировано</p>
+                                <p><img src="{{ media_url }}/images/icon_point_my.gif" alt=""/>Мои места</p>
                             </div>
                         </div>
                         <div class="curve_l_bot"><div><span><!-- --></span></div></div>

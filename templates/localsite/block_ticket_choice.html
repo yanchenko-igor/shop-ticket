@@ -3,7 +3,6 @@
 {% endfor %}
 
 {#{ event.hallscheme.map|safe }#}
-<object id="hallmap" width="640" height="480" ></object>
 <script type="text/javascript">
 var get_ticket_values = function() {
     $.post('{% url ajax_select_ticket %}', {
