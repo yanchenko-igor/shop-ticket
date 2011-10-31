@@ -240,6 +240,7 @@ var add_ticket = function(slug) {
         function(data) {
             $(".cart_count").text(data.cart_count);
             $(".map_summary_figure label").text(data.cart_total);
+            $("#hallmap")[0].contentDocument.getElementById(data.slug).firstElementChild.setAttribute("fill",'#a6cd77');
         },
         'json'
     );

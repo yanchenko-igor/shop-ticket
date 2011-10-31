@@ -119,9 +119,7 @@ def hall_scheme_saved(sender, instance, created, raw, using, **kwargs):
                   child.setAttribute("stroke-width",child.getAttribute("stroke-width-old"));
               }
               function click(_this) {
-                  var child = _this.firstElementChild;
                   top.add_ticket(_this.getAttribute("id"));
-                  child.setAttribute("fill",'#a6cd77');
               }
         """)
         myxml.insert(0, script)
@@ -154,6 +152,7 @@ def hall_scheme_saved(sender, instance, created, raw, using, **kwargs):
         try:
             SeatLocation.objects.bulk_create([
                 SeatLocation(
+                            hallscheme=instance,
                             section=to_insert['sections'][place['section']],
                             group=to_insert['pricegroups'][place['pricegroup']],
                             row=place['row'],

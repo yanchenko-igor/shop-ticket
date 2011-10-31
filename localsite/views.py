@@ -394,6 +394,7 @@ def add_ticket2(request, quantity=1, redirect_to='satchmo_cart'):
             if request.is_ajax():
                 data = {
                     'id': ticket.product.id,
+                    'slug': seat.slug,
                     'name': ticket.product.translated_name(),
                     'item_id': added_item.id,
                     'item_qty': str(round_decimal(quantity, 2)),
