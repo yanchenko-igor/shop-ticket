@@ -389,11 +389,11 @@ $(function() {
                                 <table class="map_summary_table" width="100%" cellpadding="0" cellspacing="0" border="1">
                                     <tr>
                                         <td class="map_summary_name">Выбрано мест:</td>
-					<td class="map_summary_figure"><span class="cart_count">{{ counter }}{{ cart|length }}</span></td>
+					<td class="map_summary_figure"><span class="cart_count">{{ cart|length }}</span></td>
                                     </tr>
                                     <tr>
                                         <td class="map_summary_name">На сумму:</td>
-					<td class="map_summary_figure"><label>0</label> грн</td>
+                                        <td class="map_summary_figure"><label>{{ cart.total }}</label> грн</td>
                                     </tr>
                                 </table>
                             </div>

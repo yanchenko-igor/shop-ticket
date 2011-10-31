@@ -17,6 +17,7 @@ var add_ticket = function(slug) {
     },
         function(data) {
             $(".cart_count").text(data.cart_count);
+            $(".map_summary_figure label").text(data.cart_total);
         },
         'json'
     );
