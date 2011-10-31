@@ -85,6 +85,7 @@ class SeatLocation(models.Model):
     """docstring for SeatLocation"""
     section = models.ForeignKey('SeatSection', related_name='seats')
     group = models.ForeignKey('SeatGroup', related_name='seats')
+    hallscheme = models.ForeignKey('HallScheme', related_name='seats')
     row = models.IntegerField(blank=True, null=True)
     col = models.IntegerField(blank=True, null=True)
     slug = models.SlugField(max_length=50, blank=True)
