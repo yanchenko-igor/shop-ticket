@@ -393,7 +393,7 @@ $(function() {
                                     </tr>
                                     <tr>
                                         <td class="map_summary_name">На сумму:</td>
-                                        <td class="map_summary_figure"><label>{{ cart.total }}</label> грн</td>
+                                        <td class="map_summary_figure"><label>{{ cart.total|stringformat:"i" }}</label> грн</td>
                                     </tr>
                                 </table>
                             </div>
