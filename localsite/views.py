@@ -362,6 +362,7 @@ def add_ticket2(request, quantity=1, redirect_to='satchmo_cart'):
     details = []
 
     form1 = SelectEventDateForm(request.POST)
+    form1.fields['datetime'].queryset = EventDate.objects.all()
     if form1.is_valid():
         datetime = form1.cleaned_data['datetime']
         form2 = SelectPlaceForm(request.POST)
@@ -407,8 +408,10 @@ def add_ticket2(request, quantity=1, redirect_to='satchmo_cart'):
             else:
                 url = urlresolvers.reverse(redirect_to)
                 return HttpResponseRedirect(url)
+        else:
+            return _json_response({'errors': form2.errors, 'results': _("Error")}, True)
     else:
-        return _json_response({'errors': form.errors, 'results': _("Error")}, True)
+        return _json_response({'errors': form1.errors, 'results': _("Error")}, True)
 
 
 def add_ticket(request, quantity=1, redirect_to='satchmo_cart'):
