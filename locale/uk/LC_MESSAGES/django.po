@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-14 12:52+0300\n"
+"POT-Creation-Date: 2011-10-29 00:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,16 +19,33 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: local_settings.py:25
+#: local_settings.py:27
 msgid "English"
 msgstr ""
 
-#: local_settings.py:26
+#: local_settings.py:28
 msgid "Russian"
 msgstr ""
 
-#: local_settings.py:27
+#: local_settings.py:29
 msgid "Ukrainian"
+msgstr ""
+
+#: localsite/admin.py:91
+msgid "Type of product"
+msgstr ""
+
+#: localsite/admin.py:97 localsite/models.py:135 localsite/models.py:281
+#: localsite/models.py:331
+msgid "Event"
+msgstr ""
+
+#: localsite/admin.py:98 localsite/models.py:288
+msgid "Ticket"
+msgstr ""
+
+#: localsite/admin.py:99
+msgid "Other"
 msgstr ""
 
 #: localsite/exceptions.py:8
@@ -41,170 +58,172 @@ msgstr ""
 msgid "'%s' is sold."
 msgstr ""
 
-#: localsite/forms.py:73
+#: localsite/forms.py:93
+msgid "Don't change group"
+msgstr ""
+
+#: localsite/forms.py:96 localsite/forms.py:106
 msgid "Date and time"
 msgstr ""
 
-#: localsite/forms.py:73
+#: localsite/forms.py:96 localsite/forms.py:106
 msgid "Select date"
 msgstr ""
 
-#: localsite/forms.py:76 localsite/models.py:220
+#: localsite/forms.py:99 localsite/models.py:60
 msgid "Section"
 msgstr ""
 
-#: localsite/forms.py:76
+#: localsite/forms.py:99
 msgid "Select section"
 msgstr ""
 
-#: localsite/forms.py:79
+#: localsite/forms.py:102 localsite/forms.py:105
 msgid "Seat location"
 msgstr ""
 
-#: localsite/forms.py:79 localsite/views.py:376 localsite/views.py:377
+#: localsite/forms.py:102 localsite/views.py:487 localsite/views.py:488
 msgid "Select ticket"
 msgstr ""
 
-#: localsite/forms.py:85
+#: localsite/forms.py:112
 msgid "Category genre"
 msgstr ""
 
-#: localsite/forms.py:86 localsite/views.py:385 localsite/views.py:386
+#: localsite/forms.py:113 localsite/views.py:524 localsite/views.py:525
 msgid "Hall of event"
 msgstr ""
 
-#: localsite/models.py:26 localsite/models.py:342
+#: localsite/models.py:27 localsite/models.py:333
 msgid "Ordering"
 msgstr ""
 
-#: localsite/models.py:26
+#: localsite/models.py:27
 msgid "Override alphabetical order in city display"
 msgstr ""
 
-#: localsite/models.py:29
+#: localsite/models.py:30
 msgid "City"
 msgstr ""
 
-#: localsite/models.py:30
+#: localsite/models.py:31
 msgid "Cities"
 msgstr ""
 
-#: localsite/models.py:44
+#: localsite/models.py:45
 msgid "Hall"
 msgstr ""
 
-#: localsite/models.py:45
+#: localsite/models.py:46
 msgid "Halls"
 msgstr ""
 
-#: localsite/models.py:60 localsite/models.py:75
-msgid "Hall Scheme"
-msgstr ""
-
 #: localsite/models.py:61
-msgid "Hall Schemes"
-msgstr ""
-
-#: localsite/models.py:74 localsite/models.py:295
-msgid "Product"
-msgstr ""
-
-#: localsite/models.py:85 localsite/models.py:296 localsite/models.py:340
-msgid "Event"
-msgstr ""
-
-#: localsite/models.py:86
-msgid "Events"
-msgstr ""
-
-#: localsite/models.py:191
-msgid "Event Date"
-msgstr ""
-
-#: localsite/models.py:192
-msgid "Event Dates"
-msgstr ""
-
-#: localsite/models.py:221
 msgid "Sections"
 msgstr ""
 
-#: localsite/models.py:235
+#: localsite/models.py:76
 msgid "Seat Group"
 msgstr ""
 
-#: localsite/models.py:236
+#: localsite/models.py:77
 msgid "Seat Groups"
 msgstr ""
 
-#: localsite/models.py:250
-msgid "Seat Group Price"
-msgstr ""
-
-#: localsite/models.py:251
-msgid "Seat Group Prices"
-msgstr ""
-
-#: localsite/models.py:277
+#: localsite/models.py:93
 msgid "Seat Location"
 msgstr ""
 
-#: localsite/models.py:278
+#: localsite/models.py:94
 msgid "Seat Locations"
 msgstr ""
 
-#: localsite/models.py:289
+#: localsite/models.py:110 localsite/models.py:125
+msgid "Hall Scheme"
+msgstr ""
+
+#: localsite/models.py:111
+msgid "Hall Schemes"
+msgstr ""
+
+#: localsite/models.py:124 localsite/models.py:280
+msgid "Product"
+msgstr ""
+
+#: localsite/models.py:136
+msgid "Events"
+msgstr ""
+
+#: localsite/models.py:212
+msgid "Event Date"
+msgstr ""
+
+#: localsite/models.py:213
+msgid "Event Dates"
+msgstr ""
+
+#: localsite/models.py:256
+msgid "Seat Group Price"
+msgstr ""
+
+#: localsite/models.py:257
+msgid "Seat Group Prices"
+msgstr ""
+
+#: localsite/models.py:274
 msgid "Freely"
 msgstr ""
 
-#: localsite/models.py:290
+#: localsite/models.py:275
 msgid "Reserved"
 msgstr ""
 
-#: localsite/models.py:291
+#: localsite/models.py:276
 msgid "Sold"
 msgstr ""
 
-#: localsite/models.py:303
-msgid "Ticket"
-msgstr ""
-
-#: localsite/models.py:304
+#: localsite/models.py:289
 msgid "Tickets"
 msgstr ""
 
-#: localsite/models.py:338
+#: localsite/models.py:329
 msgid "Begin"
 msgstr ""
 
-#: localsite/models.py:339
+#: localsite/models.py:330
 msgid "End"
 msgstr ""
 
-#: localsite/models.py:342
+#: localsite/models.py:333
 msgid "Override alphabetical order in announcement display"
 msgstr ""
 
-#: localsite/models.py:347
+#: localsite/models.py:338
 msgid "Announcement"
 msgstr ""
 
-#: localsite/models.py:348
+#: localsite/models.py:339
 msgid "Announcements"
 msgstr ""
 
-#: localsite/views.py:339
+#: localsite/views.py:50 localsite/views.py:74 localsite/views.py:400
+#: localsite/views.py:450
 msgid "Success"
 msgstr ""
 
-#: localsite/views.py:347 localsite/views.py:357
+#: localsite/views.py:408 localsite/views.py:458 localsite/views.py:468
 msgid "Error"
 msgstr ""
 
-#: templates/base.html:121
+#: templates/base.html:52
+msgid "You login as"
+msgstr ""
+
+#: templates/base.html:128 templates/product/detail_event.html:310
 #, python-format
-msgid "In your cart <span id=\"cart_count\">%(counter)s</span> ticket"
-msgid_plural "In your cart <span id=\"cart_count\">%(counter)s</span> tickets"
+msgid "In your cart <span class=\"cart_count\">%(counter)s</span> ticket"
+msgid_plural ""
+"In your cart <span class=\"cart_count\">%(counter)s</span> tickets"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
@@ -283,7 +302,11 @@ msgstr ""
 msgid "Add event"
 msgstr ""
 
-#: templates/flatpages/default.html:17 templates/product/detail_event.html:120
+#: templates/flatblocks/edit.html:9 templates/localsite/place_editor.html:19
+msgid "Save"
+msgstr ""
+
+#: templates/flatpages/default.html:11 templates/product/detail_event.html:120
 msgid "Edit"
 msgstr ""
 
@@ -312,11 +335,20 @@ msgstr ""
 msgid "All Featured"
 msgstr ""
 
+#: templates/localsite/block_select_event_form.html:7
+#: templates/localsite/select_event.html:91
+msgid "Event selection"
+msgstr ""
+
 #: templates/localsite/featured.html:7 templates/localsite/related.html:7
+#: templates/newsletter/subscribe_form.html:5
+#: templates/newsletter/unsubscribe_form.html:5
+#: templates/newsletter/update_form.html:5
+#: templates/newsletter/update_results.html:5
 #: templates/product/best_sellers.html:7 templates/product/category.html:15
 #: templates/product/category_index.html:7
-#: templates/product/detail_event.html:28 templates/product/product.html:25
-#: templates/product/recently_added.html:7 templates/shop/cart.html:12
+#: templates/product/detail_event.html:29 templates/product/product.html:25
+#: templates/product/recently_added.html:7 templates/shop/cart.html:13
 #: templates/shop/index.html:7 templates/shop/multiple_product_form.html:10
 #: templates/shop/search.html:6 templates/shop/checkout/base_confirm.html:7
 #: templates/shop/checkout/success.html:7
@@ -338,16 +370,89 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: templates/localsite/related.html:52 templates/product/detail_event.html:137
+#: templates/localsite/place_editor.html:11
+msgid "Vertical align"
+msgstr ""
+
+#: templates/localsite/place_editor.html:12
+msgid "Horizontal align"
+msgstr ""
+
+#: templates/localsite/place_editor.html:13
+msgid "Spread"
+msgstr ""
+
+#: templates/localsite/place_editor.html:14
+msgid "Apply"
+msgstr ""
+
+#: templates/localsite/place_editor.html:15
+msgid "Edit row"
+msgstr ""
+
+#: templates/localsite/place_editor.html:16
+msgid "Edit col"
+msgstr ""
+
+#: templates/localsite/place_editor.html:17
+msgid "Add row"
+msgstr ""
+
+#: templates/localsite/place_editor.html:18
+msgid "Remove"
+msgstr ""
+
+#: templates/localsite/related.html:53 templates/product/detail_event.html:137
 msgid "Related events"
 msgstr ""
 
-#: templates/localsite/select_event.html:94
-msgid "Event selection"
+#: templates/localsite/sitemap.html:10 templates/shop/search.html:19
+msgid "Categories"
 msgstr ""
 
-#: templates/localsite/sitemap.html:16 templates/shop/search.html:19
-msgid "Categories"
+#: templates/newsletter/subscribe_form.html:6
+#: templates/newsletter/subscribe_form.html:10
+#: templates/newsletter/update_form.html:6
+#: templates/newsletter/update_form.html:10
+#: templates/newsletter/update_results.html:6
+#: templates/newsletter/update_results.html:9
+msgid "Newsletter Subscription"
+msgstr ""
+
+#: templates/newsletter/subscribe_form.html:13
+#: templates/newsletter/unsubscribe_form.html:13
+#: templates/newsletter/update_form.html:13
+msgid "Please correct the following error:"
+msgid_plural "Please correct the following errors:"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: templates/newsletter/subscribe_form.html:18
+#: templates/newsletter/unsubscribe_form.html:18
+#: templates/newsletter/update_form.html:18
+msgid "Your name"
+msgstr ""
+
+#: templates/newsletter/subscribe_form.html:20
+#: templates/newsletter/unsubscribe_form.html:20
+#: templates/newsletter/update_form.html:20
+msgid "Email address"
+msgstr ""
+
+#: templates/newsletter/subscribe_form.html:23
+#: templates/newsletter/update_form.html:22
+#: templates/newsletter/update_form.html:24
+msgid "Subscribe"
+msgstr ""
+
+#: templates/newsletter/unsubscribe_form.html:6
+#: templates/newsletter/unsubscribe_form.html:10
+msgid "Newsletter Unsubscribe"
+msgstr ""
+
+#: templates/newsletter/unsubscribe_form.html:22
+msgid "Remove Me"
 msgstr ""
 
 #: templates/product/best_sellers.html:8
@@ -427,15 +532,15 @@ msgstr ""
 msgid "All Products"
 msgstr ""
 
-#: templates/shop/cart.html:13
+#: templates/shop/cart.html:14
 msgid "Cart"
 msgstr ""
 
-#: templates/shop/cart.html:31 templates/shop/cart.html.py:39
+#: templates/shop/cart.html:32 templates/shop/cart.html.py:40
 msgid "Your cart is empty."
 msgstr ""
 
-#: templates/shop/cart.html:248
+#: templates/shop/cart.html:249
 msgid "Check out"
 msgstr ""
 
@@ -469,12 +574,12 @@ msgstr ""
 msgid "for"
 msgstr ""
 
-#: templates/shop/search.html:47
+#: templates/shop/search.html:44
 msgid "Search results"
 msgstr ""
 
 #: templates/shop/checkout/base_confirm.html:8
-#: templates/shop/checkout/base_confirm.html:49
+#: templates/shop/checkout/base_confirm.html:50
 #: templates/shop/checkout/success.html:8
 #: templates/shop/checkout/cod/confirm.html:10
 msgid "Checkout"

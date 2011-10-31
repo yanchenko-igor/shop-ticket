@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-14 12:52+0300\n"
+"POT-Creation-Date: 2011-10-29 00:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,16 +18,33 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: local_settings.py:25
+#: local_settings.py:27
 msgid "English"
 msgstr ""
 
-#: local_settings.py:26
+#: local_settings.py:28
 msgid "Russian"
 msgstr ""
 
-#: local_settings.py:27
+#: local_settings.py:29
 msgid "Ukrainian"
+msgstr ""
+
+#: localsite/admin.py:91
+msgid "Type of product"
+msgstr ""
+
+#: localsite/admin.py:97 localsite/models.py:135 localsite/models.py:281
+#: localsite/models.py:331
+msgid "Event"
+msgstr "Событие"
+
+#: localsite/admin.py:98 localsite/models.py:288
+msgid "Ticket"
+msgstr "Билет"
+
+#: localsite/admin.py:99
+msgid "Other"
 msgstr ""
 
 #: localsite/exceptions.py:8
@@ -40,173 +57,177 @@ msgstr "'%s' уже забронировано."
 msgid "'%s' is sold."
 msgstr "'%s' уже продано."
 
-#: localsite/forms.py:73
+#: localsite/forms.py:93
+msgid "Don't change group"
+msgstr ""
+
+#: localsite/forms.py:96 localsite/forms.py:106
 msgid "Date and time"
 msgstr "Время и дата"
 
-#: localsite/forms.py:73
+#: localsite/forms.py:96 localsite/forms.py:106
 msgid "Select date"
 msgstr "Выберите дату"
 
-#: localsite/forms.py:76 localsite/models.py:220
+#: localsite/forms.py:99 localsite/models.py:60
 msgid "Section"
 msgstr "Сектор"
 
-#: localsite/forms.py:76
+#: localsite/forms.py:99
 msgid "Select section"
 msgstr "Выберите сектор"
 
-#: localsite/forms.py:79
+#: localsite/forms.py:102 localsite/forms.py:105
 msgid "Seat location"
 msgstr "Место"
 
-#: localsite/forms.py:79 localsite/views.py:376 localsite/views.py:377
+#: localsite/forms.py:102 localsite/views.py:487 localsite/views.py:488
 msgid "Select ticket"
 msgstr "Выберите билет"
 
-#: localsite/forms.py:85
+#: localsite/forms.py:112
 msgid "Category genre"
 msgstr "Жанр категории"
 
-#: localsite/forms.py:86 localsite/views.py:385 localsite/views.py:386
+#: localsite/forms.py:113 localsite/views.py:524 localsite/views.py:525
 msgid "Hall of event"
 msgstr "Площадка проведения"
 
-#: localsite/models.py:26 localsite/models.py:342
+#: localsite/models.py:27 localsite/models.py:333
 msgid "Ordering"
 msgstr "Сортировка"
 
-#: localsite/models.py:26
+#: localsite/models.py:27
 msgid "Override alphabetical order in city display"
 msgstr "Переопределяет алфавитный порядок при отображении городов"
 
-#: localsite/models.py:29
+#: localsite/models.py:30
 msgid "City"
 msgstr "Город"
 
-#: localsite/models.py:30
+#: localsite/models.py:31
 msgid "Cities"
 msgstr "Города"
 
-#: localsite/models.py:44
+#: localsite/models.py:45
 msgid "Hall"
 msgstr "Площадка"
 
-#: localsite/models.py:45
+#: localsite/models.py:46
 msgid "Halls"
 msgstr "Площадки"
 
-#: localsite/models.py:60 localsite/models.py:75
-msgid "Hall Scheme"
-msgstr "Схема зала"
-
 #: localsite/models.py:61
-msgid "Hall Schemes"
-msgstr "Схемы залов"
-
-#: localsite/models.py:74 localsite/models.py:295
-msgid "Product"
-msgstr "Товар"
-
-#: localsite/models.py:85 localsite/models.py:296 localsite/models.py:340
-msgid "Event"
-msgstr "Событие"
-
-#: localsite/models.py:86
-msgid "Events"
-msgstr "События"
-
-#: localsite/models.py:191
-msgid "Event Date"
-msgstr "Дата события"
-
-#: localsite/models.py:192
-msgid "Event Dates"
-msgstr "Дата события"
-
-#: localsite/models.py:221
 msgid "Sections"
 msgstr "Секторы"
 
-#: localsite/models.py:235
+#: localsite/models.py:76
 msgid "Seat Group"
 msgstr "Группа мест"
 
-#: localsite/models.py:236
+#: localsite/models.py:77
 msgid "Seat Groups"
 msgstr "Группы мест"
 
-#: localsite/models.py:250
-msgid "Seat Group Price"
-msgstr ""
-
-#: localsite/models.py:251
-msgid "Seat Group Prices"
-msgstr ""
-
-#: localsite/models.py:277
+#: localsite/models.py:93
 msgid "Seat Location"
 msgstr "место"
 
-#: localsite/models.py:278
+#: localsite/models.py:94
 msgid "Seat Locations"
 msgstr "место"
 
-#: localsite/models.py:289
+#: localsite/models.py:110 localsite/models.py:125
+msgid "Hall Scheme"
+msgstr "Схема зала"
+
+#: localsite/models.py:111
+msgid "Hall Schemes"
+msgstr "Схемы залов"
+
+#: localsite/models.py:124 localsite/models.py:280
+msgid "Product"
+msgstr "Товар"
+
+#: localsite/models.py:136
+msgid "Events"
+msgstr "События"
+
+#: localsite/models.py:212
+msgid "Event Date"
+msgstr "Дата события"
+
+#: localsite/models.py:213
+msgid "Event Dates"
+msgstr "Дата события"
+
+#: localsite/models.py:256
+msgid "Seat Group Price"
+msgstr ""
+
+#: localsite/models.py:257
+msgid "Seat Group Prices"
+msgstr ""
+
+#: localsite/models.py:274
 msgid "Freely"
 msgstr "Свободно"
 
-#: localsite/models.py:290
+#: localsite/models.py:275
 msgid "Reserved"
 msgstr "Забронировано"
 
-#: localsite/models.py:291
+#: localsite/models.py:276
 msgid "Sold"
 msgstr "Продано"
 
-#: localsite/models.py:303
-msgid "Ticket"
-msgstr "Билет"
-
-#: localsite/models.py:304
+#: localsite/models.py:289
 msgid "Tickets"
 msgstr "Билеты"
 
-#: localsite/models.py:338
+#: localsite/models.py:329
 msgid "Begin"
 msgstr "Начало"
 
-#: localsite/models.py:339
+#: localsite/models.py:330
 msgid "End"
 msgstr "Конец"
 
-#: localsite/models.py:342
+#: localsite/models.py:333
 msgid "Override alphabetical order in announcement display"
 msgstr "Переопределяет алфавитный порядок при отображении аннонсов"
 
-#: localsite/models.py:347
+#: localsite/models.py:338
 msgid "Announcement"
 msgstr "Анонс"
 
-#: localsite/models.py:348
+#: localsite/models.py:339
 msgid "Announcements"
 msgstr "Анонсы"
 
-#: localsite/views.py:339
+#: localsite/views.py:50 localsite/views.py:74 localsite/views.py:400
+#: localsite/views.py:450
 msgid "Success"
 msgstr ""
 
-#: localsite/views.py:347 localsite/views.py:357
+#: localsite/views.py:408 localsite/views.py:458 localsite/views.py:468
 msgid "Error"
 msgstr ""
 
-#: templates/base.html:121
+#: templates/base.html:52
+msgid "You login as"
+msgstr "Вы вошли как"
+
+#: templates/base.html:128 templates/product/detail_event.html:310
 #, python-format
 msgid "In your cart <span class=\"cart_count\">%(counter)s</span> ticket"
-msgid_plural "In your cart <span class=\"cart_count\">%(counter)s</span> tickets"
+msgid_plural ""
+"In your cart <span class=\"cart_count\">%(counter)s</span> tickets"
 msgstr[0] "В Вашей корзине <span class=\"cart_count\">%(counter)s</span> билет"
-msgstr[1] "В Вашей корзине <span class=\"cart_count\">%(counter)s</span> билета"
-msgstr[2] "В Вашей корзине <span class=\"cart_count\">%(counter)s</span> билетов"
+msgstr[1] ""
+"В Вашей корзине <span class=\"cart_count\">%(counter)s</span> билета"
+msgstr[2] ""
+"В Вашей корзине <span class=\"cart_count\">%(counter)s</span> билетов"
 
 #: templates/admin/base_site.html:34 templates/admin/base_site.html.py:37
 msgid "Site Administration"
@@ -282,7 +303,11 @@ msgstr ""
 msgid "Add event"
 msgstr "Добавить событие"
 
-#: templates/flatpages/default.html:17 templates/product/detail_event.html:120
+#: templates/flatblocks/edit.html:9 templates/localsite/place_editor.html:19
+msgid "Save"
+msgstr ""
+
+#: templates/flatpages/default.html:11 templates/product/detail_event.html:120
 msgid "Edit"
 msgstr "Редактировать"
 
@@ -311,11 +336,20 @@ msgstr "Все хиты продаж"
 msgid "All Featured"
 msgstr "Все рекомендации"
 
+#: templates/localsite/block_select_event_form.html:7
+#: templates/localsite/select_event.html:91
+msgid "Event selection"
+msgstr "Подбор события"
+
 #: templates/localsite/featured.html:7 templates/localsite/related.html:7
+#: templates/newsletter/subscribe_form.html:5
+#: templates/newsletter/unsubscribe_form.html:5
+#: templates/newsletter/update_form.html:5
+#: templates/newsletter/update_results.html:5
 #: templates/product/best_sellers.html:7 templates/product/category.html:15
 #: templates/product/category_index.html:7
-#: templates/product/detail_event.html:28 templates/product/product.html:25
-#: templates/product/recently_added.html:7 templates/shop/cart.html:12
+#: templates/product/detail_event.html:29 templates/product/product.html:25
+#: templates/product/recently_added.html:7 templates/shop/cart.html:13
 #: templates/shop/index.html:7 templates/shop/multiple_product_form.html:10
 #: templates/shop/search.html:6 templates/shop/checkout/base_confirm.html:7
 #: templates/shop/checkout/success.html:7
@@ -337,17 +371,92 @@ msgstr "Назад"
 msgid "Next"
 msgstr "Вперёд"
 
-#: templates/localsite/related.html:52 templates/product/detail_event.html:137
+#: templates/localsite/place_editor.html:11
+msgid "Vertical align"
+msgstr ""
+
+#: templates/localsite/place_editor.html:12
+msgid "Horizontal align"
+msgstr ""
+
+#: templates/localsite/place_editor.html:13
+msgid "Spread"
+msgstr ""
+
+#: templates/localsite/place_editor.html:14
+msgid "Apply"
+msgstr ""
+
+#: templates/localsite/place_editor.html:15
+#, fuzzy
+msgid "Edit row"
+msgstr "Редактировать"
+
+#: templates/localsite/place_editor.html:16
+#, fuzzy
+msgid "Edit col"
+msgstr "Редактировать"
+
+#: templates/localsite/place_editor.html:17
+msgid "Add row"
+msgstr ""
+
+#: templates/localsite/place_editor.html:18
+msgid "Remove"
+msgstr ""
+
+#: templates/localsite/related.html:53 templates/product/detail_event.html:137
 msgid "Related events"
 msgstr "Похожие события"
 
-#: templates/localsite/select_event.html:94
-msgid "Event selection"
-msgstr "Подбор события"
-
-#: templates/localsite/sitemap.html:16 templates/shop/search.html:19
+#: templates/localsite/sitemap.html:10 templates/shop/search.html:19
 msgid "Categories"
 msgstr "Категории"
+
+#: templates/newsletter/subscribe_form.html:6
+#: templates/newsletter/subscribe_form.html:10
+#: templates/newsletter/update_form.html:6
+#: templates/newsletter/update_form.html:10
+#: templates/newsletter/update_results.html:6
+#: templates/newsletter/update_results.html:9
+msgid "Newsletter Subscription"
+msgstr ""
+
+#: templates/newsletter/subscribe_form.html:13
+#: templates/newsletter/unsubscribe_form.html:13
+#: templates/newsletter/update_form.html:13
+msgid "Please correct the following error:"
+msgid_plural "Please correct the following errors:"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: templates/newsletter/subscribe_form.html:18
+#: templates/newsletter/unsubscribe_form.html:18
+#: templates/newsletter/update_form.html:18
+msgid "Your name"
+msgstr ""
+
+#: templates/newsletter/subscribe_form.html:20
+#: templates/newsletter/unsubscribe_form.html:20
+#: templates/newsletter/update_form.html:20
+msgid "Email address"
+msgstr ""
+
+#: templates/newsletter/subscribe_form.html:23
+#: templates/newsletter/update_form.html:22
+#: templates/newsletter/update_form.html:24
+msgid "Subscribe"
+msgstr ""
+
+#: templates/newsletter/unsubscribe_form.html:6
+#: templates/newsletter/unsubscribe_form.html:10
+msgid "Newsletter Unsubscribe"
+msgstr ""
+
+#: templates/newsletter/unsubscribe_form.html:22
+msgid "Remove Me"
+msgstr ""
 
 #: templates/product/best_sellers.html:8
 msgid "Best Sellers"
@@ -426,15 +535,15 @@ msgstr ""
 msgid "All Products"
 msgstr "Все товары"
 
-#: templates/shop/cart.html:13
+#: templates/shop/cart.html:14
 msgid "Cart"
 msgstr "Корзина"
 
-#: templates/shop/cart.html:31 templates/shop/cart.html.py:39
+#: templates/shop/cart.html:32 templates/shop/cart.html.py:40
 msgid "Your cart is empty."
 msgstr "Ваша корзина пуста"
 
-#: templates/shop/cart.html:248
+#: templates/shop/cart.html:249
 msgid "Check out"
 msgstr ""
 
@@ -468,12 +577,12 @@ msgstr "Товары"
 msgid "for"
 msgstr ""
 
-#: templates/shop/search.html:47
+#: templates/shop/search.html:44
 msgid "Search results"
 msgstr "Результаты поиска"
 
 #: templates/shop/checkout/base_confirm.html:8
-#: templates/shop/checkout/base_confirm.html:49
+#: templates/shop/checkout/base_confirm.html:50
 #: templates/shop/checkout/success.html:8
 #: templates/shop/checkout/cod/confirm.html:10
 msgid "Checkout"
