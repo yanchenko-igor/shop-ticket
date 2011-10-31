@@ -6,7 +6,10 @@ from django.contrib.sites.models import Site
 from product.models import Product, Category
 from django.db.models.signals import post_save
 from django.db.models import Q
+from signals_ahoy.signals import form_init
+from payment.forms import PaymentContactInfoForm
 from lxml import etree
+from django import forms
 
 def update_ticket_status(sender, order=None, **kwargs):
     for item in order.orderitem_set.all():
@@ -171,6 +174,13 @@ def event_date_saved(sender, instance, created, raw, using, **kwargs):
         instance.map = instance.event.hallscheme.map
         instance.save()
 
+def add_notes_field(signal, sender, form, **kwargs):
+    if 'notes' not in form.fields:
+        notes_attrs = {'rows': 4, 'cols': 50}
+        form.fields['notes'] = forms.CharField(label='Notes', required=False,
+                help_text='(Optional) Any special instructions, etc.',
+                widget=forms.Textarea(attrs=notes_attrs))
+
 def start_localsite_listening():
     from localsite.models import EventDate, HallScheme
     store_signals.satchmo_cart_add_verify.connect(check_ticket_status)
@@ -180,4 +190,5 @@ def start_localsite_listening():
     application_search.connect(no_tickets_search_listener, sender=Product)
     post_save.connect(event_date_saved, sender=EventDate, dispatch_uid="event_date_saved")
     post_save.connect(hall_scheme_saved, sender=HallScheme, dispatch_uid="hall_scheme_saved")
+    form_init.connect(add_notes_field, sender=PaymentContactInfoForm)
 
