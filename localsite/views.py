@@ -399,7 +399,7 @@ def add_ticket2(request, quantity=1, redirect_to='satchmo_cart'):
                     'item_qty': str(round_decimal(quantity, 2)),
                     'item_price': str(added_item.line_total) or "0.00",
                     'cart_count': str(round_decimal(cart.numItems, 2)),
-                    'cart_total': str(cart.total),
+                    'cart_total': str(round_decimal(cart.total, 2)),
                     # Legacy result, for now
                     'results': _("Success"),
                 }
