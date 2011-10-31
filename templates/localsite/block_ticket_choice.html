@@ -9,17 +9,4 @@ $(function() {
             $('#hallmap').attr('data', '/hallmap/' + $(this).val() + '/');
         });
 });
-var add_ticket = function(slug) {
-    $.post('{% url add_ticket %}', {
-        csrfmiddlewaretoken: getCookie('csrftoken'),
-        seat: slug,
-        datetime: $('#id_datetime').val(),
-    },
-        function(data) {
-            $(".cart_count").text(data.cart_count);
-            $(".map_summary_figure label").text(data.cart_total);
-        },
-        'json'
-    );
-}
 </script>

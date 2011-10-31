@@ -201,6 +201,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
     <div class="overbox hidden">
         <div class="overbox_toolbar clearfix">
             <script type="text/javascript">
+                //<![CDATA[
 
 var zoomlevel = 1;
 var zoom = {
@@ -230,6 +231,19 @@ var zoom = {
         "s": "100%"
     }
 };
+var add_ticket = function(slug) {
+    $.post('{% url add_ticket %}', {
+        csrfmiddlewaretoken: getCookie('csrftoken'),
+        seat: slug,
+        datetime: $('#id_datetime').val(),
+    },
+        function(data) {
+            $(".cart_count").text(data.cart_count);
+            $(".map_summary_figure label").text(data.cart_total);
+        },
+        'json'
+    );
+}
 $(function() {
                 $('.select_place a').click(function(){
                     $('.overlay').removeClass('hidden');
@@ -292,6 +306,7 @@ $(function() {
                     return false;
                 });
 });
+//]]>
             </script>
             <a class="btn_close" href="#">Закрыть<i class="icon_close"></i></a>
         </div>
@@ -314,13 +329,18 @@ $(function() {
 
             <div class="map_wrapper clearfix">
                 <div class="map_box">
+                    {% with dates=product.event.dates.all %}
                     <div class="map_date">
+                    {% if dates.count = 1 %}
+                    {{ dates.0.datetime|date:"j E Y, l - H:i" }}
+                    {% else %}
                     {% select_section_form product.event %}
+                    {% endif %}
                     </div>
                     <div class="map_name">Выбор мест</div>
                     <div class="map_viewbox">
                         <div class="map_content">
-                            <object id="hallmap" data="" style="display: block; width: 100%; height: 100%">Please select date</object>
+                            <object id="hallmap" data="{% if dates.count = 1 %}{% url get_hall_map dates.0.id %}{% endif %}" style="display: block; width: 100%; height: 100%">Please select date</object>
                         </div>
                         <div class="map_controls">
                             <a class="btn_top" href="#"></a>
@@ -339,6 +359,7 @@ $(function() {
                             </div>
                         </div>
                     </div>
+                    {% endwith %}
                 </div>
                 <div class="map_data">
                     <div class="map_cart">
