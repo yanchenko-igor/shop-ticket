@@ -6,6 +6,9 @@ log = logging.getLogger('product.queries')
 
 def bestsellers(count):
     """Look up the bestselling products and return in a list"""        
+    #TODO
+    return Product.objects.none()
+    #must be rewrited
     sellers = []
     cached = False
     try:
