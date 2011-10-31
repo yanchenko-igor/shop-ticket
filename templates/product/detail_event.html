@@ -198,6 +198,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
 {% block overlay %}<div class="overlay hidden"></div>{% endblock %}
 
 {% block overbox%}
+{% with dates=product.event.dates.all %}
     <div class="overbox hidden">
         <div class="overbox_toolbar clearfix">
             <script type="text/javascript">
@@ -235,7 +236,7 @@ var add_ticket = function(slug) {
     $.post('{% url add_ticket %}', {
         csrfmiddlewaretoken: getCookie('csrftoken'),
         seat: slug,
-        datetime: $('#id_datetime').val(),
+        datetime: {% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %},
     },
         function(data) {
             $(".cart_count").text(data.cart_count);
@@ -330,7 +331,6 @@ $(function() {
 
             <div class="map_wrapper clearfix">
                 <div class="map_box">
-                    {% with dates=product.event.dates.all %}
                     <div class="map_date">
                     {% if dates.count = 1 %}
                     {{ dates.0.datetime|date:"j E Y, l - H:i" }}
@@ -360,7 +360,6 @@ $(function() {
                             </div>
                         </div>
                     </div>
-                    {% endwith %}
                 </div>
                 <div class="map_data">
                     <div class="map_cart">
@@ -432,4 +431,5 @@ $(function() {
 
         </div>
     </div>
+{% endwith %}
 {% endblock %}
