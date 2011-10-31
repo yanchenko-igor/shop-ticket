@@ -47,6 +47,11 @@
                         <div class="header_bl_reg_top"><div><span><!-- --></span></div></div>
                         <div class="header_bl_reg ">
 
+	    {% if user.is_authenticated %}
+	    <div class="user_greeting">
+		    {% trans "You login as" %} <a href="{% url satchmo_account_info %}" class="user_name">{% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user.username }}{% endif %}</a>
+	    </div>
+	    {% else %}
                             <a class="btn_red" href="{{ login_url }}">
                                 <span>
                                     Вход
@@ -60,6 +65,7 @@
                                     <b> Регистрация</b>
                                 </span>
                             </a>
+	    {% endif %}
 
 
                         </div>
@@ -119,7 +125,7 @@
                 {% endblock %}
                 <div class="tab_basket">
                     <div class="basket_count">
-                        <a class="has_icon_basket" href="{% url satchmo_cart %}"><i class="icon_basket"></i>{% blocktrans count counter=cart|length %}In your cart <span class="cart_count">{{ counter }}</span> ticket{% plural %}In your cart <span id="cart_count">{{ counter }}</span> tickets{% endblocktrans %}</a>
+                        <a class="has_icon_basket" href="{% url satchmo_cart %}"><i class="icon_basket"></i>{% blocktrans count counter=cart|length %}In your cart <span class="cart_count">{{ counter }}</span> ticket{% plural %}In your cart <span class="cart_count">{{ counter }}</span> tickets{% endblocktrans %}</a>
                     </div>
                 </div>
             </div>

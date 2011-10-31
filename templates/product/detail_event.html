@@ -307,7 +307,7 @@ $(function() {
 </div>
                 <div class="tab_basket">
                     <div class="basket_count">
-                        <a class="has_icon_basket" href="{% url satchmo_cart %}"><i class="icon_basket"></i>{% blocktrans count counter=cart|length %}In your cart <span class="cart_count">{{ counter }}</span> ticket{% plural %}In your cart <span id="cart_count">{{ counter }}</span> tickets{% endblocktrans %}</a>
+                        <a class="has_icon_basket" href="{% url satchmo_cart %}"><i class="icon_basket"></i>{% blocktrans count counter=cart|length %}In your cart <span class="cart_count">{{ counter }}</span> ticket{% plural %}In your cart <span class="cart_count">{{ counter }}</span> tickets{% endblocktrans %}</a>
                     </div>
                 </div>
             </div>
@@ -321,21 +321,6 @@ $(function() {
                     <div class="map_viewbox">
                         <div class="map_content">
                             <object id="hallmap" data="" style="display: block; width: 100%; height: 100%">Please select date</object>
-                            <!--
-                            <svg version = "1.1"
-                                 baseProfile="full"
-                                 xmlns = "http://www.w3.org/2000/svg"
-                                 xmlns:xlink = "http://www.w3.org/1999/xlink"
-                                 xmlns:ev = "http://www.w3.org/2001/xml-events"
-                                 viewBox="0 0 400 400">
-                                <rect x="0" y="0" width="400" height="400" fill="yellow"/>
-                                <g fill-opacity="0.6" stroke="black" stroke-width="0.5px">
-                                    <circle cx="200" cy="200" r="100" fill="red"   transform="translate(  0,-70)" />
-                                    <circle cx="200" cy="200" r="100" fill="blue"  transform="translate( 70, 70)" />
-                                    <circle cx="200" cy="200" r="100" fill="green" transform="translate(-70, 70)" />
-                                </g>
-                            </svg>
-                            -->
                         </div>
                         <div class="map_controls">
                             <a class="btn_top" href="#"></a>
@@ -358,6 +343,7 @@ $(function() {
                 <div class="map_data">
                     <div class="map_cart">
                         <table class="map_cart_table" width="100%" cellpadding="0" cellspacing="0" border="1">
+				<!--
                             <tr>
                                 <td class="map_cart_point"><img src="{{ media_url }}/images/icon_point_my.gif" alt=""/></td>
                                 <td class="map_cart_name">Места</td>
@@ -382,6 +368,7 @@ $(function() {
                                 <td class="map_cart_price"><span class="figure">1500</span> грн</td>
                                 <td class="map_cart_quantity">&nbsp;</td>
                             </tr>
+			-->
                         </table>
                     </div>
                     <div class="map_legend_box">
@@ -402,11 +389,11 @@ $(function() {
                                 <table class="map_summary_table" width="100%" cellpadding="0" cellspacing="0" border="1">
                                     <tr>
                                         <td class="map_summary_name">Выбрано мест:</td>
-                                        <td class="map_summary_figure">2</td>
+					<td class="map_summary_figure"><span class="cart_count">{{ counter }}{{ cart|length }}</span></td>
                                     </tr>
                                     <tr>
                                         <td class="map_summary_name">На сумму:</td>
-                                        <td class="map_summary_figure">2500 грн</td>
+					<td class="map_summary_figure"><label>0</label> грн</td>
                                     </tr>
                                 </table>
                             </div>
@@ -414,7 +401,7 @@ $(function() {
                         <div class="curve_l_bot"><div><span><!-- --></span></div></div>
                     </div>
                     <div class="map_order">
-                        <a class="btn_red_l" href="#">
+			    <a class="btn_red_l" href="{% url satchmo_cart %}">
                             <span>Перейти к заказу<b>Перейти к заказу</b></span>
                         </a>
                     </div>
