@@ -154,9 +154,6 @@ class Event(models.Model):
         self.max_price = prices['price__max']
         super(Event, self).save(*args, **kwargs)
 
-    def __init__(self, *args, **kwargs):
-        super(Event, self).__init__(*args, **kwargs)
-
     def _get_subtype(self):
         return 'Event'
 
