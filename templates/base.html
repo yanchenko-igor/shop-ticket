@@ -310,8 +310,41 @@
 
 
     {% endcomment %}
-    {% block overlay %}{% endblock %}
+    {% block overlay %}{% if messages %}<div class="overlay"></div>{% endif %}{% endblock %}
     {% block overbox %}{% endblock %}
+    {% block messages %}
+    {% if messages %}
+    <div class="overbox msg_overbox">
+        <script type="text/javascript">
+        //<![CDATA[
+$(function() {
+                $('.msg_close').click(function(){
+                    $('.overbox_content:last').remove();
+                    if ($('.overbox_content:last').length) {
+                        $('.overbox_content:last').removeClass('hidden');
+                    } else {
+                        $('.overlay').addClass('hidden');
+                    }
+                    return false;
+                });
+});
+
+        //]]>
+        </script>
+        {% for message in messages %}
+        <div class="overbox_content clearfix{% if not forloop.last %} hidden{% endif %}">
+            <div class="overbox_header clearfix">
+                <h2 class="overbox_name">{% if message.tags %}{{ message.tags }}{% endif %}</h2>
+                <a href="#" class="btn_close msg_close"><i class="icon_close"></i></a>
+            </div>
+            <div class="overbox_text">
+                {{ message }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endblock %}
 
 </body>
 {% endblock %}

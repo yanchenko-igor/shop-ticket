@@ -76,6 +76,7 @@ MIDDLEWARE_CLASSES = (
 # 'satchmo_ext.recentlist' app installed.
 TEMPLATE_CONTEXT_PROCESSORS = ('satchmo_store.shop.context_processors.settings',
                                'django.contrib.auth.context_processors.auth',
+                               'django.contrib.messages.context_processors.messages',
                                'store.localsite.context_processors.categories',
                                'satchmo_ext.recentlist.context_processors.recent_products',
                                )
