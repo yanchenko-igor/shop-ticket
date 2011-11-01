@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-29 00:01+0300\n"
+"POT-Creation-Date: 2011-11-01 11:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: local_settings.py:27
+#: local_settings.py:25
 msgid "English"
 msgstr ""
 
-#: local_settings.py:28
+#: local_settings.py:26
 msgid "Russian"
 msgstr ""
 
-#: local_settings.py:29
+#: local_settings.py:27
 msgid "Ukrainian"
 msgstr ""
 
@@ -34,12 +34,12 @@ msgstr ""
 msgid "Type of product"
 msgstr ""
 
-#: localsite/admin.py:97 localsite/models.py:135 localsite/models.py:281
-#: localsite/models.py:331
+#: localsite/admin.py:97 localsite/models.py:136 localsite/models.py:313
+#: localsite/models.py:363
 msgid "Event"
 msgstr "Событие"
 
-#: localsite/admin.py:98 localsite/models.py:288
+#: localsite/admin.py:98 localsite/models.py:320
 msgid "Ticket"
 msgstr "Билет"
 
@@ -61,11 +61,11 @@ msgstr "'%s' уже продано."
 msgid "Don't change group"
 msgstr ""
 
-#: localsite/forms.py:96 localsite/forms.py:106
+#: localsite/forms.py:96
 msgid "Date and time"
 msgstr "Время и дата"
 
-#: localsite/forms.py:96 localsite/forms.py:106
+#: localsite/forms.py:96
 msgid "Select date"
 msgstr "Выберите дату"
 
@@ -81,19 +81,23 @@ msgstr "Выберите сектор"
 msgid "Seat location"
 msgstr "Место"
 
-#: localsite/forms.py:102 localsite/views.py:487 localsite/views.py:488
+#: localsite/forms.py:102 localsite/views.py:494 localsite/views.py:495
 msgid "Select ticket"
 msgstr "Выберите билет"
 
-#: localsite/forms.py:112
+#: localsite/forms.py:111
 msgid "Category genre"
 msgstr "Жанр категории"
 
-#: localsite/forms.py:113 localsite/views.py:524 localsite/views.py:525
+#: localsite/forms.py:112 localsite/views.py:531 localsite/views.py:532
 msgid "Hall of event"
 msgstr "Площадка проведения"
 
-#: localsite/models.py:27 localsite/models.py:333
+#: localsite/listeners.py:183
+msgid "Additional information"
+msgstr "Дополнительная информация"
+
+#: localsite/models.py:27 localsite/models.py:365
 msgid "Ordering"
 msgstr "Сортировка"
 
@@ -129,88 +133,89 @@ msgstr "Группа мест"
 msgid "Seat Groups"
 msgstr "Группы мест"
 
-#: localsite/models.py:93
+#: localsite/models.py:94
 msgid "Seat Location"
 msgstr "место"
 
-#: localsite/models.py:94
+#: localsite/models.py:95
 msgid "Seat Locations"
 msgstr "место"
 
-#: localsite/models.py:110 localsite/models.py:125
+#: localsite/models.py:111 localsite/models.py:126
 msgid "Hall Scheme"
 msgstr "Схема зала"
 
-#: localsite/models.py:111
+#: localsite/models.py:112
 msgid "Hall Schemes"
 msgstr "Схемы залов"
 
-#: localsite/models.py:124 localsite/models.py:280
+#: localsite/models.py:125 localsite/models.py:312
 msgid "Product"
 msgstr "Товар"
 
-#: localsite/models.py:136
+#: localsite/models.py:137
 msgid "Events"
 msgstr "События"
 
-#: localsite/models.py:212
+#: localsite/models.py:213
 msgid "Event Date"
 msgstr "Дата события"
 
-#: localsite/models.py:213
+#: localsite/models.py:214
 msgid "Event Dates"
 msgstr "Дата события"
 
-#: localsite/models.py:256
+#: localsite/models.py:288
 msgid "Seat Group Price"
 msgstr ""
 
-#: localsite/models.py:257
+#: localsite/models.py:289
 msgid "Seat Group Prices"
 msgstr ""
 
-#: localsite/models.py:274
+#: localsite/models.py:306
 msgid "Freely"
 msgstr "Свободно"
 
-#: localsite/models.py:275
+#: localsite/models.py:307
 msgid "Reserved"
 msgstr "Забронировано"
 
-#: localsite/models.py:276
+#: localsite/models.py:308
 msgid "Sold"
 msgstr "Продано"
 
-#: localsite/models.py:289
+#: localsite/models.py:321
 msgid "Tickets"
 msgstr "Билеты"
 
-#: localsite/models.py:329
+#: localsite/models.py:361
 msgid "Begin"
 msgstr "Начало"
 
-#: localsite/models.py:330
+#: localsite/models.py:362
 msgid "End"
 msgstr "Конец"
 
-#: localsite/models.py:333
+#: localsite/models.py:365
 msgid "Override alphabetical order in announcement display"
 msgstr "Переопределяет алфавитный порядок при отображении аннонсов"
 
-#: localsite/models.py:338
+#: localsite/models.py:370
 msgid "Announcement"
 msgstr "Анонс"
 
-#: localsite/models.py:339
+#: localsite/models.py:371
 msgid "Announcements"
 msgstr "Анонсы"
 
-#: localsite/views.py:50 localsite/views.py:74 localsite/views.py:400
-#: localsite/views.py:450
+#: localsite/views.py:50 localsite/views.py:74 localsite/views.py:405
+#: localsite/views.py:457
 msgid "Success"
 msgstr ""
 
-#: localsite/views.py:408 localsite/views.py:458 localsite/views.py:468
+#: localsite/views.py:413 localsite/views.py:415 localsite/views.py:465
+#: localsite/views.py:475
 msgid "Error"
 msgstr ""
 
@@ -218,7 +223,7 @@ msgstr ""
 msgid "You login as"
 msgstr "Вы вошли как"
 
-#: templates/base.html:128 templates/product/detail_event.html:310
+#: templates/base.html:128 templates/product/detail_event.html:327
 #, python-format
 msgid "In your cart <span class=\"cart_count\">%(counter)s</span> ticket"
 msgid_plural ""
@@ -543,7 +548,7 @@ msgstr "Корзина"
 msgid "Your cart is empty."
 msgstr "Ваша корзина пуста"
 
-#: templates/shop/cart.html:249
+#: templates/shop/cart.html:250
 msgid "Check out"
 msgstr ""
 
