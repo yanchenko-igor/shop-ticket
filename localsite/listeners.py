@@ -6,10 +6,11 @@ from django.contrib.sites.models import Site
 from product.models import Product, Category
 from django.db.models.signals import post_save
 from django.db.models import Q
-from signals_ahoy.signals import form_init
+from signals_ahoy.signals import form_init, form_presave
 from payment.forms import PaymentContactInfoForm
 from lxml import etree
 from django import forms
+from django.utils.translation import ugettext as _
 
 def update_ticket_status(sender, order=None, **kwargs):
     for item in order.orderitem_set.all():
@@ -176,10 +177,17 @@ def event_date_saved(sender, instance, created, raw, using, **kwargs):
 
 def add_notes_field(signal, sender, form, **kwargs):
     if 'notes' not in form.fields:
-        notes_attrs = {'rows': 4, 'cols': 50}
-        form.fields['notes'] = forms.CharField(label='Notes', required=False,
-                help_text='(Optional) Any special instructions, etc.',
+        notes_attrs = {'class': 'textarea_ormit'}
+        form.fields['notes'] = forms.CharField(label=_('Additional information'), required=False,
                 widget=forms.Textarea(attrs=notes_attrs))
+
+def split_username(signal, sender, form, **kwargs):
+    if not form.cleaned_data['last_name']:
+        cleaned_name = form.cleaned_data['first_name'].strip()
+        if  ' ' in cleaned_name:
+            form.cleaned_data['first_name'], form.cleaned_data['last_name'] = cleaned_name.split(None, 1)
+        else:
+            form.cleaned_data['first_name'] = cleaned_name
 
 def start_localsite_listening():
     from localsite.models import EventDate, HallScheme
@@ -191,4 +199,5 @@ def start_localsite_listening():
     post_save.connect(event_date_saved, sender=EventDate, dispatch_uid="event_date_saved")
     post_save.connect(hall_scheme_saved, sender=HallScheme, dispatch_uid="hall_scheme_saved")
     form_init.connect(add_notes_field, sender=PaymentContactInfoForm)
+    form_presave.connect(split_username, sender=PaymentContactInfoForm)
 

@@ -180,75 +180,7 @@ $(function() {
         </div>
         </div>
 
-        <div id=checkout_form>
-        <h1 class="h1_h">Оформление покупки</h1>
-        <form action="{% url satchmo_checkout-step1 %}" method="post" class="form_ormit_order clearfix">{% csrf_token %}
-            <div class="ormit_order">
-                <div class="ormit_order_1">
-
-                    <label>Имя, Фамилия:</label>
-                    <div class="input_2">
-                        <div class="input_2_2">
-                            {{ form.first_name }}
-                        </div>
-                    </div>
-                    <br />
-
-                    <label>Email:</label>
-                    <div class="input_2">
-                        <div class="input_2_2">
-                            {{ form.email }}
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="ormit_order_2">
-                    <label>Телефон:</label>
-                    <div class="input_2">
-                        <div class="input_2_2">
-                            {{ form.phone }}
-                        </div>
-                    </div>
-                    <br>
-
-                    <label>Адрес доставки:</label>
-                    <div class="input_2">
-                        <div class="input_2_2">
-                            {{ form.street1 }}
-                        </div>
-                    </div>
-                </div>
-                <div class="clear"><!-- --></div>
-                <br />
-
-                <label>Дополнительная информация:</label>
-
-                <div class="textarea_top"><div><span><!-- --></span></div></div>
-                <div class="textarea_body">
-                    <div class="textarea_body2">
-                        <div class="textarea_wrap">
-                            <textarea name="notes" class="textarea_ormit"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="textarea_bott"><div><span><!-- --></span></div></div>
-
-
-                </div>
-                <div class="ormit_order_call">
-                    <div class="ormit_call_txt">Для заказа билетов Вы можете<br />просто позвонить нам</div>
-
-                    <div class="ormit_call_tel">044 245 58 90</div>
-                    <div class="ormit_call_time">Работаем с 9-00 до 21-00</div>
-                </div>
-
-                <br style="clear:both" />
-                <input type="hidden" name="copy_address" value="on">
-                <input type="hidden" name="paymentmethod" value="COD">
-                <input type="submit" value="{% trans "Check out" %}"/>
-            </form>
-        </div>
+        {% contact_form %}
     </div>
 
 {% endif %}

@@ -187,7 +187,6 @@ SATCHMO_SETTINGS = {
             url(r'^wizards/event/(?P<step>.*)/$', 'localsite.views.wizard_event'),
             url(r'^$', 'localsite.views.display_recent', name='satchmo_shop_home'),
             url(r'^product/view/bestsellers/$', 'localsite.views.display_bestsellers', name='satchmo_product_best_selling'),
-            url(r'^cart/$', 'localsite.views.display', name='satchmo_cart'),
             )
 }
 
