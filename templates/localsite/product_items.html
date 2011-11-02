@@ -1,5 +1,6 @@
-{% load thumbnail %}
+{% load thumbnail cache %}
 <ul class="feed_list reset_list">
+    {% cache 3600 block_product_items_feed items.query.sql_with_params %}
     {% for product in items %}
         <li>
             <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
@@ -27,4 +28,5 @@
             <div class="curve_bott"><div><span class="curve_gray"><!-- --></span></div></div>
         </li>
     {% endfor %}
+    {% endcache %}
 </ul>

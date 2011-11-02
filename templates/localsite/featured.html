@@ -1,6 +1,7 @@
 {% extends "localsite/base.html" %}
 {% load i18n %}
 {% load thumbnail %}
+{% load cache %}
 {% load satchmo_util %}
 
 {% block navbar %}
@@ -8,6 +9,7 @@
 {% endblock %}
 
 {% block content %}
+{% cache 3600 featured_page curentpage_number %}
 {% if page.object_list %}
 <div class="wrap_line">
     <ul class="feed reset_list clearfix">
@@ -19,7 +21,9 @@
 </ul>
 </div>
 {% endif %}
+{% endcache %}
 
+{% cache 3600 featured_page_paginator curentpage_number %}
     {% if page.has_other_pages %}
     <div id = "pagination">
     <ul>
@@ -43,6 +47,7 @@
     </ul>
     </div>
     {% endif %}
+{% endcache %}
 
 {% endblock %}
 

@@ -1,4 +1,4 @@
-{% load i18n satchmo_category satchmo_google satchmo_util satchmo_currency satchmo_discounts app_plugins normalize_decimal thumbnail %}
+{% load i18n satchmo_category satchmo_google satchmo_util satchmo_currency satchmo_discounts app_plugins normalize_decimal thumbnail cache %}
 {% block doctype %}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 {% endblock %}
@@ -31,6 +31,7 @@
             <table class="header_tab">
                 <tr>
                     <td class="hader_tab_menu">
+                        {% cache 3600 header_menu %}
                         <ul class="header_menu">
                             <li class="first"><a href="{{ news_page.url }}">{{ news_page.title }}</a></li>
                             <li><a href="{{ about_page.url }}">{{ about_page.title }}</a></li>
@@ -39,6 +40,7 @@
                             <li><a href="{% url satchmo_checkout-step1 %}">Оформление заказов</a></li>
                             <li><a href="{{ sitemap_page.url }}">{{ sitemap_page.title }}</a></li>
                         </ul>
+                        {% endcache %}
                     </td>
 
 
@@ -89,6 +91,7 @@
 
                 </div>
 
+                {% cache 3600 dop_menu %}
                 <div class="dop_menu">
                     <ul class="menu_top reset_list">
                     {% for category in root_categories %}
@@ -103,6 +106,7 @@
                     {% endfor %}
                     </ul>
                 </div>
+                {% endcache %}
 
             </div>
             <div class="search_top">
@@ -213,6 +217,7 @@
                 </div>
 
 			{% block sidebar-categories %}
+            {% cache 3600 footer_dop_menu %}
 			<div class="footer_dop_menu clearfix">
                 {% for category in root_categories %}
                     <ul class="dop_menu_bott reset_list">
@@ -228,6 +233,7 @@
                 {% endfor %}
 
               </div>
+            {% endcache %}
 			{% endblock sidebar-categories %}
             </div>
 

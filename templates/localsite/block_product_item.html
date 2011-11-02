@@ -1,4 +1,5 @@
-{% load i18n thumbnail %}
+{% load i18n thumbnail cache %}
+{% cache 3600 block_product_item product.id %}
 <div class="feed_img">
     {% if product.main_image.picture|is_portrait %}
           {% thumbnail product.main_image.picture "215x134" crop="50% 25%" as image %}
@@ -16,3 +17,4 @@
 <div class="feed_txt">
     <p><a href="{{ product.get_absolute_url }}">{{ product.translated_name }}</a></p>
 </div>
+{% endcache %}
