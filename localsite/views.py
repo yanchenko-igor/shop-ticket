@@ -196,6 +196,7 @@ def display_featured(request, page=0, count=0, template='localsite/featured.html
         currentpage = None
     
     ctx = RequestContext(request, {
+        'curentpage_number' : page,
         'page' : currentpage,
         'paginator' : paginator,
     })
