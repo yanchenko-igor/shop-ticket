@@ -1,6 +1,7 @@
 {% extends "shop/base.html" %}
 {% load i18n %}
 {% load thumbnail %}
+{% load cache %}
 {% load satchmo_util %}
 
 {% block navbar %}
@@ -8,6 +9,7 @@
 {% endblock %}
 
 {% block content %}
+{% cache 3600 related prod.id curentpage_number %}
 {% if page.object_list %}
 <div class="wrap_line">
     <ul class="feed reset_list clearfix">
@@ -44,6 +46,7 @@
     </div>
     {% endif %}
 
+{% endcache %}
 {% endblock %}
 
 {% block subnav %}

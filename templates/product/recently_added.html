@@ -1,6 +1,7 @@
 {% extends "localsite/base.html" %}
 {% load i18n %}
 {% load thumbnail %}
+{% load cache %}
 {% load satchmo_util %}
 
 {% block navbar %}
@@ -9,6 +10,7 @@
 {% endblock %}
 
 {% block content %}
+{% cache 3600 recently_added curentpage_number %}
 {% if page %}
 <div class="wrap_line">
     <ul class="feed reset_list clearfix">
@@ -40,6 +42,7 @@
 		<p>{% trans "Bad Page" %}</p>
 	</div>
 {% endif %}
+{% endcache %}
 {% endblock %}
 
 {% block subnav %}

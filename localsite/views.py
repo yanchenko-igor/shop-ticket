@@ -222,6 +222,7 @@ def display_related(request, id, page=0, count=0, template='localsite/related.ht
         currentpage = None
     
     ctx = RequestContext(request, {
+        'curentpage_number' : page,
         'prod' : product,
         'page' : currentpage,
         'paginator' : paginator,
@@ -247,6 +248,7 @@ def display_recent(request, page=0, count=0, template='product/recently_added.ht
         currentpage = None
     
     ctx = RequestContext(request, {
+        'curentpage_number' : page,
         'page' : currentpage,
         'paginator' : paginator,
     })

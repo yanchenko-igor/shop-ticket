@@ -195,6 +195,7 @@
         <div class="wraper_footer">
 
             <div class="footer_top clearfix">
+                {% cache 3600 footer_menu %}
                 <ul class="reset_list footer_menu">
                     <li><a href="{{ news_page.url }}">{{ news_page.title }}</a></li>
                     <li><a href="{{ about_page.url }}">{{ about_page.title }}</a></li>
@@ -203,6 +204,7 @@
                     <li><a href="{% url satchmo_checkout-step1 %}">Оформление заказов</a></li>
                     <li class="last"><a href="{{ sitemap_page.url }}">{{ sitemap_page.title }}</a></li>
                 </ul>
+                {% endcache %}
                 <div class="search_footer">
                     {% satchmo_search_form %}
                 </div>
