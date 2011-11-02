@@ -9,6 +9,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
 {% endcomment %}
 {% load i18n %}
 {% load thumbnail %}
+{% load cache %}
 {% load satchmo_price %}
 {% load satchmo_currency satchmo_category %}
 {% load satchmo_util satchmo_discounts %}
@@ -23,7 +24,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
 {% endif %}
 {% endblock %}
 
-{% block bodyclass %}category_{% if product.main_category.parents %}{% with parent=product.main_category.parents|last %}{{ parent.slug }}{% endwith %}{% else %}{{ product.main_category.slug }}{% endif %}{% endblock %}
+{% block bodyclass %}{% cache 3600 product_body_class product.id %}category_{% if product.main_category.parents %}{% with parent=product.main_category.parents|last %}{{ parent.slug }}{% endwith %}{% else %}{{ product.main_category.slug }}{% endif %}{% endcache %}{% endblock %}
 
 {% block navbar %}
 <li class="first"><a href="{{ shop_base }}/">{% trans "Home" %}</a></li>
@@ -55,6 +56,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
                         </script>
 
                         <div class="event_img">
+                            {% cache 3600 product_event_img product.id %}
                             {% if product.main_image.picture|is_portrait %}
                                   {% thumbnail product.main_image.picture "637x354" crop="50% 25%" as image %}
                                   <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
@@ -64,15 +66,18 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
                                   <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
                                   {% endthumbnail %}
                             {% endif %}
+                            {% endcache %}
                             <div class="event_img_description">
                                 <table class="event_description_tab">
                                     <tr>
                                         <td class="event_description_inf">
                                             <div class="title_theater">
+                                                {% cache 3600 product_theater product.id %}
                                                 <span class="underline" id="theater">{{ product.event.hallscheme.hall.name }}</span>
                                                 <div class="title_theater_addres">
                                                     {{ product.event.hallscheme.hall.city }}{% if product.event.hallscheme.hall.address %}, {{ product.event.hallscheme.hall.address }}{% endif %}.
                                                 </div>
+                                                {% endcache %}
                                             </div>
                                             <div class="select_place">
                                                 <a href="#">Выбрать дату и место в зале на схеме  </a>
@@ -86,25 +91,29 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
                             </div>
                         </div>
                         <div class="wrap_event_date">
-                            <ul class="event_date reset_list clearfix">
+                            <ul class="event_date reset_list clearfix">{% cache 3600 product_dates product.id %}
                                 {% for date in product.event.dates.all %}{% ifchanged date.datetime.date %}{% if forloop.first %}{% else %}</span></li>
                                 {% endif %}<li{% if date.datetime.date == product.event.max_date %} class="last"{% endif %}>{{ date.datetime|date:"j E Y, l" }} <span class="event_date_time">{% else %}, {% endifchanged %}{{ date.datetime|date:"H:i" }}{% if forloop.last %}</span></li>{% endif %}{% endfor %}
-                            </ul>
+                                {% endcache %}</ul>
                         </div>
                         <div class="wrap_article">
+                            {% cache 3600 product_description product.id %}
                             <h2 class="h2_article">{{ product.translated_name }}</h2>
                             <div class="annotation">
                                 {{ product.translated_short_description }}
                             </div>
                                 {{ product.translated_description }}
+                            {% endcache %}
                         </div>
 
                         <div class="other_inf clearfix">
                             <div class="article_tag">
                                 <span class="heading_tag">Теги:</span>
+                                {% cache 3600 product_taglist product.id %}
                                 {% for tag in product.event.taglist %}
                                 <a href="#">{{ tag }}</a>,
                                 {% endfor %}
+                                {% endcache %}
                             </div>
 
                             <div class="social_network">
@@ -130,6 +139,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
 {% block contentfooter %}
 {% endblock %}
 {% block sidebar3 %}
+{% cache 3600 product_related_items_block product.id %}
 {% if product.related_items.all %}
 <div class="heading_bg">
     <span class="h_t_l"><!-- --></span>
@@ -173,6 +183,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
     </div>
 </div>
 {% endif %}
+{% endcache %}
 {% endblock %}
 {% block sidebar4 %}
 {% endblock %}
@@ -181,6 +192,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
 <div class="tab_long tab_activ first_tab_activ">
     <div class="tab_activ_sh1">
         <div class="tab_activ_sh2">
+            {% cache 3600 product_subnav product.id %}
             {% if product.main_category.parents %}
             <h1 class="h1_h fl_l">{{ product.main_category.translated_name }}</h1>
             <div class="back_heading">
@@ -190,6 +202,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
             {% else %}
             <h1 class="h1_h fl_l">{{ product.main_category.translated_name }}</h1>
             {% endif %}
+            {% endcache %}
         </div>
     </div>
 </div>
@@ -236,7 +249,7 @@ var add_ticket = function(slug) {
     $.post('{% url add_ticket %}', {
         csrfmiddlewaretoken: getCookie('csrftoken'),
         seat: slug,
-        datetime: {% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %},
+        {% cache 3600 product_event_hallmap_dates_count_js product.id %}datetime: {% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %},{% endcache %}
     },
         function(data) {
             $(".cart_count").text(data.cart_count);
@@ -318,7 +331,9 @@ $(function() {
 <div class="tab_long tab_activ first_tab_activ">
     <div class="tab_activ_sh1">
         <div class="tab_activ_sh2">
+            {% cache 3600 product_category_name product.id %}
             <h1 class="h1_h fl_l">{{ product.main_category.translated_name }}</h1>
+            {% endcache %}
         </div>
     </div>
 </div>
@@ -332,16 +347,18 @@ $(function() {
             <div class="map_wrapper clearfix">
                 <div class="map_box">
                     <div class="map_date">
+                    {% cache 3600 product_event_dates_form product.id %}
                     {% if dates.count = 1 %}
                     {{ dates.0.datetime|date:"j E Y, l - H:i" }}
                     {% else %}
                     {% select_section_form product.event %}
                     {% endif %}
+                    {% endcache %}
                     </div>
                     <div class="map_name">Выбор мест</div>
                     <div class="map_viewbox">
                         <div class="map_content">
-                            <object id="hallmap" data="{% if dates.count = 1 %}{% url get_hall_map dates.0.id %}{% endif %}" style="display: block; width: 100%; height: 100%">Please select date</object>
+                            {% cache 3600 product_event_hallmap_dates_count product.id %}<object id="hallmap" data="{% if dates.count = 1 %}{% url get_hall_map dates.0.id %}{% endif %}" style="display: block; width: 100%; height: 100%">Please select date</object>{% endcache %}
                         </div>
                         <div class="map_controls">
                             <a class="btn_top" href="#"></a>
