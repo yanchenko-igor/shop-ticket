@@ -6,7 +6,11 @@
 <script type="text/javascript">
 $(function() {
         $('#id_datetime').change(function() {
-            $('#hallmap').attr('data', '/hallmap/' + $(this).val() + '/');
+	    hallmap = $('#hallmap');
+            hallmap.attr('data', '/hallmap/' + $(this).val() + '/');
+	    hallmap.remove();
+	    hallmap2 = hallmap.clone();
+	    hallmap2.appendTo('.map_content');
         });
 });
 </script>
