@@ -5,12 +5,12 @@
 {#{ event.hallscheme.map|safe }#}
 <script type="text/javascript">
 $(function() {
-        $('#id_datetime').change(function() {
-	    hallmap = $('#hallmap');
-            hallmap.attr('data', '/hallmap/' + $(this).val() + '/');
-	    hallmap.remove();
-	    hallmap2 = hallmap.clone();
-	    hallmap2.appendTo('.map_content');
-        });
+  $('#id_datetime').change(function() {
+    hallmap = $('#hallmap');
+    hallmap.attr('data', '/hallmap/' + $(this).val() + '/');
+    hallmap2 = hallmap.clone();
+    hallmap.remove();
+    hallmap2.appendTo('.map_content');
+  });
 });
 </script>
