@@ -167,7 +167,9 @@
                         {% include "localsite/block_select_event_form.html" %}
                     {% else %}
                       {% with form_city=select_city_form form_event=select_event_form %}
+                        {% cache 3600 empty_select_event_form %}
                         {% include "localsite/block_select_event_form.html" %}
+                        {% endcache %}
                       {% endwith %}
                     {% endif %}
                     {% endblock %} 
