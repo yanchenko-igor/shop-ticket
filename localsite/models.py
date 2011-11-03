@@ -157,6 +157,12 @@ class Event(models.Model):
     def _get_subtype(self):
         return 'Event'
 
+    def _get_all_prices(self):
+        if not hasattr(self, '_all_prices'):
+            self._all_prices = Price.objects.filter(product__ticket__in=self.tickets.all()).distinct().values('price').order_by('price')
+        return self._all_prices
+    all_prices = property(_get_all_prices)
+
     def _get_tags(self):
         return Tag.objects.get_for_object(self)
     taglist = property(_get_tags)
