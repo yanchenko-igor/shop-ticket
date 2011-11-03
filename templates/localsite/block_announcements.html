@@ -44,7 +44,7 @@
             {% endif %}
                 <div class="visual_list_footer">
                     <div class="visual_list_footer2">
-                        <h3><span class="f_date">{{ announcement.event.min_date|date:"j E" }}</span> {{ announcement.event.product.name }}</h3>
+                        <h3><a href="{{ announcement.event.product.get_absolute_url }}"><span class="f_date">{{ announcement.event.min_date|date:"j E" }}</span> {{ announcement.event.product.name }}</a></h3>
                         {{ announcement.text|linebreaksbr }}
                     </div>
                 </div>
