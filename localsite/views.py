@@ -6,38 +6,28 @@ from localsite.queries import bestsellers
 from django.core.paginator import Paginator, InvalidPage
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.formtools.wizard.views import SessionWizardView
-from localsite.models import City, Hall, HallScheme, Event, SeatGroupPrice
+from localsite.models import HallScheme, Event, SeatGroupPrice
 from django.contrib.sites.models import Site
-from localsite.forms import *
+from localsite.forms import AnnouncementFormInline, EventDateFormInline, EventFormInline, FlatPageForm, ProductForm, ProductImageFormInline, SeatGroupPriceFormset
+from localsite.forms import SeatLocationInline, SeatSectionInline, SelectCityForm, SelectEventDateForm, SelectEventForm, SelectPlaceForm, SelectSeatGroupForm, SelectSectionForm
 from django.http import HttpResponseRedirect
 from satchmo_utils.unique_id import slugify
 from localsite.utils.translit import cyr2lat
-from django.core.serializers import json, serialize
-from django.db.models.query import QuerySet
 from django.http import HttpResponse
-from django.utils import simplejson
 from django.utils.translation import ugettext as _
 from django.db.models import Q
-from satchmo_store.shop.views.sitemaps import sitemaps
-from django.contrib.sitemaps.views import sitemap as django_sitemap
 from django.contrib.flatpages.models import FlatPage
 from sorl.thumbnail import default
 from sorl.thumbnail.images import ImageFile
 from satchmo_store.shop.exceptions import CartAddProhibited
-from satchmo_store.shop.models import NullCart, Cart, Config, Order
-from satchmo_store.contact.models import Contact
-from satchmo_store.shop.signals import satchmo_cart_changed, satchmo_cart_add_complete, satchmo_cart_details_query, satchmo_cart_view
-from signals_ahoy.signals import form_initialdata
-from satchmo_utils.numbers import RoundedDecimalError, round_decimal
+from satchmo_store.shop.models import NullCart, Cart
+from satchmo_store.shop.signals import satchmo_cart_changed, satchmo_cart_add_complete, satchmo_cart_details_query
+from satchmo_utils.numbers import round_decimal
 from satchmo_store.shop.views.cart import _product_error
 from satchmo_store.shop.views.cart import _json_response
 from satchmo_store.shop.views.cart import _set_quantity
 from satchmo_utils.views import bad_or_missing
-from django.views.decorators.cache import never_cache
-from payment.forms import ContactInfoForm, PaymentContactInfoForm
 from lxml import etree
-from lxml.cssselect import CSSSelector
-from django.core.cache import cache
 
 @user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def place_editor(request, section_id, template_name='localsite/place_editor.html'):

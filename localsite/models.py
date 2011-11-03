@@ -4,7 +4,7 @@ from django.utils.translation import ugettext as _
 from tagging.fields import TagField
 from tagging.models import Tag
 from django.core.urlresolvers import reverse
-from product.models import Option, Product, ProductPriceLookup, OptionGroup, Price ,make_option_unique_id
+from product.models import Product, Price
 from satchmo_utils import cross_list
 from satchmo_utils.unique_id import slugify
 from localsite.utils.translit import cyr2lat
@@ -356,6 +356,3 @@ class Announcement(models.Model):
             self.end=self.begin + datetime.timedelta(days=7)
         super(Announcement, self).save(**kwargs)
 
-
-from localsite.listeners import start_localsite_listening
-start_localsite_listening()
