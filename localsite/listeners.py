@@ -10,6 +10,7 @@ from signals_ahoy.signals import form_init, form_presave
 from payment.forms import PaymentContactInfoForm
 from lxml import etree
 from django import forms
+from django.core.cache import cache
 from django.utils.translation import ugettext as _
 
 def update_ticket_status(sender, order=None, **kwargs):
@@ -189,13 +190,18 @@ def split_username(signal, sender, form, **kwargs):
         else:
             form.cleaned_data['first_name'] = cleaned_name
 
+def clean_cache(sender, instance, created, raw, using, **kwargs):
+    cache.clear()
+
 def start_localsite_listening():
-    from localsite.models import EventDate, HallScheme
+    from localsite.models import EventDate, HallScheme, Event
     store_signals.satchmo_cart_add_verify.connect(check_ticket_status)
     #signals.satchmo_cart_add_complete.connect(update_ticket_status)
     #payment_signals.confirm_sanity_check.connect(update_ticket_status)
     store_signals.order_success.connect(update_ticket_status)
     application_search.connect(no_tickets_search_listener, sender=Product)
+    post_save.connect(clean_cache, sender=Event, dispatch_uid="event_saved")
+    post_save.connect(clean_cache, sender=Product, dispatch_uid="product_saved")
     post_save.connect(event_date_saved, sender=EventDate, dispatch_uid="event_date_saved")
     post_save.connect(hall_scheme_saved, sender=HallScheme, dispatch_uid="hall_scheme_saved")
     form_init.connect(add_notes_field, sender=PaymentContactInfoForm)
