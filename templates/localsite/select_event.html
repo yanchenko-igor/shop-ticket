@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load thumbnail %}
+{% load cache %}
 
 {% block content %}
 
@@ -11,6 +12,7 @@
                         <ul id="event_list" class="feed reset_list clearfix">
                         {% for event in events %}
                         <li{% cycle '' '' ' class="last"' %}>
+                            {% cache 3600 event_search_item event.product %}
                             <div class="feed_img">
                                 <div class="feed_img_wrap">
                                     {% if event.product.main_image.picture|is_portrait %}
@@ -25,25 +27,55 @@
                                 </div>
                                 <div class="feed_img_bl">
                                     <div class="feed_img_bl_txt">
-                                        <p>{{ event.hallscheme.hall.name }}</p>
-                                        <a href="#">выбрать место и дату</a>
-                                        <img alt="" src="{{ media_url }}images/icon_arrow.gif">
+                                        <a href="{{ event.product.get_absolute_url }}">
+                                            <span class="place_name">{{ event.hallscheme.hall.name }}</span>
+                                                выбрать место и дату <img alt="" src="images/icon_arrow.gif"/>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="feed_date">
-                                <div class="feed_date_cont">
-                                    {% for date in event.dates.all %}{% ifchanged date.datetime.date %}{% if forloop.first %}{% else %}</p>
-                                    {% endif %}<p>{{ date.datetime|date:"j E" }}{% else %}, {% endifchanged %} {{ date.datetime|date:"H:i" }}{% if forloop.last %}</p>{% endif %}{% endfor %}
-                                 </div>
-                                <div class="feed_date_pop">
-                                    {% for date in event.dates.all %}{% ifchanged date.datetime.date %}{% if forloop.first %}{% else %}</p>
-                                    {% endif %}<p>{{ date.datetime|date:"j E" }}{% else %}, {% endifchanged %} {{ date.datetime|date:"H:i" }}{% if forloop.last %}</p>{% endif %}{% endfor %}
-                                </div>
+                            <div class="feed_tag">
+                                {% if event.product.main_category %}<a href="{{ event.product.main_category.get_absolute_url }}">{{ event.product.main_category.translated_name }}</a>{% endif %} &nbsp; {{ event.dates.all.0.datetime|date:"j E" }}
                             </div>
                             <div class="feed_txt">
-                                <a href="#">{{ event.product.name }}</a>
+                                <p><a href="{{ event.product.get_absolute_url }}">{{ event.product.translated_name }}</a></p>
                             </div>
+                            {% if event.all_prices.count > 1 %}
+                            <div class="feed_price multiple">
+                                <div class="feed_price_cont">
+                                    <span class="feed_price_line">от <em class="figure">{{ event.all_prices.0.price|stringformat:"i"  }}</em> грн<i class="icon_expand"></i></span>
+                                </div>
+                                <div class="feed_pop feed_price_pop">
+                                    <div class="feed_pop_t">
+                                        <div class="feed_pop_b">
+                                            <i class="feed_pop_tl"></i><i class="feed_pop_tr"></i>
+                                            <div class="feed_pop_ml">
+                                                <div class="feed_pop_mr">
+                                                    <div class="feed_pop_content">
+                                                        {% for price in event.all_prices %}
+                                                        <div class="feed_price_line{% if forloop.first %} first{% endif %}">{% if forloop.first %}<span class="note">от</span>{% endif %}<em class="figure">{{ price.price|stringformat:"i"  }}</em> грн</div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <i class="feed_pop_bl"></i><i class="feed_pop_br"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="feed_price">
+                                <div class="feed_price_cont">
+                                    <span class="feed_price_line"><em class="figure">{{ event.all_prices.0.price|stringformat:"i" }}</em> грн</span>
+                                </div>                                
+                            </div>
+                            {% endif %}
+                            <div class="feed_order">
+                                <a class="btn_lightred" href="{{ product.get_absolute_url }}">
+                                    <span>Заказать</span>
+                                </a>
+                            </div>
+                            {% endcache %}
                         </li>
                         {% endfor %}
                     </ul>

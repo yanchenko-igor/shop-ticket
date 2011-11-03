@@ -1,15 +1,25 @@
 {% load i18n thumbnail cache %}
 {% cache 3600 block_product_item product.id %}
 <div class="feed_img">
-    {% if product.main_image.picture|is_portrait %}
-          {% thumbnail product.main_image.picture "215x134" crop="50% 25%" as image %}
-          <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
-          {% endthumbnail %}
-    {% else %}
-          {% thumbnail product.main_image.picture "215x134" crop="center" as image %}
-          <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
-          {% endthumbnail %}
-    {% endif %}
+    <div class="feed_img_wrap">
+        {% if product.main_image.picture|is_portrait %}
+              {% thumbnail product.main_image.picture "215x134" crop="50% 25%" as image %}
+              <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+              {% endthumbnail %}
+        {% else %}
+              {% thumbnail product.main_image.picture "215x134" crop="center" as image %}
+              <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+              {% endthumbnail %}
+        {% endif %}
+    </div>
+    <div class="feed_img_bl">
+        <div class="feed_img_bl_txt">
+            <a href="{{ product.get_absolute_url }}">
+                <span class="place_name">{{ product.event.hallscheme.hall.name }}</span>
+                    выбрать место и дату <img alt="" src="images/icon_arrow.gif"/>
+            </a>
+        </div>
+    </div>
 </div>
 <div class="feed_tag">
     {% if product.main_category %}<a href="{{ product.main_category.get_absolute_url }}">{{ product.main_category.translated_name }}</a>{% endif %} &nbsp; {{ product.event.dates.all.0.datetime|date:"j E" }}
