@@ -7,7 +7,6 @@ from product.models import Product, Category
 from django.db.models.signals import post_save
 from django.db.models import Q
 from signals_ahoy.signals import form_init, form_presave
-from payment.forms import PaymentContactInfoForm
 from lxml import etree
 from django import forms
 from django.core.cache import cache
@@ -195,6 +194,7 @@ def clean_cache(sender, instance, created, raw, using, **kwargs):
 
 def start_localsite_listening():
     from localsite.models import EventDate, HallScheme, Event
+    from payment.forms import PaymentContactInfoForm
     store_signals.satchmo_cart_add_verify.connect(check_ticket_status)
     #signals.satchmo_cart_add_complete.connect(update_ticket_status)
     #payment_signals.confirm_sanity_check.connect(update_ticket_status)
