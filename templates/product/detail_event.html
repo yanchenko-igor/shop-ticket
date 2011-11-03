@@ -79,12 +79,12 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
                                                 {% endcache %}
                                             </div>
                                             <div class="select_place">
-                                                <a href="#">Выбрать дату и место в зале на схеме  <img alt=">" src="{{ media_url }}images/icon_arrow.gif"></a>
+                                                <a class="select_place_link" href="#">Выбрать дату и место в зале на схеме  <img alt=">" src="{{ media_url }}images/icon_arrow.gif"></a>
                                             </div>
                                         </td>
                                         <td class="event_description_btn">
                                             <div class="feed_order">
-                                                <a href="#" class="btn_lightred">
+                                                <a class="select_place_link" href="#" class="btn_lightred">
                                                     <span>Заказать</span>
                                                 </a>
                                             </div>
@@ -293,7 +293,7 @@ var add_ticket = function(slug) {
     );
 }
 $(function() {
-                $('.select_place a').click(function(){
+                $('.select_place_link').click(function(){
                     $('.overlay').removeClass('hidden');
                     $('.overbox').removeClass('hidden');
                     return false;
