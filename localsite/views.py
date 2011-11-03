@@ -6,7 +6,7 @@ from localsite.queries import bestsellers
 from django.core.paginator import Paginator, InvalidPage
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.formtools.wizard.views import SessionWizardView
-from localsite.models import HallScheme, EventDate, Event, SeatGroupPrice
+from localsite.models import HallScheme, EventDate, Event, SeatGroupPrice, Ticket
 from django.contrib.sites.models import Site
 from localsite.forms import AnnouncementFormInline, EventDateFormInline, EventFormInline, FlatPageForm, ProductForm, ProductImageFormInline, SeatGroupPriceFormset
 from localsite.forms import SeatLocationInline, SeatSectionInline, SelectCityForm, SelectEventDateForm, SelectEventForm, SelectPlaceForm, SelectSeatGroupForm, SelectSectionForm
