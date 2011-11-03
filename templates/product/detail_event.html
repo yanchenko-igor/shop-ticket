@@ -126,7 +126,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
                         <div class="wrap_event_date">
                             <ul class="event_date reset_list clearfix">{% cache 3600 product_dates product.id %}
                                 {% for date in product.event.dates.all %}{% ifchanged date.datetime.date %}{% if forloop.first %}{% else %}</span></li>
-                                {% endif %}<li{% if date.datetime.date == product.event.max_date %} class="last"{% endif %}>{{ date.datetime|date:"j E Y, l" }} <span class="event_date_time">{% else %}, {% endifchanged %}{{ date.datetime|date:"H:i" }}{% if forloop.last %}</span></li>{% endif %}{% endfor %}
+                            {% endif %}<li{% if date.datetime.date == product.event.max_date %} class="last"{% endif %}><a href="#">{{ date.datetime|date:"j E Y, l" }} <span class="event_date_time">{% else %}, {% endifchanged %}{{ date.datetime|date:"H:i" }}{% if forloop.last %}</span></a></li>{% endif %}{% endfor %}
                                 {% endcache %}</ul>
                         </div>
                         <div class="wrap_article">
