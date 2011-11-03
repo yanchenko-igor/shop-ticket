@@ -83,7 +83,41 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
                                             </div>
                                         </td>
                                         <td class="event_description_btn">
-                                            Button
+                                            <div class="feed_order">
+                                                <a href="#" class="btn_lightred">
+                                                    <span>Заказать</span>
+                                                </a>
+                                            </div>
+                                            {% if product.event.all_prices.count > 1 %}
+                                            <div class="feed_price multiple">
+                                                <div class="feed_price_cont">
+                                                    <span class="feed_price_line">от <em class="figure">{{ product.event.all_prices.0.price|stringformat:"i"  }}</em> грн<i class="icon_expand"></i></span>
+                                                </div>
+                                                <div class="feed_pop feed_price_pop">
+                                                    <div class="feed_pop_t">
+                                                        <div class="feed_pop_b">
+                                                            <i class="feed_pop_tl"></i><i class="feed_pop_tr"></i>
+                                                            <div class="feed_pop_ml">
+                                                                <div class="feed_pop_mr">
+                                                                    <div class="feed_pop_content">
+                                                                        {% for price in product.event.all_prices %}
+                                                                        <div class="feed_price_line{% if forloop.first %} first{% endif %}">{% if forloop.first %}<span class="note">от</span>{% endif %}<em class="figure">{{ price.price|stringformat:"i"  }}</em> грн</div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <i class="feed_pop_bl"></i><i class="feed_pop_br"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% else %}
+                                            <div class="feed_price">
+                                                <div class="feed_price_cont">
+                                                    <span class="feed_price_line"><em class="figure">{{ product.event.all_prices.0.price|stringformat:"i" }}</em> грн</span>
+                                                </div>                                
+                                            </div>
+                                            {% endif %}
                                         </td>
                                     </tr>
                                 </table>
