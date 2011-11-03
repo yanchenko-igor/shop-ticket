@@ -81,7 +81,8 @@ def flatpage_editor(request, flatpage_id, template_name='localsite/flatpage_edit
     if request.method == 'POST':
         form= FlatPageForm(request.POST, instance=flatpage)
         if form.is_valid():
-            form.save()
+            page = form.save()
+            page.save()
             return HttpResponseRedirect(flatpage.get_absolute_url())
     else:
         form= FlatPageForm(instance=flatpage)
