@@ -298,6 +298,10 @@ $(function() {
                     $('.overbox').removeClass('hidden');
                     return false;
                 });
+                var myFile = document.location.toString();
+                if (myFile.match('#select_place')) {
+                  $('.select_place a').click();
+                } 
                 $('.btn_close').click(function(){
                     $('.overlay').addClass('hidden');
                     $('.overbox').addClass('hidden');
