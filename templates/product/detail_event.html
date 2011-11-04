@@ -140,9 +140,9 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
                         </div>
 
                         <div class="other_inf clearfix">
-                            <div class="article_tag">
-                                <span class="heading_tag">Теги:</span>{% cache 3600 product_taglist product.id %}{% for tag in product.event.taglist %}<a href="{% url event_tag_detail tag %}">{{ tag }}</a>{% if forloop.last %}.{% else %}, {% endif %}{% endfor %}{% endcache %}
-                            </div>
+                            {% cache 3600 product_taglist product.id %}{% if product.event.tags %}<div class="article_tag">
+                                <span class="heading_tag">Теги:</span>{% for tag in product.event.taglist %}<a href="{% url event_tag_detail tag %}">{{ tag }}</a>{% if forloop.last %}.{% else %}, {% endif %}{% endfor %}
+                            </div>{% endif %}{% endcache %}
 
                             <div class="social_network">
                                 <img src="{{ media_url }}/images/temp/social_btn.jpg" alt="" />
