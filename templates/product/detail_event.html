@@ -141,12 +141,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
 
                         <div class="other_inf clearfix">
                             <div class="article_tag">
-                                <span class="heading_tag">Теги:</span>
-                                {% cache 3600 product_taglist product.id %}
-                                {% for tag in product.event.taglist %}
-                                <a href="{% url event_tag_detail tag %}">{{ tag }}</a>,
-                                {% endfor %}
-                                {% endcache %}
+                                <span class="heading_tag">Теги:</span>{% cache 3600 product_taglist product.id %}{% for tag in product.event.taglist %}<a href="{% url event_tag_detail tag %}">{{ tag }}</a>{% if forloop.last %}.{% else %}, {% endif %}{% endfor %}{% endcache %}
                             </div>
 
                             <div class="social_network">
