@@ -1,0 +1,12 @@
+{% extends "shop/base.html" %}
+{% load satchmo_order %}
+{% load i18n %}
+
+{% block navtitle %}{% trans "Order Tracking" %}{% endblock %}
+
+{% block contentwraper %}
+<div id="ordertracking">
+    {% order_tracking_details order "true" default_view_tax%}
+</div>
+{% endblock %}
+
