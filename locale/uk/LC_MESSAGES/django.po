@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-03 17:05+0200\n"
+"POT-Creation-Date: 2011-11-04 13:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,7 +82,7 @@ msgstr ""
 msgid "Seat location"
 msgstr ""
 
-#: localsite/forms.py:102 localsite/views.py:370 localsite/views.py:371
+#: localsite/forms.py:102 localsite/views.py:380 localsite/views.py:381
 msgid "Select ticket"
 msgstr ""
 
@@ -90,7 +90,7 @@ msgstr ""
 msgid "Category genre"
 msgstr ""
 
-#: localsite/forms.py:112 localsite/views.py:407 localsite/views.py:408
+#: localsite/forms.py:112 localsite/views.py:417 localsite/views.py:418
 msgid "Hall of event"
 msgstr ""
 
@@ -211,11 +211,11 @@ msgstr ""
 msgid "Announcements"
 msgstr ""
 
-#: localsite/views.py:40 localsite/views.py:64 localsite/views.py:330
+#: localsite/views.py:41 localsite/views.py:65 localsite/views.py:341
 msgid "Success"
 msgstr ""
 
-#: localsite/views.py:338 localsite/views.py:340 localsite/views.py:351
+#: localsite/views.py:348 localsite/views.py:350 localsite/views.py:361
 msgid "Error"
 msgstr ""
 
@@ -223,7 +223,7 @@ msgstr ""
 msgid "You login as"
 msgstr ""
 
-#: templates/base.html:131 templates/product/detail_event.html:375
+#: templates/base.html:131 templates/product/detail_event.html:379
 #, python-format
 msgid "In your cart <span class=\"cart_count\">%(counter)s</span> ticket"
 msgid_plural ""
@@ -604,6 +604,14 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
+#: templates/localsite/tag_detail.html:123
+#, python-format
+msgid "Event with tag \"%(tagname)s\""
+msgid_plural "Events with tag \"%(tagname)s\""
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 #: templates/newsletter/subscribe_form.html:6
 #: templates/newsletter/subscribe_form.html:10
 #: templates/newsletter/update_form.html:6
@@ -669,6 +677,40 @@ msgstr ""
 
 #: templates/product/recently_added.html:42
 msgid "Bad Page"
+msgstr ""
+
+#: templates/registration/password_change_form.html:5
+#: templates/registration/password_change_form.html:6
+msgid "Password change"
+msgstr ""
+
+#: templates/registration/password_change_form.html:14
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: templates/registration/password_change_form.html:18
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+
+#: templates/registration/password_change_form.html:24
+msgid "Old password"
+msgstr ""
+
+#: templates/registration/password_change_form.html:29
+msgid "New password"
+msgstr ""
+
+#: templates/registration/password_change_form.html:34
+msgid "Password (again)"
+msgstr ""
+
+#: templates/registration/password_change_form.html:40
+msgid "Change my password"
 msgstr ""
 
 #: templates/satchmo_toolbar/toolbar.html:6
