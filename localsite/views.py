@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from livesettings import config_value
 from product.models import Product
@@ -19,6 +19,7 @@ from django.db.models import Q
 from django.contrib.flatpages.models import FlatPage
 from sorl.thumbnail import default
 from sorl.thumbnail.images import ImageFile
+from tagging.models import Tag, TaggedItem
 from satchmo_store.shop.exceptions import CartAddProhibited
 from satchmo_store.shop.models import NullCart, Cart
 from satchmo_store.shop.signals import satchmo_cart_changed, satchmo_cart_add_complete, satchmo_cart_details_query
@@ -98,6 +99,15 @@ def flatpages(request, template_name='localsite/flatpages.html'):
     flatpages = FlatPage.objects.all()
     ctx = RequestContext(request, {
         'flatpages': flatpages,
+        })
+    return render_to_response(template_name, context_instance=ctx)
+
+def tag_detail(request, slug, template_name='localsite/tag_detail.html'):
+    tag = get_object_or_404(Tag, name__iexact=slug)
+    events = TaggedItem.objects.get_by_model(Event,tag)
+    ctx = RequestContext(request, {
+        'events': events,
+        'tag': tag,
         })
     return render_to_response(template_name, context_instance=ctx)
 
@@ -333,8 +343,7 @@ def add_ticket2(request, quantity=1, redirect_to='satchmo_cart'):
         
                 return _json_response(data)
             else:
-                url = urlresolvers.reverse(redirect_to)
-                return HttpResponseRedirect(url)
+                return redirect(redirect_to)
         else:
             return _json_response({'errors': form2.errors, 'results': _("Error")}, True)
     else:
