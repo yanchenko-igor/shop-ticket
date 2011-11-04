@@ -88,6 +88,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
                                                     <span>Заказать</span>
                                                 </a>
                                             </div>
+                                            {% cache 3600 product_prices product.id %}
                                             {% if product.event.all_prices.count > 1 %}
                                             <div class="feed_price multiple">
                                                 <div class="feed_price_cont">
@@ -118,6 +119,7 @@ ProductVariations or CustomProducts, look for product/detail_xxx.html
                                                 </div>                                
                                             </div>
                                             {% endif %}
+                                            {% endcache %}
                                         </td>
                                     </tr>
                                 </table>

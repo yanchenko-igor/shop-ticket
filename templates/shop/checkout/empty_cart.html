@@ -1,0 +1,11 @@
+{% extends "shop/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ block.super }} - {% trans "Checkout" %}{% endblock %}
+{% block navtitle %}{% trans "Checkout" %}{% endblock %}
+
+{% block contentwraper %}
+
+<p>{% trans "Your cart is empty. Please add some items to your cart, then complete the checkout process." %}</p>
+
+{% endblock %}

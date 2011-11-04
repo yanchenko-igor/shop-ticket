@@ -3,12 +3,9 @@
 {% load satchmo_order %}
 {% load satchmo_google %}
 
-{% block navbar %}
-   <li class="first"><a href="{{ shop_base }}/">{% trans "Home" %}</a></li>
-   <li>{% trans "Checkout" %}</li>
-{% endblock %}
+{% block navtitle %}{% trans "Checkout" %}{% endblock %}
 
-{% block content %}
+{% block contentwraper %}
 <div id="ordersuccess">
 <p>{% trans 'Please print out this page as a receipt.  You will also receive an email with this information.' %}</p>
     

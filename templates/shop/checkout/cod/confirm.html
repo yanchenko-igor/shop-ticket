@@ -5,10 +5,7 @@
 
 {% block errorheader %}{% trans "The following error was returned while trying to process your card.  Please correct and resubmit" %}{% endblock %}
 
-{% block navbar %}
-   <li class="first"><a href="{{ shop_base }}/">{% trans "Home" %}</a></li>
-   <li>{% trans "Checkout" %}</li>
-{% endblock %}
+{% block navtitle %}{% trans "Checkout" %}{% endblock %}
 
 {% block payment_display %}
 <h4>{% trans "Payment" %}</h4>

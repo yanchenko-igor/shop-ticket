@@ -3,12 +3,10 @@
 {% load satchmo_currency %}
 {% load satchmo_order %}
 
-{% block navbar %}
-   <li class="first"><a href="{{ shop_base }}/">{% trans "Home" %}</a></li>
-   <li>{% trans "Checkout" %}</li>
-{% endblock %}
+{% block title %}{{ block.super }}{% trans "Checkout" %}{% endblock %}
+{% block navtitle %}{% trans "Checkout" %}{% endblock %}
 
-{% block content %}
+{% block contentwraper %}
 <div id="checkoutprogress">
 <ul>
     <li class="first"><a href="{% url satchmo_checkout-step1 %}">{% trans "Ship/Bill" %}</a></li>
@@ -41,7 +39,7 @@
 </form>
 {% endblock %}
 
-{% endblock content %}
+{% endblock contentwraper %}
 
 {% block subnav %}
 <div class="tab_long tab_activ first_tab_activ">
