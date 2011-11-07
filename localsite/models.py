@@ -174,8 +174,8 @@ class Event(models.Model):
         site = self.product.site
         to_insert = {'variants':[]}
         for date in self.dates.all():
-             for group in self.hallscheme.groups.all():
-                 for seat in group.seats.all():
+            for group in self.hallscheme.groups.all():
+                for seat in group.seats.all():
                      slug = slugify(cyr2lat('%s_%s_%s' % (myslug, date.__unicode__(), seat.__unicode__())))
                      name=u"%s :: %s :: %s" % (myname, date.__unicode__(), seat.__unicode__())
                      to_insert['variants'].append({'name':name, 'slug':slug, 'date':date, 'seat':seat})
@@ -204,6 +204,8 @@ class Event(models.Model):
                 price=self.prices.filter(group=variant['seat'].group).values('price')[0]['price'],
                 ) for variant in to_insert['variants']
             ])
+        for date in self.dates.all():
+            date.update_statuses()
         
 
 class EventDate(models.Model):
@@ -221,8 +223,34 @@ class EventDate(models.Model):
     def __unicode__(self):
         return u"%s %s" % (self.event.__unicode__(), self.datetime.strftime("%d.%m.%Y %H:%M"))
     
-    def update_status(self, slug, status):
-        xml_obj = etree.fromstring(self.map)
+    def update_statuses(self):
+        for price in self.event.all_prices:
+            map_by_price = self.maps_by_price.get_or_create(price=price['price'])[0]
+            map_by_price.update_statuses()
+        xml_obj = etree.fromstring(self.event.hallscheme.map)
+        for ticket in self.tickets.all().select_related('seat'):
+            if ticket.status != 'freely':
+                for item in xml_obj.iter():
+                    if item.attrib.has_key('ticket'):
+                        if item.attrib['id'] == ticket.seat.slug:
+                            child = item.getchildren()[0]
+                            if ticket.status == 'reserved':
+                                child.attrib['fill'] = '#ff8d8d'
+                            elif ticket.status == 'sold':
+                                child.attrib['fill'] = '#8c8c8c'
+                            break
+        self.map = etree.tostring(xml_obj)
+        self.save()
+    
+    def update_status(self, slug, status, price=None):
+        if price:
+            map_by_price = self.maps_by_price.get_or_create(price=price)[0]
+            map_by_price.update_status(slug, status)
+        xml = self.map
+        if not xml:
+            self.update_statuses()
+            xml = self.map
+        xml_obj = etree.fromstring(xml)
         for item in xml_obj.iter():
             if item.attrib.has_key('ticket'):
                 if item.attrib['id'] == slug:
@@ -249,6 +277,60 @@ class EventDate(models.Model):
             self.event.max_date = self.datetime.date()
             self.event.save()
 
+class EventDatePriceMap(models.Model):
+    price = models.IntegerField()
+    eventdate = models.ForeignKey('EventDate', related_name='maps_by_price')
+    map = models.TextField(blank=True, null=True, editable=False)
+    
+    def update_statuses(self):
+        xml_obj = etree.fromstring(self.eventdate.event.hallscheme.map)
+        for price in Price.objects.filter(product__ticket__in=self.eventdate.tickets.all()).select_related('product__ticket__seat'):
+            if price.product.ticket.status != 'freely' and price.price == self.price:
+                for item in xml_obj.iter():
+                    if item.attrib.has_key('ticket'):
+                        if item.attrib['id'] == price.product.ticket.seat.slug:
+                            child = item.getchildren()[0]
+                            if price.product.ticket.status == 'reserved':
+                                child.attrib['fill'] = '#ff8d8d'
+                            elif price.product.ticket.status == 'sold':
+                                child.attrib['fill'] = '#8c8c8c'
+                            break
+            elif price.price != self.price:
+                for item in xml_obj.iter():
+                    if item.attrib.has_key('ticket'):
+                        if item.attrib['id'] == price.product.ticket.seat.slug:
+                            child = item.getchildren()[0]
+                            child.attrib['fill'] = '#8c8c8c'
+                            break
+        self.map = etree.tostring(xml_obj)
+        self.save()
+    
+    def update_status(self, slug, status):
+        xml = self.map
+        if not xml:
+            self.update_statuses()
+            xml = self.map
+        xml_obj = etree.fromstring(xml)
+        for item in xml_obj.iter():
+            if item.attrib.has_key('ticket'):
+                if item.attrib['id'] == slug:
+                    child = item.getchildren()[0]
+                    if status == 'reserved':
+                        child.attrib['fill'] = '#ff8d8d'
+                    elif status == 'sold':
+                        child.attrib['fill'] = '#8c8c8c'
+        self.map = etree.tostring(xml_obj)
+        self.save()
+
+        
+    def __unicode__(self):
+        return "%s - %s" % (self.price, self.eventdate)
+
+    class Meta:
+        verbose_name = _("Event date map cache")
+        verbose_name_plural = _("Event date map cache")
+        unique_together = (('eventdate', 'price'),)
+        
 
 class SeatGroupPrice(models.Model):
     """docstring for SeatGroupPrice"""
@@ -306,10 +388,16 @@ class Ticket(models.Model):
     def _get_subtype(self):
         return 'Ticket'
 
+    def _get_price(self):
+        if not hasattr(self, '_price'):
+            self._price = int(self.product.unit_price)
+        return self._price
+    price = property(_get_price)
+
     def update_status(self, status):
         if self.status != status:
             self.status = status
-            self.datetime.update_status(self.seat.slug, self.status)
+            self.datetime.update_status(self.seat.slug, self.status, self.price)
             self.save()
 
     def save(self, **kwargs):

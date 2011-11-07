@@ -168,6 +168,28 @@ def get_hall_map(request, eventdate_id):
 
     return HttpResponse(xml, mimetype="image/svg+xml")
 
+def get_hall_map_by_price(request, eventdate_id, price):
+    eventdate = EventDate.objects.get(id=eventdate_id)
+    map_by_price = eventdate.maps_by_price.get(price=price)
+    xml = map_by_price.map
+    cart = Cart.objects.from_request(request, create=False)
+    if not isinstance(cart, NullCart):
+        cart_items = cart.cartitem_set.all()
+        if cart_items:
+            tickets = cart_items.filter(product__ticket__datetime=eventdate)
+            if tickets:
+                xml_obj = etree.fromstring(xml)
+                for cart_item in tickets:
+                    for item in xml_obj.iter():
+                        if item.attrib.has_key('ticket'):
+                            if item.attrib['id'] == cart_item.product.ticket.seat.slug:
+                                child = item.getchildren()[0]
+                                child.attrib['fill'] = '#a6cd77'
+                                break
+                xml = etree.tostring(xml_obj)
+
+    return HttpResponse(xml, mimetype="image/svg+xml")
+
 def display_bestsellers(request, count=0, template='product/best_sellers.html'):
     """Display a list of the products which have sold the most"""
     if count == 0:
@@ -293,7 +315,7 @@ def select_event(request, template='localsite/select_event.html'):
     })
     return render_to_response(template, context_instance=ctx)
 
-def add_ticket2(request, quantity=1, redirect_to='satchmo_cart'):
+def add_ticket(request, quantity=1, redirect_to='satchmo_cart'):
     formdata = request.POST.copy()
     details = []
 
