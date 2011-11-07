@@ -3,16 +3,25 @@
 
 import logging
 import os, os.path
+from settings import *
 
-LOCAL_DEV = True
+LOCAL_DEV = False
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 if LOCAL_DEV:
     INTERNAL_IPS = (
 		    '127.0.0.1',
+		    '10.0.1.5',
+		    '91.90.18.172',
 		    '195.43.146.65',
 		    )
+    MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+    INSTALLED_APPS += ('debug_toolbar',)
+
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS' : False,
+}
 
 DIRNAME = os.path.dirname(os.path.abspath(__file__))
 
@@ -33,11 +42,11 @@ SITE_NAME = "simple"
 DATABASES = {
     'default': {
         # The last part of ENGINE is 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'ado_mssql'.
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(DIRNAME, 'simple.db'),  # Or path to database file if using sqlite3
-        #'USER': '',             # Not used with sqlite3.
-        #'PASSWORD': '',         # Not used with sqlite3.
-        'HOST': '',             # Set to empty string for localhost. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'showua',  # Or path to database file if using sqlite3
+        'USER': 'show',             # Not used with sqlite3.
+        'PASSWORD': 'feeP6ooJ',         # Not used with sqlite3.
+        'HOST': 'localhost',             # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',             # Set to empty string for default. Not used with sqlite3.
     }
 }
@@ -57,9 +66,19 @@ SITE_DOMAIN = "localhost"
 SITE_NAME = "Simple Satchmo"
 
 # not suitable for deployment, for testing only, for deployment strongly consider memcached.
-CACHE_BACKEND = "locmem:///"
+#CACHE_BACKEND = "locmem:///"
 CACHE_TIMEOUT = 60*5
-CACHE_PREFIX = "Z"
+#CACHE_PREFIX = "Z"
+
+CACHES = {
+	'default': {
+		'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+			'LOCATION': '127.0.0.1:11211',
+                        'TIMEOUT':  60*60*5,
+		}
+	}
+
+
 
 ACCOUNT_ACTIVATION_DAYS = 7
 

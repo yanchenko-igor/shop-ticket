@@ -68,7 +68,6 @@ MIDDLEWARE_CLASSES = (
     "satchmo_store.shop.SSLMiddleware.SSLRedirect",
     #"satchmo_ext.recentlist.middleware.RecentProductMiddleware",
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 #this is used to add additional config variables to each request
@@ -78,7 +77,7 @@ TEMPLATE_CONTEXT_PROCESSORS = ('satchmo_store.shop.context_processors.settings',
                                'django.contrib.auth.context_processors.auth',
                                'django.contrib.messages.context_processors.messages',
                                'store.localsite.context_processors.categories',
-                               'satchmo_ext.recentlist.context_processors.recent_products',
+                               #'satchmo_ext.recentlist.context_processors.recent_products',
                                )
 
 ROOT_URLCONF = 'store.urls'
@@ -122,7 +121,7 @@ INSTALLED_APPS = (
     #'satchmo_store.contact.supplier',
     #'shipping.modules.tiered',
     'satchmo_ext.newsletter',
-    'satchmo_ext.recentlist',
+    #'satchmo_ext.recentlist',
     #'testimonials',         # dependency on  http://www.assembla.com/spaces/django-testimonials/
     'product',
     'product.modules.configurable',
@@ -146,9 +145,9 @@ INSTALLED_APPS = (
     #'typogrify',            # dependency on  http://code.google.com/p/typogrify/
     #'debug_toolbar',
     'app_plugins',
-    'store.localsite',
     'store',
-    'debug_toolbar',
+    'store.localsite',
+    #'debug_toolbar',
     'south',
     'django_extensions',
     'tinymce',
@@ -159,10 +158,6 @@ AUTHENTICATION_BACKENDS = (
     'satchmo_store.accounts.email-auth.EmailBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
-
-DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS' : False,
-}
 
 #### Satchmo unique variables ####
 from django.conf.urls.defaults import patterns, include, url
