@@ -7,7 +7,12 @@
 $(function() {
   $('#id_datetime').change(function() {
     hallmap = $('#hallmap');
-    hallmap.attr('data', '/hallmap/' + $(this).val() + '/');
+    priceblock = $('.map_cart_price.active span.figure');
+    if (priceblock.length){
+        hallmap.attr('data', '/hallmap/' + $(this).val() + '/' + priceblock.text() + '/');
+    } else {
+        hallmap.attr('data', '/hallmap/' + $(this).val() + '/');
+    }
     hallmap2 = hallmap.clone();
     hallmap.remove();
     hallmap2.appendTo('.map_content');

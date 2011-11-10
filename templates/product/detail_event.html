@@ -341,6 +341,33 @@ $(function() {
 
                     return false;
                 });
+                var select_price = function(){
+                    $('.map_cart_price.active').removeClass('active');
+                    $(this).parent('.map_cart_price').addClass('active');
+                    hallmap = $('#hallmap');
+                    hallmap.attr('data', '/hallmap/' + {% cache 3600 product_event_hallmap_dates_price_js product.id %}{% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %}{% endcache %} + '/' + $('.map_cart_price.active span.figure').text() + '/');
+                    hallmap2 = hallmap.clone();
+                    hallmap.remove();
+                    hallmap2.appendTo('.map_content');
+                    $('.map_cart_price span.figure').unbind('click');
+                    $('.map_cart_price span.figure').click(select_price);
+                    $('.map_cart_price.active span.figure').unbind('click');
+                    $('.map_cart_price.active span.figure').click(unselect_price);
+                    return false;
+                }
+                var unselect_price = function(){
+                    $('.map_cart_price.active').removeClass('active');
+                    hallmap = $('#hallmap');
+                    hallmap.attr('data', '/hallmap/' + {% cache 3600 product_event_hallmap_dates_price_js product.id %}{% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %}{% endcache %} + '/');
+                    hallmap2 = hallmap.clone();
+                    hallmap.remove();
+                    hallmap2.appendTo('.map_content');
+                    $('.map_cart_price span.figure').unbind('click');
+                    $('.map_cart_price span.figure').click(select_price);
+                    return false;
+                }
+                $('.map_cart_price span.figure').click(select_price);
+                $('.map_cart_price.active span.figure').click(unselect_price);
                 $('.btn_zoom_in').click(function(){
                     if (zoomlevel < 5) {
                         zoomlevel += 1;
@@ -415,32 +442,16 @@ $(function() {
                 <div class="map_data">
                     <div class="map_cart">
                         <table class="map_cart_table" width="100%" cellpadding="0" cellspacing="0" border="1">
-				<!--
+                            {% cache 3600 product_prices_map product.id %}
+                            {% for price in product.event.all_prices %}
                             <tr>
                                 <td class="map_cart_point"><img src="{{ media_url }}/images/icon_point_my.gif" alt=""/></td>
                                 <td class="map_cart_name">Места</td>
-                                <td class="map_cart_price"><span class="figure">1500</span> грн</td>
-                                <td class="map_cart_quantity">4 шт</td>
+                                <td class="map_cart_price"><span class="figure">{{ price.price }}</span> грн</td>
+                                {#<td class="map_cart_quantity">4 шт</td>#}
                             </tr>
-                            <tr>
-                                <td class="map_cart_point"><img src="{{ media_url }}/images/icon_point_my.gif" alt=""/></td>
-                                <td class="map_cart_name">Места</td>
-                                <td class="map_cart_price"><span class="figure">560</span> грн</td>
-                                <td class="map_cart_quantity">9 шт</td>
-                            </tr>
-                            <tr>
-                                <td class="map_cart_point"><img src="{{ media_url }}/images/icon_point_my.gif" alt=""/></td>
-                                <td class="map_cart_name">Места</td>
-                                <td class="map_cart_price"><span class="figure">900</span> грн</td>
-                                <td class="map_cart_quantity">3 шт</td>
-                            </tr>
-                            <tr class="last_row">
-                                <td class="map_cart_point"><img src="{{ media_url }}/images/icon_point_dance.gif" alt=""/></td>
-                                <td class="map_cart_name">Танцпол</td>
-                                <td class="map_cart_price"><span class="figure">1500</span> грн</td>
-                                <td class="map_cart_quantity">&nbsp;</td>
-                            </tr>
-			-->
+                            {% endfor %}
+                            {% endcache %}
                         </table>
                     </div>
                     <div class="map_legend_box">
