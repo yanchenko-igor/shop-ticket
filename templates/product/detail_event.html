@@ -447,7 +447,7 @@ $(function() {
                             <tr>
                                 <td class="map_cart_point"><img src="{{ media_url }}/images/icon_point_my.gif" alt=""/></td>
                                 <td class="map_cart_name">Места</td>
-                                <td class="map_cart_price"><span class="figure">{{ price.price }}</span> грн</td>
+                                <td class="map_cart_price"><span class="figure">{{ price.price|stringformat:"i" }}</span> грн</td>
                                 {#<td class="map_cart_quantity">4 шт</td>#}
                             </tr>
                             {% endfor %}
