@@ -1,14 +1,25 @@
 {% load i18n local_tags %}
-<div class="heading_bg">
-    <span class="h_t_l"><!-- --></span>
-    <span class="h_t_r"><!-- --></span>
+<div class='heading_bg'>
+    <span class='h_t_l'>
+<!--  -->
+    </span>
+    <span class='h_t_r'>
+<!--  -->
+    </span>
     <h2>Рекомендуем</h2>
-    <span class="h_b_l"><!-- --></span>
-    <span class="h_b_r"><!-- --></span>
+    <span class='h_b_l'>
+<!--  -->
+    </span>
+    <span class='h_b_r'>
+<!--  -->
+    </span>
 </div>
-<div class="wrap_line">
+<div class='wrap_line'>
     {% show_featured_items 5 %}
-    <div class="all_link">
-        <a class="has_icon_ahead" href="{% url localsite_featured %}"><i class="icon_ahead"></i>{% trans "All Featured" %}</a>
+    <div class='all_link'>
+        <a class='has_icon_ahead' href='{% url localsite_featured %}'>
+            <i class='icon_ahead'></i>
+            {% trans "All Featured" %}
+        </a>
     </div>
 </div>

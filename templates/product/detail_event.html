@@ -1,497 +1,596 @@
 {% extends "shop/base.html" %}
-{% load local_tags %}
-{% comment %}
--------------------------------------------------------------------
-This is the base product detail page.
-To modify the templates of specific types of products, such as
-ProductVariations or CustomProducts, look for product/detail_xxx.html
--------------------------------------------------------------------
-{% endcomment %}
-{% load i18n %}
-{% load thumbnail %}
-{% load cache %}
-{% load satchmo_price %}
-{% load satchmo_currency satchmo_category %}
-{% load satchmo_util satchmo_discounts %}
-{% load app_plugins %}
-
-{% block announcements %}{% endblock %}
-
+{% load local_tags i18n thumbnail cache satchmo_price satchmo_currency satchmo_category satchmo_util satchmo_discounts app_plugins %}
+{% block announcements %}
+{% endblock %}
 {% block extra-head %}
-{% if product.meta %}
-    <meta name="description" content="{{product.meta}}">
-{% endif %}
+    {% if product.meta %}
+        <meta content='{{product.meta}}' name='description' />
+    {% endif %}
 {% endblock %}
-
 {% block bodyclass %}{% cache 3600 product_body_class product.id %}category_{% if product.main_category.parents %}{% with parent=product.main_category.parents|last %}{{ parent.slug }}{% endwith %}{% else %}{{ product.main_category.slug }}{% endif %}{% endcache %}{% endblock %}
-
-{% block navbar %}
-<li class="first"><a href="{{ shop_base }}/">{% trans "Home" %}</a></li>
-{% for name, url in product.category.all.0.get_url_name %}
-    <li><a href="{{ url }}">{{ name }}</a></li>
-{% endfor %}
-<li>{{ product.translated_name }}</li>
-{% endblock %}
-
 {% block content %}
-{% block productdetail %}
-                    <div class="content">
-
-                        <script type="text/javascript">
-                            $(document).ready(function(){
-                                $('.title_theater').hover(
-                                    function(){
-                                      $('#theater').removeClass('underline');
-                                      $('.title_theater_addres').show();
-                                    },
-                                    function(){
-                                      $('#theater').addClass('underline');
-                                      $('.title_theater_addres').hide();
-                                    }
-
-                                )
-                            });
-
-                        </script>
-
-                        <div class="event_img">
-                            {% cache 3600 product_event_img product.id %}
-                            {% if product.main_image.picture|is_portrait %}
-                                  {% thumbnail product.main_image.picture "637x354" crop="50% 25%" as image %}
-                                  <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
-                                  {% endthumbnail %}
-                            {% else %}
-                                  {% thumbnail product.main_image.picture "637x354" crop="center" as image %}
-                                  <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
-                                  {% endthumbnail %}
-                            {% endif %}
-                            {% endcache %}
-                            <div class="event_img_description">
-                                <table class="event_description_tab">
-                                    <tr>
-                                        <td class="event_description_inf">
-                                            <div class="title_theater">
-                                                {% cache 3600 product_theater product.id %}
-                                                <span class="underline" id="theater">{{ product.event.hallscheme.hall.name }}</span>
-                                                <div class="title_theater_addres">
-                                                    {{ product.event.hallscheme.hall.city }}{% if product.event.hallscheme.hall.address %}, {{ product.event.hallscheme.hall.address }}{% endif %}.
-                                                </div>
-                                                {% endcache %}
+    {% block productdetail %}
+        <div class='content'>
+<script type='text/javascript'>
+// <![CDATA[
+                $(document).ready(function(){
+                    $('.title_theater').hover(
+                        function(){
+                          $('#theater').removeClass('underline');
+                          $('.title_theater_addres').show();
+                        },
+                        function(){
+                          $('#theater').addClass('underline');
+                          $('.title_theater_addres').hide();
+                        })
+                });
+// ]]>
+</script>
+            <div class='event_img'>
+                {% cache 3600 product_event_img product.id %}
+                    {% if product.main_image.picture|is_portrait %}
+                        {% thumbnail product.main_image.picture "637x354" crop="50% 25%" as image %}
+                            <a href='{{ product.get_absolute_url }}'>
+                                <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                            </a>
+                        {% endthumbnail %}
+                    {% else %}
+                        {% thumbnail product.main_image.picture "637x354" crop="center" as image %}
+                            <a href='{{ product.get_absolute_url }}'>
+                                <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                            </a>
+                        {% endthumbnail %}
+                    {% endif %}
+                {% endcache %}
+                <div class='event_img_description'>
+                    <table class='event_description_tab'>
+                        <tr>
+                            <td class='event_description_inf'>
+                                <div class='title_theater'>
+                                    {% cache 3600 product_theater product.id %}
+                                        <span id='theater' class='underline'>{{ product.event.hallscheme.hall.name }}</span>
+                                        <div class='title_theater_addres'>
+                                            {{ product.event.hallscheme.hall.city }}
+                                            {% if product.event.hallscheme.hall.address %}
+                                                ,
+                                                {{ product.event.hallscheme.hall.address }}
+                                            {% endif %}
+                                        </div>
+                                    {% endcache %}
+                                </div>
+                                <div class='select_place'>
+                                    <a class='select_place_link' href='#'>
+                                        Выбрать дату и место в зале на схеме
+                                        <img src='{{ media_url }}images/icon_arrow.gif' alt='>' />
+                                    </a>
+                                </div>
+                            </td>
+                            <td class='event_description_btn'>
+                                <div class='feed_order'>
+                                    <a class='btn_lightred select_place_link' href='#'>
+                                        <span>Заказать</span>
+                                    </a>
+                                </div>
+                                {% cache 3600 product_prices product.id %}
+                                    {% if product.event.all_prices.count > 1 %}
+                                        <div class='feed_price multiple'>
+                                            <div class='feed_price_cont'>
+                                                <span class='feed_price_line'>
+                                                    от
+                                                    <em class='figure'>{{ product.event.all_prices.0.price|stringformat:"i" }}</em>
+                                                    грн
+                                                    <i class='icon_expand'></i>
+                                                </span>
                                             </div>
-                                            <div class="select_place">
-                                                <a class="select_place_link" href="#">Выбрать дату и место в зале на схеме  <img alt=">" src="{{ media_url }}images/icon_arrow.gif"></a>
-                                            </div>
-                                        </td>
-                                        <td class="event_description_btn">
-                                            <div class="feed_order">
-                                                <a href="#" class="btn_lightred select_place_link">
-                                                    <span>Заказать</span>
-                                                </a>
-                                            </div>
-                                            {% cache 3600 product_prices product.id %}
-                                            {% if product.event.all_prices.count > 1 %}
-                                            <div class="feed_price multiple">
-                                                <div class="feed_price_cont">
-                                                    <span class="feed_price_line">от <em class="figure">{{ product.event.all_prices.0.price|stringformat:"i"  }}</em> грн<i class="icon_expand"></i></span>
-                                                </div>
-                                                <div class="feed_pop feed_price_pop">
-                                                    <div class="feed_pop_t">
-                                                        <div class="feed_pop_b">
-                                                            <i class="feed_pop_tl"></i><i class="feed_pop_tr"></i>
-                                                            <div class="feed_pop_ml">
-                                                                <div class="feed_pop_mr">
-                                                                    <div class="feed_pop_content">
-                                                                        {% for price in product.event.all_prices %}
-                                                                        <div class="feed_price_line{% if forloop.first %} first{% endif %}">{% if forloop.first %}<span class="note">от</span>{% endif %}<em class="figure">{{ price.price|stringformat:"i"  }}</em> грн</div>
-                                                                        {% endfor %}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <i class="feed_pop_bl"></i><i class="feed_pop_br"></i>
-                                                        </div>
+                                            <div class='feed_pop feed_price_pop'>
+                                                <div class='feed_pop_t'>
+                                                    <div class='feed_pop_b'>
+                                                      <i class='feed_pop_tl'></i>
+                                                      <i class='feed_pop_tr'></i>
+                                                      <div class='feed_pop_ml'>
+                                                          <div class='feed_pop_mr'>
+                                                              <div class='feed_pop_content'>
+                                                                  {% for price in product.event.all_prices %}
+                                                                      <div class="feed_price_line{% if forloop.first %} first{% endif %}">
+                                                                          {% if forloop.first %}
+                                                                              <span class='note'>от</span>
+                                                                          {% endif %}
+                                                                          <em class='figure'>{{ price.price|stringformat:"i" }}</em>
+                                                                          грн
+                                                                      </div>
+                                                                  {% endfor %}
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                      <i class='feed_pop_bl'></i>
+                                                      <i class='feed_pop_br'></i>
                                                     </div>
                                                 </div>
                                             </div>
-                                            {% else %}
-                                            <div class="feed_price">
-                                                <div class="feed_price_cont">
-                                                    <span class="feed_price_line"><em class="figure">{{ product.event.all_prices.0.price|stringformat:"i" }}</em> грн</span>
-                                                </div>                                
+                                        </div>
+                                    {% else %}
+                                        <div class='feed_price'>
+                                            <div class='feed_price_cont'>
+                                                <span class='feed_price_line'>
+                                                    <em class='figure'>{{ product.event.all_prices.0.price|stringformat:"i" }}</em>
+                                                    грн
+                                                </span>
                                             </div>
-                                            {% endif %}
-                                            {% endcache %}
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="wrap_event_date">
-                            <ul class="event_date reset_list clearfix">{% cache 3600 product_dates product.id %}
-                                {% for date in product.event.dates.all %}{% ifchanged date.datetime.date %}{% if forloop.first %}{% else %}</span></li>
-                            {% endif %}<li{% if date.datetime.date == product.event.max_date %} class="last"{% endif %}><a href="#">{{ date.datetime|date:"j E Y, l" }} <span class="event_date_time">{% else %}, {% endifchanged %}{{ date.datetime|date:"H:i" }}{% if forloop.last %}</span></a></li>{% endif %}{% endfor %}
-                                {% endcache %}</ul>
-                        </div>
-                        <div class="wrap_article">
-                            {% cache 3600 product_description product.id %}
-                            <h2 class="h2_article">{{ product.translated_name }}</h2>
-                            <div class="annotation">
-                                {{ product.translated_short_description }}
-                            </div>
-                                {{ product.translated_description }}
-                            {% endcache %}
-                        </div>
-
-                        <div class="other_inf clearfix">
-                            {% cache 3600 product_taglist product.id %}{% if product.event.tags %}<div class="article_tag">
-                                <span class="heading_tag">Теги:</span>{% for tag in product.event.taglist %}<a href="{% url event_tag_detail tag %}">{{ tag }}</a>{% if forloop.last %}.{% else %}, {% endif %}{% endfor %}
-                            </div>{% endif %}{% endcache %}
-
-                            <div class="social_network">
-                                <img src="{{ media_url }}/images/temp/social_btn.jpg" alt="" />
-                            </div>
-
-                        </div>
-
-
-
+                                        </div>
+                                    {% endif %}
+                                {% endcache %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class='wrap_event_date'>
+                <ul class='event_date reset_list clearfix'>
+                    {% cache 3600 product_dates product.id %}
+                        {% for date in product.event.dates.all %}
+                            {% ifchanged date.datetime.date %}
+                                {% if not forloop.first %}
+                                    </span></a></li>
+                                {% endif %}
+                                <li{% if date.datetime.date == product.event.max_date %} class="last"{% endif %}>
+                                    <a href="#">
+                                        {{ date.datetime|date:"j E Y, l" }}
+                                        <span class="event_date_time">
+                            {% else %}
+                              ,
+                            {% endifchanged %}
+                            {{ date.datetime|date:"H:i" }}
+                            {% if forloop.last %}
+                                </span></a></li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endcache %}
+                </ul>
+            </div>
+            <div class='wrap_article'>
+                {% cache 3600 product_description product.id %}
+                    <h2 class='h2_article'>{{ product.translated_name }}</h2>
+                    <div class='annotation'>
+                        {{ product.translated_short_description }}
                     </div>
-{% if user.is_staff %}
-	<a href="{% url edit_event product.id %}">{% trans "Edit" %}</a>
-{% endif %}
+                    {{ product.translated_description }}
+                {% endcache %}
+            </div>
+            <div class='other_inf clearfix'>
+                {% cache 3600 product_taglist product.id %}
+                    {% if product.event.tags %}
+                        <div class='article_tag'>
+                            <span class='heading_tag'>Теги:</span>
+                            {% for tag in product.event.taglist %}
+                                <a href='{% url event_tag_detail tag %}'>{{ tag }}</a>
+                                {% if forloop.last %}
+                                    <div></div>
+                                {% else %}
+                                    ,
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endcache %}
+                <div class='social_network'>
+                    <img src='{{ media_url }}/images/temp/social_btn.jpg' alt='' />
+                </div>
+            </div>
+            {% if user.is_staff %}
+                <a href='{% url edit_event product.id %}'>
+                    {% trans "Edit" %}
+                </a>
+            {% endif %}
+        </div>
+    {% endblock %}
 {% endblock %}
-
-{% block productfooter %}
-{% if sale %}{% include "product/product_discount_eligible.html" %}{% endif %}
-{% plugin_point "product_footer" %}
-{% endblock %}
-{% endblock %}
-
-{% block contentfooter %}
+{% block contentfooter_wraper %}
 {% endblock %}
 {% block sidebar3 %}
-{% cache 3600 product_related_items_block product.id %}
-{% if product.related_items.all %}
-<div class="heading_bg">
-    <span class="h_t_l"><!-- --></span>
-    <span class="h_t_r"><!-- --></span>
-    <h2>{% trans "Related events" %}</h2>
-    <span class="h_b_l"><!-- --></span>
-    <span class="h_b_r"><!-- --></span>
-</div>
-<div class="wrap_line">
-    <ul class="feed_list reset_list">
-        {% for prod in product.related_items.all %}
-            <li>
-                <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
-                <div class="curve_body feed_gray clearfix">
-                    <div class="feed_list_img">
-                            {% if prod.main_image.picture|is_portrait %}
-                                  {% thumbnail prod.main_image.picture "85x61" crop="50% 25%" as image %}
-                                  <a href="{{ prod.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
-                                  {% endthumbnail %}
-                            {% else %}
-                                  {% thumbnail prod.main_image.picture "85x61" crop="center" as image %}
-                                  <a href="{{ prod.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
-                                  {% endthumbnail %}
-                            {% endif %}
-                    </div>
-                    <div class="feed_list_txt">
-                        <div class="feed_list_txt_tag">
-                            {% if prod.main_category %}<a href="{{ prod.main_category.get_absolute_url }}">{{ prod.main_category.translated_name }}</a>{% endif %} &nbsp; {{ prod.event.dates.all.0.datetime|date:"j E" }}
-                        </div>
-                        <div class="feed_list_txt_inf">
-                            <a href="{{ prod.get_absolute_url }}" class="feed_list_detail">{{ prod.translated_name }}</a>
-                        </div>
-                    </div>
+    {% cache 3600 product_related_items_block product.id %}
+        {% if product.related_items.all %}
+            <div class='heading_bg'>
+                <span class="h_t_l"><!-- --></span>
+                <span class='h_t_l'>
+<!--  -->
+                </span>
+                <span class='h_t_r'>
+<!--  -->
+                </span>
+                <h2>
+                    {% trans "Related events" %}
+                </h2>
+                <span class='h_b_l'>
+<!--  -->
+                </span>
+                <span class='h_b_r'>
+<!--  -->
+                </span>
+            </div>
+            <div class='wrap_line'>
+                <ul class='feed_list reset_list'>
+                    {% for prod in product.related_items.all %}
+                        <li>
+                            <div class='curve_top'>
+                                <div>
+                                    <span class='curve_gray'>
+<!--  -->
+                                    </span>
+                                </div>
+                            </div>
+                            <div class='curve_body feed_gray clearfix'>
+                                <div class='feed_list_img'>
+                                        {% if prod.main_image.picture|is_portrait %}
+                                              {% thumbnail prod.main_image.picture "85x61" crop="50% 25%" as image %}
+                                                  <a href='{{ prod.get_absolute_url }}'>
+                                                      <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                  </a>
+                                              {% endthumbnail %}
+                                        {% else %}
+                                            {% thumbnail prod.main_image.picture "85x61" crop="center" as image %}
+                                                <a href='{{ prod.get_absolute_url }}'>
+                                                    <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                </a>
+                                            {% endthumbnail %}
+                                        {% endif %}
+                                </div>
+                                <div class='feed_list_txt'>
+                                    <div class='feed_list_txt_tag'>
+                                        {% if prod.main_category %}
+                                            <a href='{{ prod.main_category.get_absolute_url }}'>
+                                              {{ prod.main_category.translated_name }} }}
+                                            </a>
+                                            &nbsp;
+                                        {% endif %}
+                                        {{ prod.event.dates.all.0.datetime|date:"j E" }}
+                                    </div>
+                                    <div class='feed_list_txt_inf'>
+                                      <a class='feed_list_detail' href='{{ prod.get_absolute_url }}'>{{ prod.translated_name }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='curve_bott'>
+                                <div>
+                                    <span class='curve_gray'>
+<!--  -->
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class='all_link'>
+                    <a class='has_icon_ahead' href='{% url display_related product.id %}'>
+                        <i class='icon_ahead'></i>
+                        {% trans "All related events" %}
+                    </a>
                 </div>
-                <div class="curve_bott"><div><span class="curve_gray"><!-- --></span></div></div>
-            </li>
-        {% endfor %}
-    </ul>
-    <div class="all_link">
-        <a class="has_icon_ahead" href="{% url display_related product.id %}"><i class="icon_ahead"></i>{% trans "All related events" %}</a>
-    </div>
-</div>
-{% endif %}
-{% endcache %}
+            </div>
+        {% endif %}
+    {% endcache %}
 {% endblock %}
 {% block sidebar4 %}
 {% endblock %}
-
 {% block subnav %}
-<div class="tab_long tab_activ first_tab_activ">
-    <div class="tab_activ_sh1">
-        <div class="tab_activ_sh2">
-            {% cache 3600 product_subnav product.id %}
-            {% if product.main_category.parents %}
-            <h1 class="h1_h fl_l">{{ product.main_category.translated_name }}</h1>
-            <div class="back_heading">
-                <img alt="" src="{{ media_url }}images/icon_back_shopping.gif"/>
-                {% with parent=product.main_category.parents|last %}<a href="{{ parent.get_absolute_url }}">Вернуться в {{ parent.translated_name|lower }}</a>{% endwith %}
-            </div>
-            {% else %}
-            <h1 class="h1_h fl_l">{{ product.main_category.translated_name }}</h1>
-            {% endif %}
-            {% endcache %}
-        </div>
-    </div>
-</div>
-{% endblock %}
-
-{% block overlay %}<div class="overlay hidden"></div>{% endblock %}
-
-{% block overbox%}
-{% with dates=product.event.dates.all %}
-    <div class="overbox hidden">
-        <div class="overbox_toolbar clearfix">
-            <script type="text/javascript">
-                //<![CDATA[
-
-var zoomlevel = 1;
-var zoom = {
-    1: {
-        "p": "100%",
-        "o": "0%",
-        "s": "0%"
-    },
-    2: {
-        "p": "150%",
-        "o": "-25%",
-        "s": "25%"
-    },
-    3: {
-        "p": "200%",
-        "o": "-50%",
-        "s": "50%"
-    },
-    4: {
-        "p": "250%",
-        "o": "-75%",
-        "s": "75%"
-    },
-    5: {
-        "p": "300%",
-        "o": "-100%",
-        "s": "100%"
-    }
-};
-var add_ticket = function(slug) {
-    $.post('{% url add_ticket %}', {
-        csrfmiddlewaretoken: getCookie('csrftoken'),
-        seat: slug,
-        {% cache 3600 product_event_hallmap_dates_count_js product.id %}datetime: {% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %},{% endcache %}
-    },
-        function(data) {
-            $(".cart_count").text(data.cart_count);
-            $(".map_summary_figure label").text(data.cart_total);
-            $("#hallmap")[0].contentDocument.getElementById(data.slug).firstElementChild.setAttribute("fill",'#a6cd77');
-        },
-        'json'
-    );
-}
-$(function() {
-                $('.select_place_link').click(function(){
-                    $('.overlay').removeClass('hidden');
-                    $('.overbox').removeClass('hidden');
-                    return false;
-                });
-                var myFile = document.location.toString();
-                if (myFile.match('#select_place')) {
-                  $('.select_place a').click();
-                } 
-                $('.btn_close').click(function(){
-                    $('.overlay').addClass('hidden');
-                    $('.overbox').addClass('hidden');
-                    return false;
-                });
-                $('.btn_left').click(function(){
-                        val =  (parseFloat($('.map_content')[0].style.left) + 10) + "%";
-                        $('.map_content').css('left', val);
-
-                    return false;
-                });
-                $('.btn_right').click(function(){
-                        val =  (parseFloat($('.map_content')[0].style.left) - 10) + "%";
-                        $('.map_content').css('left', val);
-
-                    return false;
-                });
-                $('.btn_bottom').click(function(){
-                        val =  (parseFloat($('.map_content')[0].style.top) - 10) + "%";
-                        $('.map_content').css('top', val);
-
-                    return false;
-                });
-                $('.btn_top').click(function(){
-                        val =  (parseFloat($('.map_content')[0].style.top) + 10) + "%";
-                        $('.map_content').css('top', val);
-
-                    return false;
-                });
-                $('.btn_zoom_out').click(function(){
-                    if (zoomlevel > 1) {
-                        zoomlevel -= 1;
-                        $('.map_content').css('width', zoom[zoomlevel]['p']);
-                        $('.map_content').css('height', zoom[zoomlevel]['p']);
-                        $('.map_content').css('top', zoom[zoomlevel]['o']);
-                        $('.map_content').css('left', zoom[zoomlevel]['o']);
-                        $('.scale_pointer').css('left', zoom[zoomlevel]['s']);
-                        } else {
-                        }
-
-                    return false;
-                });
-                var select_price = function(){
-                    $('.map_cart_price.active').removeClass('active');
-                    $(this).parent('.map_cart_price').addClass('active');
-                    hallmap = $('#hallmap');
-                    hallmap.attr('data', '/hallmap/' + {% cache 3600 product_event_hallmap_dates_price_js product.id %}{% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %}{% endcache %} + '/' + $('.map_cart_price.active span.figure').text() + '/');
-                    hallmap2 = hallmap.clone();
-                    hallmap.remove();
-                    hallmap2.appendTo('.map_content');
-                    $('.map_cart_price span.figure').unbind('click');
-                    $('.map_cart_price span.figure').click(select_price);
-                    $('.map_cart_price.active span.figure').unbind('click');
-                    $('.map_cart_price.active span.figure').click(unselect_price);
-                    return false;
-                }
-                var unselect_price = function(){
-                    $('.map_cart_price.active').removeClass('active');
-                    hallmap = $('#hallmap');
-                    hallmap.attr('data', '/hallmap/' + {% cache 3600 product_event_hallmap_dates_price_js product.id %}{% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %}{% endcache %} + '/');
-                    hallmap2 = hallmap.clone();
-                    hallmap.remove();
-                    hallmap2.appendTo('.map_content');
-                    $('.map_cart_price span.figure').unbind('click');
-                    $('.map_cart_price span.figure').click(select_price);
-                    return false;
-                }
-                $('.map_cart_price span.figure').click(select_price);
-                $('.map_cart_price.active span.figure').click(unselect_price);
-                $('.btn_zoom_in').click(function(){
-                    if (zoomlevel < 5) {
-                        zoomlevel += 1;
-                        $('.map_content').css('width', zoom[zoomlevel]['p']);
-                        $('.map_content').css('height', zoom[zoomlevel]['p']);
-                        $('.map_content').css('top', zoom[zoomlevel]['o']);
-                        $('.map_content').css('left', zoom[zoomlevel]['o']);
-                        $('.scale_pointer').css('left', zoom[zoomlevel]['s']);
-                        } else {
-                        }
-
-                    return false;
-                });
-});
-//]]>
-            </script>
-            <a class="btn_close" href="#">Закрыть<i class="icon_close"></i></a>
-        </div>
-        <div class="overbox_content clearfix">
-
-            <div class="wraper_tab clearfix">
-<div class="tab_long tab_activ first_tab_activ">
-    <div class="tab_activ_sh1">
-        <div class="tab_activ_sh2">
-            {% cache 3600 product_category_name product.id %}
-            <h1 class="h1_h fl_l">{{ product.main_category.translated_name }}</h1>
-            {% endcache %}
-        </div>
-    </div>
-</div>
-                <div class="tab_basket">
-                    <div class="basket_count">
-                        <a class="has_icon_basket" href="{% url satchmo_cart %}"><i class="icon_basket"></i>{% blocktrans count counter=cart|length %}In your cart <span class="cart_count">{{ counter }}</span> ticket{% plural %}In your cart <span class="cart_count">{{ counter }}</span> tickets{% endblocktrans %}</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="map_wrapper clearfix">
-                <div class="map_box">
-                    <div class="map_date">
-                    {% cache 3600 product_event_dates_form product.id %}
-                    {% if dates.count = 1 %}
-                    {{ dates.0.datetime|date:"j E Y, l - H:i" }}
+    <div class='tab_long tab_activ first_tab_activ'>
+        <div class='tab_activ_sh1'>
+            <div class='tab_activ_sh2'>
+                {% cache 3600 product_subnav product.id %}
+                    {% if product.main_category.parents %}
+                        <h1 class='h1_h fl_l'>{{ product.main_category.translated_name }}</h1>
+                        <div class='back_heading'>
+                            <img src='{{ media_url }}images/icon_back_shopping.gif' alt='' />
+                            {% with parent=product.main_category.parents|last %}
+                                <a href='{{ parent.get_absolute_url }}'>
+                                    Вернуться в
+                                    {{ parent.translated_name|lower }}
+                                </a>
+                            {% endwith %}
+                        </div>
                     {% else %}
-                    {% select_section_form product.event %}
+                        <h1 class='h1_h fl_l'>{{ product.main_category.translated_name }}</h1>
                     {% endif %}
-                    {% endcache %}
-                    </div>
-                    <div class="map_name">Выбор мест</div>
-                    <div class="map_viewbox">
-                        <div class="map_content">
-                            {% cache 3600 product_event_hallmap_dates_count product.id %}<object id="hallmap" data="{% if dates.count = 1 %}{% url get_hall_map dates.0.id %}{% endif %}" style="display: block; width: 100%; height: 100%">Please select date</object>{% endcache %}
-                        </div>
-                        <div class="map_controls">
-                            <a class="btn_top" href="#"></a>
-                            <a class="btn_right" href="#"></a>
-                            <a class="btn_bottom" href="#"></a>
-                            <a class="btn_left" href="#"></a>
-                            <div class="map_scale">
-                                <a class="btn_zoom_out" href="#"></a>
-                                <span class="scale_value">
-                                    <span class="scale_line"></span>
-                                    <span class="scale_pointer_base">
-                                        <i class="scale_pointer"></i>
-                                    </span>
-                                </span>
-                                <a class="btn_zoom_in" href="#"></a>
+                {% endcache %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block overlay %}
+    <div class='overlay hidden'></div>
+{% endblock %}
+{% block overbox %}
+    {% with dates=product.event.dates.all %}
+        <div class='overbox hidden'>
+            <div class='overbox_toolbar clearfix'>
+<script type='text/javascript'>
+// <![CDATA[
+                    var zoomlevel = 1;
+                    var zoom = {
+                        1: {
+                            "p": "100%",
+                            "o": "0%",
+                            "s": "0%"
+                        },
+                        2: {
+                            "p": "150%",
+                            "o": "-25%",
+                            "s": "25%"
+                        },
+                        3: {
+                            "p": "200%",
+                            "o": "-50%",
+                            "s": "50%"
+                        },
+                        4: {
+                            "p": "250%",
+                            "o": "-75%",
+                            "s": "75%"
+                        },
+                        5: {
+                            "p": "300%",
+                            "o": "-100%",
+                            "s": "100%"
+                        }
+                    };
+                    var add_ticket = function(slug) {
+                        $.post('{% url add_ticket %}', {
+                            csrfmiddlewaretoken: getCookie('csrftoken'),
+                            seat: slug,
+                            {% cache 3600 product_event_hallmap_dates_count_js product.id %}datetime: {% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %},{% endcache %}
+                        },
+                            function(data) {
+                                $(".cart_count").text(data.cart_count);
+                                $(".map_summary_figure label").text(data.cart_total);
+                                $("#hallmap")[0].contentDocument.getElementById(data.slug).firstElementChild.setAttribute("fill",'#a6cd77');
+                            },
+                            'json'
+                        );
+                    }
+                    $(function() {
+                        $('.select_place_link').click(function(){
+                            $('.overlay').removeClass('hidden');
+                            $('.overbox').removeClass('hidden');
+                            return false;
+                        });
+                        var myFile = document.location.toString();
+                        if (myFile.match('#select_place')) {
+                          $('.select_place a').click();
+                        }
+                        $('.btn_close').click(function(){
+                            $('.overlay').addClass('hidden');
+                            $('.overbox').addClass('hidden');
+                            return false;
+                        });
+                        $('.btn_left').click(function(){
+                            val =  (parseFloat($('.map_content')[0].style.left) + 10) + "%";
+                            $('.map_content').css('left', val);
+                            return false;
+                        });
+                        $('.btn_right').click(function(){
+                            val =  (parseFloat($('.map_content')[0].style.left) - 10) + "%";
+                            $('.map_content').css('left', val);
+                            return false;
+                        });
+                        $('.btn_bottom').click(function(){
+                            val =  (parseFloat($('.map_content')[0].style.top) - 10) + "%";
+                            $('.map_content').css('top', val);
+                            return false;
+                        });
+                        $('.btn_top').click(function(){
+                            val =  (parseFloat($('.map_content')[0].style.top) + 10) + "%";
+                            $('.map_content').css('top', val);
+                            return false;
+                        });
+                        $('.btn_zoom_out').click(function(){
+                            if (zoomlevel > 1) {
+                                zoomlevel -= 1;
+                                $('.map_content').css('width', zoom[zoomlevel]['p']);
+                                $('.map_content').css('height', zoom[zoomlevel]['p']);
+                                $('.map_content').css('top', zoom[zoomlevel]['o']);
+                                $('.map_content').css('left', zoom[zoomlevel]['o']);
+                                $('.scale_pointer').css('left', zoom[zoomlevel]['s']);
+                            } else {
+                            }
+                            return false;
+                        });
+                        var select_price = function(){
+                            $('.map_cart_price.active').removeClass('active');
+                            $(this).parent('.map_cart_price').addClass('active');
+                            hallmap = $('#hallmap');
+                            hallmap.attr('data', '/hallmap/' + {% cache 3600 product_event_hallmap_dates_price_js product.id %}{% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %}{% endcache %} + '/' + $('.map_cart_price.active span.figure').text() + '/');
+                            hallmap2 = hallmap.clone();
+                            hallmap.remove();
+                            hallmap2.appendTo('.map_content');
+                            $('.map_cart_price span.figure').unbind('click');
+                            $('.map_cart_price span.figure').click(select_price);
+                            $('.map_cart_price.active span.figure').unbind('click');
+                            $('.map_cart_price.active span.figure').click(unselect_price);
+                            return false;
+                        }
+                        var unselect_price = function(){
+                            $('.map_cart_price.active').removeClass('active');
+                            hallmap = $('#hallmap');
+                            hallmap.attr('data', '/hallmap/' + {% cache 3600 product_event_hallmap_dates_price_js product.id %}{% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %}{% endcache %} + '/');
+                            hallmap2 = hallmap.clone();
+                            hallmap.remove();
+                            hallmap2.appendTo('.map_content');
+                            $('.map_cart_price span.figure').unbind('click');
+                            $('.map_cart_price span.figure').click(select_price);
+                            return false;
+                        }
+                        $('.map_cart_price span.figure').click(select_price);
+                        $('.map_cart_price.active span.figure').click(unselect_price);
+                        $('.btn_zoom_in').click(function(){
+                            if (zoomlevel < 5) {
+                                zoomlevel += 1;
+                                $('.map_content').css('width', zoom[zoomlevel]['p']);
+                                $('.map_content').css('height', zoom[zoomlevel]['p']);
+                                $('.map_content').css('top', zoom[zoomlevel]['o']);
+                                $('.map_content').css('left', zoom[zoomlevel]['o']);
+                                $('.scale_pointer').css('left', zoom[zoomlevel]['s']);
+                            } else {
+                            }
+                            return false;
+                        });
+                    });
+// ]]>
+</script>
+                <a class='btn_close' href='#'>
+                    Закрыть
+                    <i class='icon_close'></i>
+                </a>
+            </div>
+            <div class='overbox_content clearfix'>
+                <div class='wraper_tab clearfix'>
+                    <div class='tab_long tab_activ first_tab_activ'>
+                        <div class='tab_activ_sh1'>
+                            <div class='tab_activ_sh2'>
+                                {% cache 3600 product_category_name product.id %}
+                                    <h1 class='h1_h fl_l'>{{ product.main_category.translated_name }}</h1>
+                                {% endcache %}
                             </div>
+                        </div>
+                    </div>
+                    <div class='tab_basket'>
+                        <div class='basket_count'>
+                          <a class='has_icon_basket' href='{% url satchmo_cart %}'>
+                            <i class='icon_basket'></i>
+                            {% blocktrans count counter=cart|length %}In your cart <span class="cart_count">{{ counter }}</span> ticket{% plural %}In your cart <span class="cart_count">{{ counter }}</span> tickets{% endblocktrans %}
+                          </a>
                         </div>
                     </div>
                 </div>
-                <div class="map_data">
-                    <div class="map_cart">
-                        <table class="map_cart_table" width="100%" cellpadding="0" cellspacing="0" border="1">
-                            {% cache 3600 product_prices_map product.id %}
-                            {% for price in product.event.all_prices %}
-                            <tr>
-                                <td class="map_cart_point"><img src="{{ media_url }}/images/icon_point_my.gif" alt=""/></td>
-                                <td class="map_cart_name">Места</td>
-                                <td class="map_cart_price"><span class="figure">{{ price.price|stringformat:"i" }}</span> грн</td>
-                                {#<td class="map_cart_quantity">4 шт</td>#}
-                            </tr>
-                            {% endfor %}
+                <div class='map_wrapper clearfix'>
+                    <div class='map_box'>
+                        <div class='map_date'>
+                            {% cache 3600 product_event_dates_form product.id %}
+                                {% if dates.count = 1 %}
+                                    {{ dates.0.datetime|date:"j E Y, l - H:i" }}
+                                {% else %}
+                                    {% select_section_form product.event %}
+                                {% endif %}
                             {% endcache %}
-                        </table>
-                    </div>
-                    <div class="map_legend_box">
-                        <div class="curve_l_top"><div><span><!-- --></span></div></div>
-                        <div class="curve_l_body clearfix">
-                            <div class="map_legend">
-                                <p><img src="{{ media_url }}/images/icon_point_disabled.gif" alt=""/>Недоступно</p>
-                                <p><img src="{{ media_url }}/images/icon_point_reserved.gif" alt=""/>Зарезервировано</p>
-                                <p><img src="{{ media_url }}/images/icon_point_my.gif" alt=""/>Мои места</p>
+                        </div>
+                        <div class='map_name'>Выбор мест</div>
+                        <div class='map_viewbox'>
+                            <div class='map_content'>
+                                {% cache 3600 product_event_hallmap_dates_count product.id %}
+                                    <object id='hallmap' style='display: block; width: 100%; height: 100%' data='{% if dates.count = 1 %}{% url get_hall_map dates.0.id %}{% endif %}'>Please select date</object>
+                                {% endcache %}
+                            </div>
+                            <div class='map_controls'>
+                                <a class='btn_top' href='#'></a>
+                                <a class='btn_right' href='#'></a>
+                                <a class='btn_bottom' href='#'></a>
+                                <a class='btn_left' href='#'></a>
+                                <div class='map_scale'>
+                                    <a class='btn_zoom_out' href='#'></a>
+                                    <span class='scale_value'>
+                                        <span class='scale_line'></span>
+                                        <span class='scale_pointer_base'>
+                                            <i class='scale_pointer'></i>
+                                        </span>
+                                    </span>
+                                    <a class='btn_zoom_in' href='#'></a>
+                                </div>
                             </div>
                         </div>
-                        <div class="curve_l_bot"><div><span><!-- --></span></div></div>
                     </div>
-                    <div class="map_summary_box">
-                        <div class="curve_l_top"><div><span><!-- --></span></div></div>
-                        <div class="curve_l_body clearfix">
-                            <div class="map_summary">
-                                <table class="map_summary_table" width="100%" cellpadding="0" cellspacing="0" border="1">
+                    <div class='map_data'>
+                        <div class='map_cart'>
+                            <table class='map_cart_table' cellpadding='0' width='100%' border='1' cellspacing='0'>
+                                {% cache 3600 product_prices_map product.id %}
+                                    {% for price in product.event.all_prices %}
+                                    {% endfor %}
                                     <tr>
-                                        <td class="map_summary_name">Выбрано мест:</td>
-					<td class="map_summary_figure"><span class="cart_count">{{ cart|length }}</span></td>
+                                        <td class='map_cart_point'>
+                                            <img src='{{ media_url }}/images/icon_point_my.gif' alt='' />
+                                        </td>
+                                        <td class='map_cart_name'>Места</td>
+                                        <td class='map_cart_price'>
+                                            <span class='figure'>{{ price.price|stringformat:"i" }}</span>
+                                            грн
+                                        </td>
+                                        {#<td class="map_cart_quantity">4 шт</td>#}
                                     </tr>
-                                    <tr>
-                                        <td class="map_summary_name">На сумму:</td>
-                                        <td class="map_summary_figure"><label>{{ cart.total|stringformat:"i" }}</label> грн</td>
-                                    </tr>
-                                </table>
+                                {% endcache %}
+                            </table>
+                        </div>
+                        <div class='map_legend_box'>
+                            <div class='curve_l_top'>
+                                <div>
+                                    <span>
+<!--  -->
+                                    </span>
+                                </div>
+                            </div>
+                            <div class='curve_l_body clearfix'>
+                                <div class='map_legend'>
+                                    <p>
+                                        <img src='{{ media_url }}/images/icon_point_disabled.gif' alt=''>Недоступно</img>
+                                    </p>
+                                    <p>
+                                        <img src='{{ media_url }}/images/icon_point_reserved.gif' alt=''>Зарезервировано</img>
+                                    </p>
+                                    <p>
+                                        <img src='{{ media_url }}/images/icon_point_my.gif' alt=''>Мои места</img>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class='curve_l_bot'>
+                                <div>
+                                    <span>
+<!--  -->
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                        <div class="curve_l_bot"><div><span><!-- --></span></div></div>
-                    </div>
-                    <div class="map_order">
-			    <a class="btn_red_l" href="{% url satchmo_cart %}">
-                            <span>Перейти к заказу<b>Перейти к заказу</b></span>
-                        </a>
+                        <div class='map_summary_box'>
+                            <div class='curve_l_top'>
+                                <div>
+                                    <span>
+<!--  -->
+                                    </span>
+                                </div>
+                            </div>
+                            <div class='curve_l_body clearfix'>
+                                <div class='map_summary'>
+                                    <table class='map_summary_table' cellpadding='0' width='100%' border='1' cellspacing='0'>
+                                        <tr>
+                                            <td class='map_summary_name'>Выбрано мест:</td>
+                                            <td class='map_summary_figure'>
+                                                <span class='cart_count'>{{ cart|length }}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class='map_summary_name'>На сумму:</td></td>
+                                            <td class='map_summary_figure'>
+                                              <label>{{ cart.total|stringformat:"i" }}</label>
+                                              грн
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class='curve_l_bot'>
+                                <div>
+                                    <span>
+<!--  -->
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='map_order'>
+                            <a class='btn_red_l' href='{% url satchmo_cart %}'>
+                                <span>
+                                    Перейти к заказу
+                                    <b>Перейти к заказу</b>
+                                </span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
-    </div>
-{% endwith %}
+    {% endwith %}
 {% endblock %}

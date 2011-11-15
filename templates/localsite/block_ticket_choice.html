@@ -1,21 +1,21 @@
 {% for form in forms %}
     {{ form.as_p }}
 {% endfor %}
-
-{#{ event.hallscheme.map|safe }#}
-<script type="text/javascript">
-$(function() {
-  $('#id_datetime').change(function() {
-    hallmap = $('#hallmap');
-    priceblock = $('.map_cart_price.active span.figure');
-    if (priceblock.length){
-        hallmap.attr('data', '/hallmap/' + $(this).val() + '/' + priceblock.text() + '/');
-    } else {
-        hallmap.attr('data', '/hallmap/' + $(this).val() + '/');
-    }
-    hallmap2 = hallmap.clone();
-    hallmap.remove();
-    hallmap2.appendTo('.map_content');
-  });
-});
+<script type='text/javascript'>
+// <![CDATA[
+    $(function() {
+      $('#id_datetime').change(function() {
+        hallmap = $('#hallmap');
+        priceblock = $('.map_cart_price.active span.figure');
+        if (priceblock.length){
+            hallmap.attr('data', '/hallmap/' + $(this).val() + '/' + priceblock.text() + '/');
+        } else {
+            hallmap.attr('data', '/hallmap/' + $(this).val() + '/');
+        }
+        hallmap2 = hallmap.clone();
+        hallmap.remove();
+        hallmap2.appendTo('.map_content');
+      });
+    });
+// ]]>
 </script>

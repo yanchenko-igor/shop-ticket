@@ -1,360 +1,381 @@
 {% load i18n satchmo_category satchmo_google satchmo_util satchmo_currency satchmo_discounts app_plugins normalize_decimal thumbnail cache %}
-{% block doctype %}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+{% block doctype %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 {% endblock %}
-<head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <link rel="alternate" type="application/atom+xml" title="RSS" href="{% url eventfeed %}"/>
-        <link href="{{ media_url }}css/main.css" rel="stylesheet" type="text/css" media="Screen, projection"/>        
-        <link href="{{ media_url }}css/jscal2.css" rel="stylesheet" type="text/css" media="Screen, projection"/>
-        <!--[if IE]>
-            <link href="stylesheets/ie.css" rel="stylesheet" type="text/css" media="Screen, projection"/>
-        <![endif]-->
-       <script src="{{ media_url }}js/jquery-1.7.min.js" type="text/javascript"></script>
-       <script src="{{ media_url }}js/jquery.carouFredSel-4.4.1-packed.js" type="text/javascript"></script>
-       <script src="{{ media_url }}js/get_cookie.min.js" type="text/javascript"></script>
-       <script src="{{ media_url }}js/jquery.chainedSelects.min.js" type="text/javascript"></script>
-       <script src="{{ media_url }}js/jscal2.js" type="text/javascript"></script>
-       <script src="{{ media_url }}js/jscal2ru.js" type="text/javascript" ></script>
-    {% block extra-head %}{% endblock %}
-    {% block stylesheet %}{% endblock %}
-    <title>{% block title %}{{ shop_name }}{% if pagetitle %}: {{ pagetitle }}{% endif %}{% endblock %}</title>
-    {% plugin_point "page_head" %}
-</head>
-{% block body %}
-<body{% if bodyid %} id="{{ bodyid }}"{% endif %}{% block bodyclass_wrapper %} class="{% block bodyclass %}main{% endblock %}"{% endblock %}>
-    {% plugin_point "page_top" %}
-
-    <div class="wraper_header">
-        <div class="wraper_header2 wraper">
-            <table class="header_tab">
-                <tr>
-                    <td class="hader_tab_menu">
-                        {% cache 3600 header_menu %}
-                        <ul class="header_menu">
-                            <li class="first"><a href="{{ news_page.url }}">{{ news_page.title }}</a></li>
-                            <li><a href="{{ about_page.url }}">{{ about_page.title }}</a></li>
-                            <li><a href="{{ help_page.url }}">{{ help_page.title }}</a></li>
-                            <li><a href="{{ cooperation_page.url }}">{{ cooperation_page.title }}</a></li>
-                            <li><a href="{% url satchmo_checkout-step1 %}">Оформление заказов</a></li>
-                            <li><a href="{{ sitemap_page.url }}">{{ sitemap_page.title }}</a></li>
-                        </ul>
-                        {% endcache %}
-                    </td>
-
-
-
-                    <td class="header_tab_reg">
-                        <div class="header_bl_reg_top"><div><span><!-- --></span></div></div>
-                        <div class="header_bl_reg ">
-
-	    {% if user.is_authenticated %}
-	    <div class="user_greeting">
-		    {% trans "You login as" %} <a href="{% url satchmo_account_info %}" class="user_name">{% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user.username }}{% endif %}</a>
-	    </div>
-	    {% else %}
-                            <a class="btn_red" href="{{ login_url }}">
-                                <span>
-                                    Вход
-                                    <b>Вход</b>
-                                </span>
-                            </a>&nbsp;
-
-                            <a class="btn_red" href="{% url registration_register %}">
-                                <span>
-                                     Регистрация
-                                    <b> Регистрация</b>
-                                </span>
-                            </a>
-	    {% endif %}
-
-
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
-    <div class="wraper wraper_base">
-        <div class="wraper_top">
-            <span class="w_t_l"><!-- --></span>
-            <span class="w_t_r"><!-- --></span>
-            <div class="wraper_top_bl">
-                <div class="logo">
-                    <a href="/">Show.ua<br/>БИЛЕТЫ НА ВСЁ<i></i></a>                    
-                </div>
-                <div class="top_telephone">
-                    <div class="telephone_number">044 245 58 90</div>
-                    <div class="time_work">Работаем с 9-00 до 21-00</div>
-
-                </div>
-
-                {% cache 3600 dop_menu %}
-                <div class="dop_menu">
-                    <ul class="menu_top reset_list">
-                    {% for category in root_categories %}
-                    <li class="level_top category_{{ category.slug }}">
-                            <a href="{{ category.get_absolute_url }}">{{ category.translated_name }} <img src="{{ media_url }}images/icon_dopmenu.gif" alt="" /></a>
-                            <ul>
-                            {% for child in category.child.all %}
-                                <li{% if forloop.last %} class="last_d"{% endif %}><a href="{{ child.get_absolute_url }}">{{ child.name }}</a></li>
-                            {% endfor %}
-                            </ul>
-                        </li>
-                    {% endfor %}
-                    </ul>
-                </div>
-                {% endcache %}
-
-            </div>
-            <div class="search_top">
-                {% satchmo_search_form %}
-            </div>
-            <span class="w_t_l_b"><!-- --></span>
-            <span class="w_t_r_b"><!-- --></span>
-        </div>
-        <div class="wraper_top_shadow"><div><span><!-- --></span></div></div>
-        <div class="main_content clearfix">
-            <div class="wraper_tab clearfix">
-                {% block subnav %}
-                <div class="tab_long tab_activ first_tab_activ">
-                    <div class="tab_activ_sh1">
-                        <div class="tab_activ_sh2">
-                            <h1 class="h1_h">{% block navtitle %}{% endblock %}</h1>
-                        </div>
-                    </div>
-                </div>
-                {% endblock %}
-                <div class="tab_basket">
-                    <div class="basket_count">
-                        <a class="has_icon_basket" href="{% url satchmo_cart %}"><i class="icon_basket"></i>{% blocktrans count counter=cart|length %}In your cart <span class="cart_count">{{ counter }}</span> ticket{% plural %}In your cart <span class="cart_count">{{ counter }}</span> tickets{% endblocktrans %}</a>
-                    </div>
-                </div>
-            </div>
-
-            {% block contentwraper %}
-            <div class="colset colset_2">
-                <div class="col col1">
-                    {% block announcements %}
-                    {% endblock %}
-	                {% block content %}{% endblock %}
-                    <div class="colset_22 clearfix">
-                        {% block contentfooter %}
-                        {% block contentfootercol1 %}
-                        <div class="col1">
-                        {% include "localsite/block_featured.html" %}
-                        </div>
-                        {% endblock %}
-
-                        {% block contentfootercol2 %}
-                        <div class="col2">
-                        {% include "localsite/block_bestsellers.html" %}
-                        </div>
-                        {% endblock %}
-                        {% endblock %}
-
-                    </div>
-
-                </div>
-
-                {% block sidebar %}
-                <div class="col col2">
-
-                    {% block sidebar1 %}
-                    {% if form_city and form_event %}
-                        {% include "localsite/block_select_event_form.html" %}
-                    {% else %}
-                      {% with form_city=select_city_form form_event=select_event_form %}
-                        {% cache 3600 empty_select_event_form %}
-                        {% include "localsite/block_select_event_form.html" %}
-                        {% endcache %}
-                      {% endwith %}
-                    {% endif %}
-                    {% endblock %} 
-                    {% block sidebar2 %} 
-                        {% include "localsite/block_banner.html" %}
-                    {% endblock %} 
-
-                    {% block sidebar3 %} 
-                        {% include "localsite/block_subscription.html" %}
-                    {% endblock %} 
-
-                    {% block sidebar4 %} 
-                        {% include "localsite/block_about_us.html" %}
-                    {% endblock %} 
-                    {% block sidebar5 %} 
-                    {% endblock %} 
-
-                    
-                </div>
-                {% endblock %}
-            </div>
+<html lang='en' xmlns='http://www.w3.org/1999/xhtml' xml:lang='en'>
+    <head>
+        <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+        <link href='{% url eventfeed %}' type='application/atom+xml' rel='alternate' title='RSS' />
+        <link media='Screen, projection' href='{{ media_url }}css/main.css' type='text/css' rel='stylesheet' />
+        <link media='Screen, projection' href='{{ media_url }}css/jscal2.css' type='text/css' rel='stylesheet' />
+<!--[if IE]>
+            <link media='Screen, projection' href='{{ media_url }}css/ie.css' type='text/css' rel='stylesheet' />
+<![endif]-->        <script src='{{ media_url }}js/jquery-1.7.min.js' type='text/javascript'></script>
+        <script src='{{ media_url }}js/jquery.carouFredSel-4.4.1-packed.js' type='text/javascript'></script>
+        <script src='{{ media_url }}js/get_cookie.min.js' type='text/javascript'></script>
+        <script src='{{ media_url }}js/jquery.chainedSelects.min.js' type='text/javascript'></script>
+        <script src='{{ media_url }}js/jscal2.js' type='text/javascript'></script>
+        <script src='{{ media_url }}js/jscal2ru.js' type='text/javascript'></script>
+        {% block extra-head %}
         {% endblock %}
-        </div>
-
-        <div class="wraper_footer">
-
-            <div class="footer_top clearfix">
-                {% cache 3600 footer_menu %}
-                <ul class="reset_list footer_menu">
-                    <li><a href="{{ news_page.url }}">{{ news_page.title }}</a></li>
-                    <li><a href="{{ about_page.url }}">{{ about_page.title }}</a></li>
-                    <li><a href="{{ help_page.url }}">{{ help_page.title }}</a></li>
-                    <li><a href="{{ cooperation_page.url }}">{{ cooperation_page.title }}</a></li>
-                    <li><a href="{% url satchmo_checkout-step1 %}">Оформление заказов</a></li>
-                    <li class="last"><a href="{{ sitemap_page.url }}">{{ sitemap_page.title }}</a></li>
-                </ul>
-                {% endcache %}
-                <div class="search_footer">
-                    {% satchmo_search_form %}
+        {% block stylesheet %}
+        {% endblock %}
+        <title>
+            {% block title %}
+                {{ shop_name }}
+                {% if pagetitle %}
+                    :
+                    {{ pagetitle }}
+                {% endif %}
+            {% endblock %}
+        </title>
+        {% plugin_point "page_head" %}
+    </head>
+    {% block body %}
+        <body{% if bodyid %} id="{{ bodyid }}"{% endif %}{% block bodyclass_wrapper %} class="{% block bodyclass %}main{% endblock %}"{% endblock %}>
+            {% plugin_point "page_top" %}
+            <div class='wraper_header'>
+                <div class='wraper_header2 wraper'>
+                    <table class='header_tab'>
+                        <tr>
+                            <td class='hader_tab_menu'>
+                                {% cache 3600 header_menu %}
+                                    <ul class='header_menu'>
+                                        <li class='first'>
+                                            <a href='{{ news_page.url }}'>{{ news_page.title }}</a>
+                                        </li>
+                                        <li>
+                                            <a href='{{ about_page.url }}'>{{ about_page.title }}</a>
+                                        </li>
+                                        <li>
+                                            <a href='{{ help_page.url }}'>{{ help_page.title }}</a>
+                                        </li>
+                                        <li>
+                                            <a href='{{ cooperation_page.url }}'>{{ cooperation_page.title }}</a>
+                                        </li>
+                                        <li>
+                                            <a href='{% url satchmo_checkout-step1 %}'>Оформление заказов</a>
+                                        </li>
+                                        <li>
+                                            <a href='{{ sitemap_page.url }}'>{{ sitemap_page.title }}</a>
+                                        </li>
+                                    </ul>
+                                {% endcache %}
+                            </td>
+                            <td class='header_tab_reg'>
+                                <div class='header_bl_reg_top'>
+                                    <div>
+                                        <span>
+<!--  -->
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class='header_bl_reg'>
+                                    {% if user.is_authenticated %}
+                                        <div class='user_greeting'>
+                                            {% trans "You login as" %}
+                                            <a class='user_name' href='{% url satchmo_account_info %}'>
+                                                {% if user.get_full_name %}
+                                                    {{ user.get_full_name }}
+                                                {% else %}
+                                                    {{ user.username }}
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                    {% else %}
+                                        <a class='btn_red' href='{{ login_url }}'>
+                                            <span>
+                                                Вход
+                                                <b>Вход</b>
+                                            </span>
+                                        </a>
+                                        <a class='btn_red' href='{% url registration_register %}'>
+                                            <span>
+                                                Регистрация
+                                                <b>Регистрация</b>
+                                            </span>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
-            <div class="footer_bl clearfix">
-                <div class="footer_btn">
-                    <ul class="reset_list ul_footer_btn">
-                        <li><a href="#"><img src="{{ media_url }}images/icon_twiter.png" alt="" /></a></li>
-                        <li><a href="#"><img src="{{ media_url }}images/icon_f_b.png" alt="" /></a></li>
-                        <li><a href="#"><img src="{{ media_url }}images/icon_v_k.png" alt="" /></a></li>
-                    </ul>
+            <div class='wraper wraper_base'>
+                <div class='wraper_top'>
+                    <span class='w_t_l'>
+<!--  -->
+                    </span>
+                    <span class='w_t_r'>
+<!--  -->
+                    </span>
+                    <div class='wraper_top_bl'>
+                        <div class='logo'>
+                            <a href='/'>
+                                Show.ua
+                                <br />
+                                БИЛЕТЫ НА ВСЁ
+                                <i></i>
+                            </a>
+                        </div>
+                        <div class='top_telephone'>
+                            <div class='telephone_number'>
+                                044 245 58 90
+                            </div>
+                            <div class='time_work'>
+                                Работаем с 9-00 до 21-00
+                            </div>
+                        </div>
+                        {% cache 3600 dop_menu %}
+                            <div class='dop_menu'>
+                                <ul class='menu_top reset_list'>
+                                    {% for category in root_categories %}
+                                        <li class='level_top category_{{ category.slug }}'>
+                                            <a href='{{ category.get_absolute_url }}'>
+                                                {{ category.translated_name }}
+                                                <img src='{{ media_url }}images/icon_dopmenu.gif' alt='' />
+                                            </a>
+                                            <ul>
+                                                {% for child in category.child.all %}
+                                                    <li{% if forloop.last %} class='last_d'{% endif %}>
+                                                        <a href='{{ child.get_absolute_url }}'>{{ child.name }}</a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endcache %}
+                    </div>
+                    <div class='search_top'>
+                        {% satchmo_search_form %}
+                    </div>
+                    <span class='w_t_l_b'>
+<!--  -->
+                    </span>
+                    <span class='w_t_r_b'>
+<!--  -->
+                    </span>
                 </div>
-
-			{% block sidebar-categories %}
-            {% cache 3600 footer_dop_menu %}
-			<div class="footer_dop_menu clearfix">
-                {% for category in root_categories %}
-                    <ul class="dop_menu_bott reset_list">
-                        <li>
-                        <a href="{{ category.get_absolute_url }}">{{ category.translated_name }}</a>
-                            <ul>
-                              {% for child in category.child.all %}
-                              <li><a href="{{ child.get_absolute_url }}">{{ child.name }}</a></li>
-                              {% endfor %}
+                <div class='wraper_top_shadow'>
+                    <div>
+                        <span>
+<!--  -->
+                        </span>
+                    </div>
+                </div>
+                <div class='main_content clearfix'>
+                    <div class='wraper_tab clearfix'>
+                        {% block subnav %}
+                            <div class='tab_long tab_activ first_tab_activ'>
+                                <div class='tab_activ_sh1'>
+                                    <div class='tab_activ_sh1'>
+                                        <h1 class='h1_h'>
+                                            {% block navtitle %}
+                                            {% endblock %}
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endblock %}
+                    </div>
+                    <div class='tab_basket'>
+                        <div class='basket_count'>
+                            <a class='has_icon_basket' href='{% url satchmo_cart %}'>
+                                <i class='icon_basket'></i>
+                                {% blocktrans count counter=cart|length %}In your cart <span class="cart_count">{{ counter }}</span> ticket{% plural %}In your cart <span class="cart_count">{{ counter }}</span> tickets{% endblocktrans %}
+                            </a>
+                        </div>
+                    </div>
+                    {% block contentwraper %}
+                        <div class='colset colset_2'>
+                            <div class='col col1'>
+                                {% block announcements %}
+                                {% endblock %}
+                                {% block content %}
+                                {% endblock %}
+                                {% block contentfooter_wraper %}
+                                    <div class='colset_22 clearfix'>
+                                        {% block contentfooter %}
+                                            {% block contentfootercol1 %}
+                                                <div class='col1'>
+                                                    {% include "localsite/block_featured.html" %}
+                                                </div>
+                                            {% endblock %}
+                                            {% block contentfootercol2 %}
+                                                <div class='col2'>
+                                                    {% include "localsite/block_bestsellers.html" %}
+                                                </div>
+                                            {% endblock %}
+                                        {% endblock %}
+                                    </div>
+                                {% endblock %}
+                            </div>
+                            {% block sidebar %}
+                                <div class='col col2'>
+                                    {% block sidebar1 %}
+                                        {% if form_city and form_event %}
+                                            {% include "localsite/block_select_event_form.html" %}
+                                        {% else %}
+                                            {% with form_city=select_city_form form_event=select_event_form %}
+                                                {% cache 3600 empty_select_event_form %}
+                                                    {% include "localsite/block_select_event_form.html" %}
+                                                {% endcache %}
+                                            {% endwith %}
+                                        {% endif %}
+                                    {% endblock %}
+                                    {% block sidebar2 %}
+                                        {% include "localsite/block_banner.html" %}
+                                    {% endblock %}
+                                    {% block sidebar3 %}
+                                        {% include "localsite/block_subscription.html" %}
+                                    {% endblock %}
+                                    {% block sidebar4 %}
+                                        {% include "localsite/block_about_us.html" %}
+                                    {% endblock %}
+                                    {% block sidebar5 %}
+                                    {% endblock %}
+                                </div>
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+                </div>
+                <div class='wraper_footer'>
+                    <div class='footer_top clearfix'>
+                        {% cache 3600 footer_menu %}
+                            <ul class='reset_list footer_menu'>
+                                   <li>
+                                       <a href='{{ news_page.url }}'>{{ news_page.title }}</a>
+                                   </li>
+                                   <li>
+                                       <a href='{{ about_page.url }}'>{{ about_page.title }}</a>
+                                   </li>
+                                   <li>
+                                       <a href='{{ help_page.url }}'>{{ help_page.title }}</a>
+                                   </li>
+                                   <li>
+                                       <a href='{{ cooperation_page.url }}'>{{ cooperation_page.title }}</a>
+                                   </li>
+                                   <li>
+                                       <a href='{% url satchmo_checkout-step1 %}'>Оформление заказов</a>
+                                   </li>
+                                   <li class='last'>
+                                       <a href='{{ sitemap_page.url }}'>{{ sitemap_page.title }}</a>
+                                   </li>
                             </ul>
-                        </li>
-                    </ul>
-                {% endfor %}
-
-              </div>
-            {% endcache %}
-			{% endblock sidebar-categories %}
-            </div>
-
-            <div class="footer_bott clearfix">
-                <div class="footer_copyr">&copy; 2011 Show.ua.</div>
-                <div class="footer_inf">
-		{% block footer %}
-                    Продажа билетов на любые мероприятия во всех городах Украины, беслпатная доставка!
-		{% endblock %}
+                        {% endcache %}
+                        <div class='search_footer'>
+                            {% satchmo_search_form %}
+                        </div>
+                    </div>
+                    <div class='footer_bl clearfix'>
+                        <div class='footer_btn'>
+                            <ul class='reset_list ul_footer_btn'>
+                                <li>
+                                    <a href='#'>
+                                        <img src='{{ media_url }}images/icon_tw.png' alt='' />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href='#'>
+                                        <img src='{{ media_url }}images/icon_fb.png' alt='' />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href='#'>
+                                        <img src='{{ media_url }}images/icon_vk.png' alt='' />
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                       {% block sidebar-categories %}
+                           {% cache 3600 footer_dop_menu %}
+                               <div class='footer_dop_menu clearfix'>
+                                   {% for category in root_categories %}
+                                       <ul class='dop_menu_bott reset_list'>
+                                           <li>
+                                               <a href='{{ category.get_absolute_url }}'>{{ category.translated_name }}</a>
+                                               <ul>
+                                                   {% for child in category.child.all %}
+                                                       <li>
+                                                         <a href='{{ child.get_absolute_url }}'>{{ child.name }}</a>
+                                                       </li>
+                                                   {% endfor %}
+                                               </ul>
+                                           </li>
+                                       </ul>
+                                   {% endfor %}
+                               </div>
+                           {% endcache %}
+                       {% endblock %}
+                    </div>
+                   <div class='footer_bott clearfix'>
+                       <div class='footer_copyr'>&copy; 2011 Show.ua.</div>
+                       <div class='footer_inf'>
+                           {% block footer %}
+                               Продажа билетов на любые мероприятия во всех городах Украины, беслпатная доставка!
+                           {% endblock %}
+                       </div>
+                       <div class='footer_creat'>
+                           <img src='{{ media_url }}images/zemma.jpg' alt='' />
+                       </div>
+                   </div>
                 </div>
-                <div class="footer_creat">Дизайн сайта <img src="{{ media_url }}images/zemma.jpg" alt="" /></div>
             </div>
-
-        </div>
-
-
-
-    </div>
-    <!-- /wraper_base -->
-
-	{% block page-close %}
-    {% block google-tracker %}
-    {% if shop.options.GOOGLE.ANALYTICS.value %}
-        {% show_tracker is_secure %}
-    {% endif %}
+            {% block overlay %}
+                {% if messages %}
+                    <div class='overlay'></div>
+                {% endif %}
+            {% endblock %}
+            {% block overbox %}
+            {% endblock %}
+            {% block messages %}
+                {% if messages %}
+<script type='text/javascript'>
+// <![CDATA[
+                        $(function() {
+                            $('.msg_close').click(function(){
+                                $('.overbox_content:last').remove();
+                                if ($('.overbox_content:last').length) {
+                                        $('.overbox_content:last').removeClass('hidden');
+                                } else {
+                                        $('.overlay').addClass('hidden');
+                                }
+                                return false;
+                            });
+                        });
+// ]]>
+</script>
+                    <div class='overbox msg_overbox'>
+                        {% for message in messages %}
+                            <div class='overbox_content clearfix{% if not forloop.last%} hidden{% endif %}'>
+                                <div class='overbox_header clearfix'>
+                                    <h2 class='overbox_name'>
+                                        {% if message.tags %}
+                                            {{ message.tags }}
+                                        {% endif %}
+                                    </h2>
+                                    <a class='btn_close msg_close' href='#'>
+                                        <i class='icon_close'></i>
+                                    </a>
+                                </div>
+                                <div class='overbox_text'>
+                                    {{ message }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endblock %}
+            {% block page-close %}
+                {% block google-tracker %}
+                    {% if shop.options.GOOGLE.ANALYTICS.value %}
+                        {% show_tracker is_secure %}
+                    {% endif %}
+                {% endblock %}
+            {% endblock %}
+        </body>
     {% endblock %}
-	{% endblock %}
-
-    {#{% block navbar %}Breadcrumbs here{% endblock %}#}
-    {% comment %}
-		{% block sidebar-secondary %}
-			{% block sidebar %}
-			
-			{% block sidebar-secondary-bottom %}
-			{% plugin_point "sidebar_secondary_bottom" %}
-			{% endblock %}
-			{% endblock sidebar %}
-		{% endblock sidebar-secondary %}
-
-		{% block sidebar-primary %}
-		{% url satchmo_product_recently_added as recenturl %}
-		{% if recenturl %}<a href="{{ recenturl }}">{% trans "Recently Added" %}</a>{% endif %}
-        {% url satchmo_category_index as category_index %}
-        {% if category_index %} <a href="{{ category_index }}">{% trans "Category Index" %}</a><br /> {% endif %}
-        {% url satchmo_quick_order as quick_order %}
-        {% if quick_order %}<a href="{{ quick_order }}">{% trans "Quick Order" %}</a> {% endif %}
-		{% plugin_point "sidebar_links" %}
-
-	    {% if user.is_staff %}
-		<a href="{% url admin:index %}" target="blank">{% trans "Admin" %}</a><br/>
-		{% endif %}
-	    {% if user.is_authenticated %}
-		{% url satchmo_account_info as accounturl %}
-        {% if accounturl %}<a href="{{ accounturl }}" target="blank">{% trans "Account Details" %}</a><br/>{% endif %}
-        <a href="{{ logout_url }}?next={{request.path}}">{% trans "Log out" %}</a><br/>
-	    {% else %}
-        <a href="{{ login_url }}?next={{request.path}}">{% trans "Log in" %}</a><br/>
-	    {% endif %}
-
-		{% url satchmo_cart as carturl %}
-	    {% if carturl %}<a href="{{ carturl }}">{% trans "Cart" %}</a>{% endif %}
-
-	    {% if not cart.is_empty %}
-            ({{ cart_count|normalize_decimal }} - {% if sale %}{{ cart|discount_cart_total:sale|currency }}{% else %}{{cart.total|currency}}{% endif%}) <br/>
-            {% url satchmo_checkout-step1 as checkouturl %}
-            {% if checkouturl %}<a href="{{ checkouturl }}">{% trans "Check out" %}</a>{% endif %}
-	    {% endif %}
-	
-		{% plugin_point "shop_sidebar_actions" %}
-    
-		{% url satchmo_contact as contact_url %}
-	    {% if contact_url %}<p><a href="{{ contact_url }}">{% trans "Contact Us" %}</a></p>{% endif %}
-
-        {#{% satchmo_language_selection_form %}#}
-
-		{% block sidebar-primary-bottom %}
-		{% plugin_point "shop_sidebar_primary" %}
-		{% endblock %}
-		{% endblock sidebar-primary %}
-
-
-    {% endcomment %}
-    {% block overlay %}{% if messages %}<div class="overlay"></div>{% endif %}{% endblock %}
-    {% block overbox %}{% endblock %}
-    {% block messages %}
-    {% if messages %}
-    <div class="overbox msg_overbox">
-        <script type="text/javascript">
-        //<![CDATA[
-$(function() {
-                $('.msg_close').click(function(){
-                    $('.overbox_content:last').remove();
-                    if ($('.overbox_content:last').length) {
-                        $('.overbox_content:last').removeClass('hidden');
-                    } else {
-                        $('.overlay').addClass('hidden');
-                    }
-                    return false;
-                });
-});
-
-        //]]>
-        </script>
-        {% for message in messages %}
-        <div class="overbox_content clearfix{% if not forloop.last %} hidden{% endif %}">
-            <div class="overbox_header clearfix">
-                <h2 class="overbox_name">{% if message.tags %}{{ message.tags }}{% endif %}</h2>
-                <a href="#" class="btn_close msg_close"><i class="icon_close"></i></a>
-            </div>
-            <div class="overbox_text">
-                {{ message }}
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-    {% endblock %}
-
-</body>
-{% endblock %}
 </html>

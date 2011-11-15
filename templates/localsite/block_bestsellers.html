@@ -1,15 +1,28 @@
 {% load thumbnail i18n local_tags %}
-<div class="heading_bg">
-    <span class="h_t_l"><!-- --></span>
-    <span class="h_t_r"><!-- --></span>
+<div class='heading_bg'>
+    <span class='h_t_l'>
+<!--  -->
+    </span>
+    <span class='h_t_r'>
+<!--  -->
+    </span>
     <h2>Хиты продаж</h2>
-    <span class="h_b_l"><!-- --></span>
-    <span class="h_b_r"><!-- --></span>
+    <span class='h_b_l'>
+<!--  -->
+    </span>
+    <span class='h_b_r'>
+<!--  -->
+    </span>
 </div>
-<div class="wrap_line">
+<div class='wrap_line'>
     {% show_bestsellers_items 5 %}
-    <div class="all_link">
+    <div class='all_link'>
         {% url satchmo_product_best_selling as popularurl %}
-        {% if popularurl %}<a class="has_icon_ahead" href="{{ popularurl }}"><i class="icon_ahead"></i>{% trans "All Best Sellers" %}</a>{% endif %}
+        {% if popularurl %}
+            <a class='has_icon_ahead' href='{{ popularurl }}'>
+                <i class='icon_ahead'></i>
+                {% trans "All Best Sellers" %}
+            </a>
+        {% endif %}
     </div>
 </div>

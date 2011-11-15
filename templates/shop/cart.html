@@ -1,181 +1,184 @@
 {% extends "shop/base.html" %}
-{% load i18n %}
-{% load satchmo_cart %}
-{% load satchmo_currency %}
-{% load local_tags %}
-{% load satchmo_util %}
-{% load satchmo_product %}
-{% load satchmo_discounts %}
-{% load normalize_decimal %}
-{% load thumbnail %}
-
-{% block navbar %}
-    <li class="first"><a href="{{shop_base}}/">{% trans "Home" %}</a></li>
-    <li>{% trans "Cart" %}</li>
-{% endblock %}
-
+{% load i18n satchmo_cart satchmo_currency local_tags satchmo_util satchmo_product satchmo_discounts normalize_decimal thumbnail %}
 {% block contentwraper %}
-
-
-{% if not cart|length %}
-    <h4 id="cartheader">{% trans "Your cart is empty." %}</h4>
-{% else %}
-
-<script type="text/javascript">
-function clearCart() {
-    $("#cart").remove();
-    $("#checkout_link").remove();
-    $("#checkout_form").remove();
-    $("#cartheader").text('{% trans "Your cart is empty." %}');
-    $("#quickcart").html("<br>");
-}
-
-function removeItem(data) {
-    $("#cartitem-" + data.item_id).remove();
-    updateSidebar(data);
-    $("#infobox").html("Item removed!");
-    
-}
-
-function updateSidebar(data) {
-    $("#quickcart").html("(" + data.cart_count + " - $" + data.cart_total + ")<br >");
-}
-$(function() {
-    
-    $(".qtyform").submit(function() {
-        $.post('{% url satchmo_cart_set_qty %}', {
-            cartitem: $(this).children('input.cartitem_id').val(),
-            quantity: $(this).children('input.cartitem_qty').val()
-            },
-            function(data) {
-                if (parseInt(data.item_qty) > 0) {
-                    $("#cartitem-" + data.item_id + " .cartitem_linetotalprice").text('$' + data.item_price);
-                    $("#cart_total").text('$' + data.cart_total);
-                    
-                    updateSidebar(data);
-                    $("#infobox").html("Quantity updated!");
-                } else {
-                    if (parseInt(data.cart_count) <= 0) {
-                        clearCart();
-                    } else {
-                        removeItem(data);
+    {% if not cart|length %}
+        <h4 id='cartheader'>
+            {% trans "Your cart is empty." %}
+        </h4>
+    {% else %}
+<script type='text/javascript'>
+// <![CDATA[
+            function clearCart() {
+                $("#cart").remove();
+                $("#checkout_link").remove();
+                $("#checkout_form").remove();
+                $("#cartheader").text('{% trans "Your cart is empty." %}');
+                $("#quickcart").html("<br>");
+            }
+            function removeItem(data) {
+                $("#cartitem-" + data.item_id).remove();
+                updateSidebar(data);
+                $("#infobox").html("Item removed!");
+            }
+            function updateSidebar(data) {
+                $("#quickcart").html("(" + data.cart_count + " - $" + data.cart_total + ")<br >");
+            }
+            $(function() {
+                $(".qtyform").submit(function() {
+                    $.post('{% url satchmo_cart_set_qty %}', {
+                        cartitem: $(this).children('input.cartitem_id').val(),
+                        quantity: $(this).children('input.cartitem_qty').val()
+                        },
+                        function(data) {
+                            if (parseInt(data.item_qty) > 0) {
+                                $("#cartitem-" + data.item_id + " .cartitem_linetotalprice").text('$' + data.item_price);
+                                $("#cart_total").text('$' + data.cart_total);
+                                updateSidebar(data);
+                                $("#infobox").html("Quantity updated!");
+                            } else {
+                                if (parseInt(data.cart_count) <= 0) {
+                                    clearCart();
+                                } else {
+                                    removeItem(data);
+                                }
+                            }
+                        },
+                        'json'
+                    );
+                    return false;
+                });
+                $(".removeform a").click(function() {
+                    $.post('{% url satchmo_cart_remove %}', {
+                        csrfmiddlewaretoken: getCookie('csrftoken'),
+                        cartitem: $(this).parents('form:first').children('input.cartitem_id').val()
+                        },
+                        function(data) {
+                            $("#cart_total label").text(data.cart_total);
+                            $(".cart_count").text(data.cart_count);
+                            if (parseInt(data.cart_count) <= 0) {
+                                removeItem(data);
+                                clearCart();
+                            } else {
+                                removeItem(data);
+                            }
+                        },
+                        'json'
+                    );
+                    return false;
+                });
+                $.ajaxSetup({
+                    error: function() {
+                        $("#errormessages").html("<strong>There was an error with your request</strong>");
                     }
-                }
-            },
-            'json'
-        );
-        return false;
-    });
-    
-    $(".removeform a").click(function() {
-        $.post('{% url satchmo_cart_remove %}', {
-            csrfmiddlewaretoken: getCookie('csrftoken'),
-            cartitem: $(this).parents('form:first').children('input.cartitem_id').val()
-            },
-            function(data) {
-                $("#cart_total label").text(data.cart_total);
-                $(".cart_count").text(data.cart_count);
-                if (parseInt(data.cart_count) <= 0) {
-                    removeItem(data);
-                    clearCart();
-                } else {
-                    removeItem(data);
-                }
-            },
-            'json'
-        );
-        return false;
-    });
-    
-    $.ajaxSetup({
-        error: function() {
-            $("#errormessages").html("<strong>There was an error with your request</strong>");
-        }
-    });
-       
-});
+                });
+            });
+// ]]>
 </script>
-
-    <h4 id="cartheader"></h4>
-    <div class="wraper_basket" id="cart">
-        <table class="table_heading_basket">
-            <tbody>
-                <tr>
-                    <th>Предстоящее событие</th>
-                    <th class="basked_td_ticket">Кол-во и места</th>
-                    <th class="basked_td_price">Цена</th>
-                    <th class="basked_td_del2">Удалить</th>
-                </tr>
-            </tbody>
-        </table>
-
-        {% for cartitem in cart %}
-        <div class="basked_bl cartitem" id="cartitem-{{cartitem.id}}">
-            <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
-            <div class="curve_body basket_grey">
-                <table class="basket_tab">
-                    <tbody>
-                        <tr>
-                            <td class="basket_td_img">
-                                <div class="basket_td_img_bl">
-                                {% if cartitem.product.ticket.event.product.main_image.picture|is_portrait %}
-                                      {% thumbnail cartitem.product.ticket.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
-                                      <a href="{{ cartitem.product.ticket.event.product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
-                                      {% endthumbnail %}
-                                {% else %}
-                                      {% thumbnail cartitem.product.ticket.event.product.main_image.picture "107x76" crop="center" as image %}
-                                      <a href="{{ cartitem.product.ticket.event.product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
-                                      {% endthumbnail %}
-                                {% endif %}
-                                </div>
-                            </td>
-                            <td class="basked_td_inf">
-                                <div class="basked_td_inf_date">
-                                    <span>{{ cartitem.product.ticket.datetime.datetime|date:"j E Y, l" }}</span>  {{ cartitem.product.ticket.datetime.datetime|date:"H:i" }}
-                                </div>
-                                <div class="basked_td_inf_txt">
-                                    {{ cartitem.product.ticket.event.product.name }}
-                                    {{ cartitem.product.ticket.event.product.short_description }}
-                                </div>
-                            </td>
-                            <td class="basked_td_ticket">
-                                <div class="basked_td_ticket_cont">
-                                    {{ cartitem.product.ticket.seat.section.name }}
-                                </div>
-                                <p>{{ cartitem.product.ticket.seat.row }} Ряд, {{ cartitem.product.ticket.seat.col }} Место</p>
-                            </td>
-                            <td class="basked_td_price">
-                                {{ cartitem.product.unit_price|currency }}
-                            </td>
-                            <td class="basked_td_del">
-                                <form action="{% url satchmo_cart_remove %}" method="post" class="removeform" id="rmform-{{cartitem.id}}">
-                                    <input type="hidden" name="cartitem" class="cartitem_id" value="{{ cartitem.id }}" />
-                                    <a href="#"><img alt="" src="{{ media_url }}images/icon_del.png"></a>
-                                </form>
-                            </td>
-                        </tr>
+        <h4 id='cartheader'></h4>
+        <div id='cart' class='wraper_basket'>
+            <table class='table_heading_basket'>
+                <tbody>
+                    <tr>
+                        <th>Предстоящее событие</th>
+                        <th class='basked_td_ticket'>Кол-во и места</th>
+                        <th class='basked_td_price'>Цена</th>
+                        <th class='basked_td_del2'>Удалить</th>
+                    </tr>
                 </tbody>
             </table>
+            {% for cartitem in cart %}
+                <div id='cartitem-{{cartitem.id}}' class='basked_bl cartitem'>
+                    <div class='curve_top'>
+                        <div>
+                            <span class='curve_gray'>
+<!--  -->
+                            </span>
+                        </div>
+                    </div>
+                    <div class='curve_body basket_grey'>
+                        <table class='basket_tab'>
+                            <tbody>
+                                <tr>
+                                    <td class='basket_td_img'>
+                                        <div class='basket_td_img_bl'>
+                                            {% if cartitem.product.ticket.event.product.main_image.picture|is_portrait %}
+                                                {% thumbnail cartitem.product.ticket.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
+                                                    <a href='{{ cartitem.product.ticket.event.product.get_absolute_url }}'>
+                                                        <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                    </a>
+                                                {% endthumbnail %}
+                                            {% else %}
+                                                {% thumbnail cartitem.product.ticket.event.product.main_image.picture "107x76" crop="center" as image %}
+                                                    <a href='{{ cartitem.product.ticket.event.product.get_absolute_url }}'>
+                                                      <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                    </a>
+                                                {% endthumbnail %}
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td class='basked_td_inf'>
+                                        <div class='basked_td_inf_date'>
+                                            <span>
+                                                {{ cartitem.product.ticket.datetime.datetime|date:"j E Y, l" }}
+                                            </span>
+                                            {{ cartitem.product.ticket.datetime.datetime|date:"H:i" }}
+                                        </div>
+                                        <div class='basked_td_inf_txt'>
+                                            {{ cartitem.product.ticket.event.product.name }}
+                                            {{ cartitem.product.ticket.event.product.short_description }}
+                                        </div>
+                                    </td>
+                                    <td class='basked_td_ticket'>
+                                        <div class='basked_td_ticket_cont'>
+                                            {{ cartitem.product.ticket.seat.section.name }}
+                                        </div>
+                                        <p>
+                                            {{ cartitem.product.ticket.seat.row }}
+                                            Ряд,
+                                            {{ cartitem.product.ticket.seat.col }}
+                                            Место
+                                        </p>
+                                    </td>
+                                    <td class='basked_td_price'>
+                                        {{ cartitem.product.unit_price|currency }}
+                                    </td>
+                                    <td class='basked_td_del'>
+                                        <form id='rmform-{{cartitem.id}}' class='removeform' action='{% url satchmo_cart_remove %}' method='post'>
+                                            <input class='cartitem_id' type='hidden' name='cartitem' value='{{ cartitem.id }}' />
+                                            <a href='#'>
+                                                <img src='{{ media_url }}images/icon_del.png' alt='' />
+                                            </a>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class='curve_bott'>
+                        <div>
+                            <span class='curve_gray'>
+<!--  -->
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-        <div class="curve_bott"><div><span class="curve_gray"><!-- --></span></div></div>
-    </div>
-    {% endfor %}
-    <div class="basket_total clearfix">
-        <div class="back_shopping">
-            <img alt="" src="{{ media_url }}images/icon_back_shopping.gif"> <a href="#">Вернуться к покупкам</a>
+        <div class='basket_total clearfix'>
+            <div class='back_shopping'>
+              <img src='{{ media_url }}images/icon_back_shopping.gif' alt='' />
+              <a href='#'>Вернуться к покупкам</a>
+            </div>
+            <div class='basket_total_bl'>
+                Итого в сумме:
+                <span class='basket_total_price'>
+                    <label id='cart_total'>{{ cart|discount_cart_total:sale|wrap_currency }}</label>
+                </span>
+            </div>
+            {% contact_form %}
         </div>
-        <div class="basket_total_bl">
-            Итого в сумме: <span class="basket_total_price"><label id="cart_total">{{ cart|discount_cart_total:sale|wrap_currency }}</label></span>
-        </div>
-        </div>
-
-        {% contact_form %}
-    </div>
-
-{% endif %}
-
+    {% endif %}
 {% endblock %}
-
-{% block navtitle %}Ваша корзина{% endblock %}
-
-
+{% block navtitle %}
+    Ваша корзина
+{% endblock %}
