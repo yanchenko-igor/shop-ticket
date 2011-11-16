@@ -75,26 +75,18 @@
                                         </div>
                                     </td>
                                     <td class='basked_td_ticket'>
-                                        <div class='basked_td_ticket_cont'>
-                                            {{ item.product.ticket.seat.section.name }}
-                                        </div>
-                                        <p>
-                                            {{ item.product.ticket.seat.row }}
-                                            Ряд,
-                                            {{ item.product.ticket.seat.col }}
-                                            Место
-                                        </p>
-            {% else %}
-                                        <div class='basked_td_ticket_cont'>
-                                            {{ item.product.ticket.seat.section.name }}
-                                        </div>
-                                        <p>
-                                            {{ item.product.ticket.seat.row }}
-                                            Ряд,
-                                            {{ item.product.ticket.seat.col }}
-                                            Место
-                                        </p>
             {% endifchanged %}
+            {% ifchanged item.product.ticket.event item.product.ticket.seat.section %}
+                                        <div class='basked_td_ticket_cont'>
+                                            {{ item.product.ticket.seat.section.name }}
+                                        </div>
+            {% endifchanged %}
+                                        <p>
+                                            {{ item.product.ticket.seat.row }}
+                                            Ряд,
+                                            {{ item.product.ticket.seat.col }}
+                                            Место
+                                        </p>
             {% if forloop.last %}
                                     </td>
                                 </tr>
