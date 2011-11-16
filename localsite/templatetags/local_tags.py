@@ -16,7 +16,7 @@ register = template.Library()
 
 @register.inclusion_tag('localsite/product_items.html')
 def show_new_arrivals(number):
-    items = Product.objects.all(ticket__product__isnull=True, ).order_by('date_added')[:number]
+    items = Product.objects.filter(ticket__product__isnull=True, ).order_by('date_added')[:number]
     return {'items': items}
 
 @register.inclusion_tag('localsite/product_items.html')
