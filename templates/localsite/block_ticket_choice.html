@@ -6,7 +6,7 @@
     $(function() {
       $('#id_datetime').change(function() {
         hallmap = $('#hallmap');
-        priceblock = $('.map_cart_price.active span.figure');
+        priceblock = $('.map_cat_item.active span.figure');
         if (priceblock.length){
             hallmap.attr('data', '/hallmap/' + $(this).val() + '/' + parseInt(priceblock.text()) + '/');
         } else {

@@ -394,32 +394,32 @@
                             return false;
                         });
                         var select_price = function(){
-                            $('.map_cart_price.active').removeClass('active');
-                            $(this).parent('.map_cart_price').addClass('active');
+                            $('.map_cat_item.active').removeClass('active');
+                            $(this).parent('.map_cat_item').addClass('active');
                             hallmap = $('#hallmap');
-                            hallmap.attr('data', '/hallmap/' + {% cache 3600 product_event_hallmap_dates_price_js product.id %}{% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %}{% endcache %} + '/' + parseInt($('.map_cart_price.active span.figure').text()) + '/');
+                            hallmap.attr('data', '/hallmap/' + {% cache 3600 product_event_hallmap_dates_price_js product.id %}{% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %}{% endcache %} + '/' + parseInt($('.map_cat_item.active span.figure').text()) + '/');
                             hallmap2 = hallmap.clone();
                             hallmap.remove();
                             hallmap2.appendTo('.map_content');
-                            $('.map_cart_price span.figure').unbind('click');
-                            $('.map_cart_price span.figure').click(select_price);
-                            $('.map_cart_price.active span.figure').unbind('click');
-                            $('.map_cart_price.active span.figure').click(unselect_price);
+                            $('.map_cat_item a').unbind('click');
+                            $('.map_cat_item a').click(select_price);
+                            $('.map_cat_item.active a').unbind('click');
+                            $('.map_cat_item.active a').click(unselect_price);
                             return false;
                         }
                         var unselect_price = function(){
-                            $('.map_cart_price.active').removeClass('active');
+                            $('.map_cat_item.active').removeClass('active');
                             hallmap = $('#hallmap');
                             hallmap.attr('data', '/hallmap/' + {% cache 3600 product_event_hallmap_dates_price_js product.id %}{% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %}{% endcache %} + '/');
                             hallmap2 = hallmap.clone();
                             hallmap.remove();
                             hallmap2.appendTo('.map_content');
-                            $('.map_cart_price span.figure').unbind('click');
-                            $('.map_cart_price span.figure').click(select_price);
+                            $('.map_cat_item a').unbind('click');
+                            $('.map_cat_item a').click(select_price);
                             return false;
                         }
-                        $('.map_cart_price span.figure').click(select_price);
-                        $('.map_cart_price.active span.figure').click(unselect_price);
+                        $('.map_cat_item a').click(select_price);
+                        $('.map_cat_item.active a').click(unselect_price);
                         $('.btn_zoom_in').click(function(){
                             if (zoomlevel < 5) {
                                 zoomlevel += 1;
@@ -497,26 +497,24 @@
                         </div>
                     </div>
                     <div class='map_data'>
-                        <div class='map_cart'>
-                            <table class='map_cart_table' cellpadding='0' width='100%' border='1' cellspacing='0'>
-                                {% cache 3600 product_prices_map product.id %}
+                        <div class='map_cat'>
+                            <ul class='map_cat_list clearfix'>
+                                {% cache 3600 product_prices_cat_list product.id %}
                                     {% for price in product.event.all_prices %}
-                                        <tr>
-                                            <td class='map_cart_point'>
-                                                <img src='{{ media_url }}/images/icon_point_my.gif' alt='' />
-                                            </td>
-                                            <td class='map_cart_name'>Места</td>
-                                            <td class='map_cart_price'>
-                                                <span class='figure'>
-                                                    {{ price.price|stringformat:"i" }}
+                                      <li class='map_cat_item{% if forloop.first %} first{% endif %}'>
+                                            <a href='#'>
+                                                <span class='map_cat_name'>Категория билетов за</span>
+                                                <span class='map_cat_price'>
+                                                    <span class='figure'>
+                                                        {{ price.price|stringformat:"i" }}
+                                                    </span>
+                                                    грн
                                                 </span>
-                                                грн
-                                            </td>
-                                            {#<td class="map_cart_quantity">4 шт</td>#}
-                                        </tr>
+                                            </a>
+                                      </li>
                                     {% endfor %}
                                 {% endcache %}
-                            </table>
+                            </ul>
                         </div>
                         <div class='map_legend_box'>
                             <div class='curve_l_top'>
