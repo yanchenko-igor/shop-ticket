@@ -29,3 +29,13 @@
 .feed_img_wrap a, .feed_list_img a{
     *display: block;
 }
+.map_cat {
+    *zoom: 1;
+}
+.map_cat_list {    
+    *zoom: 1;
+}
+.map_cat_name,
+.map_cat_price {
+    *cursor: pointer;
+}

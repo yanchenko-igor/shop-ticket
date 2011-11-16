@@ -24,7 +24,7 @@ u, font, s, center, dir, menu, strike, xmp                                      
 
 /* ----- common ----- */
 html, body  {
-    background: #fff url(/static/images/body_bg.jpg) repeat-x;
+    background: #fff url(../images/body_bg.jpg) repeat-x;
     font-family: Arial, sans-serif;
     font-size: 100.01%;
     color: #171717;
@@ -162,10 +162,10 @@ optgroup option {
 }
 .input{
     margin-right: 12px;
-    background: url(/static/images/input_bg.png) no-repeat;
+    background: url(../images/input_bg.png) no-repeat;
 }
 .input2 {
-    background: url(/static/images/input_bg.png) 100% 0 no-repeat;
+    background: url(../images/input_bg.png) 100% 0 no-repeat;
     position: relative;
     left: 12px;
     height: 24px;
@@ -180,11 +180,11 @@ optgroup option {
     margin-top: 4px;
 }
 .input_2{
-    background: url(/static/images/input_bg2.gif) no-repeat;
+    background: url(../images/input_bg2.gif) no-repeat;
     padding-left: 5px;
 }
     .input_2_2{
-        background: url(/static/images/input_bg2.gif) 100% 0 no-repeat;
+        background: url(../images/input_bg2.gif) 100% 0 no-repeat;
         height: 24px;
         padding-right: 5px;
     }
@@ -195,7 +195,7 @@ optgroup option {
         font-size: 12px;
     }
 .textarea_top, .textarea_top *, .textarea_bott, .textarea_bott *{
-    background: url(/static/images/textarea_bg.png) no-repeat;
+    background: url(../images/textarea_bg.png) no-repeat;
     height: 4px;
 }
         .textarea_top div {
@@ -220,10 +220,10 @@ optgroup option {
             background-repeat: repeat-x;
         }
 .textarea_body{
-    background: url(/static/images/textarea_body_bg.gif) repeat-y;
+    background: url(../images/textarea_body_bg.gif) repeat-y;
 }
 .textarea_body2{
-    background: url(/static/images/textarea_body_bg.gif) 100% 0 repeat-y;
+    background: url(../images/textarea_body_bg.gif) 100% 0 repeat-y;
     padding: 0 4px;
 }
 .textarea_wrap{
@@ -276,7 +276,7 @@ optgroup option {
         width: 313px;
     }
 .cols_cont{
-    background: url(/static/images/cols_cont.gif) repeat-y;
+    background: url(../images/cols_cont.gif) repeat-y;
 }
 
 /* ----- /columns ----- */
@@ -308,7 +308,7 @@ optgroup option {
     width: 20px;
     height: 20px;
     overflow: hidden;
-    background: url(/static/images/icon_help.png) 0 0 no-repeat;
+    background: url(../images/icon_help.png) 0 0 no-repeat;
 }
 a:hover .icon_help, .icon_help:hover {
     background-position: 0 -20px;
@@ -320,7 +320,7 @@ a:hover .icon_help, .icon_help:hover {
     height: 14px;
     overflow: hidden;
     vertical-align: middle;
-    background: url(/static/images/icon_ahead.png) 0 0 no-repeat;
+    background: url(../images/icon_ahead.png) 0 0 no-repeat;
 }
 a:hover .icon_ahead, .icon_ahead:hover {
     background-position: 0 -14px;    
@@ -342,7 +342,7 @@ a:hover .icon_ahead, .icon_ahead:hover {
     height: 6px;
     overflow: hidden;
     vertical-align: middle;
-    background: url(/static/images/icon_back.gif) 0 0 no-repeat;
+    background: url(../images/icon_back.gif) 0 0 no-repeat;
 }
 a:hover .icon_back, .icon_back:hover {
     background-position: 0 -6px;
@@ -364,7 +364,7 @@ a:hover .icon_back, .icon_back:hover {
     height: 14px;
     overflow: hidden;
     vertical-align: middle;
-    background: url(/static/images/icon_close.png) 0 0 no-repeat;
+    background: url(../images/icon_close.png) 0 0 no-repeat;
 }
 /* icon basket */
 .icon_basket {
@@ -373,7 +373,7 @@ a:hover .icon_back, .icon_back:hover {
     height: 17px;
     overflow: hidden;
     vertical-align: middle;
-    background: url(/static/images/icon_basket.gif) 0 0 no-repeat;
+    background: url(../images/icon_basket.gif) 0 0 no-repeat;
 }
 .has_icon_basket {
     padding-left: 26px;
@@ -391,7 +391,7 @@ a:hover .icon_back, .icon_back:hover {
     height: 4px;
     overflow: hidden;
     vertical-align: middle;
-    background: url(/static/images/icon_expand.png) 0 0 no-repeat;
+    background: url(../images/icon_expand.png) 0 0 no-repeat;
 }
 /* ----- /icons ----- */
 
@@ -401,7 +401,7 @@ a:hover .icon_back, .icon_back:hover {
 .btn_lightred {
     display: inline-block;
     margin-right: 3px;
-    background: url(/static/images/btn_red.png) no-repeat;
+    background: url(../images/btn_red.png) no-repeat;
     color: #9f1918;
     text-decoration: none;
 }
@@ -409,7 +409,7 @@ a:hover .icon_back, .icon_back:hover {
 .btn_red_l span,
 .btn_lightred span {
     display: inline-block;
-    background: url(/static/images/btn_red.png) 100% 0 no-repeat;
+    background: url(../images/btn_red.png) 100% 0 no-repeat;
     float: left;
     position: relative;
     left: 3px;
@@ -437,11 +437,11 @@ a:hover .icon_back, .icon_back:hover {
 }
 /* large red button */
 .btn_red_l {
-    background: url(/static/images/btn_red_l.png) no-repeat;
+    background: url(../images/btn_red_l.png) no-repeat;
     font-weight: bold;
 }
 .btn_red_l span {
-    background: url(/static/images/btn_red_l.png) 100% 0 no-repeat;
+    background: url(../images/btn_red_l.png) 100% 0 no-repeat;
     height: 27px;
     font-size: 17px;
 }
@@ -457,13 +457,13 @@ a:hover .icon_back, .icon_back:hover {
 }
 /* light red button */
 .btn_lightred {
-    background: url(/static/images/btn_lightred.png) no-repeat;
+    background: url(../images/btn_lightred.png) no-repeat;
     color: #fff;
 }
 .btn_lightred span {
     height: 19px;
     padding: 4px 8px 0 5px;
-    background: url(/static/images/btn_lightred.png) 100% 0 no-repeat;    
+    background: url(../images/btn_lightred.png) 100% 0 no-repeat;    
     text-transform: uppercase;
     font-size: 11px;
     font-weight: bold;
@@ -515,7 +515,7 @@ a:hover .icon_back, .icon_back:hover {
     float: right;
     height: 17px;
     padding: 3px 6px 4px 5px;
-    background: #323232 url(/static/images/overbox_btn_close_bg.gif) 0 0 repeat-x;
+    background: #323232 url(../images/overbox_btn_close_bg.gif) 0 0 repeat-x;
     text-transform: lowercase;
 }
 .overbox_toolbar .btn_close:hover {
@@ -540,7 +540,7 @@ a:hover .icon_back, .icon_back:hover {
     box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.66);
 }
 .overbox_header {
-    background: #3e3e3e url(/static/images/overbox_header_bg.gif) 0 100% repeat-x;
+    background: #3e3e3e url(../images/overbox_header_bg.gif) 0 100% repeat-x;
     color: white;
 }
 .overbox_header .btn_close {
@@ -635,7 +635,7 @@ a:hover .icon_back, .icon_back:hover {
     width: 12px;
     height: 9px;
     overflow: hidden;
-    background: url(/static/images/hintbox_arrow.png) 0 0 no-repeat;    
+    background: url(../images/hintbox_arrow.png) 0 0 no-repeat;    
 }
 /* ----- /hint box ----- */
 
@@ -749,7 +749,7 @@ a:hover .icon_back, .icon_back:hover {
     margin: 0 auto;
 }
 .wraper_header{
-    background: #d0d0d0 url(/static/images/header_bg.jpg) repeat-x;
+    background: #d0d0d0 url(../images/header_bg.jpg) repeat-x;
     border-bottom: 1px solid #bbbbbb;
 }
 
@@ -790,10 +790,10 @@ a:hover .icon_back, .icon_back:hover {
     vertical-align: bottom;
 }
 .header_bl_reg_top{
-    background: url(/static/images/header_bl_reg_top.gif) no-repeat;
+    background: url(../images/header_bl_reg_top.gif) no-repeat;
 }
     .header_bl_reg_top div{
-        background: url(/static/images/header_bl_reg_top.gif) 100% -3px no-repeat;
+        background: url(../images/header_bl_reg_top.gif) 100% -3px no-repeat;
         padding: 0 3px;
     }
         .header_bl_reg_top div span{
@@ -832,14 +832,14 @@ a:hover .icon_back, .icon_back:hover {
 }
 .wraper_top{
     margin-top: 15px;
-    background: #000 url(/static/images/wraper_top.jpg) repeat-x;
+    background: #000 url(../images/wraper_top.jpg) repeat-x;
     position: relative;
     z-index: 102;
     height: 73px;
     color: #fff;
 }
 .w_t_l, .w_t_r, .w_t_l_b, .w_t_r_b{
-    background: url(/static/images/wraper_top_curve.gif) no-repeat;
+    background: url(../images/wraper_top_curve.gif) no-repeat;
     position: absolute;
     width: 2px;
     height: 2px;
@@ -864,15 +864,15 @@ a:hover .icon_back, .icon_back:hover {
         bottom: 0;
     }
 .wraper_top_shadow{
-    background: url(/static/images/wraper_top_shadow.png) no-repeat;
+    background: url(../images/wraper_top_shadow.png) no-repeat;
     margin: -16px -4px 0 -5px;
 }
 .wraper_top_shadow div{
-    background: url(/static/images/wraper_top_shadow.png) 100% -19px no-repeat;
+    background: url(../images/wraper_top_shadow.png) 100% -19px no-repeat;
     padding: 0 13px;
 }
 .wraper_top_shadow div span{
-    background: url(/static/images/wraper_top_shadow.png) 0 -38px repeat-x;
+    background: url(../images/wraper_top_shadow.png) 0 -38px repeat-x;
     display: block;
     height: 19px;
 }
@@ -899,7 +899,7 @@ a:hover .icon_back, .icon_back:hover {
     left: 0;
     width: 102px;
     height: 39px;
-    background: url(/static/images/logo_bg.jpg) 0 0 no-repeat;
+    background: url(../images/logo_bg.jpg) 0 0 no-repeat;
 }
 .logo a:hover i {
     background-position: 0 -39px;
@@ -946,7 +946,7 @@ a:hover .icon_back, .icon_back:hover {
     body.category_sport .category_sport,
     body.category_theatre .category_theatre,
     .menu_top .active{
-        background:#e9e9e9 url(/static/images/dop_menu_active.jpg) repeat-x;
+        background:#e9e9e9 url(../images/dop_menu_active.jpg) repeat-x;
         margin-bottom: -12px;
         padding-bottom: 12px;
         border-left: none 0;
@@ -1006,7 +1006,7 @@ a:hover .icon_back, .icon_back:hover {
         margin: 0;
         padding: 64px 0 16px 0;
         list-style: none;
-        background:#616060 url(/static/images/dop_menu_bg.jpg) repeat-x;
+        background:#616060 url(../images/dop_menu_bg.jpg) repeat-x;
         border-radius: 5px;
         border-top: 2px solid #696868;
         border-bottom: 2px solid #373737;
@@ -1067,7 +1067,7 @@ a:hover .icon_back, .icon_back:hover {
     bottom: 0;
     left: 0;
     width: 100%;
-    background: url(/static/images/transparent_bg.png);
+    background: url(../images/transparent_bg.png);
     padding: 15px 0 20px 0;
     color: #fff;
 }
@@ -1120,7 +1120,7 @@ a:hover .icon_back, .icon_back:hover {
     width: 8px;
     height: 16px;    
     overflow: hidden;
-    background: url(/static/images/visual_list_pager_arrows.gif) 0 0 no-repeat;
+    background: url(../images/visual_list_pager_arrows.gif) 0 0 no-repeat;
     text-indent: 8px;
     outline: 0;
 }
@@ -1150,11 +1150,11 @@ a:hover .icon_back, .icon_back:hover {
     padding: 34px 12px 0 0;
 }
 .search_bg{
-    background: url(/static/images/search_bg.png) 100% 0 no-repeat;
+    background: url(../images/search_bg.png) 100% 0 no-repeat;
     margin-left: 10px;
 }
 .search_bg2{
-    background: url(/static/images/search_bg.png) no-repeat;
+    background: url(../images/search_bg.png) no-repeat;
     height: 24px;
     position: relative;
     left: -10px;
@@ -1171,7 +1171,7 @@ a:hover .icon_back, .icon_back:hover {
 }
 .submit_search{
     font-size: 0;
-    background: transparent url(/static/images/search_submit.gif) no-repeat;
+    background: transparent url(../images/search_submit.gif) no-repeat;
     width: 17px;
     height: 16px;
     border: none 0;
@@ -1202,11 +1202,11 @@ a:hover .icon_back, .icon_back:hover {
 .feed_pop_t {
     position: relative;    
     padding-top: 9px;
-    background: url(/static/images/feed_pop_t_b.png) 0 -36px repeat-x;
+    background: url(../images/feed_pop_t_b.png) 0 -36px repeat-x;
 }
 .feed_pop_b {
     padding-bottom: 9px;
-    background: url(/static/images/feed_pop_t_b.png) 0 100% repeat-x;
+    background: url(../images/feed_pop_t_b.png) 0 100% repeat-x;
 }
 .feed_pop_tl,
 .feed_pop_bl,
@@ -1218,7 +1218,7 @@ a:hover .icon_back, .icon_back:hover {
     width: 9px;
     height: 9px;
     overflow: hidden;
-    background: url(/static/images/feed_pop_t_b.png) 0 0 no-repeat;
+    background: url(../images/feed_pop_t_b.png) 0 0 no-repeat;
 }
 .feed_pop_tl,
 .feed_pop_tr {
@@ -1240,18 +1240,18 @@ a:hover .icon_back, .icon_back:hover {
 .feed_pop_ml {
     margin-left: -9px;
     padding-left: 4px;
-    background: url(/static/images/feed_pop_m.png) 0 0 repeat-y;
+    background: url(../images/feed_pop_m.png) 0 0 repeat-y;
 }
 .feed_pop_mr {
     margin-right: -9px;
     padding-right: 4px;
-    background: url(/static/images/feed_pop_m.png) 100% 0 repeat-y;
+    background: url(../images/feed_pop_m.png) 100% 0 repeat-y;
 }
 .feed_pop_content {
     min-width: 40px;
     min-height: 38px;
     padding: 1px 5px;
-    background: #dddbdb url(/static/images/feed_pop_bg.png) 0 0 repeat-x;
+    background: #dddbdb url(../images/feed_pop_bg.png) 0 0 repeat-x;
 }
 /* /feed pop */
 .feed li{
@@ -1346,7 +1346,7 @@ a:hover .icon_back, .icon_back:hover {
     bottom: 0;
     left: 0;
     width: 100%;
-    background: url(/static/images/transparent_bg.png);
+    background: url(../images/transparent_bg.png);
     display: none;
 }
 .feed_img_bl_txt{
@@ -1385,7 +1385,7 @@ a:hover .icon_back, .icon_back:hover {
 .feed_price_cont {
     display: inline-block;
     margin-right: 3px;
-    background: url(/static/images/feed_price_cont_bg.png) no-repeat;
+    background: url(../images/feed_price_cont_bg.png) no-repeat;
     text-decoration: none;
 }
 .feed_price.multiple:hover .feed_price_cont {
@@ -1393,7 +1393,7 @@ a:hover .icon_back, .icon_back:hover {
 }
 .feed_price_cont span {
     display: inline-block;
-    background: url(/static/images/feed_price_cont_bg.png) 100% 0 no-repeat;
+    background: url(../images/feed_price_cont_bg.png) 100% 0 no-repeat;
     position: relative;
     left: 3px;
     height: 23px;
@@ -1437,7 +1437,7 @@ a:hover .icon_back, .icon_back:hover {
     border-bottom: 1px solid #e8e8e8;
 }
 .heading_bg{
-    background: #1a1a1a url(/static/images/heading_bg.jpg) repeat-x;
+    background: #1a1a1a url(../images/heading_bg.jpg) repeat-x;
     position: relative;
     margin-bottom: 12px;
 }
@@ -1448,7 +1448,7 @@ a:hover .icon_back, .icon_back:hover {
     font-size: 19px;
 }
 .h_t_l, .h_t_r, .h_b_l, .h_b_r{
-    background: url(/static/images/heading_curve.gif) no-repeat;
+    background: url(../images/heading_curve.gif) no-repeat;
     position: absolute;
     width: 3px;
     height: 3px;
@@ -1545,10 +1545,10 @@ a:hover .icon_back, .icon_back:hover {
 
 /* ----- Curve ----- */
 .curve_top{
-    background: url(/static/images/curve.jpg) no-repeat;
+    background: url(../images/curve.jpg) no-repeat;
 }
     .curve_top div{
-        background: url(/static/images/curve.jpg) 100% -2px no-repeat;
+        background: url(../images/curve.jpg) 100% -2px no-repeat;
         padding: 0 2px;
     }
         .curve_top div span{
@@ -1557,10 +1557,10 @@ a:hover .icon_back, .icon_back:hover {
             height: 1px;
         }
 .curve_bott{
-    background: url(/static/images/curve.jpg) 0 -6px no-repeat;
+    background: url(../images/curve.jpg) 0 -6px no-repeat;
 }
     .curve_bott div{
-        background: url(/static/images/curve.jpg) 100% -4px no-repeat;
+        background: url(../images/curve.jpg) 100% -4px no-repeat;
         padding: 0 2px;
     }
         .curve_bott div span{
@@ -1580,7 +1580,7 @@ a:hover .icon_back, .icon_back:hover {
 .curve_l_top div,
 .curve_l_bot,
 .curve_l_bot div {    
-    background: url(/static/images/curve_l.png) 0 0 no-repeat;
+    background: url(../images/curve_l.png) 0 0 no-repeat;
     line-height: 0;
     font-size: 0;
 }
@@ -1759,12 +1759,12 @@ a:hover .icon_back, .icon_back:hover {
     font-weight: bold;
 }
 .tab_activ .tab_activ_sh1{
-    background: url(/static/images/tab_activ_sh1.gif) 0 0 repeat-y;
+    background: url(../images/tab_activ_sh1.gif) 0 0 repeat-y;
     margin-left: -7px;
     padding-left: 26px;
 }
 .tab_activ .tab_activ_sh2{
-    background: url(/static/images/tab_activ_sh2.gif) 100% 0 repeat-y;
+    background: url(../images/tab_activ_sh2.gif) 100% 0 repeat-y;
     min-height: 40px;
     margin-right: -7px;
     padding-right: 26px;
@@ -2007,7 +2007,7 @@ td.basked_td_price{
     left: 0;
     bottom: 0;
     width: 100%;
-    background: url(/static/images/transparent_bg.png);
+    background: url(../images/transparent_bg.png);
 }
 .event_description_tab{
     width: 100%;
@@ -2179,7 +2179,7 @@ td.basked_td_price{
     right: 10px;
     width: 20px;
     height: 20px;
-    background: url(/static/images/icon_del_admin.png) no-repeat;
+    background: url(../images/icon_del_admin.png) no-repeat;
 }
 
 /*---------------/form_wizard--------------*/
@@ -2187,7 +2187,7 @@ td.basked_td_price{
 /*--------------- Footer ---------------*/
 
 .wraper_footer{
-    background: #6f6e6e url(/static/images/footer_bg.jpg) repeat-x;
+    background: #6f6e6e url(../images/footer_bg.jpg) repeat-x;
     width: 100%;
     padding: 1px 0;
     color: #f4f4f4;
@@ -2280,7 +2280,7 @@ td.basked_td_price{
         padding-bottom: 0;
     }
 .footer_bott{
-    background: url(/static/images/footer_bott_bg.jpg) repeat-x;
+    background: url(../images/footer_bott_bg.jpg) repeat-x;
     height: 50px;
     color: #d7d7d7;
     font-size: 11px;
@@ -2365,7 +2365,7 @@ td.basked_td_price{
     z-index: 10;
     width: 22px;
     height: 22px;
-    background: url(/static/images/map_controls.png) 0 0 no-repeat;
+    background: url(../images/map_controls.png) 0 0 no-repeat;
     overflow: hidden;
 }
 .map_controls .btn_top,
@@ -2412,7 +2412,7 @@ td.basked_td_price{
     float: left;
     width: 32px;
     height: 22px;
-    background: url(/static/images/map_scale.png) 0 0 no-repeat;
+    background: url(../images/map_scale.png) 0 0 no-repeat;
     overflow: hidden;
 }
 .map_scale .btn_zoom_out {
@@ -2435,7 +2435,7 @@ td.basked_td_price{
     display: block;
     position: absolute;
     left: 0;
-    background: url(/static/images/map_scale.png) 0 0 no-repeat;
+    background: url(../images/map_scale.png) 0 0 no-repeat;
     overflow: hidden;
 }
 .map_scale .scale_line {
@@ -2486,6 +2486,78 @@ td.basked_td_price{
 .map_cart_table .map_cart_quantity {
     width: 16%;
     white-space: nowrap;
+}
+/* map categories */
+.map_cat {
+    margin-bottom: 23px;
+    padding-top: 10px;
+}
+.map_cat_list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 12px;    
+}
+.map_cat_item {
+    clear: both;
+    float: left;
+    width: 100%;
+    height: 36px;
+    margin: -1px 0 0 0;
+    padding: 0;
+    background: #ececec url(../images/map_cat_item_bg.gif) 0 0 repeat-x;
+    border-top: 1px solid #ececec;
+    border-bottom: 1px solid #ececec;    
+}
+.map_cat_item.first {
+    margin-top: 0;
+    border-top: 0;
+}
+.map_cat_item.last {
+    border-bottom: 0;
+}
+.map_cat_item a {
+    display: block;
+    height: 36px;    
+    outline: 0;
+    background: url(../images/map_cat_item_r.gif) 100% 0 no-repeat;
+    font-weight: bold;
+    text-decoration: none;
+    color: #cd1818;
+}
+.map_cat_item a:hover {
+    text-decoration: none;
+}
+.map_cat_name {
+    float: left;
+    height: 24px;
+    padding: 12px 5px 0 4px;
+    background: url(../images/map_cat_item_l.gif) 0 0 no-repeat;
+}
+.map_cat_price {
+    float: right;
+    height: 24px;
+    padding: 12px 4px 0 0;
+    color: #1d1d1d;
+}
+.map_cat_item:hover,
+.map_cat_item.active {
+    position: relative;    
+    background-position: 0 100%;
+    border-color: #b5b5b5;
+}
+.map_cat_item:hover a,
+.map_cat_item.active a {
+    background-position: 100% 100%;
+    color: #ffffff;
+}
+.map_cat_item:hover .map_cat_name,
+.map_cat_item.active .map_cat_name {
+    background-position: 0 100%;
+}
+.map_cat_item:hover .map_cat_price,
+.map_cat_item.active .map_cat_price {
+    color: #4aafd9;
 }
 /* map legend */
 .map_legend_box {
