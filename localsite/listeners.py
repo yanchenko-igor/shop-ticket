@@ -180,9 +180,11 @@ def event_date_saved(sender, instance, created, raw, using, **kwargs):
 
 def add_notes_field(signal, sender, form, **kwargs):
     if 'notes' not in form.fields:
-        notes_attrs = {'class': 'textarea_ormit'}
         form.fields['notes'] = forms.CharField(label=_('Additional information'), required=False,
-                widget=forms.Textarea(attrs=notes_attrs))
+                widget=forms.Textarea())
+    form.fields['street1'].label = _('Shipping Address')
+    form.fields['first_name'].label = _('First name, Last name')
+    form.fields['copy_address'] = forms.BooleanField(initial=True, widget=forms.widgets.HiddenInput())
 
 def split_username(signal, sender, form, **kwargs):
     if not form.cleaned_data['last_name']:
