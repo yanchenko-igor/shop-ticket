@@ -1,11 +1,8 @@
-{% extends "localsite/base.html" %}
-{% load i18n %}
-{% load thumbnail %}
-{% load satchmo_util %}
-
+{% extends "localsite/base.html" %} %}
+{% load i18n thumbnail satchmo_util %}
 {% block content %}
-    <div class="wrap_line">
-        <ul class="feed reset_list clearfix">
+    <div class='wrap_line'>
+        <ul class='feed reset_list clearfix'>
             {% for product in products %}
                 <li{% cycle '' '' ' class="last"' %}>
                     {% include "localsite/block_product_item.html" %}
@@ -14,34 +11,32 @@
         </ul>
     </div>
 {% endblock %}
-
 {% block subnav %}
-    <div class="tab">
-        <h2 class="tab_nested">
-            <a href="{% url satchmo_shop_home %}">НОВИНКИ</a>
+    <div class='tab'>
+        <h2 class='tab_nested'>
+            <a href='{% url satchmo_shop_home %}'>НОВИНКИ</a>
         </h2>
     </div>
-    <div class="tab tab_activ">
-        <div class="tab_activ_sh1">
-            <div class="tab_activ_sh2">
-                <h1 class="h1_m">
-                    <a href="{% url satchmo_product_best_selling %}">БЕСТСЕЛЛЕРЫ</a>
+    <div class='tab tab_activ'>
+        <div class='tab_activ_sh1'>
+            <div class='tab_activ_sh2'>
+                <h1 class='h1_m'>
+                    <a href='{% url satchmo_product_best_selling %}'>БЕСТСЕЛЛЕРЫ</a>
                 </h1>
             </div>
         </div>
     </div>
-    <div class="tab">
-        <h2 class="tab_nested">
-            <a href="{% url localsite_featured %}">РЕКОМЕНДУЕМ</a>
+    <div class='tab'>
+        <h2 class='tab_nested'>
+            <a href='{% url localsite_featured %}'>РЕКОМЕНДУЕМ</a>
         </h2>
     </div>
-    <div class="tab">
-        <div class="tab_nested">
-            <a class="how_order" href="{{ help_page.url }}#how_order">КАК ЗАКАЗАТЬ И ОПЛАТИТЬ?</a>
+    <div class='tab'>
+        <div class='tab_nested'>
+            <a class='how_order' href='{{ help_page.url }}#how_order'>КАК ЗАКАЗАТЬ И ОПЛАТИТЬ?</a>
         </div>
     </div>
 {% endblock %}
-
 {% block contentfootercol2 %}
     <div class='col2'>
         {% include "localsite/block_recently_added.html" %}
