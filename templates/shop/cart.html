@@ -175,6 +175,11 @@
                     <label id='cart_total'>{{ cart|discount_cart_total:sale|wrap_currency }}</label>
                 </span>
             </div>
+        </div>
+        <div id='checkout_form'>
+            <h1 class='h1_h'>
+                Оформление покупки
+            </h1>
             {% contact_form %}
         </div>
     {% endif %}

@@ -1,4 +1,4 @@
-{% load i18n satchmo_category satchmo_google satchmo_util satchmo_currency satchmo_discounts app_plugins normalize_decimal thumbnail cache %}
+{% load i18n satchmo_category satchmo_google satchmo_util satchmo_currency satchmo_discounts app_plugins normalize_decimal thumbnail cache flatblock_tags %}
 {% block doctype %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 {% endblock %}
@@ -102,6 +102,9 @@
                     </table>
                 </div>
             </div>
+            <div class='ad_top_block'>
+                {% flatblock 'banner_top' 3600 using "localsite/flatblock.html" %}
+            </div>
             <div class='wraper wraper_base'>
                 <div class='wraper_top'>
                     <span class='w_t_l'>
@@ -121,10 +124,10 @@
                         </div>
                         <div class='top_telephone'>
                             <div class='telephone_number'>
-                                044 245 58 90
+                                {% flatblock 'telephone_number' 3600 using "localsite/flatblock.html" %}
                             </div>
                             <div class='time_work'>
-                                Работаем с 9-00 до 21-00
+                                {% flatblock 'time_work' 3600 using "localsite/flatblock.html" %}
                             </div>
                         </div>
                         {% cache 3600 dop_menu %}
@@ -171,7 +174,7 @@
                         {% block subnav %}
                             <div class='tab_long tab_activ first_tab_activ'>
                                 <div class='tab_activ_sh1'>
-                                    <div class='tab_activ_sh1'>
+                                    <div class='tab_activ_sh2'>
                                         <h1 class='h1_h'>
                                             {% block navtitle %}
                                             {% endblock %}
@@ -180,13 +183,13 @@
                                 </div>
                             </div>
                         {% endblock %}
-                    </div>
-                    <div class='tab_basket'>
-                        <div class='basket_count'>
-                            <a class='has_icon_basket' href='{% url satchmo_cart %}'>
-                                <i class='icon_basket'></i>
-                                {% blocktrans count counter=cart|length %}In your cart <span class="cart_count">{{ counter }}</span> ticket{% plural %}In your cart <span class="cart_count">{{ counter }}</span> tickets{% endblocktrans %}
-                            </a>
+                        <div class='tab_basket'>
+                            <div class='basket_count'>
+                                <a class='has_icon_basket' href='{% url satchmo_cart %}'>
+                                    <i class='icon_basket'></i>
+                                    {% blocktrans count counter=cart|length %}In your cart <span class="cart_count">{{ counter }}</span> ticket{% plural %}In your cart <span class="cart_count">{{ counter }}</span> tickets{% endblocktrans %}
+                                </a>
+                            </div>
                         </div>
                     </div>
                     {% block contentwraper %}
@@ -312,14 +315,16 @@
                        {% endblock %}
                     </div>
                    <div class='footer_bott clearfix'>
-                       <div class='footer_copyr'>&copy; 2011 Show.ua.</div>
+                       <div class='footer_copyr'>
+                           {% flatblock 'footer_copyr' 3600 using "localsite/flatblock.html" %}
+                       </div>
                        <div class='footer_inf'>
                            {% block footer %}
-                               Продажа билетов на любые мероприятия во всех городах Украины, беслпатная доставка!
+                               {% flatblock 'footer_inf' 3600 using "localsite/flatblock.html" %}
                            {% endblock %}
                        </div>
                        <div class='footer_creat'>
-                           <img src='{{ media_url }}images/zemma.jpg' alt='' />
+                           {% flatblock 'footer_creat' 3600 using "localsite/flatblock.html" %}
                        </div>
                    </div>
                 </div>

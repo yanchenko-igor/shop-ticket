@@ -1,5 +1,6 @@
+{% load flatblock_tags %}
 <div class="banner_right">
     <div class="banner_right_bl">
-        <img src="{{ media_url }}images/temp/banner_right.jpg" alt="" />
+        {% flatblock 'banner_right' 3600 using "localsite/flatblock.html" %}
     </div>
 </div>

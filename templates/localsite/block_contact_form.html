@@ -1,70 +1,51 @@
-{% load i18n %}
-<div id=checkout_form>
-<h1 class="h1_h">Оформление покупки</h1>
-<form action="{% url satchmo_checkout-step1 %}" method="post" class="form_ormit_order clearfix">{% csrf_token %}
-    <div class="ormit_order">
-        <div class="ormit_order_1">
-
-            <label>Имя, Фамилия:</label>
-            <div class="input_2">
-                <div class="input_2_2">
-                    {{ form.first_name }}
-                </div>
-            </div>
-            <br />
-
-            <label>Email:</label>
-            <div class="input_2">
-                <div class="input_2_2">
-                    {{ form.email }}
-                </div>
-            </div>
-
+{% load i18n flatblock_tags %}
+<form class='base_form order_form' action='{% url satchmo_checkout-step1 %}' method='post'>
+    <div class='fieldblock complex'>
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+        <div class='field odd'>
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+            {% if form.first_name.errors %}
+                <span class='error'>{{ form.first_name.errors|join:", " }}</span>
+            {% endif %}
         </div>
-
-        <div class="ormit_order_2">
-            <label>Телефон:</label>
-            <div class="input_2">
-                <div class="input_2_2">
-                    {{ form.phone }}
-                </div>
-            </div>
-            <br>
-
-            <label>Адрес доставки:</label>
-            <div class="input_2">
-                <div class="input_2_2">
-                    {{ form.street1 }}
-                </div>
-            </div>
+        <div class='field'>
+            {{ form.phone.label_tag }}
+            {{ form.phone }}
+            {% if form.phone.errors %}
+                <span class='error'>{{ form.phone.errors|join:", " }}</span>
+            {% endif %}
         </div>
-        <div class="clear"><!-- --></div>
-        <br />
-
-        <label>Дополнительная информация:</label>
-
-        <div class="textarea_top"><div><span><!-- --></span></div></div>
-        <div class="textarea_body">
-            <div class="textarea_body2">
-                <div class="textarea_wrap">
-                    {{ form.notes }}
-                </div>
-            </div>
+        <div class='field odd'>
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {% if form.email.errors %}
+                <span class='error'>{{ form.email.errors|join:", " }}</span>
+            {% endif %}
         </div>
-        <div class="textarea_bott"><div><span><!-- --></span></div></div>
-
-
+        <div class='field'>
+            {{ form.street1.label_tag }}
+            {{ form.street1 }}
+            {% if form.street1.errors %}
+                <span class='error'>{{ form.street1.errors|join:", " }}</span>
+            {% endif %}
         </div>
-        <div class="ormit_order_call">
-            <div class="ormit_call_txt">Для заказа билетов Вы можете<br />просто позвонить нам</div>
-
-            <div class="ormit_call_tel">044 245 58 90</div>
-            <div class="ormit_call_time">Работаем с 9-00 до 21-00</div>
+        <div class='field wide'>
+            {{ form.notes.label_tag }}
+            {{ form.notes }}
+            {% if form.notes.errors %}
+                <span class='error'>{{ form.notes.errors|join:", " }}</span>
+            {% endif %}
         </div>
-
-        <br style="clear:both" />
-        <input type="hidden" name="copy_address" value="on">
-        <input type="hidden" name="paymentmethod" value="COD">
-        <input type="submit" value="{% trans "Check out" %}"/>
-    </form>
-</div>
+        <div class='controlset'>
+            <a class='btn_lightred' href='#' onclick='jQuery(this).parents("form:first").trigger("submit");return false;'>
+                <span>
+                  {% trans "Check out" %}
+                </span>
+            </a>
+        </div>
+    </div>
+</form>

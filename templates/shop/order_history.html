@@ -1,5 +1,6 @@
 {% extends "shop/base.html" %}
 {% load i18n %}
+{% load thumbnail %}
 {% load satchmo_currency %}
 {% load satchmo_checkout %}
 {% load satchmo_order normalize_decimal %}
@@ -33,10 +34,96 @@
                     {{ order.time_stamp|date:"F jS Y H:i" }}
                 </td>
                 <td class="orderitems">
-                    {% for item in order.orderitem_set.all %}
-                    {% if not forloop.first %}<br/>{% endif %}
-                    <span class="orderitemqty">{{ item.quantity|normalize_decimal }}</span> <span class="orderitem">{{ item }}</span>
-                    {% endfor %}
+
+
+
+            {% for item in order.orderitem_set.all %}
+            {% ifchanged item.product.ticket.event %}
+            {% if not forloop.first %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class='curve_bott'>
+                        <div>
+                            <span class='curve_gray'>
+<!--  -->
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+                <div id='item-{{item.id}}' class='basked_bl item'>
+                    <div class='curve_top'>
+                        <div>
+                            <span class='curve_gray'>
+<!--  -->
+                            </span>
+                        </div>
+                    </div>
+                    <div class='curve_body basket_grey'>
+                        <table class='basket_tab'>
+                            <tbody>
+                                <tr>
+                                    <td class='basket_td_img'>
+                                        <div class='basket_td_img_bl'>
+                                            {% if item.product.ticket.event.product.main_image.picture|is_portrait %}
+                                                {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
+                                                    <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
+                                                        <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                    </a>
+                                                {% endthumbnail %}
+                                            {% else %}
+                                                {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="center" as image %}
+                                                    <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
+                                                      <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                    </a>
+                                                {% endthumbnail %}
+                                            {% endif %}
+                                        </div>
+                                        <div class='basked_td_inf_date'>
+                                            <span>
+                                                {{ item.product.ticket.datetime.datetime|date:"j E Y, l" }}
+                                            </span>
+                                            {{ item.product.ticket.datetime.datetime|date:"H:i" }}
+                                        </div>
+                                        <div class='basked_td_inf_txt'>
+                                            {{ item.product.ticket.event.product.name }}
+                                            {{ item.product.ticket.event.product.short_description }}
+                                        </div>
+                                    </td>
+                                    <td class='basked_td_ticket'>
+            {% endifchanged %}
+            {% ifchanged item.product.ticket.event item.product.ticket.seat.section %}
+                                        <div class='basked_td_ticket_cont'>
+                                            {{ item.product.ticket.seat.section.name }}
+                                        </div>
+            {% endifchanged %}
+                                        <p>
+                                            {{ item.product.ticket.seat.row }}
+                                            Ряд,
+                                            {{ item.product.ticket.seat.col }}
+                                            Место
+                                        </p>
+            {% if forloop.last %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class='curve_bott'>
+                        <div>
+                            <span class='curve_gray'>
+<!--  -->
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% endfor %}
+
+
                 </td>
                 <td class="ordertototal">
                     {{order.total|currency}}

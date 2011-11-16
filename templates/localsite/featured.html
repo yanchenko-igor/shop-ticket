@@ -65,7 +65,7 @@
             <a href='{% url satchmo_product_best_selling %}'>БЕСТСЕЛЛЕРЫ</a>
         </h2>
     </div>
-    <div class='tabr tab_activ'>
+    <div class='tab tab_activ'>
         <div class='tab_activ_sh1'>
             <div class='tab_activ_sh2'>
                 <h1 class='h1_m'>
@@ -78,5 +78,10 @@
         <div class='tab_nested'>
             <a class='how_order' href='{{ help_page.url }}#how_order'>КАК ЗАКАЗАТЬ И ОПЛАТИТЬ?</a>
         </div>
+    </div>
+{% endblock %}
+{% block contentfootercol1 %}
+    <div class='col1'>
+        {% include "localsite/block_recently_added.html" %}
     </div>
 {% endblock %}

@@ -397,7 +397,7 @@
                             $('.map_cart_price.active').removeClass('active');
                             $(this).parent('.map_cart_price').addClass('active');
                             hallmap = $('#hallmap');
-                            hallmap.attr('data', '/hallmap/' + {% cache 3600 product_event_hallmap_dates_price_js product.id %}{% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %}{% endcache %} + '/' + $('.map_cart_price.active span.figure').text() + '/');
+                            hallmap.attr('data', '/hallmap/' + {% cache 3600 product_event_hallmap_dates_price_js product.id %}{% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %}{% endcache %} + '/' + parseInt($('.map_cart_price.active span.figure').text()) + '/');
                             hallmap2 = hallmap.clone();
                             hallmap.remove();
                             hallmap2.appendTo('.map_content');
@@ -501,18 +501,20 @@
                             <table class='map_cart_table' cellpadding='0' width='100%' border='1' cellspacing='0'>
                                 {% cache 3600 product_prices_map product.id %}
                                     {% for price in product.event.all_prices %}
+                                        <tr>
+                                            <td class='map_cart_point'>
+                                                <img src='{{ media_url }}/images/icon_point_my.gif' alt='' />
+                                            </td>
+                                            <td class='map_cart_name'>Места</td>
+                                            <td class='map_cart_price'>
+                                                <span class='figure'>
+                                                    {{ price.price|stringformat:"i" }}
+                                                </span>
+                                                грн
+                                            </td>
+                                            {#<td class="map_cart_quantity">4 шт</td>#}
+                                        </tr>
                                     {% endfor %}
-                                    <tr>
-                                        <td class='map_cart_point'>
-                                            <img src='{{ media_url }}/images/icon_point_my.gif' alt='' />
-                                        </td>
-                                        <td class='map_cart_name'>Места</td>
-                                        <td class='map_cart_price'>
-                                            <span class='figure'>{{ price.price|stringformat:"i" }}</span>
-                                            грн
-                                        </td>
-                                        {#<td class="map_cart_quantity">4 шт</td>#}
-                                    </tr>
                                 {% endcache %}
                             </table>
                         </div>
