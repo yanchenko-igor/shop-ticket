@@ -1,0 +1,142 @@
+{# this text is placed by the satchmo_order template tag "order_tracking_details" #}
+{% load i18n %}
+{% load thumbnail %}
+{% load satchmo_currency %}
+{% load satchmo_checkout %}
+{% load satchmo_util normalize_decimal %}
+
+<div class="orderdetails">
+<h4>{% trans 'Order #' %} {{ order.id }}</h4>
+<h4>{% trans 'Status' %}</h4>
+{% for status in order.orderstatus_set.all %}
+<p>{{status.time_stamp|date:"F jS Y H:i" }}: {{ status.status|status_label }}<br/>
+{% if status.notes %}<i>{% trans status.notes %}</i>{% endif %}
+</p>
+{% endfor %}
+
+<h4>{% trans "Items Ordered" %}</h4>
+
+            {% for item in order.orderitem_set.all %}
+            {% ifchanged item.product.ticket.event %}
+            {% if not forloop.first %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class='curve_bott'>
+                        <div>
+                            <span class='curve_gray'>
+<!--  -->
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <div id='item-{{item.id}}' class='basked_bl item'>
+                    <div class='curve_top'>
+                        <div>
+                            <span class='curve_gray'>
+<!--  -->
+                            </span>
+                        </div>
+                    </div>
+                    <div class='curve_body basket_grey'>
+                        <table class='basket_tab'>
+                            <tbody>
+                                <tr>
+                                    <td class='basket_td_img'>
+                                        <div class='basket_td_img_bl'>
+                                            {% if item.product.ticket.event.product.main_image.picture|is_portrait %}
+                                                {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
+                                                    <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
+                                                        <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                    </a>
+                                                {% endthumbnail %}
+                                            {% else %}
+                                                {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="center" as image %}
+                                                    <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
+                                                      <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                    </a>
+                                                {% endthumbnail %}
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td class='basked_td_inf'>
+                                        <div class='basked_td_inf_date'>
+                                            <span>
+                                                {{ item.product.ticket.datetime.datetime|date:"j E Y, l" }}
+                                            </span>
+                                            {{ item.product.ticket.datetime.datetime|date:"H:i" }}
+                                        </div>
+                                        <div class='basked_td_inf_txt'>
+                                            {{ item.product.ticket.event.product.name }}
+                                            {{ item.product.ticket.event.product.short_description }}
+                                        </div>
+                                    </td>
+                                    <td class='basked_td_ticket'>
+                                        <div class='basked_td_ticket_cont'>
+                                            {{ item.product.ticket.seat.section.name }}
+                                        </div>
+                                        <p>
+                                            {{ item.product.ticket.seat.row }}
+                                            Ряд,
+                                            {{ item.product.ticket.seat.col }}
+                                            Место
+                                        </p>
+            {% else %}
+                                        <div class='basked_td_ticket_cont'>
+                                            {{ item.product.ticket.seat.section.name }}
+                                        </div>
+                                        <p>
+                                            {{ item.product.ticket.seat.row }}
+                                            Ряд,
+                                            {{ item.product.ticket.seat.col }}
+                                            Место
+                                        </p>
+            {% endifchanged %}
+            {% if forloop.last %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class='curve_bott'>
+                        <div>
+                            <span class='curve_gray'>
+<!--  -->
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+
+{% if order.shipping_method %}
+<h4>{% trans "Shipping Method" %}</h4>
+{{ order.shipping_description }}<br/>
+{% ifnotequal order.shipping_method order.shipping_description %}{{ order.shipping_method }}<br/>{% endifnotequal %}
+{{ order.shipping_sub_total|currency }}<br/>
+{% endif %}
+
+<h4>{% trans "Total" %}</h4>
+{% if order.discount %}
+    {% trans "Discount" %} - {{order.discount|currency}}<br/>
+{% endif %}
+{% if order.is_shippable %} {% trans "Shipping" %} + {{order.shipping_sub_total|currency}}<br/> {% endif %}
+{% if order.tax %}
+    {% trans "Tax" %} + {{order.tax|currency}}<br/>
+{% endif %}
+{% trans "Total" %} = {{order.total|currency}}<br/>
+
+{% order_payment_summary order paylink %}
+
+{% if order.is_shippable %}
+<h4>{% trans "Shipping To" %}</h4>
+{{ order.full_ship_street }}<br/>
+{{ order.ship_city }}<br/>
+{{ order.ship_state }}<br/>
+{{ order.ship_postal_code }}<br/>
+{{ order.ship_country_name|title }}<br/>
+{% endif %}
+</div>
