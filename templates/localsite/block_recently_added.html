@@ -1,0 +1,30 @@
+{% load thumbnail i18n local_tags %}
+<div class='heading_bg'>
+    <span class='h_t_l'>
+<!--  -->
+    </span>
+    <span class='h_t_r'>
+<!--  -->
+    </span>
+    <h2>
+        {% trans "Recently Added" %}
+    </h2>
+    <span class='h_b_l'>
+<!--  -->
+    </span>
+    <span class='h_b_r'>
+<!--  -->
+    </span>
+</div>
+<div class='wrap_line'>
+    {% show_new_arrivals 5 %}
+    <div class='all_link'>
+        {% url satchmo_shop_home as recentlyadded %}
+        {% if recentlyadded %}
+            <a class='has_icon_ahead' href='{{ recentlyadded }}'>
+                <i class='icon_ahead'></i>
+                {% trans "All Recently Added" %}
+            </a>
+        {% endif %}
+    </div>
+</div>
