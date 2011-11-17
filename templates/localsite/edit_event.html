@@ -27,8 +27,8 @@
 </script>
               {{ formset.as_p_d }}
             {% endfor %}
+            <input type='submit' name='submit' value='{% trans "submit" %}' />
         </form>
-        <input type='submit' name='submit' value='{% trans "submit" %}' />
     </div>
 {% endblock %}
 {% block subnav %}
