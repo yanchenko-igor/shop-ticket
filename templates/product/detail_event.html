@@ -59,7 +59,7 @@
                                     {% endcache %}
                                 </div>
                                 <div class='select_place'>
-                                    <a class='select_place_link' href='#'>
+                                    <a id='select_place' class='select_place_link' href='#'>
                                         Выбрать дату и место в зале на схеме
                                         <img src='{{ media_url }}images/icon_arrow.gif' alt='>' />
                                     </a>
@@ -238,7 +238,7 @@
                                     <div class='feed_list_txt_tag'>
                                         {% if prod.main_category %}
                                             <a href='{{ prod.main_category.get_absolute_url }}'>
-                                              {{ prod.main_category.translated_name }} }}
+                                              {{ prod.main_category.translated_name }}
                                             </a>
                                             &nbsp;
                                         {% endif %}
@@ -352,10 +352,6 @@
                             $('.overbox').removeClass('hidden');
                             return false;
                         });
-                        var myFile = document.location.toString();
-                        if (myFile.match('#select_place')) {
-                          $('.select_place a').click();
-                        }
                         $('.btn_close').click(function(){
                             $('.overlay').addClass('hidden');
                             $('.overbox').addClass('hidden');
@@ -394,6 +390,8 @@
                             return false;
                         });
                         var select_price = function(){
+                            $('.overlay.hidden').removeClass('hidden');
+                            $('.overbox.hidden').removeClass('hidden');
                             $('.map_cat_item.active').removeClass('active');
                             $(this).parent('.map_cat_item').addClass('active');
                             hallmap = $('#hallmap');
@@ -420,6 +418,9 @@
                         }
                         $('.map_cat_item a').click(select_price);
                         $('.map_cat_item.active a').click(unselect_price);
+                        if (window.location.hash.match('#select')) {
+                          $(window.location.hash).click();
+                        }
                         $('.btn_zoom_in').click(function(){
                             if (zoomlevel < 5) {
                                 zoomlevel += 1;
@@ -501,8 +502,8 @@
                             <ul class='map_cat_list clearfix'>
                                 {% cache 3600 product_prices_cat_list product.id %}
                                     {% for price in product.event.all_prices %}
-                                      <li class='map_cat_item{% if forloop.first %} first{% endif %}'>
-                                            <a href='#'>
+                                        <li class='map_cat_item{% if forloop.first %} first{% endif %}'>
+                                            <a id='select_price_{{ price.price|stringformat:"i" }}' href='#'>
                                                 <span class='map_cat_name'>Категория билетов за</span>
                                                 <span class='map_cat_price'>
                                                     <span class='figure'>
@@ -511,7 +512,7 @@
                                                     грн
                                                 </span>
                                             </a>
-                                      </li>
+                                        </li>
                                     {% endfor %}
                                 {% endcache %}
                             </ul>
