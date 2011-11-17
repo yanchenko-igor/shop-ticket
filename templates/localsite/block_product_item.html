@@ -30,7 +30,7 @@
 {% if product.event.all_prices.count > 1 %}
 <div class="feed_price multiple">
     <div class="feed_price_cont">
-        <span class="feed_price_line">от <em class="figure">{{ product.event.all_prices.0.price|stringformat:"i"  }}</em> грн<i class="icon_expand"></i></span>
+        <a href="{{ product.get_absolute_url }}#select_price_{{ product.event.all_prices.0.price|stringformat:"i" }}"><span class="feed_price_line">от {{ product.event.all_prices.0.price|stringformat:"i" }}</em> грн<i class="icon_expand"></i></span></a>
     </div>
     <div class="feed_pop feed_price_pop">
         <div class="feed_pop_t">
@@ -40,7 +40,7 @@
                     <div class="feed_pop_mr">
                         <div class="feed_pop_content">
                             {% for price in product.event.all_prices %}
-                            <div class="feed_price_line{% if forloop.first %} first{% endif %}">{% if forloop.first %}<span class="note">от</span>{% endif %}<em class="figure">{{ price.price|stringformat:"i"  }}</em> грн</div>
+                            <div class="feed_price_line{% if forloop.first %} first{% endif %}"><a href="{{ product.get_absolute_url }}#select_price_{{ price.price|stringformat:"i"  }}">{% if forloop.first %}<span class="note">от</span>{% endif %}<em class="figure">{{ price.price|stringformat:"i"  }}</em> грн</a></div>
                             {% endfor %}
                         </div>
                     </div>
@@ -53,7 +53,7 @@
 {% else %}
 <div class="feed_price">
     <div class="feed_price_cont">
-        <span class="feed_price_line"><em class="figure">{{ product.event.all_prices.0.price|stringformat:"i" }}</em> грн</span>
+        <a href="{{ product.get_absolute_url }}#select_price_{{ product.event.all_prices.0.price|stringformat:"i"  }}"><span class="feed_price_line"><em class="figure">{{ product.event.all_prices.0.price|stringformat:"i"  }}</em> грн</span></a>
     </div>                                
 </div>
 {% endif %}
