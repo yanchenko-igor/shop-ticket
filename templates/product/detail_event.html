@@ -133,11 +133,11 @@
                                     </span></a></li>
                                 {% endif %}
                                 <li{% if date.datetime.date == product.event.max_date %} class="last"{% endif %}>
-                                    <a href="#">
+                                    <a class="select_datetime" id="select_datetime_{{ date.id }}" datetimeval="{{ date.id }}" href="#">
                                         {{ date.datetime|date:"j E Y, l" }}
                                         <span class="event_date_time">
                             {% else %}
-                              ,
+                              </span></a>, <a class="select_datetime" id="select_datetime_{{ date.id }}" datetimeval="{{ date.id }}" href="#"><span class="event_date_time">
                             {% endifchanged %}
                             {{ date.datetime|date:"H:i" }}
                             {% if forloop.last %}
@@ -352,6 +352,13 @@
                             $('.overbox').removeClass('hidden');
                             return false;
                         });
+                        $('.select_datetime').click(function(){
+                            $('.overlay').removeClass('hidden');
+                            $('.overbox').removeClass('hidden');
+                            $('#id_datetime').val($(this).attr('datetimeval'));
+                            $('#id_datetime').change();
+                            return false;
+                        });
                         $('.btn_close').click(function(){
                             $('.overlay').addClass('hidden');
                             $('.overbox').addClass('hidden');
@@ -395,9 +402,9 @@
                             $('.map_cat_item.active').removeClass('active');
                             $(this).parent('.map_cat_item').addClass('active');
                             hallmap = $('#hallmap');
-                            hallmap.attr('data', '/hallmap/' + {% cache 3600 product_event_hallmap_dates_price_js product.id %}{% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %}{% endcache %} + '/' + parseInt($('.map_cat_item.active span.figure').text()) + '/');
                             hallmap2 = hallmap.clone();
                             hallmap.remove();
+                            hallmap2.attr('data', '/hallmap/' + {% cache 3600 product_event_hallmap_dates_price_js product.id %}{% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %}{% endcache %} + '/' + parseInt($('.map_cat_item.active span.figure').text()) + '/');
                             hallmap2.appendTo('.map_content');
                             $('.map_cat_item a').unbind('click');
                             $('.map_cat_item a').click(select_price);
@@ -408,9 +415,9 @@
                         var unselect_price = function(){
                             $('.map_cat_item.active').removeClass('active');
                             hallmap = $('#hallmap');
-                            hallmap.attr('data', '/hallmap/' + {% cache 3600 product_event_hallmap_dates_price_js product.id %}{% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %}{% endcache %} + '/');
                             hallmap2 = hallmap.clone();
                             hallmap.remove();
+                            hallmap2.attr('data', '/hallmap/' + {% cache 3600 product_event_hallmap_dates_price_js product.id %}{% if dates.count = 1 %}{{ dates.0.id }}{% else %}$('#id_datetime').val(){% endif %}{% endcache %} + '/');
                             hallmap2.appendTo('.map_content');
                             $('.map_cat_item a').unbind('click');
                             $('.map_cat_item a').click(select_price);
