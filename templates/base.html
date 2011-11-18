@@ -39,6 +39,7 @@
                     $(function() {
                         $('.icon_edit').click(function(){
                             var content_element = $(this).parent('.editable').children('.flatblock_content');
+                            console.log(flatblock_id, $(this).parent('.editable'));
                             var flatblock_id = $(this).parent('.editable').attr('id').spit('_')[1];
                             console.log(flatblock_id);
                             $('body').append('<div class="overlay"></div>');
