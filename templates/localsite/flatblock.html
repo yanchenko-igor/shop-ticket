@@ -1,4 +1,8 @@
-{{ flatblock.content|safe }}
 {% if user.is_staff %}
-	<a href="{% url flatblocks-edit pk=flatblock.id %}">~</a>
+<div id="flatblock_{{ flatblock.id }}" class="editable">
+        <i class="icon_edit"></i>
+        <div class="flatblock_content">{{ flatblock.content|safe }}</div>
+    </div>
+{% else %}
+    {{ flatblock.content|safe }}
 {% endif %}

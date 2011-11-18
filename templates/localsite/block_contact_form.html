@@ -48,4 +48,17 @@
             </a>
         </div>
     </div>
+    <div class='noteblock'>
+        <div class='ormit_call_txt'>
+            Для заказа билетов Вы можете
+            <br />
+            просто позвонить нам
+        </div>
+        <div class='ormit_call_tel'>
+            {% flatblock 'telephone_number' 3600 using "localsite/flatblock.html" %}
+        </div>
+        <div class='ormit_call_time'>
+            {% flatblock 'time_work' 3600 using "localsite/flatblock.html" %}
+        </div>
+    </div>
 </form>

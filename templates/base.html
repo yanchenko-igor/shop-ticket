@@ -33,6 +33,34 @@
     </head>
     {% block body %}
         <body{% if bodyid %} id="{{ bodyid }}"{% endif %}{% block bodyclass_wrapper %} class="{% block bodyclass %}main{% endblock %}"{% endblock %}>
+            {% if user.is_staff %}
+<script type='text/javascript'>
+// <![CDATA[
+                    $(function() {
+                        $('.icon_edit').click(function(){
+                            var content_element = $(this).parent('.editable').children('.flatblock_content');
+                            var flatblock_id = $(this).parent('.editable').attr('id').spit('_')[1];
+                            console.log(flatblock_id);
+                            $('body').append('<div class="overlay"></div>');
+                            $('body').append('<div class="overbox"><div class="overbox_content clearfix"><div class="overbox_header clearfix"><h2 class="overbox_name">Edit</h2><a class="btn_close flatblock_edit_close" href="#"><i class="icon_close"></i></a></div><div class="overbox_text"><textarea id="flatblock_edit_textarea" name="content" style="width:100%" rows="10">' + content_element.html() + '</textarea><a class="flatblock_save_btn btn_lightred" href="#"><span>{% trans "Save" %}</span></a></div></div></div>');
+                            $('.overbox').css('top', parseInt($('.overbox').css('top')) + window.scrollY + 'px');
+                            $('.flatblock_save_btn').click(function(){
+                                content_element.html($('#flatblock_edit_textarea').val())
+                                $('.overbox').remove();
+                                $('.overlay').remove();
+                                return false;
+                            });
+                            $('.flatblock_edit_close').click(function(){
+                                $('.overbox').remove();
+                                $('.overlay').remove();
+                                return false;
+                            });
+                            return false;
+                        });
+                    });
+// ]]>
+</script>
+            {% endif %}
             {% plugin_point "page_top" %}
             <div class='wraper_header'>
                 <div class='wraper_header2 wraper'>
@@ -72,8 +100,9 @@
                                 </div>
                                 <div class='header_bl_reg'>
                                     {% if user.is_authenticated %}
-                                        <div class='user_greeting'>
+                                        <span class='user_greeting'>
                                             {% trans "You login as" %}
+                                            <br />
                                             <a class='user_name' href='{% url satchmo_account_info %}'>
                                                 {% if user.get_full_name %}
                                                     {{ user.get_full_name }}
@@ -81,7 +110,15 @@
                                                     {{ user.username }}
                                                 {% endif %}
                                             </a>
-                                        </div>
+                                        </span>
+                                        <a class='btn_red' href='{{ logout_url }}?next={{request.path}}'>
+                                            <span>
+                                                {% trans "Log out" %}
+                                                <b>
+                                                    {% trans "Log out" %}
+                                                </b>
+                                            </span>
+                                        </a>
                                     {% else %}
                                         <a class='btn_red' href='{{ login_url }}'>
                                             <span>

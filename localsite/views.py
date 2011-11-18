@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from livesettings import config_value
@@ -10,10 +11,8 @@ from localsite.models import HallScheme, EventDate, Event, SeatGroupPrice, Ticke
 from django.contrib.sites.models import Site
 from localsite.forms import AnnouncementFormInline, EventDateFormInline, EventFormInline, FlatPageForm, ProductForm, ProductImageFormInline, SeatGroupPriceFormset
 from localsite.forms import SeatLocationInline, SeatSectionInline, SelectCityForm, SelectEventDateForm, SelectEventForm, SelectPlaceForm, SelectSeatGroupForm, SelectSectionForm
-from django.http import HttpResponseRedirect
 from satchmo_utils.unique_id import slugify
 from localsite.utils.translit import cyr2lat
-from django.http import HttpResponse
 from django.utils.translation import ugettext as _
 from django.db.models import Q
 from django.contrib.flatpages.models import FlatPage
@@ -28,6 +27,8 @@ from satchmo_store.shop.views.cart import _product_error
 from satchmo_store.shop.views.cart import _json_response
 from satchmo_store.shop.views.cart import _set_quantity
 from satchmo_utils.views import bad_or_missing
+from flatblocks.models import FlatBlock
+from flatblocks.forms import FlatBlockForm
 from lxml import etree
 
 @user_passes_test(lambda u: u.is_staff, login_url='/admin/')
@@ -53,7 +54,6 @@ def place_editor(request, section_id, template_name='localsite/place_editor.html
         'groupform': groupform,
         })
     return render_to_response(template_name, context_instance=ctx)
-
 
 @user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def section_editor(request, hallscheme_id, template_name='localsite/hallscheme_editor.html'):
@@ -93,6 +93,52 @@ def flatpage_editor(request, flatpage_id, template_name='localsite/flatpage_edit
         })
     return render_to_response(template_name, context_instance=ctx)
 
+@user_passes_test(lambda u: u.is_staff, login_url='/admin/')
+def flatblock_edit(request, pk, modelform_class=FlatBlockForm, permission_check=None,
+        template_name='flatblocks/edit.html', success_url=None):
+    flatblock = get_object_or_404(FlatBlock, pk=pk)
+    if permission_check is not None:
+        permcheck_result = permission_check(request, flatblock)
+        if permcheck_result is False:
+            return HttpResponseForbidden(_('You are not allowed to edit this flatblock'))
+        if isinstance(permcheck_result, HttpResponse):
+            return permcheck_result
+
+    session_key = 'flatblock.origin.%d' % (int(pk), )
+    if request.method == 'POST':
+        origin = request.session.get(session_key, 
+                request.META.get('HTTP_REFERER', '/'))
+        form = modelform_class(request.POST, instance=flatblock)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.slug = flatblock.slug
+            instance.save()
+            del request.session[session_key]
+            redirect_to = success_url and success_url or origin
+            #return HttpResponseRedirect(redirect_to)
+            if request.is_ajax():
+                data = {
+                    'id': flatblock.pk,
+                    'slug': flatblock.slug,
+                    'header': flatblock.header,
+                    'content': flatblock.content,
+                    'results': _("Success"),
+                }
+        
+                return _json_response(data)
+            else:
+                return redirect(redirect_to)
+    else:
+        origin = request.META.get('HTTP_REFERER', '/')
+        # Don't set origin to this view's url no matter what
+        origin = origin == request.get_full_path() and request.session.get(session_key, '/') or origin
+        form = modelform_class(instance=flatblock)
+        request.session[session_key] = origin
+    return render_to_response(template_name, {
+        'form': form,
+        'origin': origin,
+        'flatblock': flatblock,
+        }, context_instance=RequestContext(request))
 
 @user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def flatpages(request, template_name='localsite/flatpages.html'):

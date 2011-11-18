@@ -7,8 +7,6 @@ from satchmo_store.urls import urlpatterns
 
 my_urlpatterns = patterns('',
     url(r'^latest/$', EventFeed(), name='eventfeed'),
-    url(r'^flatblocks/(?P<pk>\d+)/edit/$', login_required(edit),
-        name='flatblocks-edit'),
 )
 
 urlpatterns += my_urlpatterns

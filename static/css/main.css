@@ -297,7 +297,6 @@ optgroup option {
     *zoom: 1; /* IE7 */
     _height: 1%; /* IE6 */
 }
-
 /* ----- /clearfix ----- */
 
 /* ----- icons ----- */
@@ -740,6 +739,32 @@ a:hover .icon_back, .icon_back:hover {
     text-align: right;
     padding: 12px 1px;
 }
+.editable {
+    position: relative;
+}
+.editable .icon_edit {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    top: 1px;
+    right: 1px;
+    width: 16px;
+    height: 16px;
+    padding: 2px;
+    background: #f0f0f0 url(../images/icon_edit.png) 2px 2px no-repeat;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+}
+.editable .icon_edit:hover {
+    border-color: #008000;
+    background-color: #2ca62c;
+}
+.editable:hover {    
+    outline: 2px dotted #008000;
+}
+.editable:hover .icon_edit {
+    display: block;
+}
 /* ----- /misc ----- */
 /* -------------------- /COMMON -------------------- */
 
@@ -806,18 +831,22 @@ a:hover .icon_back, .icon_back:hover {
     min-height: 23px;
     background-color: #ededed;
     margin-bottom: -1px;
-    padding-top: 5px;
+    padding: 5px 5px 0 5px;
     position: relative;
     border-left: 1px solid #acacac;
     border-right: 1px solid #acacac;
     text-align: center;
+    white-space: nowrap;
 }
 .header_bl_reg .btn_red {
     vertical-align: bottom;
 }
-.header_bl_reg .user_greeting {
-    padding: 0 4px;
-    font-size: 12px;
+.header_bl_reg .user_greeting {    
+    display: inline-block;
+    margin: -4px 0 -2px 0;
+    padding: 0 10px 0 5px;
+    vertical-align: bottom;
+    font-size: 11px;
 }
 .header_bl_reg .user_greeting a {
     text-decoration: none;
@@ -907,7 +936,7 @@ a:hover .icon_back, .icon_back:hover {
 .top_telephone{
     float: left;
     width: 172px;
-    padding-top: 20px;
+    margin-top: 20px;
 }
 .telephone_number{
     font-size: 22px;
@@ -1374,9 +1403,17 @@ a:hover .icon_back, .icon_back:hover {
     font-size: 14px;
     color: #a32f2f;
 }
+.feed_price a{
+    color: #a32f2f;
+    text-decoration: none;
+}
+.feed_price a:hover{
+    color: #0f5fa4;
+    text-decoration: none;
+}
 .feed_price_line {
     font-size: 14px;
-    white-space: nowrap;
+    white-space: nowrap;    
 }
 .feed_price .figure {
     font-size: 18px;
@@ -1407,8 +1444,7 @@ a:hover .icon_back, .icon_back:hover {
 .feed_price_pop {
     display: none;
     top: -4px;
-    left: -4px;
-    cursor: pointer;
+    left: -4px;    
 }
 .feed_price:hover .feed_price_pop {
     display: block;
@@ -2073,8 +2109,19 @@ td.basked_td_price{
 .event_date li.last{
     border-right: none 0;
 }
-.event_date_time{
+.event_date a{
+    color: #f14743;
+    text-decoration: none;
+}
+.event_date a:hover{
+    color: #0f5fa4;
+    text-decoration: none;
+}
+.event_date .time{
     color: #616161;
+}
+.event_date a:hover .time{
+    color: #0f5fa4;
 }
 .wrap_article{
     border-bottom: 1px solid #e8e8e8;

@@ -176,6 +176,7 @@ SATCHMO_SETTINGS = {
             url(r'^section/(?P<section_id>\d+)/edit/$', 'localsite.views.place_editor', name='place_editor'),
             url(r'^flatpages/$', 'localsite.views.flatpages', name='flatpages'),
             url(r'^flatpage/(?P<flatpage_id>\d+)/$', 'localsite.views.flatpage_editor', name='flatpage_editor'),
+            url(r'^flatblocks/(?P<pk>\d+)/edit/$', 'localsite.views.flatblock_edit', name='flatblocks-edit'),
             url(r'^tinymce/', include('tinymce.urls')),
             url(r'^ajax_select_city/$', 'localsite.views.ajax_select_city', name='ajax_select_city'),
             url(r'^ajax_select_ticket/$', 'localsite.views.ajax_select_ticket', name='ajax_select_ticket'),
