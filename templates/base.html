@@ -38,9 +38,9 @@
 // <![CDATA[
                     $(function() {
                         $('.icon_edit').click(function(){
-                            var content_element = $(this).parent('.editable').children('.flatblock_content');
-                            console.log(flatblock_id, $(this).parent('.editable'));
-                            var flatblock_id = $(this).parent('.editable').attr('id').spit('_')[1];
+                            var editable = $(this).parent('.editable');
+                            var content_element = editable.children('.flatblock_content');
+                            var flatblock_id = editable.attr('id').spit('_')[1];
                             console.log(flatblock_id);
                             $('body').append('<div class="overlay"></div>');
                             $('body').append('<div class="overbox"><div class="overbox_content clearfix"><div class="overbox_header clearfix"><h2 class="overbox_name">Edit</h2><a class="btn_close flatblock_edit_close" href="#"><i class="icon_close"></i></a></div><div class="overbox_text"><textarea id="flatblock_edit_textarea" name="content" style="width:100%" rows="10">' + content_element.html() + '</textarea><a class="flatblock_save_btn btn_lightred" href="#"><span>{% trans "Save" %}</span></a></div></div></div>');
