@@ -45,9 +45,16 @@
                             $('body').append('<div class="overbox"><div class="overbox_content clearfix"><div class="overbox_header clearfix"><h2 class="overbox_name">Edit</h2><a class="btn_close flatblock_edit_close" href="#"><i class="icon_close"></i></a></div><div class="overbox_text"><textarea id="flatblock_edit_textarea" name="content" style="width:100%" rows="10">' + content_element.html() + '</textarea><a class="flatblock_save_btn btn_lightred" href="#"><span>{% trans "Save" %}</span></a></div></div></div>');
                             $('.overbox').css('top', parseInt($('.overbox').css('top')) + window.scrollY + 'px');
                             $('.flatblock_save_btn').click(function(){
-                                content_element.html($('#flatblock_edit_textarea').val())
-                                $('.overbox').remove();
-                                $('.overlay').remove();
+                                    $.post('/flatblock/' + flatblock_id '/edit/', {
+                                        content: $('#flatblock_edit_textarea').val()
+                                        },
+                                        function(data) {
+                                            content_element.html(data.content);
+                                            $('.overbox').remove();
+                                            $('.overlay').remove();
+                                        },
+                                        'json'
+                                    );
                                 return false;
                             });
                             $('.flatblock_edit_close').click(function(){
