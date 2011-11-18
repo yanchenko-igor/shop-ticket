@@ -113,9 +113,10 @@ def flatblock_edit(request, pk, modelform_class=FlatBlockForm, permission_check=
             instance = form.save(commit=False)
             instance.slug = flatblock.slug
             instance.save()
-            del request.session[session_key]
-            redirect_to = success_url and success_url or origin
-            #return HttpResponseRedirect(redirect_to)
+            try:
+                del request.session[session_key]
+            except KeyError:
+                pass
             if request.is_ajax():
                 data = {
                     'id': flatblock.pk,
@@ -127,6 +128,7 @@ def flatblock_edit(request, pk, modelform_class=FlatBlockForm, permission_check=
         
                 return _json_response(data)
             else:
+                redirect_to = success_url and success_url or origin
                 return redirect(redirect_to)
     else:
         origin = request.META.get('HTTP_REFERER', '/')
