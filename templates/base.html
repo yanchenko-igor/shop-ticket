@@ -46,6 +46,7 @@
                             $('.overbox').css('top', parseInt($('.overbox').css('top')) + window.scrollY + 'px');
                             $('.flatblock_save_btn').click(function(){
                                     $.post('/flatblocks/' + flatblock_id + '/edit/', {
+                                        csrfmiddlewaretoken: getCookie('csrftoken'),
                                         content: $('#flatblock_edit_textarea').val()
                                         },
                                         function(data) {
