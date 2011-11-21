@@ -33,7 +33,7 @@
 
 {% block payment_form %}
 {# override with any payment-module specific needs #}
-<form method="post" action=".">{% csrf_token %}
+<form class="base_form" method="post" action=".">{% csrf_token %}
 <input type="hidden" name="Process" value="True">
                 <div class="controlset">
                     <a href="#" onclick='jQuery(this).parents("form:first").trigger("submit");return false;' class="btn_lightred">
@@ -51,7 +51,7 @@
                         <div class="tab_activ_sh2">
                             <h1 class="h1_h fl_l">Подтверждение заказа</h1>
                             <div class="back_heading">
-                                <a class="has_icon_back" href="#"><i class="icon_back"></i>Вернуться в корзину</a>
+                                <a class="has_icon_back" href="{% url satchmo_cart %}"><i class="icon_back"></i>Вернуться в корзину</a>
                             </div>
                         </div>
                     </div>
