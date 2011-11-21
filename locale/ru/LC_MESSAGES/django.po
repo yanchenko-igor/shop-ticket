@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-16 11:12+0200\n"
+"POT-Creation-Date: 2011-11-21 14:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -81,7 +81,7 @@ msgstr "Выберите сектор"
 msgid "Seat location"
 msgstr "Место"
 
-#: localsite/forms.py:102 localsite/views.py:402 localsite/views.py:403
+#: localsite/forms.py:102 localsite/views.py:450 localsite/views.py:451
 msgid "Select ticket"
 msgstr "Выберите билет"
 
@@ -89,19 +89,19 @@ msgstr "Выберите билет"
 msgid "Category genre"
 msgstr "Жанр категории"
 
-#: localsite/forms.py:112 localsite/views.py:439 localsite/views.py:440
+#: localsite/forms.py:112 localsite/views.py:487 localsite/views.py:488
 msgid "Hall of event"
 msgstr "Площадка проведения"
 
-#: localsite/listeners.py:184
+#: localsite/listeners.py:183
 msgid "Additional information"
 msgstr "Дополнительная информация"
 
-#: localsite/listeners.py:186
+#: localsite/listeners.py:185
 msgid "Shipping Address"
 msgstr "Адрес доставки"
 
-#: localsite/listeners.py:187
+#: localsite/listeners.py:186
 msgid "First name, Last name"
 msgstr "Имя, Фамилия"
 
@@ -223,19 +223,33 @@ msgstr "Анонс"
 msgid "Announcements"
 msgstr "Анонсы"
 
-#: localsite/views.py:41 localsite/views.py:65 localsite/views.py:363
+#: localsite/views.py:42 localsite/views.py:65 localsite/views.py:126
+#: localsite/views.py:411
 msgid "Success"
 msgstr ""
 
-#: localsite/views.py:370 localsite/views.py:372 localsite/views.py:383
+#: localsite/views.py:103
+msgid "You are not allowed to edit this flatblock"
+msgstr ""
+
+#: localsite/views.py:418 localsite/views.py:420 localsite/views.py:431
 msgid "Error"
 msgstr ""
 
-#: templates/base.html:76
+#: templates/base.html:45 templates/flatblocks/edit.html:9
+#: templates/localsite/place_editor.html:19
+msgid "Save"
+msgstr ""
+
+#: templates/base.html:112
 msgid "You login as"
 msgstr "Вы вошли как"
 
-#: templates/base.html:190 templates/product/detail_event.html:458
+#: templates/base.html:124 templates/base.html.py:126
+msgid "Log out"
+msgstr ""
+
+#: templates/base.html:235 templates/product/detail_event.html:478
 #, python-format
 msgid "In your cart <span class=\"cart_count\">%(counter)s</span> ticket"
 msgid_plural ""
@@ -372,10 +386,9 @@ msgstr ""
 #: templates/newsletter/unsubscribe_form.html:5
 #: templates/newsletter/update_form.html:5
 #: templates/newsletter/update_results.html:5
-#: templates/product/best_sellers.html:7
 #: templates/product/category_index.html:7 templates/product/product.html:25
-#: templates/product/recently_added.html:8 templates/shop/index.html:7
-#: templates/shop/multiple_product_form.html:10 templates/shop/search.html:6
+#: templates/shop/index.html:7 templates/shop/multiple_product_form.html:10
+#: templates/shop/search.html:6
 msgid "Home"
 msgstr "Главная"
 
@@ -399,7 +412,7 @@ msgstr ""
 msgid "You&apos;ll need to fill out at least the fields with a *"
 msgstr ""
 
-#: templates/contact/update_form.html:24 templates/shop/checkout/form.html:53
+#: templates/contact/update_form.html:24
 #, fuzzy
 msgid "Basic Information"
 msgstr "Дополнительная информация"
@@ -408,15 +421,14 @@ msgstr "Дополнительная информация"
 #: templates/newsletter/subscribe_form.html:20
 #: templates/newsletter/unsubscribe_form.html:20
 #: templates/newsletter/update_form.html:20
-#: templates/shop/checkout/form.html:54
 msgid "Email address"
 msgstr ""
 
-#: templates/contact/update_form.html:28 templates/shop/checkout/form.html:57
+#: templates/contact/update_form.html:28
 msgid "First name"
 msgstr ""
 
-#: templates/contact/update_form.html:31 templates/shop/checkout/form.html:60
+#: templates/contact/update_form.html:31
 msgid "Last name"
 msgstr ""
 
@@ -428,7 +440,7 @@ msgstr ""
 msgid "Birthday"
 msgstr ""
 
-#: templates/contact/update_form.html:41 templates/shop/checkout/form.html:63
+#: templates/contact/update_form.html:41
 msgid "Phone number"
 msgstr ""
 
@@ -500,8 +512,8 @@ msgstr ""
 msgid "Change your password"
 msgstr ""
 
-#: templates/contact/view_profile.html:35 templates/shop/order_history.html:7
-#: templates/shop/order_history.html:8
+#: templates/contact/view_profile.html:35 templates/shop/order_history.html:8
+#: templates/shop/order_history.html:9
 msgid "Order History"
 msgstr ""
 
@@ -523,11 +535,7 @@ msgstr "Дополнительная информация"
 msgid "Your Account info"
 msgstr ""
 
-#: templates/flatblocks/edit.html:9 templates/localsite/place_editor.html:19
-msgid "Save"
-msgstr ""
-
-#: templates/flatpages/default.html:10 templates/product/detail_event.html:181
+#: templates/flatpages/default.html:10 templates/product/detail_event.html:187
 msgid "Edit"
 msgstr "Редактировать"
 
@@ -540,7 +548,7 @@ msgid "prev step"
 msgstr ""
 
 #: templates/formtools/wizard/wizard_form.html:19
-#: templates/localsite/edit_event.html:31
+#: templates/localsite/edit_event.html:30
 #: templates/localsite/flatpage_editor.html:10
 #: templates/localsite/wizard_event.html:18
 #: templates/localsite/wizard_event_dates.html:32
@@ -552,8 +560,7 @@ msgstr "отправить"
 msgid "All Best Sellers"
 msgstr "Все хиты продаж"
 
-#: templates/localsite/block_contact_form.html:82
-#: templates/localsite/block_contact_form.html:131
+#: templates/localsite/block_contact_form.html:46
 msgid "Check out"
 msgstr ""
 
@@ -561,22 +568,31 @@ msgstr ""
 msgid "All Featured"
 msgstr "Все рекомендации"
 
+#: templates/localsite/block_recently_added.html:10
+msgid "Recently Added"
+msgstr "Самые свежие"
+
+#: templates/localsite/block_recently_added.html:26
+#, fuzzy
+msgid "All Recently Added"
+msgstr "Самые свежие"
+
 #: templates/localsite/block_select_event_form.html:14
-#: templates/localsite/select_event.html:139
+#: templates/localsite/select_event.html:145
 msgid "Event selection"
 msgstr "Подбор события"
 
 #: templates/localsite/featured.html:21 templates/localsite/featured.html:26
 #: templates/localsite/related.html:21 templates/localsite/related.html:26
-#: templates/product/recently_added.html:28
-#: templates/product/recently_added.html:30
+#: templates/product/recently_added.html:23
+#: templates/product/recently_added.html:25
 msgid "Previous"
 msgstr "Назад"
 
 #: templates/localsite/featured.html:43 templates/localsite/featured.html:48
 #: templates/localsite/related.html:41 templates/localsite/related.html:46
-#: templates/product/recently_added.html:33
-#: templates/product/recently_added.html:35
+#: templates/product/recently_added.html:28
+#: templates/product/recently_added.html:30
 msgid "Next"
 msgstr "Вперёд"
 
@@ -614,7 +630,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: templates/localsite/related.html:60 templates/product/detail_event.html:201
+#: templates/localsite/related.html:60 templates/product/detail_event.html:207
 msgid "Related events"
 msgstr "Похожие события"
 
@@ -660,15 +676,11 @@ msgstr ""
 msgid "Remove Me"
 msgstr ""
 
-#: templates/product/best_sellers.html:8
-msgid "Best Sellers"
-msgstr "Хиты продаж"
-
 #: templates/product/category_index.html:8
 msgid "Category Index"
 msgstr "Список категорий"
 
-#: templates/product/detail_event.html:265
+#: templates/product/detail_event.html:271
 msgid "All related events"
 msgstr "Все похожие события"
 
@@ -689,11 +701,7 @@ msgstr "Количество"
 msgid "Add to cart"
 msgstr "Добавить в корзину"
 
-#: templates/product/recently_added.html:9
-msgid "Recently Added"
-msgstr "Самые свежие"
-
-#: templates/product/recently_added.html:42
+#: templates/product/recently_added.html:37
 msgid "Bad Page"
 msgstr "Не найдено"
 
@@ -767,6 +775,36 @@ msgstr ""
 msgid "Number sold: %(st_total_sold)s"
 msgstr ""
 
+#: templates/shop/_order_details.html:97
+#: templates/shop/_order_tracking_details.html:122
+#: templates/shop/checkout/base_confirm.html:108
+#, fuzzy
+msgid "Contact Information"
+msgstr "Дополнительная информация"
+
+#: templates/shop/_order_details.html:112
+#: templates/shop/_order_tracking_details.html:137
+msgid "COD"
+msgstr ""
+
+#: templates/shop/_order_details.html:114
+#: templates/shop/_order_tracking_details.html:139
+#: templates/shop/order_history.html:21
+#: templates/shop/checkout/base_confirm.html:125
+msgid "Total"
+msgstr ""
+
+#: templates/shop/_order_tracking_details.html:9
+#: templates/shop/order_history.html:17
+#, fuzzy
+msgid "Order #"
+msgstr "Сортировка"
+
+#: templates/shop/_order_tracking_details.html:10
+#: templates/shop/order_history.html:18
+msgid "Status"
+msgstr ""
+
 #: templates/shop/_search.html:7
 msgid "All Products"
 msgstr "Все товары"
@@ -788,28 +826,15 @@ msgstr ""
 msgid "Add to Cart"
 msgstr ""
 
-#: templates/shop/order_history.html:16
-#, fuzzy
-msgid "Order #"
-msgstr "Сортировка"
-
-#: templates/shop/order_history.html:17
-msgid "Status"
-msgstr ""
-
-#: templates/shop/order_history.html:18
+#: templates/shop/order_history.html:19
 msgid "Date"
 msgstr ""
 
-#: templates/shop/order_history.html:19
+#: templates/shop/order_history.html:20
 msgid "Items"
 msgstr ""
 
-#: templates/shop/order_history.html:20
-msgid "Total"
-msgstr ""
-
-#: templates/shop/order_history.html:49
+#: templates/shop/order_history.html:136
 msgid "You haven't made any orders yet."
 msgstr ""
 
@@ -839,9 +864,8 @@ msgstr ""
 msgid "Search results"
 msgstr "Результаты поиска"
 
-#: templates/shop/checkout/base_confirm.html:6
-#: templates/shop/checkout/base_confirm.html:7
-#: templates/shop/checkout/base_confirm.html:48
+#: templates/shop/checkout/base_confirm.html:12
+#: templates/shop/checkout/base_confirm.html:13
 #: templates/shop/checkout/empty_cart.html:4
 #: templates/shop/checkout/empty_cart.html:5
 #: templates/shop/checkout/form.html:8 templates/shop/checkout/form.html:9
@@ -850,33 +874,11 @@ msgstr "Результаты поиска"
 msgid "Checkout"
 msgstr ""
 
-#: templates/shop/checkout/base_confirm.html:12
-#: templates/shop/checkout/form.html:14
-msgid "Ship/Bill"
-msgstr ""
+#: templates/shop/checkout/base_confirm.html:123
+msgid "COD Payment"
+msgstr "наложенный платёж"
 
-#: templates/shop/checkout/base_confirm.html:13
-#: templates/shop/checkout/form.html:15
-#: templates/shop/checkout/cod/confirm.html:11
-msgid "Payment"
-msgstr ""
-
-#: templates/shop/checkout/base_confirm.html:14
-#: templates/shop/checkout/form.html:16
-msgid "Confirmation"
-msgstr ""
-
-#: templates/shop/checkout/base_confirm.html:19
-msgid ""
-"The following error was returned while trying to process your payment. "
-"Please correct and resubmit."
-msgstr ""
-
-#: templates/shop/checkout/base_confirm.html:22
-msgid "Please validate the following information, then submit your order."
-msgstr ""
-
-#: templates/shop/checkout/base_confirm.html:38
+#: templates/shop/checkout/base_confirm.html:129
 msgid "Purchase Items"
 msgstr "Купить товары"
 
@@ -886,55 +888,43 @@ msgid ""
 "checkout process."
 msgstr ""
 
+#: templates/shop/checkout/form.html:14
+msgid "Ship/Bill"
+msgstr ""
+
+#: templates/shop/checkout/form.html:15
+msgid "Payment"
+msgstr ""
+
+#: templates/shop/checkout/form.html:16
+msgid "Confirmation"
+msgstr ""
+
 #: templates/shop/checkout/form.html:19
 msgid ""
 "Please complete the following information in order to submit your order."
 msgstr ""
 
-#: templates/shop/checkout/form.html:30
+#: templates/shop/checkout/form.html:27
 msgid ""
 "If you already have an account, you can login now to fill in most of the "
 "information below."
 msgstr ""
 
-#: templates/shop/checkout/form.html:31
+#: templates/shop/checkout/form.html:28
 msgid "This is just a convenience, no account is required!"
 msgstr ""
 
-#: templates/shop/checkout/form.html:34
+#: templates/shop/checkout/form.html:30
 msgid "Username or email"
 msgstr ""
 
-#: templates/shop/checkout/form.html:35
+#: templates/shop/checkout/form.html:33
 msgid "Password"
 msgstr ""
 
-#: templates/shop/checkout/form.html:36
+#: templates/shop/checkout/form.html:38
 msgid "Login"
-msgstr ""
-
-#: templates/shop/checkout/form.html:43
-msgid "You'll need to fill out at least the fields with a *"
-msgstr ""
-
-#: templates/shop/checkout/form.html:48
-msgid "How do you want to pay?"
-msgstr ""
-
-#: templates/shop/checkout/form.html:49
-msgid "Payment method"
-msgstr ""
-
-#: templates/shop/checkout/form.html:75
-msgid "Discounts"
-msgstr ""
-
-#: templates/shop/checkout/form.html:76
-msgid "Discount code"
-msgstr ""
-
-#: templates/shop/checkout/form.html:81
-msgid "Continue Checkout"
 msgstr ""
 
 #: templates/shop/checkout/success.html:10
@@ -953,10 +943,8 @@ msgid ""
 "correct and resubmit"
 msgstr ""
 
-#: templates/shop/checkout/cod/confirm.html:14
-#, python-format
-msgid "This order will be COD for %(order_total)s."
-msgstr ""
+#~ msgid "Best Sellers"
+#~ msgstr "Хиты продаж"
 
 #~ msgid "Cart"
 #~ msgstr "Корзина"
