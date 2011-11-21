@@ -6,7 +6,16 @@
 {% load thumbnail %}
 {% if default_view_tax %}{% load satchmo_tax %}{% endif %}
 
-<h4>{% trans "Items Ordered" %}</h4>
+
+            <div class="wraper_order">
+                <table class="table_heading_basket">
+                    <tbody><tr>
+                        <th>Предстоящее событие</th>
+                        <th class="basked_td_ticket">Количество и места</th>
+                        <th class="basked_td_price">Цена</th>
+                    </tr>
+                </tbody></table>
+
 
             {% for item in order.orderitem_set.all %}
                 <div id='item-{{item.id}}' class='basked_bl item'>
@@ -79,59 +88,34 @@
             {% endfor %}
 
 
-<h4>{% trans "Contact Information" %}</h4>
-{{ order.contact.full_name }}<br/>
-{{ order.contact.email }}<br/>
-{{ order.contact.primary_phone.phone }}<br/>
+            </div>
+            <!-- /<div class="wraper_basket"> -->
 
-<h4>{% trans "Billing Information" %}</h4>
-{{ order.full_bill_street|linebreaksbr }}<br/>
-{{ order.bill_city }}<br/>
-{{ order.bill_state }}<br/>
-{{ order.bill_postal_code }}<br/>
-{{ order.bill_country_name|title }}<br/>
-
+            <h2 class="order_header">Данные для заказа</h2>
+            <form class="base_form order_form readonly_form" action="">
+                <div class="fieldset">
+                    <h4 class="fieldset_name">{% trans "Contact Information" %}</h4>
+                    <div class="field"><label>Имя, фамилия</label> {{ order.contact.full_name }}</div>
+                    <div class="field"><label>Email</label> {{ order.contact.email }}</div>
+                    <div class="field"><label>Телефон</label> {{ order.contact.primary_phone.phone }}</div>
+                </div>
 {% if order.is_shippable %}
-<h4>{% trans "Shipping Address" %}</h4>
-{{ order.full_ship_street|linebreaksbr }}<br/>
-{{ order.ship_city }}<br/>
-{{ order.ship_state }}<br/>
-{{ order.ship_postal_code }}<br/>
-{{ order.ship_country_name|title }}<br/>
-
-<h4>{% trans "Shipping Method" %}</h4>
-{{ order.shipping_description }}<br/>
-{{ order.shipping_method }}<br/>
-{% if default_view_tax %}
-{{ order.shipping_with_tax|currency }}
-{% else %}
-{{ order.shipping_sub_total|currency }}
-{% endif %}<br/>
+                <div class="fieldset">
+                    <h4 class="fieldset_name">Доставка</h4>
+                    <div class="field"><label>Адрес доставки</label> {{ order.ship_country_name|title }} {{ order.ship_postal_code }} {{ order.ship_state }} {{ order.ship_city }} {{ order.full_ship_street|linebreaksbr }} </div>
+                    <div class="field"><label>Способ доставки</label> {{ order.shipping_method }}</div>
+                    <div class="field"><label>Стоимости доставки</label> {{order.shipping_cost|currency}}</div>
+                </div>
 {% endif %}{# order.is_shippable #}
+                <div class="fieldset">
+                    <h4 class="fieldset_name">Оплата</h4>
+                    <div class="field"><label>Способ оплаты</label> {% trans "COD" %}</div>
+                    <div class="field"><label>Доставка</label> + {{order.shipping_cost|currency}}</div>
+                    <div class="field"><label>{% trans "Total" %}</label> {{order.total|currency}}</div>
+                </div>
+            </form>
 
-<h4>{% trans "Total" %}</h4>
-{% trans "Subtotal" %} = {% if default_view_tax %}
-{{ order.sub_total_with_tax|currency }}
-{% else %}
-{{ order.sub_total|currency }}
-{% endif %}<br/>
-{% if order.discount %}
-    {% trans "Discount" %} - {{order.item_discount|currency}}<br/>
-{% endif %}
-{% if order.shipping_discount %}
-{% trans "Base Shipping" %} + {{order.shipping_cost|currency}}<br/>
-{% trans "Shipping Discount" %} - {{order.shipping_discount|currency}}<br/>
-{% if order.shipping_tax and default_view_tax %}{% trans "Shipping (incl. Tax)" %}{{ order.shipping_with_tax|currency}}{% endif %}
-{% endif %}
-{% trans "Shipping" %} + {% if default_view_tax %}{{ order.shipping_with_tax|currency }}{% else %}{{order.shipping_sub_total|currency}}
-{% endif %}<br/>
-{% if order.tax %}
-    {% if default_view_tax %}
-    {% trans "Tax included" %}
-    {% else %}
-    {% trans "Tax" %} + {% endif %}{{order.tax|currency}}<br/>
-{% endif %}
-{% trans "Total" %} = {{order.total|currency}}<br/>
+
 
 {% order_payment_summary order %}
 

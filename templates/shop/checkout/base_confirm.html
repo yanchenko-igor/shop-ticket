@@ -7,46 +7,53 @@
 {% block navtitle %}{% trans "Checkout" %}{% endblock %}
 
 {% block contentwraper %}
-<div id="checkoutprogress">
-<ul>
-    <li class="first"><a href="{% url satchmo_checkout-step1 %}">{% trans "Ship/Bill" %}</a></li>
-    <li>{% block payment_step %}<a href="{{ checkout_step2 }}">{% trans "Payment" %}</a>{% endblock %}</li>
-    <li class="active">{% trans "Confirmation" %}</li>
-</ul>
-</div>
-{% block error_processing %}
-{% if errors %}
-    <h3>{% block errorheader %}{% trans "The following error was returned while trying to process your payment. Please correct and resubmit." %}{% endblock %}</h3>
-    {{ errors }}
-{% else %}
-    <h3>{% trans "Please validate the following information, then submit your order." %}</h3>
-{% endif %}
-{% endblock %}
+
+
+
+
+
+
+
+
+            <div class="basket_msg">Пожалуйста, проверьте следующую информацию перед подверждением заказа</div>
 
 {% block order_details %}
     {% order_details order default_view_tax %}
 {% endblock %}
 
-{% block payment_display %}
-{# override for module-specific needs, such as displaying card info #}
+
+
+
+{% block error_processing %}
+{% if errors %}
+    <h3>{% block errorheader %}{% trans "The following error was returned while trying to process your payment. Please correct and resubmit." %}{% endblock %}</h3>
+    {{ errors }}
+{% endif %}
 {% endblock %}
 
 {% block payment_form %}
 {# override with any payment-module specific needs #}
 <form method="post" action=".">{% csrf_token %}
 <input type="hidden" name="Process" value="True">
-<input type="submit" value="{% trans "Purchase Items" %}"/>
+                <div class="controlset">
+                    <a href="#" onclick='jQuery(this).parents("form:first").trigger("submit");return false;' class="btn_lightred">
+                        <span>{% trans "Purchase Items" %}</span>
+                    </a>
+                </div>
 </form>
 {% endblock %}
 
 {% endblock contentwraper %}
 
 {% block subnav %}
-<div class="tab_long tab_activ first_tab_activ">
-    <div class="tab_activ_sh1">
-        <div class="tab_activ_sh2">
-            <h1 class="h1_h">{% trans "Checkout" %}</h1>
-        </div>
-    </div>
-</div>
+                <div class="tab_long tab_activ first_tab_activ">
+                    <div class="tab_activ_sh1">
+                        <div class="tab_activ_sh2">
+                            <h1 class="h1_h fl_l">Подтверждение заказа</h1>
+                            <div class="back_heading">
+                                <a class="has_icon_back" href="#"><i class="icon_back"></i>Вернуться в корзину</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 {% endblock %}

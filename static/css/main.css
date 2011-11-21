@@ -717,6 +717,21 @@ a:hover .icon_back, .icon_back:hover {
     display: block;
     color: red;
 }
+.base_form .fieldset {
+    padding: 2px 0 10px 0;
+}
+.base_form .fieldset_name {
+    padding-bottom: 2px;    
+}
+.readonly_form .field {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.readonly_form label {
+    float: left;
+    width: 120px;
+    padding: 0 5px 0 0;    
+}
 /* ----- /base form ----- */
 
 /* ----- misc ----- */
@@ -1903,7 +1918,6 @@ th.basked_td_del2{
 }
 .basket_tab td{
     font-size: 12px;
-    
 }
 .basket_td_img{
     width: 126px;
@@ -1950,6 +1964,9 @@ td.basked_td_price{
     text-align: center;
     vertical-align: middle;
 }
+.basket_msg {
+    margin-bottom: 10px;
+}
 .basket_total{
     border-bottom: 1px solid #e8e8e8;
     padding-bottom: 18px;
@@ -1979,6 +1996,14 @@ td.basked_td_price{
 }
 .basket_total_price label{
     font-size: 26px;
+}
+.wraper_order{
+    padding-bottom: 5px;
+}
+.order_header {
+    padding-bottom: 10px;
+    font-size: 18px;
+    font-weight: normal;
 }
 .form_ormit_order{
     padding: 20px 0 30px 0;
