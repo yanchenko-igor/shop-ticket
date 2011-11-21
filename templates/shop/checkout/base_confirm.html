@@ -2,46 +2,135 @@
 {% load i18n %}
 {% load satchmo_currency %}
 {% load satchmo_order %}
+{% load satchmo_checkout %}
+{% load satchmo_util %}
+{% load app_plugins normalize_decimal %}
+{% load i18n %}
+{% load thumbnail %}
+{% if default_view_tax %}{% load satchmo_tax %}{% endif %}
 
 {% block title %}{{ block.super }}{% trans "Checkout" %}{% endblock %}
 {% block navtitle %}{% trans "Checkout" %}{% endblock %}
 
 {% block contentwraper %}
 
+<div class="basket_msg">Пожалуйста, проверьте следующую информацию перед подверждением заказа</div>
 
 
+            <div class="wraper_order">
+                <table class="table_heading_basket">
+                    <tbody><tr>
+                        <th>Предстоящее событие</th>
+                        <th class="basked_td_ticket">Количество и места</th>
+                        <th class="basked_td_price">Цена</th>
+                    </tr>
+                </tbody></table>
 
 
+            {% for item in order.orderitem_set.all %}
+                <div id='item-{{item.id}}' class='basked_bl item'>
+                    <div class='curve_top'>
+                        <div>
+                            <span class='curve_gray'>
+                                <!--  -->
+                            </span>
+                        </div>
+                    </div>
+                    <div class='curve_body basket_grey'>
+                        <table class='basket_tab'>
+                            <tbody>
+                                <tr>
+                                    <td class='basket_td_img'>
+                                        <div class='basket_td_img_bl'>
+                                            {% if item.product.ticket.event.product.main_image.picture|is_portrait %}
+                                                {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
+                                                    <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
+                                                        <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                    </a>
+                                                {% endthumbnail %}
+                                            {% else %}
+                                                {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="center" as image %}
+                                                    <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
+                                                      <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                    </a>
+                                                {% endthumbnail %}
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td class='basked_td_inf'>
+                                        <div class='basked_td_inf_date'>
+                                            <span>
+                                                {{ item.product.ticket.datetime.datetime|date:"j E Y, l" }}
+                                            </span>
+                                            {{ item.product.ticket.datetime.datetime|date:"H:i" }}
+                                        </div>
+                                        <div class='basked_td_inf_txt'>
+                                            {{ item.product.ticket.event.product.name }}
+                                            {{ item.product.ticket.event.product.short_description }}
+                                        </div>
+                                    </td>
+                                    <td class='basked_td_ticket'>
+                                        <div class='basked_td_ticket_cont'>
+                                            {{ item.product.ticket.seat.section.name }}
+                                        </div>
+                                        <p>
+                                            {{ item.product.ticket.seat.row }}
+                                            Ряд,
+                                            {{ item.product.ticket.seat.col }}
+                                            Место
+                                        </p>
+                                    </td>
+                                    <td class='basked_td_price'>
+                                        {{ item.product.unit_price|currency }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class='curve_bott'>
+                        <div>
+                            <span class='curve_gray'>
+<!--  -->
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
 
 
+            </div>
+            <!-- /<div class="wraper_basket"> -->
 
-            <div class="basket_msg">Пожалуйста, проверьте следующую информацию перед подверждением заказа</div>
-
-{% block order_details %}
-    {% order_details order default_view_tax %}
-{% endblock %}
-
-
-
-
-{% block error_processing %}
-{% if errors %}
-    <h3>{% block errorheader %}{% trans "The following error was returned while trying to process your payment. Please correct and resubmit." %}{% endblock %}</h3>
-    {{ errors }}
-{% endif %}
-{% endblock %}
-
-{% block payment_form %}
-{# override with any payment-module specific needs #}
-<form class="base_form" method="post" action=".">{% csrf_token %}
-<input type="hidden" name="Process" value="True">
+            <h2 class="order_header">Данные для заказа</h2>
+            <form class="base_form order_form readonly_form" method="post" action=".">{% csrf_token %}
+                <input type="hidden" name="Process" value="True">
+                <div class="fieldset">
+                    <h4 class="fieldset_name">{% trans "Contact Information" %}</h4>
+                    <div class="field"><label>Имя, фамилия</label> {{ order.contact.full_name }}</div>
+                    <div class="field"><label>Email</label> {{ order.contact.email }}</div>
+                    <div class="field"><label>Телефон</label> {{ order.contact.primary_phone.phone }}</div>
+                </div>
+{% if order.is_shippable %}
+                <div class="fieldset">
+                    <h4 class="fieldset_name">Доставка</h4>
+                    <div class="field"><label>Адрес доставки</label> {{ order.ship_country_name|title }} {{ order.ship_postal_code }} {{ order.ship_state }} {{ order.ship_city }} {{ order.full_ship_street|linebreaksbr }} </div>
+                    <div class="field"><label>Способ доставки</label> {{ order.shipping_method }}</div>
+                    <div class="field"><label>Стоимости доставки</label> {{order.shipping_cost|currency}}</div>
+                </div>
+{% endif %}{# order.is_shippable #}
+                <div class="fieldset">
+                    <h4 class="fieldset_name">Оплата</h4>
+                    <div class="field"><label>Способ оплаты</label> {% trans "COD" %}</div>
+                    <div class="field"><label>Доставка</label> + {{order.shipping_cost|currency}}</div>
+                    <div class="field"><label>{% trans "Total" %}</label> {{order.total|currency}}</div>
+                </div>
                 <div class="controlset">
                     <a href="#" onclick='jQuery(this).parents("form:first").trigger("submit");return false;' class="btn_lightred">
                         <span>{% trans "Purchase Items" %}</span>
                     </a>
                 </div>
-</form>
-{% endblock %}
+            </form>
+
 
 {% endblock contentwraper %}
 
