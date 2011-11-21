@@ -26,7 +26,7 @@
 
 
         {% for item in order.orderitem_set.all %}
-            {% ifchanged item.product.ticket.event %}
+            {% ifchanged item.product.ticket.datetime %}
                 {% if not forloop.first %}
                                         </td>
                                     </tr>
@@ -85,7 +85,7 @@
                                     </td>
                                     <td class='basked_td_ticket'>
             {% endifchanged %}
-                                    {% ifchanged item.product.ticket.event item.product.ticket.seat.section %}
+                                    {% ifchanged item.product.ticket.datetime item.product.ticket.seat.section %}
                                         <div class='basked_td_ticket_cont'>
                                             {{ item.product.ticket.seat.section.name }}
                                         </div>
