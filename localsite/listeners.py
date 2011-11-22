@@ -6,6 +6,7 @@ from django.contrib.sites.models import Site
 from product.models import Product, Category
 from localsite.models import EventDate, HallScheme, Event
 #from payment.forms import PaymentContactInfoForm
+from satchmo_store.accounts.forms import RegistrationForm
 from payment.views.contact import PaymentContactInfoForm
 from django.db.models.signals import post_save
 from django.db.models import Q
@@ -178,12 +179,14 @@ def event_date_saved(sender, instance, created, raw, using, **kwargs):
         instance.map = instance.event.hallscheme.map
         instance.save()
 
+def first_name_field_label(signal, sender, form, **kwargs):
+    form.fields['first_name'].label = _('First name, Last name')
+
 def add_notes_field(signal, sender, form, **kwargs):
     if 'notes' not in form.fields:
         form.fields['notes'] = forms.CharField(label=_('Additional information'), required=False,
                 widget=forms.Textarea())
     form.fields['street1'].label = _('Shipping Address')
-    form.fields['first_name'].label = _('First name, Last name')
     form.fields['copy_address'] = forms.BooleanField(initial=True, widget=forms.widgets.HiddenInput())
 
 def split_username(signal, sender, form, **kwargs):
@@ -208,5 +211,8 @@ def start_localsite_listening():
     post_save.connect(event_date_saved, sender=EventDate, dispatch_uid="event_date_saved")
     post_save.connect(hall_scheme_saved, sender=HallScheme, dispatch_uid="hall_scheme_saved")
     form_init.connect(add_notes_field, sender=PaymentContactInfoForm)
+    form_init.connect(first_name_field_label, sender=PaymentContactInfoForm)
+    form_init.connect(first_name_field_label, sender=RegistrationForm)
     form_presave.connect(split_username, sender=PaymentContactInfoForm)
+    form_presave.connect(split_username, sender=RegistrationForm)
 
