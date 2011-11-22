@@ -728,11 +728,8 @@ a:hover .icon_back, .icon_back:hover {
     display: block;
     color: red;
 }
-.base_form .fieldset {
-    padding: 2px 0 10px 0;
-}
 .base_form .fieldset_name {
-    padding-bottom: 2px;    
+    padding: 12px 0 2px 0;    
 }
 .readonly_form .field {
     padding-top: 2px;

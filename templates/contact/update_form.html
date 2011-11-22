@@ -1,12 +1,6 @@
 {% extends "shop/base.html" %}
 {% load i18n %}
 
-{% block navbar %}
-   <li class="first"><a href="{{ shop_base }}/">{% trans "Home" %}</a></li>
-   <li><a href="{% url satchmo_account_info %}">{% trans "Account" %}</a></li>
-   <li>{% trans "Update Profile" %}</li>
-{% endblock %}
-
 {% block extra-head %}
 {% include "contact/_contact_info_form.html" %}
 {% endblock %}
@@ -16,45 +10,99 @@
 <h2>{% trans "Please correct the following error:" %}</h2>
 {{ form.non_field_errors }}
 {% endif %}
-<form method="post" action="{% url satchmo_profile_update %}">{% csrf_token %}
-{{ form.next }}
-<table>
-    <tr><td colspan="2"><p>{% trans "You&apos;ll need to fill out at least the fields with a *" %}</p></td></tr>
 
-	<tr><td colspan="2"><h4>{% trans "Basic Information" %}</h4></td></tr>
-    <tr><td><label for="id_email">{% trans "Email address" %}{% if form.email.field.required %}*{% endif %}</label></td> <td>{{ form.email }}</td></tr>
-    {% if form.email.errors %}<tr><td>&nbsp;</td><td>*** {{ form.email.errors|join:", " }}</td></tr>{% endif %}
-
-    <tr><td><label for="id_first_name">{% trans "First name" %}{% if form.first_name.field.required %}*{% endif %}</label></td><td> {{ form.first_name }}</td></tr>
-   {% if form.first_name.errors %}<tr><td>&nbsp;</td><td>*** {{ form.first_name.errors|join:", " }}</td></tr>{% endif %}
-
-    <tr><td><label for="id_last_name">{% trans "Last name" %}{% if form.last_name.field.required %}*{% endif %}</label></td><td> {{ form.last_name }}</td></tr>
-    {% if form.last_name.errors %}<tr><td>&nbsp;</td><td>*** {{ form.last_name.errors|join:", " }}</td></tr>{% endif %}
-
-    <tr><td><label for="id_organization">{% trans "Organization" %}{% if form.organization.field.required %}*{% endif %}</label></td><td> {{ form.organization }}</td></tr>
-    {% if form.organization.errors %}<tr><td>&nbsp;</td><td>*** {{ form.organization.errors|join:", " }}</td></tr>{% endif %}
-
-
-    <tr><td><label for="id_dob">{% trans "Birthday" %}{% if form.dob.field.required %}*{% endif %}</label></td><td> {{ form.dob }}</td></tr>
-    {% if form.dob.errors %}<tr><td>&nbsp;</td><td>*** {{ form.dob.errors|join:", " }}</td></tr>{% endif %}
-
-    <tr><td><label for="id_phone">{% trans "Phone number" %}{% if form.phone.field.required %}*{% endif %}</label></td><td> {{ form.phone }}</td></tr>
-    {% if form.phone.errors %}<tr><td>&nbsp;</td><td>*** {{ form.phone.errors|join:", " }}</td></tr>{% endif %}
-
-    {% if show_newsletter %}
-    <tr><td><label for="id_newsletter">{% trans "Newsletter" %}{% if form.newsletter.field.required %}*{% endif %}</label></td><td> {{ form.newsletter }}</td></tr>
-    {% if form.newsletter.errors %}<tr><td>&nbsp;</td><td>*** {{ form.newsletter.errors|join:", " }}</td></tr>{% endif %}
-    {% else %}
-    <input type='hidden' name='newsletter' value="False" />
-    {% endif %}
-
-    {% block billing-info %}{% include "contact/_contact_info_form_billing.html" %}{% endblock %}
-
-    {% block shipping-info %}{% include "contact/_contact_info_form_shipping.html" %}{% endblock %}
-
-
-	<tr><td></td><td><input type="submit" value="{% trans "Update" %}"/></td></tr>
-</table>
+<form class="base_form" method="post" action="{% url satchmo_profile_update %}">{% csrf_token %}
+    {{ form.next }}
+    <div class="fieldblock complex">
+        <h4 class="fieldset_name">{% trans "Basic Information" %}</h4>
+        <div class="field odd">
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+            {% if form.first_name.errors %}
+                <span class='error'>{{ form.first_name.errors|join:", " }}</span>
+            {% endif %}
+        </div>
+        <div class="field">
+            {{ form.last_name.label_tag }}
+            {{ form.last_name }}
+            {% if form.last_name.errors %}
+                <span class='error'>{{ form.last_name.errors|join:", " }}</span>
+            {% endif %}
+        </div>
+        <div class="field odd">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {% if form.email.errors %}
+                <span class='error'>{{ form.email.errors|join:", " }}</span>
+            {% endif %}
+        </div>
+        <div class="field">
+            {{ form.organization.label_tag }}
+            {{ form.organization }}
+            {% if form.organization.errors %}
+                <span class='error'>{{ form.organization.errors|join:", " }}</span>
+            {% endif %}
+        </div>
+        <div class="field odd">
+            <label for="id_dob_month">{% trans "Birthday" %}</label>
+            {{ form.dob }}
+            {% if form.dob.errors %}
+                <span class='error'>{{ form.dob.errors|join:", " }}</span>
+            {% endif %}
+        </div>
+        <div class="field">
+            {{ form.phone.label_tag }}
+            {{ form.phone }}
+            {% if form.phone.errors %}
+                <span class='error'>{{ form.phone.errors|join:", " }}</span>
+            {% endif %}
+        </div>
+        <div class="field wide inline">
+            {{ form.newsletter }}
+            {{ form.newsletter.label_tag }}
+            {% if form.newsletter.errors %}
+                <span class='error'>{{ form.newsletter.errors|join:", " }}</span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="fieldblock complex">
+        <h4 class="fieldset_name">{% trans "Shipping Information" %}</h4>
+        <div class="field odd">
+            {{ form.ship_addressee.label_tag }}<p class="help">{% trans "If different from the first and last names above" %}</p>
+            {{ form.ship_addressee }}
+            {% if form.ship_addressee.errors %}
+                <span class='error'>{{ form.ship_addressee.errors|join:", " }}</span>
+            {% endif %}
+        </div>
+        <div class="field">
+            {{ form.ship_street1.label_tag }}
+            {{ form.ship_street1 }}
+            {% if form.ship_street1.errors %}
+                <span class='error'>{{ form.ship_street1.errors|join:", " }}</span>
+            {% endif %}
+        </div>
+        <div class="field odd">
+            {{ form.ship_city.label_tag }}
+            {{ form.ship_city }}
+            {% if form.ship_city.errors %}
+                <span class='error'>{{ form.ship_city.errors|join:", " }}</span>
+            {% endif %}
+        </div>
+        <div class="field">
+            {{ form.ship_postal_code.label_tag }}
+            {{ form.ship_postal_code }}
+            {% if form.ship_postal_code.errors %}
+                <span class='error'>{{ form.ship_postal_code.errors|join:", " }}</span>
+            {% endif %}
+        </div>
+    </div>
+    <div class='controlset'>
+        <a class='btn_lightred' href='#' onclick='jQuery(this).parents("form:first").trigger("submit");return false;'>
+            <span>
+                {% trans "Update profile" %}
+            </span>
+        </a>
+    </div>
 </form>
 {% endblock %}
 
