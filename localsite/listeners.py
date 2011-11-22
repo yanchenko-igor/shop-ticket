@@ -182,6 +182,9 @@ def event_date_saved(sender, instance, created, raw, using, **kwargs):
 def first_name_field_label(signal, sender, form, **kwargs):
     form.fields['first_name'].label = _('First name, Last name')
 
+def last_name_not_required(signal, sender, form, **kwargs):
+    form.fields['last_name'].required = False
+
 def add_notes_field(signal, sender, form, **kwargs):
     if 'notes' not in form.fields:
         form.fields['notes'] = forms.CharField(label=_('Additional information'), required=False,
@@ -213,6 +216,7 @@ def start_localsite_listening():
     form_init.connect(add_notes_field, sender=PaymentContactInfoForm)
     form_init.connect(first_name_field_label, sender=PaymentContactInfoForm)
     form_init.connect(first_name_field_label, sender=RegistrationForm)
+    form_init.connect(last_name_not_required, sender=RegistrationForm)
     form_presave.connect(split_username, sender=PaymentContactInfoForm)
     form_presave.connect(split_username, sender=RegistrationForm)
 
