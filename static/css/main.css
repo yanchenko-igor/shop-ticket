@@ -746,6 +746,7 @@ a:hover .icon_back, .icon_back:hover {
     font-size: 14px;
 }
 .base_form .error {
+    clear: both;
     display: block;
     color: red;
 }

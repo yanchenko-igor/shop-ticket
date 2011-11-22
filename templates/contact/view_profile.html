@@ -23,12 +23,12 @@
     {% if show_newsletter %}
     <li>{% trans 'Newsletter:' %} {% if newsletter %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</li>
     {% endif %}
-    <li>{% trans 'Billing Address:'%}<br/>{% addressblock user_data.billing_address %}</li>
+    {#<li>{% trans 'Billing Address:'%}<br/>{% addressblock user_data.billing_address %}</li>#}
     <li>{% trans 'Shipping Address:'%}<br/>{% addressblock user_data.shipping_address %}</li>    
 </ul>
 <h5>{% trans "Account options" %}:</h5>
 <p>
-    <a href="{% url satchmo_profile_update %}">{% trans "Update your profile" %}</a>
+    <a href="{% url satchmo_profile_update %}?next={% url satchmo_account_info %}">{% trans "Update your profile" %}</a>
     <br/>
     <a href="{% url auth_password_change %}">{% trans "Change your password" %}</a>
     <br/>
