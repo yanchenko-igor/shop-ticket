@@ -353,6 +353,7 @@
                         );
                     }
                     $(function() {
+                        $('.overbox').css('top', parseInt($('.main_content')[0].offsetTop) - 24 + 'px');
                         $('.select_price_but').click(function(){
                             $('.overlay.hidden').removeClass('hidden');
                             $('.overbox.hidden').removeClass('hidden');
@@ -360,8 +361,8 @@
                             return false;
                         });
                         $('.select_place_link').click(function(){
-                            $('.overlay').removeClass('hidden');
-                            $('.overbox').removeClass('hidden');
+                            $('.overlay.hidden').removeClass('hidden');
+                            $('.overbox.hidden').removeClass('hidden');
                             return false;
                         });
                         $('.select_datetime').click(function(){

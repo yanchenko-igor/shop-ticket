@@ -53,12 +53,12 @@ body.debugtoolbar #st-view {
         $('#slidedown').hide();        
         $('#st-view').hide();
         $('#st-hide').click(function(elt) { 
-            $('#st-panels').hide('medium');
+            $('#st-panels').hide('medium', function(){$('.overbox').css('top', parseInt($('.main_content')[0].offsetTop) - 24 + 'px');});
             $('#st-view').show();
         });
         $('#st-view').click(function(elt) { 
             $('#st-view').hide();
-            $('#st-panels').show('medium');
+            $('#st-panels').show('medium', function(){$('.overbox').css('top', parseInt($('.main_content')[0].offsetTop) - 24 + 'px');});
         });
         $('#toggle').click(function(elt) {
             $('#slidedown').css({'background-color' : '#CCCCCC'});

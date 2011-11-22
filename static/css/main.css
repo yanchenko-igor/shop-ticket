@@ -730,7 +730,8 @@ a:hover .icon_back, .icon_back:hover {
 .readonly_form label {
     float: left;
     width: 120px;
-    padding: 0 5px 0 0;    
+    padding: 0 5px 0 0;
+    color: #767676;
 }
 /* ----- /base form ----- */
 
