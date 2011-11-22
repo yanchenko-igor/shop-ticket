@@ -39,3 +39,8 @@
 .map_cat_price {
     *cursor: pointer;
 }
+.base_form select#id_dob_month,
+.base_form select#id_dob_day,
+.base_form select#id_dob_year {
+    clear: both;    
+}
