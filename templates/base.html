@@ -128,7 +128,7 @@
                                             </span>
                                         </a>
                                     {% else %}
-                                        <a class='btn_red' href='{{ login_url }}'>
+                                        <a class='btn_red' href='{{ login_url }}?next={{request.path}}'>
                                             <span>
                                                 Вход
                                                 <b>Вход</b>
