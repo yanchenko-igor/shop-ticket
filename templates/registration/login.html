@@ -10,23 +10,38 @@
 {% endfor %}</p>
 {% endif %}
 
-<form method="post" action=".">{% csrf_token %}
-<table>
-<tr><td><label for="id_username">{% trans 'Email address' %}:</label></td><td>{{ form.username }}</td></tr>
-{% if form.username.errors %}<tr><td class="error" colspan="2">***{{ form.username.errors|join:", " }}</td></tr>{% endif %}
-<tr><td><label for="id_password">{% trans 'Password' %}:</label></td><td>{{ form.password }}</td></tr>
-{% if form.password.errors %}<tr><td class="error" colspan="2">***{{ form.password.errors|join:", " }}</td></tr>{% endif %}
-</table>
+            <form class="base_form" method="post" action=".">{% csrf_token %}
+                <div class="field">
+                    {# form.username.label_tag #}
+                    <label for="id_username">{% trans 'Email address' %}:</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <span class='error'>{{ form.username.errors|join:", " }}</span>
+                    {% endif %}
+                </div>
+                <div class="field">
+                    {{ form.password.label_tag }}
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                        <span class='error'>{{ form.password.errors|join:", " }}</span>
+                    {% endif %}
+                </div>
+                <div class='controlset'>
+                    <a class='btn_lightred' href='#' onclick='jQuery(this).parents("form:first").trigger("submit");return false;'>
+                        <span>
+                          {% trans "Login" %}
+                        </span>
+                    </a>
+                </div>
+                <input type="hidden" name="next"
+                {% if next %}
+                    value={{ next }} />
+                {% else %}
+                     {% url satchmo_account_info as accounturl %}
+                     {% if accounturl %} value="{% url satchmo_account_info %}" /> {% endif %}
+                {% endif %}
+            </form>
 
-<input type="submit" value="{% trans 'Login' %}" />
-<input type="hidden" name="next"
-{% if next %}
-    value={{ next }} />
-{% else %}
-     {% url satchmo_account_info as accounturl %}
-     {% if accounturl %} value="{% url satchmo_account_info %}" /> {% endif %}
-{% endif %}
-</form>
 {% comment %} We jump through hoops with the urls so it doesn't bomb with django's built in unit tests.{% endcomment %}
 {% url registration_register as registration_register %}
 {% url auth_password_reset as auth_password_reset %}

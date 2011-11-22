@@ -640,6 +640,7 @@ a:hover .icon_back, .icon_back:hover {
 
 /* ----- base form ----- */
 .base_form {
+    margin-bottom: 12px;
     font-size: 12px;
 }
 .base_form input[type="text"],
@@ -680,6 +681,13 @@ a:hover .icon_back, .icon_back:hover {
     color: #969696;
     font-size: 12px;    
 }
+.base_form .inline label {
+    display: inline;
+    padding: 0 2px 0 0;
+}
+.base_form .inline input+label {
+    padding-left: 2px;
+}
 .base_form .controlset {
     clear: both;
     padding: 12px 0;    
@@ -692,6 +700,7 @@ a:hover .icon_back, .icon_back:hover {
 .base_form .fieldblock.complex .field {
     clear: none;
     float: left;
+    width: 312px;
     padding-right: 15px;
 }
 .base_form .fieldblock.complex .field.odd {
@@ -700,6 +709,7 @@ a:hover .icon_back, .icon_back:hover {
 .base_form .fieldblock.complex .field.wide {
     clear: both;
     float: none;
+    width: auto;
 }
 .base_form .fieldblock.complex .field.wide textarea {
     width: 629px;
@@ -712,6 +722,7 @@ a:hover .icon_back, .icon_back:hover {
     float: right;
     padding: 24px 10px 0 0;
     width: 288px;
+    font-size: 14px;
 }
 .base_form .error {
     display: block;
