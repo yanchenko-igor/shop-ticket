@@ -640,7 +640,7 @@ a:hover .icon_back, .icon_back:hover {
 
 /* ----- base form ----- */
 .base_form {
-    margin-bottom: 12px;
+    margin-bottom: 3px;
     font-size: 12px;
 }
 .base_form input[type="text"],
@@ -654,6 +654,8 @@ a:hover .icon_back, .icon_back:hover {
 .base_form input[type="password"],
 .base_form select,
 .base_form textarea {
+    clear: both;
+    display: block;
     width: 302px;
     padding: 4px;
     border: 1px solid #d0d0d0;
@@ -667,6 +669,18 @@ a:hover .icon_back, .icon_back:hover {
 }
 .base_form select {
     width: 312px;
+    padding: 3px 4px;
+}
+.base_form select.month,
+.base_form select.day,
+.base_form select.year {
+    float: left;
+    width: auto;
+    margin-right: 2px;
+}
+.base_form select.day,
+.base_form select.year {
+    clear: none;
 }
 .base_form textarea {
     height: 132px;
@@ -677,13 +691,15 @@ a:hover .icon_back, .icon_back:hover {
 }
 .base_form label {
     display: block;
-    padding-bottom: 8px;
+    float: left;
+    padding: 0 5px 8px 0;
     color: #969696;
     font-size: 12px;    
 }
 .base_form .inline label {
     display: inline;
-    padding: 0 2px 0 0;
+    float: none;
+    padding-bottom: 0;
 }
 .base_form .inline input+label {
     padding-left: 2px;
@@ -731,14 +747,20 @@ a:hover .icon_back, .icon_back:hover {
 .base_form .fieldset_name {
     padding: 12px 0 2px 0;    
 }
+.base_form .field p {
+    color: #969696;
+}
+.base_form .field .help {
+    float: left;
+    padding-bottom: 8px;
+}
 .readonly_form .field {
     padding-top: 2px;
     padding-bottom: 2px;
 }
-.readonly_form label {
-    float: left;
+.readonly_form label {    
     width: 120px;
-    padding: 0 5px 0 0;
+    padding-bottom: 0;
     color: #767676;
 }
 /* ----- /base form ----- */
