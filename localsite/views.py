@@ -28,7 +28,8 @@ from satchmo_store.shop.views.cart import _json_response
 from satchmo_store.shop.views.cart import _set_quantity
 from satchmo_utils.views import bad_or_missing
 from flatblocks.models import FlatBlock
-from flatblocks.forms import FlatBlockForm
+#from flatblocks.forms import FlatBlockForm
+from localsite.monkey_patching import FlatBlockForm
 from lxml import etree
 
 @user_passes_test(lambda u: u.is_staff, login_url='/admin/')
@@ -136,11 +137,14 @@ def flatblock_edit(request, pk, modelform_class=FlatBlockForm, permission_check=
         origin = origin == request.get_full_path() and request.session.get(session_key, '/') or origin
         form = modelform_class(instance=flatblock)
         request.session[session_key] = origin
-    return render_to_response(template_name, {
-        'form': form,
-        'origin': origin,
-        'flatblock': flatblock,
-        }, context_instance=RequestContext(request))
+    if request.is_ajax():
+        return _json_response({'errors': form.errors, 'results': _("Error")}, True)
+    else:
+        return render_to_response(template_name, {
+            'form': form,
+            'origin': origin,
+            'flatblock': flatblock,
+            }, context_instance=RequestContext(request))
 
 @user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def flatpages(request, template_name='localsite/flatpages.html'):
