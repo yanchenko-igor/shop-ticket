@@ -133,7 +133,7 @@
             <div class='wrap_event_date'>
                 <ul class='event_date reset_list clearfix'>
                     {% cache 3600 product_dates product.id %}
-                        {% for date in product.event.dates.all %}{% ifchanged date.datetime.date %}{% if not forloop.first %}</span></a></li>{% endif %}<li{% if date.datetime.date == product.event.max_date %} class="last"{% endif %}><a class="select_datetime" id="select_datetime_{{ date.id }}" datetimeval="{{ date.id }}" href="#">{{ date.datetime|date:"j E Y, l" }}<span class="time">{% else %}</span></a><span class="time">, </span><a class="select_datetime" id="select_datetime_{{ date.id }}" datetimeval="{{ date.id }}" href="#"><span class="time">{% endifchanged %}{{ date.datetime|date:"H:i" }}{% if forloop.last %}</span></a></li>{% endif %}{% endfor %}
+                        {% for date in product.event.dates.all %}{% ifchanged date.datetime.date %}{% if not forloop.first %}</span></a></li>{% endif %}<li{% if date.datetime.date == product.event.max_date %} class="last"{% endif %}><a class="select_datetime" id="select_datetime_{{ date.id }}" datetimeval="{{ date.id }}" href="#">{{ date.datetime|date:"j E Y, l" }} <span class="time">{% else %}</span></a><span class="time">, </span><a class="select_datetime" id="select_datetime_{{ date.id }}" datetimeval="{{ date.id }}" href="#"><span class="time">{% endifchanged %}{{ date.datetime|date:"H:i" }}{% if forloop.last %}</span></a></li>{% endif %}{% endfor %}
                     {% endcache %}
                 </ul>
             </div>
