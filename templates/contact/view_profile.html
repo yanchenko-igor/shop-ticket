@@ -15,6 +15,9 @@
                 {% if user_data.organization %}
                     <div class="field"><label>{% trans 'Organization' %}</label>{{ user_data.organization.name }}</div>
                 {% endif %}
+                {% if user_data.primary_phone %}
+                    <div class="field"><label>{% trans 'Phone' %}</label>{{ user_data.primary_phone.phone }}</div>
+                {% endif %}
                 <div class="field"><label>{% trans 'Email' %}</label>{{ user_data.email }}</div>
                 <div class="field"><label>{% trans 'Birthday' %}</label>{{ user_data.dob|default_if_none:"--" }}</div>
                 {% if show_newsletter %}
