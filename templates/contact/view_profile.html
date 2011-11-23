@@ -8,7 +8,7 @@
             <p>{% blocktrans %}Welcome, {{ full_name }}.{% endblocktrans %}</p> 
         {% endwith %}
 
-        <h4 class="form_header">{% trans "Your profile" %}</h4>
+        <h2 class="form_header">{% trans "Your profile" %}</h2>
         <div class="base_form readonly_form">
             <div class="fieldset">
                 <div class="field"><label>{% trans 'First name, Last name' %}</label>{{ user_data.full_name }}</div>
@@ -31,7 +31,7 @@
         </div>
         <br/>
 
-        <h4 class="form_header">{% trans "Account options" %}</h4>
+        <h2 class="form_header">{% trans "Account options" %}</h2>
         <p>
             <a href="{% url satchmo_profile_update %}?next={% url satchmo_account_info %}">{% trans "Update your profile" %}</a>
             <br/>
@@ -43,7 +43,7 @@
         <p>
             {% trans "Sorry, the user you've logged in as doesn't have any contact information." %}{% if request.user.is_staff %} {% trans 'Probably because you are an admin.' %}{% endif %}
         </p>
-        <h5>{% trans "Account options" %}:</h5>
+        <h2>{% trans "Account options" %}:</h2>
         <p>
             <a href="{% url satchmo_profile_update %}">{% trans 'Set up contact information' %}</a>
             <br/>

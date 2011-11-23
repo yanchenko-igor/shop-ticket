@@ -49,14 +49,14 @@
                         {% if event.all_prices.count > 1 %}
                             <div class='feed_price multiple'>
                                 <div class='feed_price_cont'>
-                                    <a href='{{ event.product.get_absolute_url }}#select_price_{{ event.all_prices.0.price|stringformat:"i"  }}'>
-                                        <span class='feed_price_line'>
+                                    <span class='feed_price_line'>
+                                        <a href='{{ event.product.get_absolute_url }}#select_price_{{ event.all_prices.0.price|stringformat:"i"  }}'>
                                             от
                                                 <em class='figure'>{{ {{ event.all_prices.0.price|stringformat:"i" }} }}</em>
                                             грн
-                                        </span>
+                                        </a>
                                         <i class='icon_expand'></i>
-                                    </a>
+                                    </span>
                                 </div>
                                 <div class='feed_pop feed_price_pop'>
                                     <div class='feed_pop_t'>
@@ -93,14 +93,14 @@
                         {% else %}
                             <div class='feed_price'>
                                 <div class='feed_price_cont'>
-                                    <a href='{{ event.product.get_absolute_url }}#select_price_{{ event.all_prices.0.price|stringformat:"i"  }}'>
-                                        <span class='feed_price_line'>
+                                    <span class='feed_price_line'>
+                                        <a href='{{ event.product.get_absolute_url }}#select_price_{{ event.all_prices.0.price|stringformat:"i"  }}'>
                                             <em class='figure'>
                                                 {{ event.all_prices.0.price|stringformat:"i" }}
                                             </em>
                                             грн
-                                        </span>
-                                    </a>
+                                        </a>
+                                    </span>
                                 </div>
                             </div>
                         {% endif %}

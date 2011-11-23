@@ -163,21 +163,21 @@
                     </div>
                 </div>
             {% endfor %}
-        </div>
-        <div class='basket_total clearfix'>
-            <div class='back_shopping'>
-              <img src='{{ media_url }}images/icon_back_shopping.gif' alt='' />
-              <a href='#'>Вернуться к покупкам</a>
-            </div>
-            <div class='basket_total_bl'>
-                Итого в сумме:
-                <span class='basket_total_price'>
-                    <label id='cart_total'>{{ cart|discount_cart_total:sale|wrap_currency }}</label>
-                </span>
+            <div class='basket_total clearfix'>
+                <div class='back_shopping'>
+                  <img src='{{ media_url }}images/icon_back_shopping.gif' alt='' />
+                  <a href='#'>Вернуться к покупкам</a>
+                </div>
+                <div class='basket_total_bl'>
+                    Итого в сумме:
+                    <span class='basket_total_price'>
+                        <label id='cart_total'>{{ cart|discount_cart_total:sale|wrap_currency }}</label>
+                    </span>
+                </div>
             </div>
         </div>
         <div id='checkout_form'>
-            <h1 class='h1_h'>
+            <h1 class='form_header'>
                 Оформление покупки
             </h1>
             {% contact_form %}
