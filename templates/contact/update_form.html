@@ -14,6 +14,15 @@
 <form class="base_form" method="post" action="{% url satchmo_profile_update %}">{% csrf_token %}
     {{ form.next }}
     <div class="fieldblock complex">
+{% for field in form %}
+    {% if field.errors %}
+        <div class="field">
+            {{ field.label_tag }}
+            {{ field }}
+            <span class='error'>{{ field.errors|join:", " }}</span>
+        </div>
+    {% endif %}
+{% endfor %}
         <h4 class="fieldset_name">{% trans "Basic Information" %}</h4>
         <div class="field odd">
             {{ form.first_name.label_tag }}
@@ -67,6 +76,7 @@
     </div>
     <div class="fieldblock complex">
         <h4 class="fieldset_name">{% trans "Shipping Information" %}</h4>
+        <div style="display:none;" >{{ form.copy_address }}</div>
         <div class="field odd">
             {{ form.ship_addressee.label_tag }}<p class="help">{% trans "If different from the first and last names above" %}</p>
             {{ form.ship_addressee }}
@@ -75,10 +85,10 @@
             {% endif %}
         </div>
         <div class="field">
-            {{ form.ship_street1.label_tag }}
-            {{ form.ship_street1 }}
-            {% if form.ship_street1.errors %}
-                <span class='error'>{{ form.ship_street1.errors|join:", " }}</span>
+            {{ form.street1.label_tag }}
+            {{ form.street1 }}
+            {% if form.street1.errors %}
+                <span class='error'>{{ form.street1.errors|join:", " }}</span>
             {% endif %}
         </div>
         <div class="field odd">

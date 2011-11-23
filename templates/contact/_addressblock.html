@@ -6,7 +6,7 @@
     {% if address.street2 %}<li>{{ address.street2 }}</li>{% endif %}
     {% if address.city %}<li>{{ address.city }}{% if address.state %}, {{ address.state }}{% endif %}</li>{% endif %}
     {% if address.postal_code %}<li>{{ address.postal_code }}</li>{% endif %}
-    {% if address.country %}<li>{{ address.country }}</li>{% endif %}
+    {#{% if address.country %}<li>{{ address.country }}</li>{% endif %}#}
 {% else %}
     <li>{% trans 'Not set' %}</li>
 {% endif %}

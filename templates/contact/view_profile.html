@@ -2,50 +2,51 @@
 {% load i18n %}
 {% load satchmo_contact %}
 
-{% block navbar %}
-   <li class="first"><a href="{{ shop_base }}/">{% trans "Home" %}</a></li>
-   <li>{% trans "Account" %}</li>
-{% endblock %}
-
 {% block contentwraper %}
-{% if user_data %}
-{% with user_data.full_name as full_name %}
-<p>{% blocktrans %}Welcome, {{ full_name }}.{% endblocktrans %}</p> 
-{% endwith %}
+    {% if user_data %}
+        {% with user_data.full_name as full_name %}
+            <p>{% blocktrans %}Welcome, {{ full_name }}.{% endblocktrans %}</p> 
+        {% endwith %}
 
-<h5>{% trans "Your profile" %}</h5>
-<ul class="profile">
-    <li>{% trans 'Email:' %} {{ user_data.email }}</li>
-	{% if user_data.organization %}
-	<li>{% trans 'Organization:' %} {{ user_data.organization.name }}</li>
-	{% endif %}
-    <li>{% trans 'Birthday:' %} {{ user_data.dob|default_if_none:"--" }}</li>
-    {% if show_newsletter %}
-    <li>{% trans 'Newsletter:' %} {% if newsletter %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</li>
+        <h4 class="form_header">{% trans "Your profile" %}</h4>
+        <div class="base_form readonly_form">
+            <div class="fieldset">
+                <div class="field"><label>{% trans 'First name, Last name' %}</label>{{ user_data.full_name }}</div>
+                {% if user_data.organization %}
+                    <div class="field"><label>{% trans 'Organization' %}</label>{{ user_data.organization.name }}</div>
+                {% endif %}
+                <div class="field"><label>{% trans 'Email' %}</label>{{ user_data.email }}</div>
+                <div class="field"><label>{% trans 'Birthday' %}</label>{{ user_data.dob|default_if_none:"--" }}</div>
+                {% if show_newsletter %}
+                    <div class="field"><label>{% trans 'Newsletter' %}</label>{% if newsletter %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</div>
+                {% endif %}
+                <div class="field">
+                    <label>{% trans 'Shipping Address'%}</label>
+                    {% addressblock user_data.shipping_address %}</li>
+                </div>
+            </div>
+        </div>
+        <br/>
+
+        <h4 class="form_header">{% trans "Account options" %}</h4>
+        <p>
+            <a href="{% url satchmo_profile_update %}?next={% url satchmo_account_info %}">{% trans "Update your profile" %}</a>
+            <br/>
+            <a href="{% url auth_password_change %}">{% trans "Change your password" %}</a>
+            <br/>
+            <a href="{% url satchmo_order_history %}">{% trans "Order History" %}</a>
+        </p>
+    {% else %}
+        <p>
+            {% trans "Sorry, the user you've logged in as doesn't have any contact information." %}{% if request.user.is_staff %} {% trans 'Probably because you are an admin.' %}{% endif %}
+        </p>
+        <h5>{% trans "Account options" %}:</h5>
+        <p>
+            <a href="{% url satchmo_profile_update %}">{% trans 'Set up contact information' %}</a>
+            <br/>
+            <a href="{% url auth_password_change %}">{% trans "Change your password" %}</a>
+        </p>
     {% endif %}
-    {#<li>{% trans 'Billing Address:'%}<br/>{% addressblock user_data.billing_address %}</li>#}
-    <li>{% trans 'Shipping Address:'%}<br/>{% addressblock user_data.shipping_address %}</li>    
-</ul>
-<h5>{% trans "Account options" %}:</h5>
-<p>
-    <a href="{% url satchmo_profile_update %}?next={% url satchmo_account_info %}">{% trans "Update your profile" %}</a>
-    <br/>
-    <a href="{% url auth_password_change %}">{% trans "Change your password" %}</a>
-    <br/>
-    <a href="{% url satchmo_order_history %}">{% trans "Order History" %}</a>
-</p>
-</ul>
-{% else %}
-<p>
-    {% trans "Sorry, the user you've logged in as doesn't have any contact information." %}{% if request.user.is_staff %} {% trans 'Probably because you are an admin.' %}{% endif %}
-</p>
-<h5>{% trans "Account options" %}:</h5>
-<p>
-    <a href="{% url satchmo_profile_update %}">{% trans 'Set up contact information' %}</a>
-    <br/>
-    <a href="{% url auth_password_change %}">{% trans "Change your password" %}</a>
-</p>
-{% endif %}
 {% endblock %}
 
 {% block navtitle %}{% trans "Your Account info" %}{% endblock %}

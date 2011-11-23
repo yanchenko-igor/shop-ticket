@@ -639,6 +639,11 @@ a:hover .icon_back, .icon_back:hover {
 /* ----- /hint box ----- */
 
 /* ----- base form ----- */
+.form_header {
+    padding-bottom: 5px;
+    font-size: 18px;
+    font-weight: normal;
+}
 .base_form {
     margin-bottom: 3px;
     font-size: 12px;
@@ -761,11 +766,13 @@ a:hover .icon_back, .icon_back:hover {
     padding-bottom: 8px;
 }
 .readonly_form .field {
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding: 2px 0 2px 125px;    
 }
-.readonly_form label {    
+.readonly_form label {
+    position: relative;
+    left: -125px;
     width: 120px;
+    margin-right: -125px;
     padding-bottom: 0;
     color: #767676;
 }
@@ -791,6 +798,7 @@ a:hover .icon_back, .icon_back:hover {
     text-align: right;
     padding: 12px 1px;
 }
+/* editable */
 .editable {
     position: relative;
 }
@@ -816,6 +824,18 @@ a:hover .icon_back, .icon_back:hover {
 }
 .editable:hover .icon_edit {
     display: block;
+}
+/* addressblock */
+ul.addressblock {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+ul.addressblock li {
+    margin-top: 2px;
+}
+ul.addressblock li:first-child {
+    margin-top: 0;
 }
 /* ----- /misc ----- */
 /* -------------------- /COMMON -------------------- */
@@ -2036,11 +2056,6 @@ td.basked_td_price{
 }
 .wraper_order{
     padding-bottom: 5px;
-}
-.order_header {
-    padding-bottom: 10px;
-    font-size: 18px;
-    font-weight: normal;
 }
 .form_ormit_order{
     padding: 20px 0 30px 0;

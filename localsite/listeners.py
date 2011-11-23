@@ -7,6 +7,7 @@ from product.models import Product, Category
 from localsite.models import EventDate, HallScheme, Event
 #from payment.forms import PaymentContactInfoForm
 from satchmo_store.accounts.forms import RegistrationForm
+from satchmo_store.contact.forms import ContactInfoForm
 from payment.views.contact import PaymentContactInfoForm
 from django.db.models.signals import post_save
 from django.db.models import Q
@@ -185,12 +186,17 @@ def first_name_field_label(signal, sender, form, **kwargs):
 def last_name_not_required(signal, sender, form, **kwargs):
     form.fields['last_name'].required = False
 
+def ship_street1_not_required(signal, sender, form, **kwargs):
+    form.fields['ship_street1'].required = False
+
+def copy_address(signal, sender, form, **kwargs):
+    form.fields['copy_address'] = forms.BooleanField(initial=True, widget=forms.widgets.HiddenInput())
+
 def add_notes_field(signal, sender, form, **kwargs):
     if 'notes' not in form.fields:
         form.fields['notes'] = forms.CharField(label=_('Additional information'), required=False,
                 widget=forms.Textarea())
     form.fields['street1'].label = _('Shipping Address')
-    form.fields['copy_address'] = forms.BooleanField(initial=True, widget=forms.widgets.HiddenInput())
 
 def split_username(signal, sender, form, **kwargs):
     if not form.cleaned_data['last_name']:
@@ -214,9 +220,12 @@ def start_localsite_listening():
     post_save.connect(event_date_saved, sender=EventDate, dispatch_uid="event_date_saved")
     post_save.connect(hall_scheme_saved, sender=HallScheme, dispatch_uid="hall_scheme_saved")
     form_init.connect(add_notes_field, sender=PaymentContactInfoForm)
+    form_init.connect(copy_address, sender=PaymentContactInfoForm)
+    form_init.connect(copy_address, sender=ContactInfoForm)
     form_init.connect(first_name_field_label, sender=PaymentContactInfoForm)
     form_init.connect(first_name_field_label, sender=RegistrationForm)
     form_init.connect(last_name_not_required, sender=RegistrationForm)
+    #form_init.connect(ship_street1_not_required, sender=ContactInfoForm)
     form_presave.connect(split_username, sender=PaymentContactInfoForm)
     form_presave.connect(split_username, sender=RegistrationForm)
 
