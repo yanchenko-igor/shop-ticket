@@ -141,9 +141,9 @@
                                 <li{% if date.datetime.date == product.event.max_date %} class="last"{% endif %}>
                                     <a class="select_datetime" id="select_datetime_{{ date.id }}" datetimeval="{{ date.id }}" href="#">
                                         {{ date.datetime|date:"j E Y, l" }}
-                                        <span class="event_date_time">
+                                        <span class="time">
                             {% else %}
-                              </span></a>, <a class="select_datetime" id="select_datetime_{{ date.id }}" datetimeval="{{ date.id }}" href="#"><span class="event_date_time">
+                              </span></a><span class="time">, </span><a class="select_datetime" id="select_datetime_{{ date.id }}" datetimeval="{{ date.id }}" href="#"><span class="time">
                             {% endifchanged %}
                             {{ date.datetime|date:"H:i" }}
                             {% if forloop.last %}
