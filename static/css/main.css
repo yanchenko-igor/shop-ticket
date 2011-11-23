@@ -639,7 +639,12 @@ a:hover .icon_back, .icon_back:hover {
 /* ----- /hint box ----- */
 
 /* ----- base form ----- */
-.form_header {
+h1.form_header {
+    padding-bottom: 10px;
+    font-size: 24px;
+    font-weight: normal;
+}
+h2.form_header {
     padding-bottom: 5px;
     font-size: 18px;
     font-weight: normal;
