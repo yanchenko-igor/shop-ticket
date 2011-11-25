@@ -4,137 +4,44 @@
 {% load satchmo_currency %}
 {% load satchmo_checkout %}
 {% load satchmo_order normalize_decimal %}
+{% load local_tags %}
 
 {% block title %}{{ block.super }}{% trans "Order History" %}{% endblock %}
 {% block navtitle %}{% trans "Order History" %}{% endblock %}
 
 {% block contentwraper %}
-<div id="orderhistory">
+
     {% if orders %}
-        <table class="ordertable">
-            <thead>
-            <tr>
-                <th>{% trans 'Order #' %}</th>
-                <th>{% trans 'Status' %}</th>
-                <th>{% trans 'Date' %}</th>
-                <th>{% trans 'Items' %}</th>
-                <th>{% trans 'Total' %}</th>
-            </tr>
-            </thead>
-            <tbody>
+            <div class="wraper_basket">
+
+                <div class="basket_head_bl">
+                    <table class="basket_head_tab">
+                        <tr>
+                            <th class="basket_td_number">Номер заказа</th>
+                            <th class="basket_td_state">Статус</th>
+                            <th class="basket_td_date">Дата</th>
+                            <th class="basket_td_count">&nbsp;</th>
+                            <th class="basket_td_info">Событие</th>
+                            <th class="basket_td_ticket">Количество и места</th>
+                            <th class="basket_td_price">Сумма заказа</th>
+                        </tr>
+                    </table>
+                </div>
+
             {% for order in orders %}
-            <tr>
-                <td class="ordernumber">
-                    <a href="{% url satchmo_order_tracking order.id %}">{{ order.id }}</a>
-                </td>
-                <td class="orderstatus">
-                    {{ order.status|status_label }}
-                </td>
-                <td class="orderdate">
-                    {{ order.time_stamp|date:"F jS Y H:i" }}
-                </td>
-                <td class="orderitems">
-
-
-
-            {% for item in order.orderitem_set.all %}
-            {% ifchanged item.product.ticket.event %}
-            {% if not forloop.first %}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="basket_bl">
+                    <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
+                    <div class="curve_body basket_grey">
+                        {% local_order_detail order %}
                     </div>
-                    <div class='curve_bott'>
-                        <div>
-                            <span class='curve_gray'>
-<!--  -->
-                            </span>
-                        </div>
-                    </div>
+                    <div class="curve_bott"><div><span class="curve_gray"><!-- --></span></div></div>
                 </div>
-            {% endif %}
-                <div id='item-{{item.id}}' class='basked_bl item'>
-                    <div class='curve_top'>
-                        <div>
-                            <span class='curve_gray'>
-<!--  -->
-                            </span>
-                        </div>
-                    </div>
-                    <div class='curve_body basket_grey'>
-                        <table class='basket_tab'>
-                            <tbody>
-                                <tr>
-                                    <td class='basket_td_img'>
-                                        <div class='basket_td_img_bl'>
-                                            {% if item.product.ticket.event.product.main_image.picture|is_portrait %}
-                                                {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
-                                                    <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
-                                                        <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
-                                                    </a>
-                                                {% endthumbnail %}
-                                            {% else %}
-                                                {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="center" as image %}
-                                                    <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
-                                                      <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
-                                                    </a>
-                                                {% endthumbnail %}
-                                            {% endif %}
-                                        </div>
-                                        <div class='basked_td_inf_date'>
-                                            <span>
-                                                {{ item.product.ticket.datetime.datetime|date:"j E Y, l" }}
-                                            </span>
-                                            {{ item.product.ticket.datetime.datetime|date:"H:i" }}
-                                        </div>
-                                        <div class='basked_td_inf_txt'>
-                                            {{ item.product.ticket.event.product.name }}
-                                            {{ item.product.ticket.event.product.short_description }}
-                                        </div>
-                                    </td>
-                                    <td class='basked_td_ticket'>
-            {% endifchanged %}
-            {% ifchanged item.product.ticket.event item.product.ticket.seat.section %}
-                                        <div class='basked_td_ticket_cont'>
-                                            {{ item.product.ticket.seat.section.name }}
-                                        </div>
-            {% endifchanged %}
-                                        <p>
-                                            {{ item.product.ticket.seat.row }}
-                                            Ряд,
-                                            {{ item.product.ticket.seat.col }}
-                                            Место
-                                        </p>
-            {% if forloop.last %}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class='curve_bott'>
-                        <div>
-                            <span class='curve_gray'>
-<!--  -->
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
             {% endfor %}
+            </div>            
 
-
-                </td>
-                <td class="ordertototal">
-                    {{order.total|currency}}
-                </td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
     {% else %}
         <p>{% trans "You haven't made any orders yet." %}</p>
     {% endif %}
-</div>
+
 {% endblock %}
 

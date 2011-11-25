@@ -34,15 +34,17 @@
                 <ul id='carousel' class='reset_list'>
                     {% for announcement in announcements %}
                         <li>
-                            {% if announcement.event.product.main_image.picture|is_portrait %}
-                                {% thumbnail announcement.event.product.main_image.picture "637x298" crop="50% 25%" as image %}
-                                    <img src='{{ image.url }}' alt='' />
-                                {% endthumbnail %}
-                            {% else %}
-                                {% thumbnail announcement.event.product.main_image.picture "637x298" crop="center" as image %}
-                                    <img src='{{ image.url }}' alt='' />
-                                {% endthumbnail %}
-                            {% endif %}
+                            {% cache 3600 product_event_img announcement.event.product_id "637x298" %}
+                                {% if announcement.event.product.main_image.picture|is_portrait %}
+                                    {% thumbnail announcement.event.product.main_image.picture "637x298" crop="50% 25%" as image %}
+                                        <img src='{{ image.url }}' alt='' />
+                                    {% endthumbnail %}
+                                {% else %}
+                                    {% thumbnail announcement.event.product.main_image.picture "637x298" crop="center" as image %}
+                                        <img src='{{ image.url }}' alt='' />
+                                    {% endthumbnail %}
+                                {% endif %}
+                            {% endcache %}
                             <div class='visual_list_footer'>
                                 <div class='visual_list_footer2'>
                                     <h3>

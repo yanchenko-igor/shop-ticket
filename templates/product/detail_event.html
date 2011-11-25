@@ -59,7 +59,7 @@
                                     {% endcache %}
                                 </div>
                                 <div class='select_place'>
-                                    <a id='select_place' class='select_place_link' href='#'>
+                                    <a id='select_place_id' class='select_place_link' href='#'>
                                         Выбрать дату и место в зале на схеме
                                         <img src='{{ media_url }}images/icon_arrow.gif' alt='>' />
                                     </a>
@@ -133,7 +133,7 @@
             <div class='wrap_event_date'>
                 <ul class='event_date reset_list clearfix'>
                     {% cache 3600 product_dates product.id %}
-                        {% for date in product.event.dates.all %}{% ifchanged date.datetime.date %}{% if not forloop.first %}</span></a></li>{% endif %}<li{% if date.datetime.date == product.event.max_date %} class="last"{% endif %}><a class="select_datetime" id="select_datetime_{{ date.id }}" datetimeval="{{ date.id }}" href="#">{{ date.datetime|date:"j E Y, l" }} <span class="time">{% else %}</span></a><span class="time">, </span><a class="select_datetime" id="select_datetime_{{ date.id }}" datetimeval="{{ date.id }}" href="#"><span class="time">{% endifchanged %}{{ date.datetime|date:"H:i" }}{% if forloop.last %}</span></a></li>{% endif %}{% endfor %}
+                        {% for date in product.event.dates.all %}{% ifchanged date.datetime.date %}{% if not forloop.first %}</span></a></li>{% endif %}<li{% if date.datetime.date == product.event.max_date %} class="last"{% endif %}><a class="select_datetime" id="select_datetime_{{ date.id }}_id" datetimeval="{{ date.id }}" href="#">{{ date.datetime|date:"j E Y, l" }} <span class="time">{% else %}</span></a><span class="time">, </span><a class="select_datetime" id="select_datetime_{{ date.id }}_id" datetimeval="{{ date.id }}" href="#"><span class="time">{% endifchanged %}{{ date.datetime|date:"H:i" }}{% if forloop.last %}</span></a></li>{% endif %}{% endfor %}
                     {% endcache %}
                 </ul>
             </div>
@@ -341,7 +341,7 @@
                         $('.select_price_but').click(function(){
                             $('.overlay.hidden').removeClass('hidden');
                             $('.overbox.hidden').removeClass('hidden');
-                            $($(this).attr('href')).click();
+                            $($(this).attr('href') + '_id').click();
                             return false;
                         });
                         $('.select_place_link').click(function(){
@@ -423,7 +423,7 @@
                         $('.map_cat_item a').click(select_price);
                         $('.map_cat_item.active a').click(unselect_price);
                         if (window.location.hash.match('#select')) {
-                          $(window.location.hash).click();
+                          $(window.location.hash + '_id').click();
                         }
                         $('.btn_zoom_in').click(function(){
                             if (zoomlevel < 5) {
@@ -507,7 +507,7 @@
                                 {% cache 3600 product_prices_cat_list product.id %}
                                     {% for price in product.event.all_prices %}
                                         <li class='map_cat_item{% if forloop.first %} first{% endif %}'>
-                                            <a id='select_price_{{ price.price|stringformat:"i" }}' href='#'>
+                                            <a id='select_price_{{ price.price|stringformat:"i" }}_id' href='#'>
                                                 <span class='map_cat_name'>Категория билетов за</span>
                                                 <span class='map_cat_price'>
                                                     <span class='figure'>

@@ -2,15 +2,17 @@
 {% cache 3600 block_product_item product.id %}
 <div class="feed_img">
     <div class="feed_img_wrap">
-        {% if product.main_image.picture|is_portrait %}
-              {% thumbnail product.main_image.picture "215x134" crop="50% 25%" as image %}
-              <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
-              {% endthumbnail %}
-        {% else %}
-              {% thumbnail product.main_image.picture "215x134" crop="center" as image %}
-              <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
-              {% endthumbnail %}
-        {% endif %}
+        {% cache 3600 product_event_img product.id "215x134" %}
+            {% if product.main_image.picture|is_portrait %}
+                  {% thumbnail product.main_image.picture "215x134" crop="50% 25%" as image %}
+                  <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                  {% endthumbnail %}
+            {% else %}
+                  {% thumbnail product.main_image.picture "215x134" crop="center" as image %}
+                  <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
+                  {% endthumbnail %}
+            {% endif %}
+        {% endcache %}
     </div>
     <div class="feed_img_bl">
         <div class="feed_img_bl_txt">

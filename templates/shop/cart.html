@@ -1,5 +1,5 @@
 {% extends "shop/base.html" %}
-{% load i18n satchmo_cart satchmo_currency local_tags satchmo_util satchmo_product satchmo_discounts normalize_decimal thumbnail %}
+{% load i18n satchmo_cart satchmo_currency local_tags satchmo_util satchmo_product satchmo_discounts normalize_decimal thumbnail cache %}
 {% block contentwraper %}
     {% if not cart|length %}
         <h4 id='cartheader'>
@@ -76,18 +76,20 @@
 </script>
         <h4 id='cartheader'></h4>
         <div id='cart' class='wraper_basket'>
-            <table class='table_heading_basket'>
-                <tbody>
-                    <tr>
-                        <th>Предстоящее событие</th>
-                        <th class='basked_td_ticket'>Кол-во и места</th>
-                        <th class='basked_td_price'>Цена</th>
-                        <th class='basked_td_del2'>Удалить</th>
-                    </tr>
-                </tbody>
-            </table>
+            <div class='basket_head_bl'>
+                <table class='basket_head_tab'>
+                    <tbody>
+                        <tr>
+                            <th class='basket_td_info'>Предстоящее событие</th>
+                            <th class='basket_td_ticket'>Количество и места</th>
+                            <th class='basket_td_price'>Цена</th>
+                            <th class='basket_td_del'>Удалить</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             {% for cartitem in cart %}
-                <div id='cartitem-{{cartitem.id}}' class='basked_bl cartitem'>
+                <div id='cartitem-{{cartitem.id}}' class='basket_bl cartitem'>
                     <div class='curve_top'>
                         <div>
                             <span class='curve_gray'>
@@ -101,35 +103,37 @@
                                 <tr>
                                     <td class='basket_td_img'>
                                         <div class='basket_td_img_bl'>
-                                            {% if cartitem.product.ticket.event.product.main_image.picture|is_portrait %}
-                                                {% thumbnail cartitem.product.ticket.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
-                                                    <a href='{{ cartitem.product.ticket.event.product.get_absolute_url }}'>
-                                                        <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
-                                                    </a>
-                                                {% endthumbnail %}
-                                            {% else %}
-                                                {% thumbnail cartitem.product.ticket.event.product.main_image.picture "107x76" crop="center" as image %}
-                                                    <a href='{{ cartitem.product.ticket.event.product.get_absolute_url }}'>
-                                                      <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
-                                                    </a>
-                                                {% endthumbnail %}
-                                            {% endif %}
+                                            {% cache 3600 product_event_img cartitem.product.ticket.event_id "107x76" %}
+                                                {% if cartitem.product.ticket.event.product.main_image.picture|is_portrait %}
+                                                    {% thumbnail cartitem.product.ticket.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
+                                                        <a href='{{ cartitem.product.ticket.event.product.get_absolute_url }}'>
+                                                            <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                        </a>
+                                                    {% endthumbnail %}
+                                                {% else %}
+                                                    {% thumbnail cartitem.product.ticket.event.product.main_image.picture "107x76" crop="center" as image %}
+                                                        <a href='{{ cartitem.product.ticket.event.product.get_absolute_url }}'>
+                                                          <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                        </a>
+                                                    {% endthumbnail %}
+                                                {% endif %}
+                                            {% endcache %}
                                         </div>
                                     </td>
-                                    <td class='basked_td_inf'>
-                                        <div class='basked_td_inf_date'>
+                                    <td class='basket_td_inf'>
+                                        <div class='basket_td_inf_date'>
                                             <span>
                                                 {{ cartitem.product.ticket.datetime.datetime|date:"j E Y, l" }}
                                             </span>
                                             {{ cartitem.product.ticket.datetime.datetime|date:"H:i" }}
                                         </div>
-                                        <div class='basked_td_inf_txt'>
+                                        <div class='basket_td_inf_txt'>
                                             {{ cartitem.product.ticket.event.product.name }}
                                             {{ cartitem.product.ticket.event.product.short_description }}
                                         </div>
                                     </td>
-                                    <td class='basked_td_ticket'>
-                                        <div class='basked_td_ticket_cont'>
+                                    <td class='basket_td_ticket'>
+                                        <div class='basket_td_ticket_cont'>
                                             {{ cartitem.product.ticket.seat.section.name }}
                                         </div>
                                         <p>
@@ -139,10 +143,10 @@
                                             Место
                                         </p>
                                     </td>
-                                    <td class='basked_td_price'>
+                                    <td class='basket_td_price'>
                                         {{ cartitem.product.unit_price|currency }}
                                     </td>
-                                    <td class='basked_td_del'>
+                                    <td class='basket_td_del'>
                                         <form id='rmform-{{cartitem.id}}' class='removeform' action='{% url satchmo_cart_remove %}' method='post'>
                                             <input class='cartitem_id' type='hidden' name='cartitem' value='{{ cartitem.id }}' />
                                             <a href='#'>

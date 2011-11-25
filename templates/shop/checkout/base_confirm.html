@@ -7,6 +7,7 @@
 {% load app_plugins normalize_decimal %}
 {% load i18n %}
 {% load thumbnail %}
+{% load cache %}
 {% if default_view_tax %}{% load satchmo_tax %}{% endif %}
 
 {% block title %}{{ block.super }}{% trans "Checkout" %}{% endblock %}
@@ -18,17 +19,21 @@
 
 
             <div class="wraper_order">
-                <table class="table_heading_basket">
-                    <tbody><tr>
-                        <th>Предстоящее событие</th>
-                        <th class="basked_td_ticket">Количество и места</th>
-                        <th class="basked_td_price">Цена</th>
-                    </tr>
-                </tbody></table>
+                <div class='basket_head_bl'>
+                    <table class='basket_head_tab'>
+                        <tbody>
+                            <tr>
+                                <th class='basket_td_info'>Предстоящее событие</th>
+                                <th class='basket_td_ticket'>Количество и места</th>
+                                <th class='basket_td_price'>Цена</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
 
             {% for item in order.orderitem_set.all %}
-                <div id='item-{{item.id}}' class='basked_bl item'>
+                <div id='item-{{item.id}}' class='basket_bl item'>
                     <div class='curve_top'>
                         <div>
                             <span class='curve_gray'>
@@ -42,35 +47,37 @@
                                 <tr>
                                     <td class='basket_td_img'>
                                         <div class='basket_td_img_bl'>
-                                            {% if item.product.ticket.event.product.main_image.picture|is_portrait %}
-                                                {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
-                                                    <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
-                                                        <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
-                                                    </a>
-                                                {% endthumbnail %}
-                                            {% else %}
-                                                {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="center" as image %}
-                                                    <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
-                                                      <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
-                                                    </a>
-                                                {% endthumbnail %}
-                                            {% endif %}
+                                            {% cache 3600 product_event_img item.product.ticket.event_id "107x76" %}
+                                                {% if item.product.ticket.event.product.main_image.picture|is_portrait %}
+                                                    {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
+                                                        <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
+                                                            <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                        </a>
+                                                    {% endthumbnail %}
+                                                {% else %}
+                                                    {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="center" as image %}
+                                                        <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
+                                                          <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                        </a>
+                                                    {% endthumbnail %}
+                                                {% endif %}
+                                            {% endcache %}
                                         </div>
                                     </td>
-                                    <td class='basked_td_inf'>
-                                        <div class='basked_td_inf_date'>
+                                    <td class='basket_td_inf'>
+                                        <div class='basket_td_inf_date'>
                                             <span>
                                                 {{ item.product.ticket.datetime.datetime|date:"j E Y, l" }}
                                             </span>
                                             {{ item.product.ticket.datetime.datetime|date:"H:i" }}
                                         </div>
-                                        <div class='basked_td_inf_txt'>
+                                        <div class='basket_td_inf_txt'>
                                             {{ item.product.ticket.event.product.name }}
                                             {{ item.product.ticket.event.product.short_description }}
                                         </div>
                                     </td>
-                                    <td class='basked_td_ticket'>
-                                        <div class='basked_td_ticket_cont'>
+                                    <td class='basket_td_ticket'>
+                                        <div class='basket_td_ticket_cont'>
                                             {{ item.product.ticket.seat.section.name }}
                                         </div>
                                         <p>
@@ -80,7 +87,7 @@
                                             Место
                                         </p>
                                     </td>
-                                    <td class='basked_td_price'>
+                                    <td class='basket_td_price'>
                                         {{ item.product.unit_price|currency }}
                                     </td>
                                 </tr>

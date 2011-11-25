@@ -32,19 +32,21 @@
                                 <tr>
                                     <td class='basket_td_img'>
                                         <div class='basket_td_img_bl'>
-                                            {% if item.product.ticket.event.product.main_image.picture|is_portrait %}
-                                                {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
-                                                    <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
-                                                        <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
-                                                    </a>
-                                                {% endthumbnail %}
-                                            {% else %}
-                                                {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="center" as image %}
-                                                    <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
-                                                      <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
-                                                    </a>
-                                                {% endthumbnail %}
-                                            {% endif %}
+                                            {% cache 3600 product_event_img item.product.ticket.event_id "107x76" %}
+                                                {% if item.product.ticket.event.product.main_image.picture|is_portrait %}
+                                                    {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
+                                                        <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
+                                                            <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                        </a>
+                                                    {% endthumbnail %}
+                                                {% else %}
+                                                    {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="center" as image %}
+                                                        <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
+                                                          <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                        </a>
+                                                    {% endthumbnail %}
+                                                {% endif %}
+                                            {% encache %}
                                         </div>
                                     </td>
                                     <td class='basked_td_inf'>

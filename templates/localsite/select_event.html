@@ -8,19 +8,20 @@
                     {% cache 3600 event_search_item event.product %}
                         <div class='feed_img'>
                             <div class='feed_img_wrap'>
-                                {% if event.product.main_image.picture|is_portrait %}
-                                    {% thumbnail event.product.main_image.picture "215x134" crop="50% 25%" as image %}
-                                        <a href='{{ event.product.get_absolute_url }}'>
-                                            <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
-                                        </a>
-                                    {% endthumbnail %}
-                                {% else %}
-                                    {% thumbnail event.product.main_image.picture "215x134" crop="center" as image %}
-                                        <a href='{{ event.product.get_absolute_url }}'>
-                                            <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
-                                        </a>
-                                    {% endthumbnail %} %}
-                                {% endif %}
+                                {% cache 3600 product_event_img event.product_id "215x134" %}
+                                    {% if event.product.main_image.picture|is_portrait %}
+                                        {% thumbnail event.product.main_image.picture "215x134" crop="50% 25%" as image %}
+                                            <a href='{{ event.product.get_absolute_url }}'>
+                                                <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                            </a>
+                                        {% endthumbnail %}
+                                    {% else %}
+                                        {% thumbnail event.product.main_image.picture "215x134" crop="center" as image %}
+                                            <a href='{{ event.product.get_absolute_url }}'>
+                                                <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                            </a>
+                                        {% endthumbnail %} %}
+                                    {% endif %}
                             </div>
                             <div class='feed_img_bl'>
                                 <div class='feed_img_bl_txt'>

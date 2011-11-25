@@ -4,6 +4,7 @@
     <div class="curve_top"><div><span class="curve_gray"><!-- --></span></div></div>
     <div class="curve_body feed_gray clearfix">
         <div class="feed_list_img">
+            {% cache 3600 product_event_img product_id "85x61" %}
                 {% if product.main_image.picture|is_portrait %}
                       {% thumbnail product.main_image.picture "85x61" crop="50% 25%" as image %}
                       <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
@@ -13,6 +14,7 @@
                       <a href="{{ product.get_absolute_url }}"><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" /></a>
                       {% endthumbnail %}
                 {% endif %}
+            {% endcache %}
         </div>
         <div class="feed_list_txt">
             <div class="feed_list_txt_tag">

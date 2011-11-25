@@ -1,28 +1,30 @@
 {# this text is placed by the satchmo_order template tag "order_tracking_details" #}
 {% load i18n %}
 {% load thumbnail %}
+{% load cache %}
 {% load satchmo_currency %}
 {% load satchmo_checkout %}
 {% load satchmo_util normalize_decimal %}
 
 <div class="orderdetails">
-    <h4>{% trans 'Order #' %} {{ order.id }}</h4>
-    <h4>{% trans 'Status' %}</h4>
+    <h2 class="form_header">{% trans 'Order' %} № {{ order.id }}</h2>
+    <form class="base_form order_form readonly_form" action="">
     {% for status in order.orderstatus_set.all %}
-        <p>{{status.time_stamp|date:"F jS Y H:i" }}: {{ status.status|status_label }}<br/>
-            {% if status.notes %}<i>{% trans status.notes %}</i>{% endif %}
-        </p>
+        <div class="field"><label>{{ status.status|status_label }}</label> {{status.time_stamp|date:"j E Y, H:i" }} {% if status.notes %}<p>{% trans status.notes %}</p>{% endif %}</div>
     {% endfor %}
+    </form>
 
     <div class="wraper_order">
-        <table class="table_heading_basket">
-            <tbody>
-                <tr>
-                    <th>Предстоящее событие</th>
-                    <th class="basked_td_ticket">Количество и места</th>
-                </tr>
-            </tbody>
-        </table>
+        <div class="basket_head_bl">
+            <table class="basket_head_tab">
+                <tbody>
+                    <tr>
+                        <th class="basket_td_info">Событие</th>
+                        <th class="basket_td_ticket">Количество и места</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
 
         {% for item in order.orderitem_set.all %}
@@ -42,7 +44,7 @@
                         </div>
                     </div>
                 {% endif %}
-                <div id='item-{{item.id}}' class='basked_bl item'>
+                <div id='item-{{item.id}}' class='basket_bl item'>
                     <div class='curve_top'>
                         <div>
                             <span class='curve_gray'>
@@ -56,37 +58,39 @@
                                 <tr>
                                     <td class='basket_td_img'>
                                         <div class='basket_td_img_bl'>
-                                            {% if item.product.ticket.event.product.main_image.picture|is_portrait %}
-                                                {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
-                                                    <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
-                                                        <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
-                                                    </a>
-                                                {% endthumbnail %}
-                                            {% else %}
-                                                {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="center" as image %}
-                                                    <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
-                                                      <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
-                                                    </a>
-                                                {% endthumbnail %}
-                                            {% endif %}
+                                            {% cache 3600 product_event_img item.product.ticket.event.product_id "107x76" %}
+                                                {% if item.product.ticket.event.product.main_image.picture|is_portrait %}
+                                                    {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
+                                                        <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
+                                                            <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                        </a>
+                                                    {% endthumbnail %}
+                                                {% else %}
+                                                    {% thumbnail item.product.ticket.event.product.main_image.picture "107x76" crop="center" as image %}
+                                                        <a href='{{ item.product.ticket.event.product.get_absolute_url }}'>
+                                                          <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                        </a>
+                                                    {% endthumbnail %}
+                                                {% endif %}
+                                            {% endcache %}
                                         </div>
                                     </td>
-                                    <td class='basked_td_inf'>
-                                        <div class='basked_td_inf_date'>
+                                    <td class='basket_td_inf'>
+                                        <div class='basket_td_inf_date'>
                                             <span>
                                                 {{ item.product.ticket.datetime.datetime|date:"j E Y, l" }}
                                             </span>
                                             {{ item.product.ticket.datetime.datetime|date:"H:i" }}
                                         </div>
-                                        <div class='basked_td_inf_txt'>
+                                        <div class='basket_td_inf_txt'>
                                             {{ item.product.ticket.event.product.name }}
                                             {{ item.product.ticket.event.product.short_description }}
                                         </div>
                                     </td>
-                                    <td class='basked_td_ticket'>
+                                    <td class='basket_td_ticket'>
             {% endifchanged %}
                                     {% ifchanged item.product.ticket.datetime item.product.ticket.seat.section %}
-                                        <div class='basked_td_ticket_cont'>
+                                        <div class='basket_td_ticket_cont'>
                                             {{ item.product.ticket.seat.section.name }}
                                         </div>
                                     {% endifchanged %}
