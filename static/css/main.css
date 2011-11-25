@@ -1289,7 +1289,7 @@ ul.addressblock li:first-child {
     margin-top: 11px;
     border: 1px solid #cccccc;
     background-color: #fff;
-    padding: 0 12px;
+    padding: 0 12px 10px 12px;
     position: relative;
     z-index: 5;
 }
@@ -1811,7 +1811,7 @@ ul.addressblock li:first-child {
 }
 
 .subscription_bl{
-    padding-bottom: 22px;
+    padding-bottom: 20px;
 }
 
 .subscription_bg{
@@ -1937,8 +1937,11 @@ a.how_order{
 .wraper_basket{
     padding-bottom: 30px;
 }
-.basked_bl{
+.basket_bl{
     padding-bottom: 12px;
+}
+.basket_head_bl {
+    padding-right: 10px;
 }
 .tab_basket{
     float: right;
@@ -1963,26 +1966,45 @@ a.how_order{
     background-color: #efefef;
     padding: 9px;
 }
-.table_heading_basket{
+.basket_tab,
+.basket_head_tab {
     width: 100%;
 }
-.table_heading_basket th{
-    font-size: 12px !important;
+.basket_head_tab th{
+    padding: 0 10px 14px 0;
+    font-size: 12px;    
     color: #9e9e9e;
-    padding: 0 0 14px 0 !important;
-}
-th.basked_td_del2{
-    width: 90px;
-    text-align: center;
-}
-.basket_tab{
-    width: 100%;
 }
 .basket_tab td{
+    padding-right: 10px;
     font-size: 12px;
 }
+.basket_td_number {
+    width: 80px;
+}
+th.basket_td_number {
+    width: 90px;
+}
+td.basket_td_number {
+    padding-top: 10px;
+    font-weight: bold;    
+}
+.basket_td_state {
+    padding-top: 10px;
+    width: 60px;
+}
+.basket_td_date {
+    padding-top: 10px;    
+    width: 100px;
+}
+.basket_td_count {
+    width: 12px;
+    padding-top: 10px;
+    font-weight: bold;
+    color: #646464;
+}
 .basket_td_img{
-    width: 126px;
+    width: 116px;
 }
 .basket_td_img_bl{
     width: 107px;
@@ -1990,41 +2012,51 @@ th.basked_td_del2{
     overflow: hidden;
     border: 1px solid #fff;
 }
-.basked_td_inf{
-    padding: 10px 10px 0 0;
+td.basket_td_inf{
+    padding-top: 10px;
 }
-.basked_td_inf_date{
-    color: #646464;
-    height: 25px;
+.basket_td_inf_date{
+    padding-bottom: 10px;
+    color: #646464;    
 }
-    .basked_td_inf_date span{
+    .basket_td_inf_date span{
         color: #f14743;
         margin-right: 5px;
     }
-.basked_td_inf_txt{
+.basket_td_inf_txt{
     font-size: 14px;
 }
-.basked_td_ticket{
-    width: 182px;
+.basket_td_ticket{
+    width: 172px;
+}
+td.basket_td_ticket {
     padding-top: 10px;
 }
-.basked_td_ticket p{
+.basket_td_ticket p{
     padding-bottom: 3px;
 }
-.basked_td_ticket_cont{
+.basket_td_ticket_cont{
+    padding-bottom: 10px;
     color: #646464;
-    height: 25px;
 }
-td.basked_td_price{
-    width: 142px;
+.basket_td_price {
+    width: 132px;
+}
+td.basket_td_price{
     vertical-align: middle;
     font-size: 21px;
     color: #a32f2f;
 }
-.basked_td_del{
-    width: 60px;
+.basket_td_del{
+    width: 50px;
+}
+td.basket_td_del {
     text-align: center;
     vertical-align: middle;
+}
+.basket_spacer {
+    margin-right: 20px;
+    background: #cccccc;    
 }
 .basket_msg {
     margin-bottom: 10px;
