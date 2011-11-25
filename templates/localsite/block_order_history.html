@@ -1,0 +1,146 @@
+{% load i18n %}
+{% load thumbnail %}
+{% load satchmo_currency %}
+{% load satchmo_checkout %}
+{% load satchmo_order normalize_decimal %}
+{% load local_tags %}
+{% load cache %}
+                        <table class="basket_tab">
+                            {% with items=orderitem_set %}
+                                {% regroup items by product.ticket.datetime as event_list %}
+                                {% for event in event_list %}
+                                    {% if forloop.first %}
+                                        <tr>
+                                            <td class="basket_td_number">
+                                                <a href="{% url satchmo_order_tracking order.id %}">{{ order.id }}</a>
+                                            </td>
+                                            <td class="basket_td_state">
+                                                {{ order.status|status_label }}
+                                            </td>
+                                            <td class="basket_td_date">
+                                                {{ order.time_stamp|date:"j E Y, H:i" }}
+                                            </td>
+                                            <td class="basket_td_count">
+                                                {% if event_list|length > 1 %}1.{% else %}&nbsp;{% endif %}
+                                            </td>
+                                            <td class="basket_td_img">
+                                                <div class="basket_td_img_bl">
+                                                    {% cache 3600 product_event_img event.grouper.event_id "107x76" %}
+                                                        {% if event.grouper.event.product.main_image.picture|is_portrait %}
+                                                            {% thumbnail event.grouper.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
+                                                                <a href='{{ event.grouper.event.product.get_absolute_url }}'>
+                                                                    <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                                </a>
+                                                            {% endthumbnail %}
+                                                        {% else %}
+                                                            {% thumbnail event.grouper.event.product.main_image.picture "107x76" crop="center" as image %}
+                                                                <a href='{{ event.grouper.event.product.get_absolute_url }}'>
+                                                                  <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                                </a>
+                                                            {% endthumbnail %}
+                                                        {% endif %}
+                                                    {% endcache %}
+                                                </div>
+                                            </td>
+                                            <td class="basket_td_inf">
+                                                <div class="basket_td_inf_date">
+                                                    <span>
+                                                        {{ event.grouper.datetime|date:"j E Y, l" }}
+                                                    </span>
+                                                    {{ event.grouper.datetime|date:"H:i" }}
+                                                </div>
+                                                <div class="basket_td_inf_txt">
+                                                    {{ event.grouper.event.product.name }}
+                                                    {{ event.grouper.event.product.short_description }}
+                                                </div>
+                                            </td>
+                                            <td class="basket_td_ticket">
+                                                <div class="basket_td_ticket_cont">
+                                                    {% blocktrans count counter=event.list|length %}{{ counter }} ticket{% plural %}{{ counter }} tickets{% endblocktrans %}
+                                                </div>
+                                                {% with places=event.list %}
+                                                    {% regroup places by product.ticket.seat.section as place_list %}
+                                                    {% for section in place_list %}
+                                                        <p><em>{{ section.grouper.name }}</em></p>
+                                                        {% for place in section.list %}
+                                                            <p>
+                                                                {{ place.product.ticket.seat.row }}
+                                                                Ряд,
+                                                                {{ place.product.ticket.seat.col }}
+                                                                Место
+                                                            </p>
+                                                        {% endfor %}
+                                                    {% endfor %}
+                                                {% endwith %}
+                                            </td>
+                                            <td class="basket_td_price">
+                                                {{order.total|currency}}
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="3">&nbsp;</td>
+                                            <td colspan="4"><hr class="basket_spacer"/></td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">&nbsp;</td>
+                                            <td class="basket_td_count">
+                                                {{ forloop.counter }}.
+                                            </td>
+                                            <td class="basket_td_img">
+                                                <div class="basket_td_img_bl">
+                                                    {% cache 3600 product_event_img event.grouper.event_id "107x76" %}
+                                                        {% if event.grouper.event.product.main_image.picture|is_portrait %}
+                                                            {% thumbnail event.grouper.event.product.main_image.picture "107x76" crop="50% 25%" as image %}
+                                                                <a href='{{ event.grouper.event.product.get_absolute_url }}'>
+                                                                    <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                                </a>
+                                                            {% endthumbnail %}
+                                                        {% else %}
+                                                            {% thumbnail event.grouper.event.product.main_image.picture "107x76" crop="center" as image %}
+                                                                <a href='{{ event.grouper.event.product.get_absolute_url }}'>
+                                                                  <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
+                                                                </a>
+                                                            {% endthumbnail %}
+                                                        {% endif %}
+                                                    {% endcache %}
+                                                </div>
+                                            </td>
+                                            <td class="basket_td_inf">
+                                                <div class="basket_td_inf_date">
+                                                    <span>
+                                                        {{ event.grouper.datetime|date:"j E Y, l" }}
+                                                    </span>
+                                                    {{ event.grouper.datetime|date:"H:i" }}
+                                                </div>
+                                                <div class="basket_td_inf_txt">
+                                                    {{ event.grouper.event.product.name }}
+                                                    {{ event.grouper.event.product.short_description }}
+                                                </div>
+                                            </td>
+                                            <td class="basket_td_ticket">
+                                                <div class="basket_td_ticket_cont">
+                                                    {% blocktrans count counter=event.list|length %}{{ counter }} ticket{% plural %}{{ counter }} tickets{% endblocktrans %}
+                                                </div>
+                                                {% with places=event.list %}
+                                                    {% regroup places by product.ticket.seat.section as place_list %}
+                                                    {% for section in place_list %}
+                                                        <p><em>{{ section.grouper.name }}</em></p>
+                                                        {% for place in section.list %}
+                                                            <p>
+                                                                {{ place.product.ticket.seat.row }}
+                                                                Ряд,
+                                                                {{ place.product.ticket.seat.col }}
+                                                                Место
+                                                            </p>
+                                                        {% endfor %}
+                                                    {% endfor %}
+                                                {% endwith %}
+                                            </td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endwith %}
+                        </table>
