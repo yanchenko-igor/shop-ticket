@@ -29,6 +29,14 @@ def show_bestsellers_items(number):
     items = bestsellers(number)
     return {'items': items}
 
+@register.inclusion_tag('localsite/block_order_history.html')
+def local_order_detail(order):
+    orderitem_set = order.orderitem_set.all().select_related('product__ticket__seat__section','product__ticket__datetime','product__ticket__event__product')
+    return {
+            'order': order,
+            'orderitem_set': orderitem_set,
+            }
+
 @register.inclusion_tag('localsite/block_ticket_choice.html')
 def select_section_form(event):
     forms = []
@@ -56,6 +64,22 @@ def price_range(product):
 
 
 register.filter('price_range', price_range)
+
+def sortby(sequence, attribute):
+    """
+    Variation on dictsort using attribute access
+    Nested attributes can be used, like, "obj.attr.attr_attr"
+    """
+    def deep_attr(obj, attr_list):
+        if len(attr_list) == 1:
+            return getattr(obj, attr_list[0])
+        return deep_attr(getattr(obj, attr_list[0]), attr_list[1:])
+
+    lst = list(sequence)
+    lst.sort(key=lambda obj: deep_attr(obj, attribute.split('.')))
+    return lst
+
+register.filter('sortby', sortby)
 
 
 def range_currency(value):
