@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-22 17:43+0200\n"
+"POT-Creation-Date: 2011-11-25 14:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,15 +93,15 @@ msgstr "Жанр категории"
 msgid "Hall of event"
 msgstr "Площадка проведения"
 
-#: localsite/listeners.py:183
+#: localsite/listeners.py:184 templates/contact/view_profile.html:14
 msgid "First name, Last name"
 msgstr "Имя, Фамилия"
 
-#: localsite/listeners.py:190
+#: localsite/listeners.py:197
 msgid "Additional information"
 msgstr "Дополнительная информация"
 
-#: localsite/listeners.py:192
+#: localsite/listeners.py:199 templates/contact/view_profile.html:27
 msgid "Shipping Address"
 msgstr "Адрес доставки"
 
@@ -223,6 +223,18 @@ msgstr "Анонс"
 msgid "Announcements"
 msgstr "Анонсы"
 
+#: localsite/models.py:449 templates/shop/order_history.html:427
+msgid "Date"
+msgstr ""
+
+#: localsite/models.py:457 templates/contact/view_profile.html:24
+msgid "Newsletter"
+msgstr ""
+
+#: localsite/models.py:458
+msgid "Newsletters"
+msgstr ""
+
 #: localsite/views.py:43 localsite/views.py:66 localsite/views.py:127
 #: localsite/views.py:415
 msgid "Success"
@@ -250,7 +262,7 @@ msgstr "Вы вошли как"
 msgid "Log out"
 msgstr ""
 
-#: templates/base.html:235 templates/product/detail_event.html:479
+#: templates/base.html:235 templates/product/detail_event.html:463
 #, python-format
 msgid "In your cart <span class=\"cart_count\">%(counter)s</span> ticket"
 msgid_plural ""
@@ -335,6 +347,10 @@ msgstr ""
 msgid "Add event"
 msgstr "Добавить событие"
 
+#: templates/contact/_addressblock.html:11
+msgid "Not set"
+msgstr ""
+
 #: templates/contact/_contact_info_form_billing.html:4
 msgid "Billing Information"
 msgstr "Платёжная информация"
@@ -345,7 +361,7 @@ msgstr ""
 
 #: templates/contact/_contact_info_form_billing.html:6
 #: templates/contact/_contact_info_form_shipping.html:9
-#: templates/contact/update_form.html:71
+#: templates/contact/update_form.html:81
 msgid "If different from the first and last names above"
 msgstr ""
 
@@ -372,7 +388,7 @@ msgid "Country"
 msgstr ""
 
 #: templates/contact/_contact_info_form_shipping.html:4
-#: templates/contact/update_form.html:69
+#: templates/contact/update_form.html:78
 msgid "Shipping Information"
 msgstr "Информация о доставке"
 
@@ -392,60 +408,42 @@ msgstr ""
 msgid "Please correct the following error:"
 msgstr ""
 
-#: templates/contact/update_form.html:17
+#: templates/contact/update_form.html:26
 msgid "Basic Information"
 msgstr "Основная информация"
 
-#: templates/contact/update_form.html:47
+#: templates/contact/update_form.html:56
+#: templates/contact/view_profile.html:22
 msgid "Birthday"
 msgstr ""
 
-#: templates/contact/update_form.html:102
+#: templates/contact/update_form.html:112
 msgid "Update profile"
 msgstr "Обновить профиль"
 
-#: templates/contact/update_form.html:109
+#: templates/contact/update_form.html:119
 msgid "Your Profile"
 msgstr ""
 
-#: templates/contact/view_profile.html:6
-#: templates/newsletter/subscribe_form.html:5
-#: templates/newsletter/unsubscribe_form.html:5
-#: templates/newsletter/update_form.html:5
-#: templates/newsletter/update_results.html:5
-#: templates/product/category_index.html:7 templates/product/product.html:25
-#: templates/shop/index.html:7 templates/shop/multiple_product_form.html:10
-#: templates/shop/search.html:6
-msgid "Home"
-msgstr "Главная"
-
-#: templates/contact/view_profile.html:7
-msgid "Account"
-msgstr ""
-
-#: templates/contact/view_profile.html:13
+#: templates/contact/view_profile.html:8
 #, python-format
 msgid "Welcome, %(full_name)s."
 msgstr ""
 
-#: templates/contact/view_profile.html:16
+#: templates/contact/view_profile.html:11
 msgid "Your profile"
 msgstr ""
 
-#: templates/contact/view_profile.html:18
-msgid "Email:"
+#: templates/contact/view_profile.html:16
+msgid "Organization"
 msgstr ""
 
-#: templates/contact/view_profile.html:20
-msgid "Organization:"
+#: templates/contact/view_profile.html:19
+msgid "Phone"
 msgstr ""
 
-#: templates/contact/view_profile.html:22
-msgid "Birthday:"
-msgstr ""
-
-#: templates/contact/view_profile.html:24
-msgid "Newsletter:"
+#: templates/contact/view_profile.html:21
+msgid "Email"
 msgstr ""
 
 #: templates/contact/view_profile.html:24
@@ -456,53 +454,45 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: templates/contact/view_profile.html:26
-msgid "Billing Address:"
-msgstr ""
-
-#: templates/contact/view_profile.html:27
-msgid "Shipping Address:"
-msgstr ""
-
-#: templates/contact/view_profile.html:29
-#: templates/contact/view_profile.html:42
+#: templates/contact/view_profile.html:34
+#: templates/contact/view_profile.html:46
 #, fuzzy
 msgid "Account options"
 msgstr "Последние Действия"
 
-#: templates/contact/view_profile.html:31
+#: templates/contact/view_profile.html:36
 msgid "Update your profile"
 msgstr ""
 
-#: templates/contact/view_profile.html:33
-#: templates/contact/view_profile.html:46
+#: templates/contact/view_profile.html:38
+#: templates/contact/view_profile.html:50
 msgid "Change your password"
 msgstr ""
 
-#: templates/contact/view_profile.html:35 templates/shop/order_history.html:8
+#: templates/contact/view_profile.html:40 templates/shop/order_history.html:8
 #: templates/shop/order_history.html:9
 msgid "Order History"
 msgstr ""
 
-#: templates/contact/view_profile.html:40
+#: templates/contact/view_profile.html:44
 msgid ""
 "Sorry, the user you've logged in as doesn't have any contact information."
 msgstr ""
 
-#: templates/contact/view_profile.html:40
+#: templates/contact/view_profile.html:44
 msgid "Probably because you are an admin."
 msgstr ""
 
-#: templates/contact/view_profile.html:44
+#: templates/contact/view_profile.html:48
 #, fuzzy
 msgid "Set up contact information"
 msgstr "Дополнительная информация"
 
-#: templates/contact/view_profile.html:51
+#: templates/contact/view_profile.html:55
 msgid "Your Account info"
 msgstr ""
 
-#: templates/flatpages/default.html:10 templates/product/detail_event.html:187
+#: templates/flatpages/default.html:10 templates/product/detail_event.html:171
 msgid "Edit"
 msgstr "Редактировать"
 
@@ -597,7 +587,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: templates/localsite/related.html:60 templates/product/detail_event.html:207
+#: templates/localsite/related.html:60 templates/product/detail_event.html:191
 msgid "Related events"
 msgstr "Похожие события"
 
@@ -612,6 +602,16 @@ msgid_plural "Events with tag \"%(tagname)s\""
 msgstr[0] "Событие с меткой \"%(tagname)s\""
 msgstr[1] "События с меткой \"%(tagname)s\""
 msgstr[2] "События с меткой \"%(tagname)s\""
+
+#: templates/newsletter/subscribe_form.html:5
+#: templates/newsletter/unsubscribe_form.html:5
+#: templates/newsletter/update_form.html:5
+#: templates/newsletter/update_results.html:5
+#: templates/product/category_index.html:7 templates/product/product.html:25
+#: templates/shop/index.html:7 templates/shop/multiple_product_form.html:10
+#: templates/shop/search.html:6
+msgid "Home"
+msgstr "Главная"
 
 #: templates/newsletter/subscribe_form.html:6
 #: templates/newsletter/subscribe_form.html:10
@@ -654,7 +654,7 @@ msgstr ""
 msgid "Category Index"
 msgstr "Список категорий"
 
-#: templates/product/detail_event.html:271
+#: templates/product/detail_event.html:255
 msgid "All related events"
 msgstr "Все похожие события"
 
@@ -807,7 +807,7 @@ msgid "Number sold: %(st_total_sold)s"
 msgstr ""
 
 #: templates/shop/_order_details.html:97
-#: templates/shop/_order_tracking_details.html:122
+#: templates/shop/_order_tracking_details.html:124
 #: templates/shop/checkout/base_confirm.html:108
 #, fuzzy
 msgid "Contact Information"
@@ -818,24 +818,24 @@ msgid "COD"
 msgstr ""
 
 #: templates/shop/_order_details.html:114
-#: templates/shop/_order_tracking_details.html:139
-#: templates/shop/order_history.html:21
+#: templates/shop/_order_tracking_details.html:141
+#: templates/shop/order_history.html:429
 #: templates/shop/checkout/base_confirm.html:125
 msgid "Total"
 msgstr ""
 
 #: templates/shop/_order_tracking_details.html:9
-#: templates/shop/order_history.html:17
+#: templates/shop/order_history.html:425
 #, fuzzy
 msgid "Order #"
 msgstr "Сортировка"
 
 #: templates/shop/_order_tracking_details.html:10
-#: templates/shop/order_history.html:18
+#: templates/shop/order_history.html:426
 msgid "Status"
 msgstr ""
 
-#: templates/shop/_order_tracking_details.html:137
+#: templates/shop/_order_tracking_details.html:139
 #: templates/shop/checkout/base_confirm.html:123
 msgid "COD Payment"
 msgstr "наложенный платёж"
@@ -861,17 +861,26 @@ msgstr ""
 msgid "Add to Cart"
 msgstr ""
 
-#: templates/shop/order_history.html:19
-msgid "Date"
+#: templates/shop/order_history.html:84 templates/shop/order_history.html:141
+#, python-format
+msgid "%(counter)s ticket"
+msgid_plural "%(counter)s tickets"
+msgstr[0] "%(counter)s билет"
+msgstr[1] "%(counter)s билета"
+msgstr[2] "%(counter)s билетов"
+
+#: templates/shop/order_history.html:405 templates/shop/order_history.html:544
+msgid "You haven't made any orders yet."
 msgstr ""
 
-#: templates/shop/order_history.html:20
+#: templates/shop/order_history.html:428
 msgid "Items"
 msgstr ""
 
-#: templates/shop/order_history.html:136
-msgid "You haven't made any orders yet."
-msgstr ""
+#: templates/shop/order_tracking.html:5
+#, fuzzy
+msgid "Order Tracking"
+msgstr "Сортировка"
 
 #: templates/shop/search.html:12 templates/shop/search.html.py:38
 msgid "Nothing found"
