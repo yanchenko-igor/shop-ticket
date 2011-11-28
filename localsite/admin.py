@@ -69,9 +69,16 @@ class TicketInline(admin.StackedInline):
     extra = 0
     max_num = 1
 
-class NeewsletterAdmin(admin.ModelAdmin):
-    pass
-admin.site.register(Newsletter, NeewsletterAdmin)
+class NewsletterAdmin(admin.ModelAdmin):
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        if db_field.name == 'content_html':
+            result = super(NewsletterAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+            result.widget = TinyMCE(
+                attrs={'cols': 80, 'rows': 30},
+            )
+            return result
+        return super(NewsletterAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+admin.site.register(Newsletter, NewsletterAdmin)
 
 class EventAdmin(admin.ModelAdmin):
     inlines = [EventDateInline, SeatGroupPriceInline, AnnouncementInline]
