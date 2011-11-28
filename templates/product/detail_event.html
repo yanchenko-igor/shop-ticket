@@ -75,14 +75,7 @@
                                     {% if product.event.all_prices.count > 1 %}
                                         <div class='feed_price multiple'>
                                             <div class='feed_price_cont'>
-                                                <a class='select_price_but' href='#select_price_{{ product.event.all_prices.0.price|stringformat:"i"  }}'>
-                                                    <span class='feed_price_line'>
-                                                        от
-                                                        <em class='figure'>{{ product.event.all_prices.0.price|stringformat:"i" }}</em>
-                                                        грн
-                                                        <i class='icon_expand'></i>
-                                                    </span>
-                                                </a>
+                                                <a class='select_price_but' href='#select_price_{{ product.event.all_prices.0.price|stringformat:"i"  }}'><span class='feed_price_line'>от<em class='figure'>{{ product.event.all_prices.0.price|stringformat:"i" }}</em> грн<i class='icon_expand'></i></span></a>
                                             </div>
                                             <div class='feed_pop feed_price_pop'>
                                                 <div class='feed_pop_t'>
@@ -94,13 +87,7 @@
                                                               <div class='feed_pop_content'>
                                                                   {% for price in product.event.all_prices %}
                                                                       <div class='feed_price_line{% if forloop.first %} first{% endif %}'>
-                                                                          <a class='select_price_but' href='#select_price_{{ price.price|stringformat:"i"  }}'>
-                                                                              {% if forloop.first %}
-                                                                                  <span class='note'>от</span>
-                                                                              {% endif %}
-                                                                              <em class='figure'>{{ price.price|stringformat:"i" }}</em>
-                                                                              грн
-                                                                          </a>
+                                                                          <a class='select_price_but' href='#select_price_{{ price.price|stringformat:"i"  }}'>{% if forloop.first %}<span class='note'>от</span>{% endif %}<em class='figure'>{{ price.price|stringformat:"i" }}</em> грн</a>
                                                                       </div>
                                                                   {% endfor %}
                                                               </div>
