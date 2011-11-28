@@ -13,8 +13,8 @@ class Command(BaseCommand):
         for n in nl:
             for s in ss:
                 if n.content_html:
-                    send_mail(n.name, n.content, from_email, [s.email])
-                else:
                     send_html_mail(n.name, n.content, n.content_html, from_email, [s.email])
+                else:
+                    send_mail(n.name, n.content, from_email, [s.email])
             n.sent = True
             n.save()
