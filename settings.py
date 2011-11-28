@@ -152,6 +152,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'tinymce',
     'flatblocks',
+    'mailer',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -208,6 +209,8 @@ TINYMCE_DEFAULT_CONFIG = {
 
 TINYMCE_JS_URL = MEDIA_URL + 'js/tiny_mce/tiny_mce.js'
 TINYMCE_JS_ROOT = MEDIA_ROOT + 'js/tiny_mce'
+
+EMAIL_BACKEND = "mailer.backend.DbBackend"
 
 # Load the local settings
 from local_settings import *

@@ -444,3 +444,31 @@ class Announcement(models.Model):
             self.end=self.begin + datetime.timedelta(days=7)
         super(Announcement, self).save(**kwargs)
 
+class NewsletterManager(models.Manager):
+    def active(self, **kwargs):
+        return self.filter(date__lte=datetime.datetime.now(), active=True, sent=False, **kwargs)
+
+class Newsletter(models.Model):
+    """docstring for Newsletter"""
+    date = models.DateTimeField(_("Date"), blank=True, null=True)
+    active = models.BooleanField(default=True)
+    name = models.CharField(max_length=150)
+    content = models.TextField()
+    content_html = models.TextField(blank=True)
+    sent = models.BooleanField(default=False)
+
+    objects = NewsletterManager()
+    
+    class Meta:
+        verbose_name = _("Newsletter")
+        verbose_name_plural = _("Newsletters")
+        
+    
+    def __unicode__(self):
+        return "%s" % self.name
+    
+    def save(self, force_insert=False, force_update=False):
+        if not self.date:
+            self.date=datetime.datetime.now()
+        super(Newsletter, self).save()
+        

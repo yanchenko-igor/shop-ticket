@@ -19,9 +19,9 @@ class SeatLocationInline(admin.TabularInline):
     model = SeatLocation
     extra = 0
 
-class SeatSectionAdmin(admin.ModelAdmin):
-    inlines = [SeatLocationInline]
-admin.site.register(SeatSection, SeatSectionAdmin)
+#class SeatSectionAdmin(admin.ModelAdmin):
+#    inlines = [SeatLocationInline]
+#admin.site.register(SeatSection, SeatSectionAdmin)
 
 class HallSchemeAdmin(admin.ModelAdmin):
     inlines = [SeatSectionInline,SeatGroupInline]
@@ -39,9 +39,9 @@ class TicketAdmin(admin.ModelAdmin):
     readonly_fields = ('product','event',)
 admin.site.register(Ticket, TicketAdmin)
 
-class SeatGroupAdmin(admin.ModelAdmin):
-    inlines = [SeatLocationInline]
-admin.site.register(SeatGroup, SeatGroupAdmin)
+#class SeatGroupAdmin(admin.ModelAdmin):
+#    inlines = [SeatLocationInline]
+#admin.site.register(SeatGroup, SeatGroupAdmin)
 
 #class TicketInline(admin.StackedInline):
 #    model = Ticket
@@ -68,6 +68,10 @@ class TicketInline(admin.StackedInline):
     model = Ticket
     extra = 0
     max_num = 1
+
+class NeewsletterAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Newsletter, NeewsletterAdmin)
 
 class EventAdmin(admin.ModelAdmin):
     inlines = [EventDateInline, SeatGroupPriceInline, AnnouncementInline]
