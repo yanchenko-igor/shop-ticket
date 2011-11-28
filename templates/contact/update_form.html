@@ -14,15 +14,6 @@
 <form class="base_form" method="post" action="{% url satchmo_profile_update %}">{% csrf_token %}
     {{ form.next }}
     <div class="fieldblock complex">
-{% for field in form %}
-    {% if field.errors %}
-        <div class="field">
-            {{ field.label_tag }}
-            {{ field }}
-            <span class='error'>{{ field.errors|join:", " }}</span>
-        </div>
-    {% endif %}
-{% endfor %}
         <h4 class="fieldset_name">{% trans "Basic Information" %}</h4>
         <div class="field odd">
             {{ form.first_name.label_tag }}

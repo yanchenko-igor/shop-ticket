@@ -762,9 +762,8 @@ msgid "Registration"
 msgstr ""
 
 #: templates/registration/registration_form.html:7
-#, fuzzy
 msgid "Please Enter Your Account Information"
-msgstr "Дополнительная информация"
+msgstr "Пожалуйста, введите информацию для вашей учетной записи"
 
 #: templates/registration/registration_form.html:53
 msgid "Create Account"
