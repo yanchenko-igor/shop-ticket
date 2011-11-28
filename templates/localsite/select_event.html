@@ -20,7 +20,7 @@
                                             <a href='{{ event.product.get_absolute_url }}'>
                                                 <img src='{{ image.url }}' height='{{ image.height }}' width='{{ image.width }}' />
                                             </a>
-                                        {% endthumbnail %} %}
+                                        {% endthumbnail %}
                                     {% endif %}
                             </div>
                             <div class='feed_img_bl'>
@@ -34,7 +34,7 @@
                             </div>
                         </div>
                         <div class='feed_tag'>
-                            {% if event.product.main_category %} %}
+                            {% if event.product.main_category %}
                                 <a href='{{ event.product.main_category.get_absolute_url }}'>
                                     {{ event.product.main_category.translated_name }}
                                     &nbsp;
@@ -53,7 +53,7 @@
                                     <span class='feed_price_line'>
                                         <a href='{{ event.product.get_absolute_url }}#select_price_{{ event.all_prices.0.price|stringformat:"i"  }}'>
                                             от
-                                                <em class='figure'>{{ {{ event.all_prices.0.price|stringformat:"i" }} }}</em>
+                                                <em class='figure'>{{ event.all_prices.0.price|stringformat:"i" }}</em>
                                             грн
                                         </a>
                                         <i class='icon_expand'></i>
