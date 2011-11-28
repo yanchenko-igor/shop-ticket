@@ -52,12 +52,7 @@
                             <div class='feed_price multiple'>
                                 <div class='feed_price_cont'>
                                     <span class='feed_price_line'>
-                                        <a href='{{ event.product.get_absolute_url }}#select_price_{{ event.all_prices.0.price|stringformat:"i"  }}'>
-                                            от
-                                                <em class='figure'>{{ event.all_prices.0.price|stringformat:"i" }}</em>
-                                            грн
-                                        </a>
-                                        <i class='icon_expand'></i>
+                                        <a href='{{ event.product.get_absolute_url }}#select_price_{{ event.all_prices.0.price|stringformat:"i"  }}'>от <em class='figure'>{{ event.all_prices.0.price|stringformat:"i" }}</em> грн<i class='icon_expand'></i></a>
                                     </span>
                                 </div>
                                 <div class='feed_pop feed_price_pop'>
@@ -70,17 +65,7 @@
                                                     <div class='feed_pop_content'>
                                                         {% for price in event.all_prices %}
                                                           <div class='feed_price_line{% if forloop.first %} first{% endif %}'>
-                                                              <a href='{{ event.product.get_absolute_url }}#select_price_{{ price.price|stringformat:"i"  }}'>
-                                                                  {% if forloop.first %}
-                                                                      <span class='note'>
-                                                                        от
-                                                                      </span>
-                                                                  {% endif %}
-                                                                  <em class='figure'>
-                                                                          {{ price.price|stringformat:"i" }}
-                                                                  </em>
-                                                                  грн
-                                                              </a>
+                                                              <a href='{{ event.product.get_absolute_url }}#select_price_{{ price.price|stringformat:"i"  }}'>{% if forloop.first %}<span class='note'>от</span>{% endif %}<em class='figure'>{{ price.price|stringformat:"i" }}</em> грн</a>
                                                           </div>
                                                         {% endfor %}
                                                     </div>
