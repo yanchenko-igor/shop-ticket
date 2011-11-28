@@ -12,7 +12,6 @@ class Command(BaseCommand):
         ss = Subscription.objects.filter(subscribed=True)
         for n in nl:
             for s in ss:
-                self.stdout.write('%s - %s\n' % (n.name, s.email))
                 if n.content_html:
                     send_mail(n.name, n.content, from_email, [s.email])
                 else:
