@@ -25,7 +25,7 @@ USE_I18N = True
 
 SITE_ID = 1
 
-USE_TZ = True
+USE_TZ = False
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
