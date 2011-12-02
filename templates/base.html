@@ -41,12 +41,9 @@
                             var parent = _this.parent();
                             var a = $(document.createElement('a'));
                             var span = $(document.createElement('span'));
-                            var b = $(document.createElement('b'));
                             a.attr('onclick', 'jQuery(this).parents("form:first").trigger("submit");return false;');
                             a.attr('href','#');
                             a.addClass('btn_lightred');
-                            b.append(document.createTextNode(_this.val()));
-                            span.append(b);
                             span.append(document.createTextNode(_this.val()));
                             a.append(span);
                             parent.append(a);

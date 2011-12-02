@@ -132,9 +132,7 @@
                     <div class="field"><label>{% trans "Total" %}</label> {{order.total|currency}}</div>
                 </div>
                 <div class="controlset">
-                    <a href="#" onclick='jQuery(this).parents("form:first").trigger("submit");return false;' class="btn_lightred">
-                        <span>{% trans "Purchase Items" %}</span>
-                    </a>
+                    <button class='btn_lightred' value='{% trans "Purchase Items" %}'>{% trans "Purchase Items" %}</button>
                 </div>
             </form>
 

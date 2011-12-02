@@ -33,11 +33,7 @@
         <label for="id_password">{% trans "Password" %}:</label><input type="password" id="id_password" class="vPasswordField required" name="password" size="15" value="" maxlength="30" />
 </div>
 <div class='controlset'>
-                <a class='btn_lightred' href='#' onclick='jQuery(this).parents("form:first").trigger("submit");return false;'>
-                    <span>
-                      {% trans "Login" %}
-                    </span>
-                </a>
+        <button class='btn_lightred' value='{% trans "Login" %}'>{% trans "Login" %}</button>
 </div>
 </form>
 {% endif %}
