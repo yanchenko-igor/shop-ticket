@@ -213,6 +213,8 @@ class EventDate(models.Model):
     event = models.ForeignKey('Event', related_name='dates')
     datetime = models.DateTimeField()
     map = models.TextField(blank=True, null=True, editable=False)
+
+    use_tz = True
     
     class Meta:
         verbose_name = _("Event Date")
