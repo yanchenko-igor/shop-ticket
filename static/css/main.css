@@ -1376,7 +1376,7 @@ ul.addressblock li:first-child {
     width: 100%;
     height: 134px;
     overflow: hidden;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
     position: relative;
 }
 .feed_img_wrap{
@@ -1402,33 +1402,56 @@ ul.addressblock li:first-child {
     color: #b43532;
 }
 .feed_date{
+    position: relative;
+    z-index: 2;
+    height: 36px;
+    margin-bottom: 4px;
     font-size: 13px;
     color: #656565;
-    height: 36px;
+}
+.feed_date a {
+    text-decoration: none;
+    color: #656565;
+}
+.feed_date a:hover {
+    text-decoration: none;
+    color: #0f5fa4;
+}
+.feed_date .icon_expand {
+    position: absolute;
+    top: 0.5em;
+    right: 2px;    
+}
+.feed_date_cont{
     position: relative;
+    height: 36px;
+    overflow: hidden;
+    padding: 0 7px 0 5px;
+}
+.feed_date.multiple:hover .feed_date_cont {
+    visibility: hidden;
+}
+.feed_date_line {
+    margin-bottom: 2px;
+}
+.feed_date .day {
+    color: #9e9e9e;
+}
+.feed_date_pop{    
+    display: none;
+    top: -8px;
+    left: -4px;
+    min-width: 195px;    
 }
 .feed_date:hover .feed_date_pop{
     display: block;
 }
-.feed_date_cont{
-    height: 36px;
-    overflow: hidden;
+.feed_date_pop .feed_date_line {    
+    padding-right: 5px;
 }
-    .feed_date p{
-        padding-bottom: 2px;
-    }
-.feed_date p span{
-    color: #9e9e9e;
-}
-.feed_date_pop{
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: #ffffcc;
-    display: none;
-    max-height: 74px;
-    overflow: auto;
+.feed_date_pop .feed_date_line.first {
+    position: relative;
+    margin-top: -2px;
 }
 .feed_txt{
     font-size: 14px;
@@ -2286,12 +2309,10 @@ td.basket_td_del {
     width: 800px;
     margin: 10px auto;
 }
-
 .form_wizard{
     width: 800px;
     margin: 10px auto;
 }
-
 .form_wizard p{
     padding-bottom: 20px;
 }
@@ -2308,14 +2329,12 @@ td.basket_td_del {
     *zoom: 1; /* IE7 */
     _height: 1%; /* IE6 */
 }
-
 .dynamic-form{
     margin-bottom: 10px;
     border: 1px solid #000;
     padding: 10px;
     position: relative;
 }
-
 .form_wizard label{
     float: left;
     width: 150px;
@@ -2342,7 +2361,6 @@ td.basket_td_del {
     height: 20px;
     background: url(../images/icon_del_admin.png) no-repeat;
 }
-
 /*---------------/form_wizard--------------*/
 
 /*--------------- Footer ---------------*/
@@ -2360,7 +2378,6 @@ td.basket_td_del {
     margin: 18px 6px 13px 12px;
     padding-bottom: 15px;
     border-radius: 7px;
-
 }
 .search_footer{
     float: right;

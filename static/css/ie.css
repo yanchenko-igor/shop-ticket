@@ -29,6 +29,9 @@
 .feed_img_wrap a, .feed_list_img a{
     *display: block;
 }
+.feed_date_pop{    
+    *min-width: 0;
+}
 .map_cat {
     *zoom: 1;
 }

@@ -324,6 +324,19 @@
                         );
                     }
                     $(function() {
+                        $('#id_datetime').change(function() {
+                          hallmap = $('#hallmap');
+                          hallmap2 = hallmap.clone();
+                          hallmap.remove();
+                          priceblock = $('.map_cat_item.active span.figure');
+                          if (priceblock.length){
+                              hallmap2.attr('data', '/hallmap/' + $(this).val() + '/' + parseInt(priceblock.text()) + '/');
+                          } else {
+                              hallmap2.attr('data', '/hallmap/' + $(this).val() + '/');
+                          }
+                          hallmap2.appendTo('.map_content');
+                          return false;
+                        });
                         $('.overbox').css('top', parseInt($('.main_content')[0].offsetTop) - 24 + 'px');
                         $('.select_price_but').click(function(){
                             $('.overlay.hidden').removeClass('hidden');
