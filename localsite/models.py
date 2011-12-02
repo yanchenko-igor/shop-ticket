@@ -214,7 +214,7 @@ class EventDate(models.Model):
     datetime = models.DateTimeField()
     map = models.TextField(blank=True, null=True, editable=False)
 
-    use_tz = True
+    use_tz = False
     
     class Meta:
         verbose_name = _("Event Date")
