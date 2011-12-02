@@ -45,7 +45,7 @@
                                 {{ event.dates.all.0.datetime|date:"j E" }}
                             </div>
                         {% endcomment %}
-                        {% with dates=product.event.dates.all %}
+                        {% with dates=event.dates.all %}
                             {% regroup dates by datetime|date:"j E Y" as dates_list %}
                             {% if dates_list|length >= 2 %}
                                 <div class='feed_date multiple'>
