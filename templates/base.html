@@ -59,9 +59,9 @@
                             a.attr('onclick', 'jQuery(this).parents("form:first").trigger("submit");return false;');
                             a.attr('href','#');
                             a.addClass('btn_red');
+                            span.append(document.createTextNode(_this.val()));
                             b.append(document.createTextNode(_this.val()));
                             span.append(b);
-                            span.append(document.createTextNode(_this.val()));
                             a.append(span);
                             parent.append(a);
                             _this.remove();

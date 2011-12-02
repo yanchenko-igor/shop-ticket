@@ -434,6 +434,21 @@ a:hover .icon_back, .icon_back:hover {
 .btn_red:hover span{
     background-position: 100% -23px;
 }
+input.btn_red, button.btn_red,
+input.btn_red_l, button.btn_red_l,
+input.btn_lightred, button.btn_lightred {
+    height: 23px;
+    border: 0;
+    padding: 0 14px;
+    background-position: -5px 0;
+    font-size: 14px;
+    color: #fff;
+}
+input.btn_red:hover, button.btn_red:hover,
+input.btn_red_l:hover, button.btn_red_l:hover,
+input.btn_lightred:hover, button.btn_lightred:hover {
+    background-position: -5px -23px;
+}
 /* large red button */
 .btn_red_l {
     background: url(../images/btn_red_l.png) no-repeat;
