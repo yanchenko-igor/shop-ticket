@@ -54,7 +54,7 @@
                                             {% if forloop.counter0 < 2 %}
                                                 <div class='feed_date_line'>
                                                     {% for t in d.list %}
-                                                        <a href='{{ event.product.get_absolute_url }}#select_datetime_{{ t.id }}'>{% if forloop.first %}{{ t.datetime|date:"j E Y" }}{% endif %} {{ t.datetime|date:"H:i" }}</a> {% if forloop.last %}, <span class='day'>{{ t.datetime|date:"l" }}</span>{% endif %}
+                                                        <a href='{{ event.product.get_absolute_url }}#select_datetime_{{ t.id }}'>{% if forloop.first %}{{ t.datetime|date:"j E Y" }}{% endif %} {{ t.datetime|date:"H:i" }}</a> {% if forloop.last %}, <span class='day'>{{ t.datetime|date:"l" }}</span>{% else %}, {% endif %}
                                                     {% endfor %}
                                                 </div>
                                             {% endif %}
@@ -72,7 +72,7 @@
                                                             {% for d in dates_list %}
                                                                 <div class='feed_date_line{% if forloop.first %} first{% endif %}'>
                                                                     {% for t in d.list %}
-                                                                        <a href='{{ event.product.get_absolute_url }}#select_datetime_{{ t.id }}'>{% if forloop.first %}{{ t.datetime|date:"j E Y" }}{% endif %} {{ t.datetime|date:"H:i" }}</a> {% if forloop.last %}, <span class='day'>{{ t.datetime|date:"l" }}</span>{% endif %}
+                                                                        <a href='{{ event.product.get_absolute_url }}#select_datetime_{{ t.id }}'>{% if forloop.first %}{{ t.datetime|date:"j E Y" }}{% endif %} {{ t.datetime|date:"H:i" }}</a> {% if forloop.last %}, <span class='day'>{{ t.datetime|date:"l" }}</span>{% else %}, {% endif %}
                                                                     {% endfor %}
                                                                 </div>
                                                             {% endfor %}
@@ -92,7 +92,7 @@
                                             {% if forloop.counter0 < 2 %}
                                                 <div class='feed_date_line'>
                                                     {% for t in d.list %}
-                                                        <a href='{{ event.product.get_absolute_url }}#select_datetime_{{ t.id }}'>{% if forloop.first %}{{ t.datetime|date:"j E Y" }}{% endif %} {{ t.datetime|date:"H:i" }}</a> {% if forloop.last %}, <span class='day'>{{ t.datetime|date:"l" }}</span>{% endif %}
+                                                        <a href='{{ event.product.get_absolute_url }}#select_datetime_{{ t.id }}'>{% if forloop.first %}{{ t.datetime|date:"j E Y" }}{% endif %} {{ t.datetime|date:"H:i" }}</a> {% if forloop.last %}, <span class='day'>{{ t.datetime|date:"l" }}</span>{% else %}, {% endif %}
                                                     {% endfor %}
                                                 </div>
                                             {% endif %}
